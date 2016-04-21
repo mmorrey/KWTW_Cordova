@@ -1,0 +1,19 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "com.oauthio.plugins.oauthio": {
+            "PACKAGE_NAME": "com.example.kw1"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.example.kw1"
+        }
+    }
+}
