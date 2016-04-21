@@ -15,6 +15,9 @@
         },
         "com.oauthio.plugins.oauthio": {
             "PACKAGE_NAME": "com.example.kw1"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.example.kw1"
         }
     },
     "dependent_plugins": {}

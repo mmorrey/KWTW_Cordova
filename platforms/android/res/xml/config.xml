@@ -9,6 +9,9 @@
         <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
     <access origin="https://oauth.io" />
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
     <name>Real KWTW</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
