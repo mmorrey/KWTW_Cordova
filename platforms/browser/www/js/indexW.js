@@ -36,6 +36,7 @@ var app = {
     onDeviceReady: function () {
         app.receivedEvent('deviceready');
         checkData();
+        checkConnection();
         //alert("ready");
     },
     // Update DOM on a Received Event
@@ -63,7 +64,7 @@ function checkConnection() {
     alert('Connection type: ' + states[networkState]);
 }
 
-checkConnection();
+//checkConnection();
 
 var onSuccess = function (position) {
     alert('Latitude: ' + position.coords.latitude + '\n' +
@@ -534,7 +535,7 @@ function checkData() {
     $('#info').hide();
     $('#status_area').hide();
     hideW();
-    checkConnection();
+   // checkConnection();
     if (localStorage.getItem("userdata") == null) {
         $('#status_msgs').show();
         $('#status_msgs').append("Not connected");
