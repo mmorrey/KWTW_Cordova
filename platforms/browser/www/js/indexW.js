@@ -47,6 +47,23 @@ var app = {
 
 app.initialize();
 
+function checkConnection() {
+    var networkState = navigator.connection.type;
+
+    var states = {};
+    states[Connection.UNKNOWN] = 'Unknown connection';
+    states[Connection.ETHERNET] = 'Ethernet connection';
+    states[Connection.WIFI] = 'WiFi connection';
+    states[Connection.CELL_2G] = 'Cell 2G connection';
+    states[Connection.CELL_3G] = 'Cell 3G connection';
+    states[Connection.CELL_4G] = 'Cell 4G connection';
+    states[Connection.CELL] = 'Cell generic connection';
+    states[Connection.NONE] = 'No network connection';
+
+    alert('Connection type: ' + states[networkState]);
+}
+
+checkConnection();
 
 var onSuccess = function (position) {
     alert('Latitude: ' + position.coords.latitude + '\n' +
@@ -224,7 +241,7 @@ function getWindiest(daysago) {
 
     $.ajax({
         type: "GET",
-        url: "/Home/TopW",
+        url: "http://komwiththewind.apphb.com/home/AllUsers",
    //     data: "dayosag=" + daysago,
         dataType: "json",
         timeout: 6000,
@@ -507,10 +524,17 @@ function removeOldweather() {
     }
 }
 
+document.addEventListener("offline", onOffline, false);
+
+function onOffline() {
+    alert("device offline")
+}
+
 function checkData() {
     $('#info').hide();
     $('#status_area').hide();
     hideW();
+    checkConnection();
     if (localStorage.getItem("userdata") == null) {
         $('#status_msgs').show();
         $('#status_msgs').append("Not connected");
@@ -739,6 +763,7 @@ function showCmty() {
 function getNearby(ID,lat,lng) {
     //   alert("map")
     console.log(ID);
+    geo();
     //rem seg weather table
     if (ID == null) {
        // checkLoc();

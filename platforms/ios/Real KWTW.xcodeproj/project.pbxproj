@@ -20,6 +20,8 @@
 		D5C893C7B4F34243BB1CD7F3 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FCA500DFD05442CBAA61C8B /* CDVReachability.m */; };
 		590798CE4A6641CC81AE53B1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53ED77AD17A4A71A100547D /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CC834B02FD6A49828C4D8B87 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6467A797B5D948A2B63DCD4F /* CoreTelephony.framework */; };
+		2BD438E3A0B9456FB8F9339F /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 219E75FF35844D7C8A6C07EA /* CDVLocation.m */; };
+		89E859C6AE934BA2ACC39043 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6426F0314A64D37B264A5D5 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,9 @@
 		67EB86018FF14BAE839F4EA2 /* CDVReachability.h */ = {isa = PBXFileReference; name = "CDVReachability.h"; path = "cordova-plugin-network-information/CDVReachability.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		B53ED77AD17A4A71A100547D /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		6467A797B5D948A2B63DCD4F /* CoreTelephony.framework */ = {isa = PBXFileReference; name = "CoreTelephony.framework"; path = "System/Library/Frameworks/CoreTelephony.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		219E75FF35844D7C8A6C07EA /* CDVLocation.m */ = {isa = PBXFileReference; name = "CDVLocation.m"; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		48F73C2951684A2F90CE87E7 /* CDVLocation.h */ = {isa = PBXFileReference; name = "CDVLocation.h"; path = "cordova-plugin-geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		F6426F0314A64D37B264A5D5 /* CoreLocation.framework */ = {isa = PBXFileReference; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +82,7 @@
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				590798CE4A6641CC81AE53B1 /* SystemConfiguration.framework in Frameworks */,
 				CC834B02FD6A49828C4D8B87 /* CoreTelephony.framework in Frameworks */,
+				89E859C6AE934BA2ACC39043 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +154,7 @@
 			children = (
 				B53ED77AD17A4A71A100547D /* SystemConfiguration.framework */,
 				6467A797B5D948A2B63DCD4F /* CoreTelephony.framework */,
+				F6426F0314A64D37B264A5D5 /* CoreLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -179,6 +186,8 @@
 				0FCA500DFD05442CBAA61C8B /* CDVReachability.m */,
 				14C8F8F1CE0A4A07A087AEC1 /* CDVConnection.h */,
 				67EB86018FF14BAE839F4EA2 /* CDVReachability.h */,
+				219E75FF35844D7C8A6C07EA /* CDVLocation.m */,
+				48F73C2951684A2F90CE87E7 /* CDVLocation.h */,
 			);
 			name = Plugins;
 			path = "Real KWTW/Plugins";
@@ -296,6 +305,7 @@
 				EB7F24C1A4DE4981AAA48855 /* CDVInAppBrowser.m in Sources */,
 				FC5D8AACC22C462A8A54995F /* CDVConnection.m in Sources */,
 				D5C893C7B4F34243BB1CD7F3 /* CDVReachability.m in Sources */,
+				2BD438E3A0B9456FB8F9339F /* CDVLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
