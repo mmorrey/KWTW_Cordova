@@ -9,7 +9,6 @@
     </author>
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
-  <plugin name="com.oauthio.plugins.oauthio"/>
   <plugin name="cordova-plugin-inappbrowser" source="npm"/>
   <allow-intent href="market:*" />
   <name>KWapp</name>
@@ -28,13 +27,6 @@
   <allow-intent href="sms:*" />
   <allow-intent href="mailto:*" />
   <allow-intent href="geo:*" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
