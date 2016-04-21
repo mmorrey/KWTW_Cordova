@@ -19,7 +19,7 @@
         <param name="ios-package" value="CDVInAppBrowser" />
     </feature>
     <access origin="https://oauth.io" />
-    <name>KWapp</name>
+    <name>Real KWTW</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
@@ -27,6 +27,8 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
+    <allow-intent href="market:*" />
+    <allow-navigation href="http://*/*" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
