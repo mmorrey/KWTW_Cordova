@@ -27,6 +27,10 @@
                         {
                             "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBillingPlugin\"><param name=\"android-package\" value=\"com.smartmobilesoftware.inappbilling.InAppBillingPlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -44,6 +48,22 @@
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
+                            "count": 1
+                        }
+                    ],
+                    "/manifest": [
+                        {
+                            "xml": "<uses-permission android:name=\"com.android.vending.BILLING\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "res/values/billing_key_param.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<string name=\"billing_key_param\">$BILLING_KEY</string>",
                             "count": 1
                         }
                     ]
@@ -68,6 +88,9 @@
             "PACKAGE_NAME": "com.example.kw1"
         },
         "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.example.kw1"
+        },
+        "cc.fovea.cordova.purchase": {
             "PACKAGE_NAME": "com.example.kw1"
         }
     },
@@ -119,6 +142,13 @@
             "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
             "id": "cordova-plugin-geolocation.PositionError",
             "runs": true
+        },
+        {
+            "file": "plugins/cc.fovea.cordova.purchase/www/store-android.js",
+            "id": "cc.fovea.cordova.purchase.InAppBillingPlugin",
+            "clobbers": [
+                "store"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -127,6 +157,7 @@
         "com.oauthio.plugins.oauthio": "0.2.4",
         "cordova-plugin-network-information": "1.2.1",
         "cordova-plugin-compat": "1.0.0",
-        "cordova-plugin-geolocation": "2.2.1-dev"
+        "cordova-plugin-geolocation": "2.2.1-dev",
+        "cc.fovea.cordova.purchase": "4.0.0"
     }
 }

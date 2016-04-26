@@ -65,6 +65,14 @@ module.exports = [
         "clobbers": [
             "navigator.geolocation"
         ]
+    },
+    {
+        "file": "plugins/cc.fovea.cordova.purchase/www/store-ios.js",
+        "id": "cc.fovea.cordova.purchase.InAppPurchase",
+        "pluginId": "cc.fovea.cordova.purchase",
+        "clobbers": [
+            "store"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -75,7 +83,8 @@ module.exports.metadata =
     "com.oauthio.plugins.oauthio": "0.2.4",
     "cordova-plugin-network-information": "1.2.1",
     "cordova-plugin-compat": "1.0.0",
-    "cordova-plugin-geolocation": "2.2.1-dev"
+    "cordova-plugin-geolocation": "2.2.1-dev",
+    "cc.fovea.cordova.purchase": "4.0.0"
 }
 // BOTTOM OF METADATA
 });

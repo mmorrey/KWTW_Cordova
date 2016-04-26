@@ -21,6 +21,9 @@
         },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.example.kw1"
+        },
+        "cc.fovea.cordova.purchase": {
+            "PACKAGE_NAME": "com.example.kw1"
         }
     },
     "dependent_plugins": {

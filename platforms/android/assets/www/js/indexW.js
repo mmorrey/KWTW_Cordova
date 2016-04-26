@@ -36,7 +36,7 @@ var app = {
     onDeviceReady: function () {
         app.receivedEvent('deviceready');
         checkData();
-        checkConnection();
+       // checkConnection();
         //alert("ready");
     },
     // Update DOM on a Received Event
@@ -47,6 +47,60 @@ var app = {
 };
 
 app.initialize();
+
+$(function () {
+    $(".dropdown-menu li a").click(function () {
+        var selText = $(this).text();
+        $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
+    });
+
+});
+
+$(function () {
+
+    function isOnLine() {
+        return navigator.onLine;
+    }
+
+    function reportOnlineStatus() {
+        var status = $("#onlineStatus");
+
+        if (isOnLine()) {
+            status.text("Online");
+            status.
+                removeClass("offline").
+                addClass("online");
+        }
+        else {
+            status.text("Offline");
+            status.
+                removeClass("online").
+                addClass("offline");
+        }
+    }
+
+
+
+    document.addEventListener("online", function (e) {
+        reportOnlineStatus();
+        //saveToServer();
+    }, true);
+
+    document.addEventListener("offline", function (e) {
+        reportOnlineStatus();
+    }, true);
+
+    if (isOnLine()) {
+        // saveToServer();
+    }
+    // showCustomer();
+    reportOnlineStatus();
+
+    // drawSpacer();
+
+});
+
+
 
 function checkConnection() {
     var networkState = navigator.connection.type;
@@ -244,7 +298,7 @@ function getWindiest(daysago) {
         type: "GET",
         url: "http://komwiththewind.apphb.com/home/AllUsers",
    //     data: "dayosag=" + daysago,
-        dataType: "json",
+        dataType: "jsonp",
         timeout: 6000,
         success: function (parsed_json) {
            // var parsed_json = eval(data);
@@ -551,7 +605,8 @@ function checkData() {
         // alert("data");
         //clearCache();
         //$('#table_calc_back2').height(200);
-       // removeOldweather();
+        // removeOldweather();
+
         $('#menu_buttons').show();
         $('#status_msgs').hide();
         $('#status_area').hide();
@@ -2560,7 +2615,7 @@ function stConn2() {
                 console.log(timex + " seconds up")
                // weatherSeg();
                 drawTable("stars");
-               
+                $('#UnAuthApp').hide();
                 
                 var timerst2 = setInterval(function () { dispstarst() }, 2000);
                 function dispstarst() {
