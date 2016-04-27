@@ -1009,7 +1009,7 @@ function drawTable(type) {
     $('#tableback').height(ht);
     // alert(firstID)
     
-    poly2(firstID, n, false, type, null);
+  //  poly2(ID, i, false, type);
     //poly2(ID, i, scroll, type, frID)
     var ref_btn = "<div class=\"minihead\"><button class=\"btn btn-primary\" onclick=\"stAct()\">Refresh My Activities</button></div>";
     $('#actMsgs').html(act_ct + " Activities loaded.");
