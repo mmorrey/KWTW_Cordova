@@ -110,21 +110,8 @@ function segAlgoData() {
     for (var i = 0; i < str.length; i++) {
         var nextChar = str.charAt(i);
         var pval = "p" + nextChar;
-        //var flipval = document.getElementById(flipstr).value;
-        //  alert(pval);
-        //selected.push(flipstr + "=" + flipval);
-        //selected.push(("flip" + nextChar).val());
-        //   alert(nextChar)
+     
     }
-
-    //do {
-    // segBearings.pvals.push({
-    //    i: p+i            
-    // });
-    //  alert(p3);
-    // }
-    //while (--i);
-
 
 }
 
@@ -526,7 +513,7 @@ function setMarkers(map, bounds_map, PID) {
                 } else if (markers.PID == 1) {
                     //   var image = 'marker_search.png';
                 } else {
-                    var image = '/Content/map_marker_start.png';
+                    var image = 'img/map_marker_start.png';
                 }
                 //var infoWindow = new google.maps.InfoWindow({ content: 'Place ID' + markers.PID });
                 var siteLatLng = new google.maps.LatLng(markers.lat, markers.longval);
@@ -547,11 +534,11 @@ function setMarkers(map, bounds_map, PID) {
                 //initMap("}g|eFnm@n@Op@VJr@");
                 google.maps.event.addListener(markerp, "click", function () {
                     //$('#map_markers').fadeOut().html("<p>Click: " + markers.name + markers.PID + "</p>").fadeIn();
-
+                    var image2 = 'img/map_marker_end.png';
                     //highlight table entry
-                    var marker_end = new google.maps.Marker({ 'position': endLatLng, 'map': map, 'icon': image });
+                    var marker_end = new google.maps.Marker({ 'position': endLatLng, 'map': map, 'icon': image2 });
                     $('#seg_' + markers.PID).addClass("list");
-                    var images = '/Content/map_marker_end.png';
+                  
                     addPolyline(returnpoly(markers.points)).setMap(map);
                     $('#ultop > li').each(function (index, el) {
                         //     alert($(this)[0]);

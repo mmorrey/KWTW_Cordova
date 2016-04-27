@@ -34,6 +34,49 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function () {
+        $(function () {
+
+            function isOnLine() {
+                return navigator.onLine;
+            }
+
+            function reportOnlineStatus() {
+                var status = $("#onlineStatus");
+
+                if (isOnLine()) {
+                    status.text("Online");
+                    status.
+                        removeClass("offline").
+                        addClass("online");
+                }
+                else {
+                    status.text("Offline");
+                    status.
+                        removeClass("online").
+                        addClass("offline");
+                }
+            }
+
+
+
+            document.addEventListener("online", function (e) {
+                reportOnlineStatus();
+                //saveToServer();
+            }, true);
+
+            document.addEventListener("offline", function (e) {
+                reportOnlineStatus();
+            }, true);
+
+            if (isOnLine()) {
+                // saveToServer();
+            }
+            // showCustomer();
+            reportOnlineStatus();
+
+            // drawSpacer();
+
+        });
         app.receivedEvent('deviceready');
         checkData();
        // checkConnection();
@@ -56,49 +99,7 @@ $(function () {
 
 });
 
-$(function () {
 
-    function isOnLine() {
-        return navigator.onLine;
-    }
-
-    function reportOnlineStatus() {
-        var status = $("#onlineStatus");
-
-        if (isOnLine()) {
-            status.text("Online");
-            status.
-                removeClass("offline").
-                addClass("online");
-        }
-        else {
-            status.text("Offline");
-            status.
-                removeClass("online").
-                addClass("offline");
-        }
-    }
-
-
-
-    document.addEventListener("online", function (e) {
-        reportOnlineStatus();
-        //saveToServer();
-    }, true);
-
-    document.addEventListener("offline", function (e) {
-        reportOnlineStatus();
-    }, true);
-
-    if (isOnLine()) {
-        // saveToServer();
-    }
-    // showCustomer();
-    reportOnlineStatus();
-
-    // drawSpacer();
-
-});
 
 
 
