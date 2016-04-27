@@ -833,7 +833,13 @@ function getNearby(ID,lat,lng) {
         //$('#seg_data').hide();
         // getSegsbyBounds();
         console.log("get nearby");
-        showmap();
+        if (isOnLine()) {
+            showmap();
+        }
+        else {
+            $("#winfomap").html("Device is offline.");
+        }
+       
     } else {
         //from cmty table
         $('#map_activities').hide();
@@ -1001,8 +1007,10 @@ function drawTable(type) {
     
     var ht = parseInt(((act_ct + segct) * 48) + 80); //56
     $('#tableback').height(ht);
-   // alert(firstID)
-    poly2(firstID, n, name, type);
+    // alert(firstID)
+    
+    poly2(firstID, n, false, type, null);
+    //poly2(ID, i, scroll, type, frID)
     var ref_btn = "<div class=\"minihead\"><button class=\"btn btn-primary\" onclick=\"stAct()\">Refresh My Activities</button></div>";
     $('#actMsgs').html(act_ct + " Activities loaded.");
     $('#act_table2').html(top + midhtml + "</ul></div></div>");
@@ -1631,7 +1639,6 @@ function drawLeaderboard_hist(ID,type) {
 }
 
 function drawSegEffort(ID, frID) {
-
     $('#seg_leaderboard').hide();
     $('#lb_table').hide();
     $('#eff_table').show();
