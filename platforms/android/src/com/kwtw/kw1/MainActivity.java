@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.example.kw1;
+package com.kwtw.kw1;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
