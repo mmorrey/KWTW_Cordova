@@ -28,60 +28,31 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener("online", function (e) {
+            reportOnlineStatus();
+            //saveToServer();
+        }, true);
+        document.addEventListener("offline", function (e) {
+            reportOnlineStatus();
+        }, true);
     },
+   
+    //bindEvents: function () {
+    //    document.addEventListener('offline', this.onDeviceReady, false);
+    //    var status = $("#onlineStatus");
+    //    status.text("Offline");
+    //},
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function () {
-        $(function () {
-
-            function isOnLine() {
-                return navigator.onLine;
-            }
-
-            function reportOnlineStatus() {
-                var status = $("#onlineStatus");
-
-                if (isOnLine()) {
-                    status.text("Online");
-                    status.
-                        removeClass("offline").
-                        addClass("online");
-                }
-                else {
-                    status.text("Offline");
-                    status.
-                        removeClass("online").
-                        addClass("offline");
-                }
-            }
-
-
-
-            document.addEventListener("online", function (e) {
-                reportOnlineStatus();
-                //saveToServer();
-            }, true);
-
-            document.addEventListener("offline", function (e) {
-                reportOnlineStatus();
-            }, true);
-
-            if (isOnLine()) {
-                // saveToServer();
-            }
-            // showCustomer();
-            reportOnlineStatus();
-
-            // drawSpacer();
-
-        });
-        app.receivedEvent('deviceready');
+        app.receivedEvent('online');
         checkData();
-       // checkConnection();
-        //alert("ready");
+        reportOnlineStatus();
     },
+
+  
     // Update DOM on a Received Event
     receivedEvent: function (id) {
       
@@ -90,6 +61,27 @@ var app = {
 };
 
 app.initialize();
+
+function isOnLine() {
+    return navigator.onLine;
+}
+
+function reportOnlineStatus() {
+    var status = $("#onlineStatus");
+
+    if (isOnLine()) {
+        status.text("Online");
+        status.
+            removeClass("offline").
+            addClass("online");
+    }
+    else {
+        status.text("Offline");
+        status.
+            removeClass("online").
+            addClass("offline");
+    }
+}
 
 $(function () {
     $(".dropdown-menu li a").click(function () {
@@ -814,7 +806,7 @@ function getNearby(ID,lat,lng) {
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();
-
+   // alert(isOnLine());
     //rem seg weather table
     if (ID == null) {
        // checkLoc();
@@ -833,12 +825,12 @@ function getNearby(ID,lat,lng) {
         //$('#seg_data').hide();
         // getSegsbyBounds();
         console.log("get nearby");
-        if (isOnLine()) {
-            showmap();
-        }
-        else {
-            $("#winfomap").html("Device is offline.");
-        }
+    //    if (isOnLine()) {
+          showmap();
+    //    }
+    //    else {
+          //  $("#winfomap").html("Device is offline.");
+    //    }
        
     } else {
         //from cmty table
@@ -949,7 +941,7 @@ function drawTable(type) {
     $('#act_table_header').show();
     $('#act_table2').show();
     $('#my_activities').show();
-    $('#deets_tile').show();
+    $('#deets_tile').hide();
     $('#menubtns').show();
     $('#Hrsdd').show();
     $('#refreshBtn').show();
@@ -983,18 +975,18 @@ function drawTable(type) {
         if (seg_ct > 0) { 
             LB = true
         }
-        if (act_ct == 0) {
-            firstID = seg.ID;
-            n = i;
-            name = seg.name;
-            midhtml = midhtml + "<li style=\"list-style-type:none\" class=\"polylink\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type +"')\"><i class=\"read\" style=\"list-style-type none\"></i><p id=\"trow_" + seg.ID + "\" class=\"sel\">" + seg.name + "</p><p class=\"message\">" + seg.dist + "m</p>" +
-        "<div class=\"actions\" id=\"stars_" + seg.ID + "\"></div><div class=\"actions_b\" id=\"stars_best_" + seg.ID + "\"></div></li><div id=\"segs_" + seg.ID + "\"></div>";
+        //if (act_ct == 0) {
+        //    firstID = seg.ID;
+        //    n = i;
+        //    name = seg.name;
+        //    midhtml = midhtml + "<li style=\"list-style-type:none\" class=\"polylink\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type +"')\"><i class=\"read\" style=\"list-style-type none\"></i><p id=\"trow_" + seg.ID + "\" class=\"sel\">" + seg.name + "</p><p class=\"message\">" + seg.dist + "m</p>" +
+        //"<div class=\"actions\" id=\"stars_" + seg.ID + "\"></div><div class=\"actions_b\" id=\"stars_best_" + seg.ID + "\"></div></li><div id=\"segs_" + seg.ID + "\"></div>";
 
-        } else {
+      //  } else {
             midhtml = midhtml + "<li style=\"list-style-type:none\" class=\"polylink\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type + "')\"><i class=\"read\" style=\"list-style-type none\"></i><p id=\"trow_" + seg.ID + "\" class=\"un_sel\">" + seg.name + "</p><p class=\"message\">" + seg.dist + "m</p>" +
         "<div class=\"actions\" id=\"stars_" + seg.ID + "\"></div><div class=\"actions_b\" id=\"stars_best_" + seg.ID + "\"></div></li><div id=\"segs_" + seg.ID + "\"></div>";
 
-        }
+     //   }
         act_ct++;
         var wdata = localStorage.getItem(wdata);
         if (wdata == null) {
@@ -1005,12 +997,12 @@ function drawTable(type) {
     });
     
     
-    var ht = parseInt(((act_ct + segct) * 48) + 80); //56
+    var ht = parseInt(((act_ct + segct) * 48) + 30); //56
     $('#tableback').height(ht);
     // alert(firstID)
     
   //  poly2(ID, i, false, type);
-    //poly2(ID, i, scroll, type, frID)
+   // poly2(firstID, n, false, type, null)
     var ref_btn = "<div class=\"minihead\"><button class=\"btn btn-primary\" onclick=\"stAct()\">Refresh My Activities</button></div>";
     $('#actMsgs').html(act_ct + " Activities loaded.");
     $('#act_table2').html(top + midhtml + "</ul></div></div>");

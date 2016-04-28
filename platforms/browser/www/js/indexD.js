@@ -723,7 +723,7 @@ function showEfforts(ID, type, frID) {
     ctx2d.fillRect(0, 0, 350, 2000);
     // var effs = localStorage.getItem('eff_data_' + ID);
     console.log(ID);
-    if (isOnLine()) {
+   // if (isOnLine()) {
         if (frID != null) {
             var effs = localStorage.getItem('eff_data_' + ID + '_' + frID);
         } else {
@@ -749,10 +749,10 @@ function showEfforts(ID, type, frID) {
 
         }
 
-    }
-    else {
-        $('#sgdata').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Device offline</div>");
-    }
+   // }
+   // else {
+     //   $('#sgdata').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Device offline</div>");
+  //  }
 }
 
 function poly_map(ID, i) {
@@ -857,10 +857,10 @@ function poly2(ID, i, scroll, type, frID) {
     $('#data_pills').show();
     $('#seg_details').show();
     $('#static_map').fadeIn();
-
+   // alert(scroll);
     if (scroll == true) {
         $('html, body').animate({
-            scrollTop: $("#seg_title").offset().top
+           scrollTop: $("#seg_title").offset().top
         }, 2000);
     }
     // alert(i + name);
@@ -2198,7 +2198,7 @@ function drawWeather(ID, type) {
         ctx2dr.fillStyle = "rgba(255, 255, 255, 0.0)";
         ctx2dr.fillRect(0, 0, 350, 2000);
         $('#refreshBtnW').show();
-        if (isOnLine()) {
+    //    if (isOnLine()) {
             $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Weather not yet retrieved</div>");
             var latlng = getLatlng(ID, type);
             if (type != 'map') {
@@ -2207,9 +2207,9 @@ function drawWeather(ID, type) {
                 $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Retrieve Weather</a>");
             }
 
-        } else {
-            $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Device is offline</div>");
-        }
+     //   } else {
+       //     $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Device is offline</div>");
+      //  }
 
         //     $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#tableback_map\" onclick=\"getW('" + latlng + "'," + ID + ", 'stars')\">Retrieve Weather</a>");
         //no weather data for ID
