@@ -49,7 +49,7 @@ var app = {
     onDeviceReady: function () {
         app.receivedEvent('online');
         checkData();
-       
+        reportOnlineStatus();
     },
 
   
