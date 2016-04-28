@@ -10,10 +10,9 @@
     <plugin name="cordova-plugin-whitelist" spec="1" />
   <plugin name="cordova-plugin-inappbrowser" source="npm"/>
    <plugin name="cordova-plugin-network-information" source="npm"/>
-<gap:plugin name="cc.fovea.cordova.purchase" source="npm" version="4.0.0" />
-<gap:plugin name="cc.fovea.cordova.purchase" source="npm" version="4.0.0">
+<plugin name="cc.fovea.cordova.purchase" source="npm" version="4.0.0">
    <param name="BILLING_KEY" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB"/>
-</gap:plugin>
+</plugin>
 <feature name="http://api.phonegap.com/1.0/geolocation" />
     <feature name="http://api.phonegap.com/1.0/network" />
     <feature name="http://api.phonegap.com/1.0/device" />
