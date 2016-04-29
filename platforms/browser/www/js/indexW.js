@@ -53,7 +53,43 @@ var app = {
     }
 };
 
+function buySub() {
+    alert("buy sub");
+    window.iap.setUp(androidApplicationLicenseKey);
 
+    //get all products' infos for all productIds
+    window.iap.requestStoreListing(productIds, function (result) {
+        /*
+        [
+            {
+                "productId": "sword001",
+                "title": "Sword of Truths",
+                "price": "Formatted price of the item, including its currency sign.",
+                "description": "Very pointy sword. Sword knows if you are lying, so don't lie."
+            },
+            {
+                "productId": "shield001",
+                "title": "Shield of Peanuts",
+                "price": "Formatted price of the item, including its currency sign.",
+                "description": "A shield made entirely of peanuts."
+            }
+        ]
+        */
+        alert(JSON.stringify(result));
+
+        for (var i = 0 ; i < result.length; ++i) {
+            var p = result[i];
+
+            product_info[p["productId"]] = { title: p["title"], price: p["price"] };
+
+            alert("productId: " + p["productId"]);
+            alert("title: " + p["title"]);
+            alert("price: " + p["price"]);
+        }
+    }, function (error) {
+        alert("error: " + error);
+    });
+}
 
 var androidApplicationLicenseKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB";
 var productIds = "sub1year";
