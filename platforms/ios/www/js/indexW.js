@@ -42,6 +42,7 @@ var app = {
         app.receivedEvent('online');
         checkData();
         reportOnlineStatus();
+      
     },
 
   
@@ -52,143 +53,51 @@ var app = {
     }
 };
 
-/*!
- *
- * Author: Alex Disler (alexdisler.com)
- * github.com/alexdisler/cordova-plugin-inapppurchase
- *
- * Licensed under the MIT license. Please see README for more information.
- *
- */
 
-const inAppPurchase = { utils };
 
-const nativeCall = (name, args = []) => {
-    return new Promise((resolve, reject) => {
-        window.cordova.exec((res) => {
-            resolve(res);
-        }, (err) => {
-            reject(err);
-        }, 'InAppBillingV3', name, args);
+var androidApplicationLicenseKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB";
+var productIds = "sub1year";
+var existing_purchases = [];
+var product_info = {};
+
+function purchaseProduct(productId) {
+
+    //purchase product id, put purchase product id info into server.
+    window.iap.purchaseProduct(productId, function (result){
+        alert("purchaseProduct");
+    }, 
+    function (error){
+        alert("error: "+error);
     });
-};
-
-inAppPurchase.getProducts = (productIds) => {
-    return new Promise((resolve, reject) => {
-        if(!inAppPurchase.utils.validArrayOfStrings(productIds)) {
-            reject(new Error(inAppPurchase.utils.errors[101]));
-        } else {
-            nativeCall('init', []).then(() => {
-                return nativeCall('getSkuDetails', productIds);
-            })
-            .then((items) => {
-                const arr = items.map((val) => {
-                    return {
-                        productId   : val.productId,
-                        title       : val.title,
-                        description : val.description,
-                        price       : val.price,
-                    };
-                });
-                resolve(arr);
-            }).catch(reject);
-        }
-    });
-};
-
-const executePaymentOfType = (type, productId) => {
-    return new Promise((resolve, reject) => {
-        if (!inAppPurchase.utils.validString(productId)) {
-            reject(new Error(inAppPurchase.utils.errors[102]));
-        } else {
-            nativeCall(type, [productId]).then((res) => {
-                resolve({
-                    signature: res.signature,
-                    productId: res.productId,
-                    transactionId: res.purchaseToken,
-                    type : res.type,
-                    productType : res.type,
-                    receipt : res.receipt,
-                });
-            }).catch(reject);
-        }
-    });
-};
-
-inAppPurchase.buy = (productId) => {
-    return executePaymentOfType('buy', productId);
-};
-
-inAppPurchase.subscribe = (productId) => {
-    return executePaymentOfType('subscribe', productId);
-};
-
-inAppPurchase.consume = (type, receipt, signature) => {
-    return new Promise((resolve, reject) => {
-        if(!inAppPurchase.utils.validString(type)) {
-            reject(new Error(inAppPurchase.utils.errors[103]));
-        } else if (!inAppPurchase.utils.validString(receipt)) {
-            reject(new Error(inAppPurchase.utils.errors[104]));
-        } else if (!inAppPurchase.utils.validString(signature)) {
-            reject(new Error(inAppPurchase.utils.errors[105]));
-        } else {
-            nativeCall('consumePurchase', [type, receipt, signature]).then(resolve).catch(reject);
-        }
-    });
-};
-
-inAppPurchase.restorePurchases = () => {
-    return nativeCall('init', [])
-      .then(() => {
-          return nativeCall('restorePurchases', []);
-      })
-      .then((purchases) => {
-          let arr = [];
-          if (purchases) {
-              arr = purchases.map((val) => {
-                  return {
-                      productId: val.productId,
-                      state : val.state,
-                      transactionId: val.orderId,
-                      date : val.date,
-                      type : val.type,
-                      productType : val.type,
-                      signature: val.signature,
-                      receipt : val.receipt,
-                  };
-              });
-          }
-          return Promise.resolve(arr);
-      });
-};
-
-inAppPurchase.getReceipt = () => {
-    return Promise.resolve('');
-};
-
-module.exports = inAppPurchase;
-
-
-app.initialize();
-var productIds = ['sub1year'];
-function buySub() {
-    $("#pmsg").append("buy")
-    inAppPurchase
-  .buy('com.kwtw.kw1.sub1year')
-  .then(function (data) {
-      // ...then mark it as consumed:
-      $("#pmsg").append(JSON.stringify(data));
-      $("#pmsg").append('consuming transactionId: ' + data.transactionId);
-      return inAppPurchase.consume(data.type, data.receipt, data.signature);
-      //return inAppPurchase.consume(data.productType, data.receipt, data.signature);
-  })
-  .then(function () {
-      $("#pmsg").append('product was successfully consumed!');
-  })
-  .catch(function (err) {
-      $("#pmsg").append(err);
-  });
 }
+
+function consumeProduct(productId) {
+    //consume product id, throw away purchase product id info from server.
+    window.iap.consumeProduct(productId, function (result){
+        alert("purchaseProduct");
+    }, 
+    function (error){
+        alert("error: "+error);
+    }); 
+}
+
+function restorePurchases() {
+    //get user's purchased product ids which purchased before and not cunsumed.
+    window.iap.restorePurchases(function (result){
+        for (var i = 0 ; i < result.length; ++i){
+            var p = result[i];
+
+            if (self.existing_purchases.indexOf(p['productId']) === -1)
+                self.existing_purchases.push(p['productId']);           
+
+            alert("productId: "+p['productId']);
+        }
+    }, 
+    function (error){
+        alert("error: "+error);
+    });
+}
+
 
 function isOnLine() {
     return navigator.onLine;
