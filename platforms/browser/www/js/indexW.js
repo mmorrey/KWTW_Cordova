@@ -17,6 +17,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+
 var app = {
     // Application Constructor
     initialize: function () {
@@ -40,6 +42,7 @@ var app = {
    
     onDeviceReady: function () {
         app.receivedEvent('online');
+        alert("ready");
         checkData();
         reportOnlineStatus();
       
@@ -52,6 +55,9 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+
+app.initialize();
+
 
 function buySub() {
     alert("buy sub");
@@ -99,40 +105,41 @@ var product_info = {};
 function purchaseProduct(productId) {
 
     //purchase product id, put purchase product id info into server.
-    window.iap.purchaseProduct(productId, function (result){
+    window.iap.purchaseProduct(productId, function (result) {
         alert("purchaseProduct");
-    }, 
-    function (error){
-        alert("error: "+error);
+    },
+    function (error) {
+        alert("error: " + error);
     });
 }
 
 function consumeProduct(productId) {
     //consume product id, throw away purchase product id info from server.
-    window.iap.consumeProduct(productId, function (result){
+    window.iap.consumeProduct(productId, function (result) {
         alert("purchaseProduct");
-    }, 
-    function (error){
-        alert("error: "+error);
-    }); 
+    },
+    function (error) {
+        alert("error: " + error);
+    });
 }
 
 function restorePurchases() {
     //get user's purchased product ids which purchased before and not cunsumed.
-    window.iap.restorePurchases(function (result){
-        for (var i = 0 ; i < result.length; ++i){
+    window.iap.restorePurchases(function (result) {
+        for (var i = 0 ; i < result.length; ++i) {
             var p = result[i];
 
             if (self.existing_purchases.indexOf(p['productId']) === -1)
-                self.existing_purchases.push(p['productId']);           
+                self.existing_purchases.push(p['productId']);
 
-            alert("productId: "+p['productId']);
+            alert("productId: " + p['productId']);
         }
-    }, 
-    function (error){
-        alert("error: "+error);
+    },
+    function (error) {
+        alert("error: " + error);
     });
 }
+
 
 
 function isOnLine() {
