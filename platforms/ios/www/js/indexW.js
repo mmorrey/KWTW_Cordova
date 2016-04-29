@@ -21,6 +21,7 @@ var app = {
     // Application Constructor
     initialize: function () {
         this.bindEvents();
+     
     },
     // Bind Event Listeners
     //
@@ -37,15 +38,6 @@ var app = {
         }, true);
     },
    
-    //bindEvents: function () {
-    //    document.addEventListener('offline', this.onDeviceReady, false);
-    //    var status = $("#onlineStatus");
-    //    status.text("Offline");
-    //},
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function () {
         app.receivedEvent('online');
         checkData();
@@ -61,6 +53,25 @@ var app = {
 };
 
 app.initialize();
+var productIds = ['sub1year'];
+function buySub() {
+    $("#pmsg").append("buy")
+    inAppPurchase
+  .buy('com.kwtw.kw1.sub1year')
+  .then(function (data) {
+      // ...then mark it as consumed:
+      $("#pmsg").append(JSON.stringify(data));
+      $("#pmsg").append('consuming transactionId: ' + data.transactionId);
+      return inAppPurchase.consume(data.type, data.receipt, data.signature);
+      //return inAppPurchase.consume(data.productType, data.receipt, data.signature);
+  })
+  .then(function () {
+      $("#pmsg").append('product was successfully consumed!');
+  })
+  .catch(function (err) {
+      $("#pmsg").append(err);
+  });
+}
 
 function isOnLine() {
     return navigator.onLine;
@@ -3933,51 +3944,6 @@ function initBtns() {
                 // alert("fail");
 
             });
-            //res.me().done(function (me) {
-            //    alert('Hello ' + me.name);
-            //}).fail(function (err) {
-            //todo when the OAuth flow failed
-            // });
-            //res.get('https://www.strava.com/api/v3/athlete').done(function (data) {
-            //res.get('https://www.strava.com/api/v3/segments/explore?bounds=37.821362,-122.505373,37.842038,-122.465977').done(function (data) {
-            //res.get('https://www.strava.com/api/v3/activities?id=421422146', { data: { id: 421422146} }).done(function (data) {
-            //works: res.get('https://www.strava.com/api/v3/segments/explore', { data: { bounds: '37.821362,-122.505373,37.842038,-122.465977'} }).done(function (data) {
-            //https: //www.strava.com/api/v3/segments/explore
-            //            result.post('/message', {
-            //              data: {
-            //                user_id: 93,
-            //              content: 'Hello Mr. 93 !'
-            //        }
-            //    })
-
-
-            // res.get('https://www.strava.com/api/v3/athlete').done(function (data) {
-            //
-            //todo with data
-
-            //   var jsontext = JSON.stringify(data);
-            //       var midhtml = "";
-            //alert(jsontext);
-            //      $.each(data, function (i, seg) {
-            //          strava_segs.segs.push({
-            //              "name": data[i]['name'],
-            //              "poly": data[i]['map']['summary_polyline']
-            //          });
-            //     var name = data[i]['name'];
-            // alert(name);
-            //       midhtml = midhtml + "<li class=\"table-view-cell\" onclick=\"poly1()\">" + name + "<span class=\"badge\">4</span></li>";
-            //   });
-            //   var jsonsegs = JSON.stringify(strava_segs);
-            //   localStorage.setItem('segdata', jsonsegs);
-
-            //   drawTable();
-            //$('#result3').html(eval('(' + strava_segs + ')'));
-
-            //}).fail(function (err) {
-            //todo with err
-            //   alert("fail2");
-            // });
-            //    r.get('').done(function (data2) {
         }
     });
 

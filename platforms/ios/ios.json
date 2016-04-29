@@ -27,6 +27,10 @@
                         {
                             "xml": "<feature name=\"InAppPurchase\"><param name=\"ios-package\" value=\"InAppPurchase\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PaymentsPlugin\"><param name=\"ios-package\" value=\"PaymentsPlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -64,6 +68,9 @@
         },
         "cc.fovea.cordova.purchase": {
             "PACKAGE_NAME": "com.example.kw1"
+        },
+        "cordova-plugin-inapppurchase": {
+            "PACKAGE_NAME": "com.kwtw.kw1"
         }
     },
     "dependent_plugins": {},
@@ -141,6 +148,14 @@
             "clobbers": [
                 "store"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-inapppurchase/www/index-ios.js",
+            "id": "cordova-plugin-inapppurchase.PaymentsPlugin",
+            "pluginId": "cordova-plugin-inapppurchase",
+            "clobbers": [
+                "inAppPurchase"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -150,6 +165,7 @@
         "cordova-plugin-network-information": "1.2.1",
         "cordova-plugin-compat": "1.0.0",
         "cordova-plugin-geolocation": "2.2.1-dev",
-        "cc.fovea.cordova.purchase": "4.0.0"
+        "cc.fovea.cordova.purchase": "4.0.0",
+        "cordova-plugin-inapppurchase": "1.0.0"
     }
 }

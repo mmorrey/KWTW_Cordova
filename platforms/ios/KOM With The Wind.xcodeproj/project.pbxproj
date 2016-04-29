@@ -26,6 +26,8 @@
 		AB660A2E38174997BA84EE50 /* InAppPurchase.m in Sources */ = {isa = PBXBuildFile; fileRef = B0FBFDE567464BAE862BDFB8 /* InAppPurchase.m */; };
 		5D85677AF7EE4A98A01375C5 /* SKProduct+LocalizedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED2992112794431A0D02D2A /* SKProduct+LocalizedPrice.m */; };
 		0F5CD1B5C9314CDBB5BFFF1B /* FileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E080C8F2754F979945277C /* FileUtility.m */; };
+		E7FE3D845D6B49CFA4B3BF13 /* RMStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EE747E5DD9A4E9394CCEDDC /* RMStore.m */; };
+		0409B69D615D45B0B4CA9C03 /* PaymentsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = CC99AFC59200460AB4D7AC46 /* PaymentsPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,10 @@
 		737131F3911B4306BAB0A1B4 /* InAppPurchase.h */ = {isa = PBXFileReference; name = "InAppPurchase.h"; path = "cc.fovea.cordova.purchase/InAppPurchase.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		E9D70198A0944147AC61D1F0 /* SKProduct+LocalizedPrice.h */ = {isa = PBXFileReference; name = "SKProduct+LocalizedPrice.h"; path = "cc.fovea.cordova.purchase/SKProduct+LocalizedPrice.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		05113B73453046DEB6E1C96D /* FileUtility.h */ = {isa = PBXFileReference; name = "FileUtility.h"; path = "cc.fovea.cordova.purchase/FileUtility.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		3EE747E5DD9A4E9394CCEDDC /* RMStore.m */ = {isa = PBXFileReference; name = "RMStore.m"; path = "cordova-plugin-inapppurchase/RMStore.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		CC99AFC59200460AB4D7AC46 /* PaymentsPlugin.m */ = {isa = PBXFileReference; name = "PaymentsPlugin.m"; path = "cordova-plugin-inapppurchase/PaymentsPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		993BE9C4FDF0497898C85D36 /* RMStore.h */ = {isa = PBXFileReference; name = "RMStore.h"; path = "cordova-plugin-inapppurchase/RMStore.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		6400CCB973CB44CCA71902C1 /* PaymentsPlugin.h */ = {isa = PBXFileReference; name = "PaymentsPlugin.h"; path = "cordova-plugin-inapppurchase/PaymentsPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +213,10 @@
 				737131F3911B4306BAB0A1B4 /* InAppPurchase.h */,
 				E9D70198A0944147AC61D1F0 /* SKProduct+LocalizedPrice.h */,
 				05113B73453046DEB6E1C96D /* FileUtility.h */,
+				3EE747E5DD9A4E9394CCEDDC /* RMStore.m */,
+				CC99AFC59200460AB4D7AC46 /* PaymentsPlugin.m */,
+				993BE9C4FDF0497898C85D36 /* RMStore.h */,
+				6400CCB973CB44CCA71902C1 /* PaymentsPlugin.h */,
 			);
 			name = Plugins;
 			path = "KOM With The Wind/Plugins";
@@ -328,6 +338,8 @@
 				AB660A2E38174997BA84EE50 /* InAppPurchase.m in Sources */,
 				5D85677AF7EE4A98A01375C5 /* SKProduct+LocalizedPrice.m in Sources */,
 				0F5CD1B5C9314CDBB5BFFF1B /* FileUtility.m in Sources */,
+				E7FE3D845D6B49CFA4B3BF13 /* RMStore.m in Sources */,
+				0409B69D615D45B0B4CA9C03 /* PaymentsPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

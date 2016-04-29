@@ -28,6 +28,9 @@
     <feature name="InAppPurchase">
         <param name="ios-package" value="InAppPurchase" />
     </feature>
+    <feature name="PaymentsPlugin">
+        <param name="ios-package" value="PaymentsPlugin" />
+    </feature>
     <name>KOM With The Wind</name>
     <description>KOM With The Wind
     </description>

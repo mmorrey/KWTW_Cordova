@@ -24,6 +24,9 @@
         },
         "cc.fovea.cordova.purchase": {
             "PACKAGE_NAME": "com.example.kw1"
+        },
+        "cordova-plugin-inapppurchase": {
+            "PACKAGE_NAME": "com.kwtw.kw1"
         }
     },
     "dependent_plugins": {
