@@ -29,8 +29,7 @@
         <param name="ios-package" value="InAppPurchase" />
     </feature>
     <name>KOM With The Wind</name>
-    <description>
-        KOM With The Wind
+    <description>KOM With The Wind
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         Apache Cordova Team
