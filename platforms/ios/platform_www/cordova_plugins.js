@@ -81,6 +81,14 @@ module.exports = [
         "clobbers": [
             "inAppPurchase"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-payment-iap/www/iap.js",
+        "id": "cordova-plugin-payment-iap.iap",
+        "pluginId": "cordova-plugin-payment-iap",
+        "clobbers": [
+            "window.iap"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -93,7 +101,8 @@ module.exports.metadata =
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-geolocation": "2.2.1-dev",
     "cc.fovea.cordova.purchase": "4.0.0",
-    "cordova-plugin-inapppurchase": "1.0.0"
+    "cordova-plugin-inapppurchase": "1.0.0",
+    "cordova-plugin-payment-iap": "2.0.48"
 }
 // BOTTOM OF METADATA
 });

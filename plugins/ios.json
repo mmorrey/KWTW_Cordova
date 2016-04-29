@@ -27,6 +27,9 @@
         },
         "cordova-plugin-inapppurchase": {
             "PACKAGE_NAME": "com.kwtw.kw1"
+        },
+        "cordova-plugin-payment-iap": {
+            "PACKAGE_NAME": "com.kwtw.kw1"
         }
     },
     "dependent_plugins": {

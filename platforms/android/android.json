@@ -31,6 +31,10 @@
                         {
                             "xml": "<feature name=\"InAppBillingPlugin\"><param name=\"android-package\" value=\"com.smartmobilesoftware.inappbilling.InAppBillingPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBillingV3\"><param name=\"android-package\" value=\"com.alexdisler.inapppurchases.InAppBillingV3\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -92,6 +96,9 @@
         },
         "cc.fovea.cordova.purchase": {
             "PACKAGE_NAME": "com.example.kw1"
+        },
+        "cordova-plugin-inapppurchase": {
+            "PACKAGE_NAME": "com.kwtw.kw1"
         }
     },
     "dependent_plugins": {},
@@ -149,6 +156,13 @@
             "clobbers": [
                 "store"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-inapppurchase/www/index-android.js",
+            "id": "cordova-plugin-inapppurchase.InAppBillingV3",
+            "merges": [
+                "inAppPurchase"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -158,6 +172,7 @@
         "cordova-plugin-network-information": "1.2.1",
         "cordova-plugin-compat": "1.0.0",
         "cordova-plugin-geolocation": "2.2.1-dev",
-        "cc.fovea.cordova.purchase": "4.0.0"
+        "cc.fovea.cordova.purchase": "4.0.0",
+        "cordova-plugin-inapppurchase": "1.0.0"
     }
 }

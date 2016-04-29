@@ -53,6 +53,13 @@ module.exports = [
         "clobbers": [
             "store"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-inapppurchase/www/index-android.js",
+        "id": "cordova-plugin-inapppurchase.InAppBillingV3",
+        "merges": [
+            "inAppPurchase"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -64,7 +71,8 @@ module.exports.metadata =
     "cordova-plugin-network-information": "1.2.1",
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-geolocation": "2.2.1-dev",
-    "cc.fovea.cordova.purchase": "4.0.0"
+    "cc.fovea.cordova.purchase": "4.0.0",
+    "cordova-plugin-inapppurchase": "1.0.0"
 };
 // BOTTOM OF METADATA
 });

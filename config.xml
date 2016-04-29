@@ -11,7 +11,7 @@
   <plugin name="cordova-plugin-inappbrowser" source="npm"/>
    <plugin name="cordova-plugin-network-information" source="npm"/>
   <plugin name="cordova-plugin-network-information" source="npm"/>
-  <plugin name="cordova-plugin-inapppurchase" source="npm"/>
+  <plugin name="cordova-plugin-payment-iap" source="npm" />
 <feature name="http://api.phonegap.com/1.0/geolocation" />
     <feature name="http://api.phonegap.com/1.0/network" />
     <feature name="http://api.phonegap.com/1.0/device" />

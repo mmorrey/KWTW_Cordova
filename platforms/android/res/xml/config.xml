@@ -18,6 +18,9 @@
     <feature name="InAppBillingPlugin">
         <param name="android-package" value="com.smartmobilesoftware.inappbilling.InAppBillingPlugin" />
     </feature>
+    <feature name="InAppBillingV3">
+        <param name="android-package" value="com.alexdisler.inapppurchases.InAppBillingV3" />
+    </feature>
     <name>KOM With The Wind</name>
     <description>KOM With The Wind
     </description>
