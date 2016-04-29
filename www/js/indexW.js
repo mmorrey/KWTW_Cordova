@@ -17,6 +17,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+
 var app = {
     // Application Constructor
     initialize: function () {
@@ -52,6 +54,9 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+
+app.initialize();
+
 
 function buySub() {
     alert("buy sub");
@@ -96,43 +101,45 @@ var productIds = "sub1year";
 var existing_purchases = [];
 var product_info = {};
 
-function purchaseProduct(productId) {
-
+function purchaseProduct() {
+    var productId = "sub1year";
     //purchase product id, put purchase product id info into server.
-    window.iap.purchaseProduct(productId, function (result){
+    window.iap.purchaseProduct(productId, function (result) {
         alert("purchaseProduct");
-    }, 
-    function (error){
-        alert("error: "+error);
+        alert(JSON.stringify(result));
+    },
+    function (error) {
+        alert("error: " + error);
     });
 }
 
 function consumeProduct(productId) {
     //consume product id, throw away purchase product id info from server.
-    window.iap.consumeProduct(productId, function (result){
+    window.iap.consumeProduct(productId, function (result) {
         alert("purchaseProduct");
-    }, 
-    function (error){
-        alert("error: "+error);
-    }); 
+    },
+    function (error) {
+        alert("error: " + error);
+    });
 }
 
 function restorePurchases() {
     //get user's purchased product ids which purchased before and not cunsumed.
-    window.iap.restorePurchases(function (result){
-        for (var i = 0 ; i < result.length; ++i){
+    window.iap.restorePurchases(function (result) {
+        for (var i = 0 ; i < result.length; ++i) {
             var p = result[i];
 
             if (self.existing_purchases.indexOf(p['productId']) === -1)
-                self.existing_purchases.push(p['productId']);           
+                self.existing_purchases.push(p['productId']);
 
-            alert("productId: "+p['productId']);
+            alert("productId: " + p['productId']);
         }
-    }, 
-    function (error){
-        alert("error: "+error);
+    },
+    function (error) {
+        alert("error: " + error);
     });
 }
+
 
 
 function isOnLine() {
@@ -363,8 +370,8 @@ function getWindiest(daysago) {
         type: "GET",
         url: "/Home/TopW",
    //     data: "dayosag=" + daysago,
-        dataType: "json",
-        timeout: 6000,
+        dataType: "jsonp",
+        timeout: 10000,
         success: function (parsed_json) {
            // var parsed_json = eval(data);
             $('#comspin').hide();
@@ -443,7 +450,7 @@ function getFavs() {
 
 
 
-function saveTW(segID, wspd, loc, stars, epoch, timestamp) {
+function saveTW(segID, segName, wspd, loc, stars, epoch, timestamp) {
     var userdata = localStorage.getItem('userdata');
     var user = eval('(' + userdata + ')');
     var UserID = user.deets[0]['stravaID'];
@@ -451,7 +458,7 @@ function saveTW(segID, wspd, loc, stars, epoch, timestamp) {
     $.ajax({
         type: "POST",
         url: "/Home/SaveTopWeather",
-        data: "UserID=" + UserID + "&segID=" + segID + "&wspd=" + wspd + "&loc=" + loc + "&stars=" + stars + "&epoch=" + epoch + "&timestamp=" + timestamp,
+        data: "UserID=" + UserID + "&segID=" + segID + "&segName=" + segName + "&wspd=" + wspd + "&loc=" + loc + "&stars=" + stars + "&epoch=" + epoch + "&timestamp=" + timestamp,
         //tring segname, int segID, string array, string polyline, string latlng
         dataType: "html",
         success: function (data) {
