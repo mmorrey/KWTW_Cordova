@@ -58,7 +58,7 @@ var app = {
 app.initialize();
 
 
-function buySub() {
+function listSub() {
     alert("buy sub");
     window.iap.setUp(androidApplicationLicenseKey);
 

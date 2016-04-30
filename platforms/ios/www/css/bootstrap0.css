@@ -402,7 +402,7 @@ hr {
 
 p {
   margin: 0px;
-  text-align: center
+  text-overflow:ellipsis
 }
 
 .lead {
