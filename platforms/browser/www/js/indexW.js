@@ -42,7 +42,6 @@ var app = {
    
     onDeviceReady: function () {
         app.receivedEvent('online');
-        alert("ready");
         checkData();
         reportOnlineStatus();
       
@@ -102,11 +101,12 @@ var productIds = "sub1year";
 var existing_purchases = [];
 var product_info = {};
 
-function purchaseProduct(productId) {
-
+function purchaseProduct() {
+    var productId = "sub1year";
     //purchase product id, put purchase product id info into server.
     window.iap.purchaseProduct(productId, function (result) {
         alert("purchaseProduct");
+        alert(JSON.stringify(result));
     },
     function (error) {
         alert("error: " + error);
@@ -370,8 +370,8 @@ function getWindiest(daysago) {
         type: "GET",
         url: "/Home/TopW",
    //     data: "dayosag=" + daysago,
-        dataType: "json",
-        timeout: 6000,
+        dataType: "jsonp",
+        timeout: 10000,
         success: function (parsed_json) {
            // var parsed_json = eval(data);
             $('#comspin').hide();
@@ -450,7 +450,7 @@ function getFavs() {
 
 
 
-function saveTW(segID, wspd, loc, stars, epoch, timestamp) {
+function saveTW(segID, segName, wspd, loc, stars, epoch, timestamp) {
     var userdata = localStorage.getItem('userdata');
     var user = eval('(' + userdata + ')');
     var UserID = user.deets[0]['stravaID'];
@@ -458,7 +458,7 @@ function saveTW(segID, wspd, loc, stars, epoch, timestamp) {
     $.ajax({
         type: "POST",
         url: "/Home/SaveTopWeather",
-        data: "UserID=" + UserID + "&segID=" + segID + "&wspd=" + wspd + "&loc=" + loc + "&stars=" + stars + "&epoch=" + epoch + "&timestamp=" + timestamp,
+        data: "UserID=" + UserID + "&segID=" + segID + "&segName=" + segName + "&wspd=" + wspd + "&loc=" + loc + "&stars=" + stars + "&epoch=" + epoch + "&timestamp=" + timestamp,
         //tring segname, int segID, string array, string polyline, string latlng
         dataType: "html",
         success: function (data) {
