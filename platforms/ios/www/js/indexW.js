@@ -105,8 +105,9 @@ function purchaseProduct() {
     var productId = "sub1year";
     //purchase product id, put purchase product id info into server.
     window.iap.purchaseProduct(productId, function (result) {
-        alert("purchaseProduct");
-        alert(JSON.stringify(result));
+        //alert("purchaseProduct");
+        //alert(JSON.stringify(result));
+        $('#pmsg').append("Thank you for your subscription");
     },
     function (error) {
         alert("error: " + error);
@@ -454,11 +455,11 @@ function saveTW(segID, segName, wspd, loc, stars, epoch, timestamp) {
     var userdata = localStorage.getItem('userdata');
     var user = eval('(' + userdata + ')');
     var UserID = user.deets[0]['stravaID'];
-
+    var poly = localStorage.getItem(segID + "_poly")
     $.ajax({
         type: "POST",
         url: "/Home/SaveTopWeather",
-        data: "UserID=" + UserID + "&segID=" + segID + "&segName=" + segName + "&wspd=" + wspd + "&loc=" + loc + "&stars=" + stars + "&epoch=" + epoch + "&timestamp=" + timestamp,
+        data: "UserID=" + UserID + "&segID=" + segID + "&segName=" + segName + "&poly=" + poly + "&wspd=" + wspd + "&loc=" + loc + "&stars=" + stars + "&epoch=" + epoch + "&timestamp=" + timestamp,
         //tring segname, int segID, string array, string polyline, string latlng
         dataType: "html",
         success: function (data) {
@@ -528,6 +529,24 @@ function updateUser(firstname, lastname, stravaID) {
         type: "POST",
         url: "/Home/SaveUser",
         data: "firstname=" + firstname + "&lastname=" + lastname + "&StravaID=" + stravaID + "&NumAct=" + koms_ct,
+        dataType: "html",
+        success: function (data) {
+
+        },
+        error: function (xhr, error) {
+            console.debug(xhr); console.debug(error);
+        }
+    });
+    return false;
+}
+
+function updateUserPayment(stravaID, paymentID) {
+
+    $('#pmsg').append(paymentID);
+    $.ajax({
+        type: "POST",
+        url: "/Home/UpdateUserPmt",
+        data: "StravaID=" + stravaID + "&payID=" + paymentID,
         dataType: "html",
         success: function (data) {
 
