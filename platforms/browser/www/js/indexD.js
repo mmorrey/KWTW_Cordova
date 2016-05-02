@@ -297,18 +297,26 @@ var timerd;
 
 function startmap(ID, lat, lng) {
     clearTimeout(timera);
-    var latlngsaved = localStorage.getItem("latmap");
-    if (latlngsaved == null) {
-        var lat = "56.058168";
-        var lng = "-2.719811";
+    //var position = getPosition();
+    if (ID == 11) {
+        var map = new GoogleMap(ID, lat, lng, 12);
+        map.initialize();
     } else {
-        var lat = localStorage.getItem("latmap");
-        var lng = localStorage.getItem("lngmap");
-        var zoom = localStorage.getItem("zoommap");
+        var latlngsaved = localStorage.getItem("latmap");
+        //var latlng = position.split(',');
+        if (latlngsaved == null) {
+            var lat = "56.058168";
+            var lng = "-2.719811";
+        } else {
+            var lat = localStorage.getItem("latmap");
+            var lng = localStorage.getItem("lngmap");
+            var zoom = localStorage.getItem("zoommap");
+        }
+        //}
+        var map = new GoogleMap(ID, lat, lng, 12);
+        map.initialize();
     }
     console.log("latlngmap" + lat + " ... " + lng);
-    var map = new GoogleMap(ID, lat, lng, 12);
-    map.initialize();
 
 }
 
@@ -497,9 +505,7 @@ function setMarkers(map, bounds_map, PID) {
                 //      alert("hihi");
                 $('#stars_n' + markers.PID).html("<p>stars n</p>");
                 if (markers.PID == parseInt(PID)) {
-                    //   var image = 'marker_search.png';
-                    //ListComments(markers.PID);
-                    $('#place_name').html(markers.name);
+                   
                 } else if (markers.PID == 1) {
                     //   var image = 'marker_search.png';
                 } else {
@@ -1677,7 +1683,7 @@ function getTimediff(ID, type) {
     var epoch = 0;
     var datestr;
     var timenow = Math.round(new Date().getTime() / 1000);
-    if (type = "map") {
+    if (type == "map") {
         var jsondata = localStorage.getItem(ID + "_weather_map");
         var parsed_json = eval('(' + jsondata + ')');
         if (jsondata == null) {
@@ -1706,6 +1712,61 @@ function getTimediff(ID, type) {
             // alert("epoch" + epoch);
             return parseInt(timenow - epoch);
         }
+    }
+}
+
+function getSegName(ID, type) {
+
+    if (type == 'map') {
+        var json = localStorage.getItem('seg_loc_data');
+        var j2 = eval('(' + json + ')');
+        var name
+        $.each(j2.points, function (i, wd) {
+            if (wd.PID == ID) { //or parentID      
+                name = wd.name;
+            }
+        });
+
+        return name;
+    } else if (type == 'stars') {
+        var json = localStorage.getItem('starsdata');
+        var j2 = eval('(' + json + ')');
+        var name;
+        $.each(j2.segs, function (i, wd) {
+            if (wd.ID == ID) { //or parentID
+                name = wd.name;
+            }
+        });
+        //alert(timenow + " " + epoch);
+        return name;
+
+
+    } else if (type == 'segs') {
+        var json = localStorage.getItem('starsdata');
+        var j2 = eval('(' + json + ')');
+        var name
+        $.each(j2.segs, function (i, wd) {
+            if (wd.ID == ID) { //or parentID            
+                name = wd.name;
+            }
+        });
+        //alert(timenow + " " + epoch);
+        return name;
+    }
+
+    else if (type == 'kom') {
+        var stravaID = localStorage.getItem("frID");
+        var json = localStorage.getItem('komdata_' + stravaID);
+        var j2 = eval('(' + json + ')');
+        var name
+        //var timenow = Math.round(new Date().getTime() / 1000);
+        $.each(j2.segs, function (i, wd) {
+            if (wd.ID == ID) { //or parentID
+                name = wd.name;
+            }
+        });
+        //alert(timenow + " " + epoch);
+        return name;
     }
 }
 
@@ -2179,12 +2240,14 @@ function drawWeather(ID, type) {
             var priv = false;
         }
 
-        console.log(priv + " " + maxPpg.epoch);
+        var segName = getSegName(ID, type);
+
         if (type == 'act' && priv == false) { //or is an act segment not a private activity
-            saveTW(maxPpg.SegID, maxPpg.wspd, loc, maxPpg.stars, maxPpg.epoch, maxPpg.timestamp);
+            saveTW(maxPpg.SegID, segName, maxPpg.wspd, loc, maxPpg.stars, maxPpg.epoch, maxPpg.timestamp);
+
         }
         if (type == 'map' || type == 'stars' || type == 'kom') { //or is an act segment not a private activity
-            saveTW(maxPpg.SegID, maxPpg.wspd, loc, maxPpg.stars, maxPpg.epoch, maxPpg.timestamp);
+            saveTW(maxPpg.SegID, segName, maxPpg.wspd, loc, maxPpg.stars, maxPpg.epoch, maxPpg.timestamp);
         }
     } else {
         var canvas = document.getElementById('weather');

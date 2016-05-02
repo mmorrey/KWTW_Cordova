@@ -256,20 +256,17 @@ function checkLoc() {
 
     navigator.geolocation.getCurrentPosition(function (position) {
         loc = position.coords.latitude + "," + position.coords.longitude;
-        console.log(loc);
-        var latlngsaved = localStorage.getItem("latmap");
-        if (latlngsaved == null) {
-            localStorage.setItem("latmap", position.coords.latitude);
-            localStorage.setItem("lngmap", position.coords.longitude);
-        } 
-        return 1;
+        alert(loc);
+        //var latlngsaved = localStorage.getItem("latmap");
+        // if (latlngsaved == null) {
+        //     localStorage.setItem("latmap", position.coords.latitude);
+        //    localStorage.setItem("lngmap", position.coords.longitude);
+        // } 
+        showmap(11, position.coords.latitude, position.coords.longitude);
     }, function () {
-        console.log("no location");
+        $('#winfomap').html("Location not available");
         return 0;
     });
-
-
-
 }
 
 
@@ -295,6 +292,22 @@ function saveUser(firstname, lastname, stravaID, NumAct, NumSeg) {
     return false;
 }
 
+function savePmt(stravaID, payID) {
+
+    $.ajax({
+        type: "POST",
+        url: "/Home/SavePmt",
+        data: "StravaID=" + stravaID + "&PayID=" + payID,
+        dataType: "html",
+        success: function (data) {
+
+        },
+        error: function (xhr, error) {
+            console.debug(xhr); console.debug(error);
+        }
+    });
+    return false;
+}
 
 function communityToptemp(type) {
     $('#comStarcanvas').hide();
@@ -458,7 +471,7 @@ function saveTW(segID, segName, wspd, loc, stars, epoch, timestamp) {
     var poly = localStorage.getItem(segID + "_poly")
     $.ajax({
         type: "POST",
-        url: "/Home/SaveTopWeather",
+        url: "http://komwiththewind.apphb.com/Home/SaveTopWeather",
         data: "UserID=" + UserID + "&segID=" + segID + "&segName=" + segName + "&poly=" + poly + "&wspd=" + wspd + "&loc=" + loc + "&stars=" + stars + "&epoch=" + epoch + "&timestamp=" + timestamp,
         //tring segname, int segID, string array, string polyline, string latlng
         dataType: "html",
@@ -673,6 +686,7 @@ function removeOldweather() {
 function checkData() {
     $('#info').hide();
     $('#status_area').hide();
+    $('#locIcon').hide();
     hideW();
     if (localStorage.getItem("userdata") == null) {
         $('#status_msgs').show();
@@ -751,6 +765,7 @@ function checkData() {
         }
 
         $('#user_details').html("<h1>" + name + "</h1><h3>" + loc + "</h3>");
+        $('#pic_header').show();
         $('#userimg').html(pic);
         $('#pic_header').html(pic_header);
         $('#status_msgs').hide();
@@ -874,6 +889,7 @@ function Settings() {
     $('#profile_tile').show();
     $('#pills_row').hide();
     $('#seg_nearby').hide();
+    $('#locIcon').hide();
     $('#seg_weather').hide();
     $('#seg_leaderboard').hide();
     $('#deets_tile').hide();
@@ -892,6 +908,7 @@ function showCmty() {
     $('#seg_weather').hide();
     $('#seg_leaderboard').hide();
     $('#deets_tile').hide();
+    $('#locIcon').hide();
     $('#menubtns').hide();
     $('#comty_tile').show();
     $('#my_friends').hide();
@@ -916,6 +933,7 @@ function getNearby(ID,lat,lng) {
         $('#act_table_header').hide();
         $('#act_table').hide();
         $('#my_activities').hide();
+        $('#locIcon').show();
         $('#seg_nearby').show();
         $('#seg_weather').hide();
         $('#comty_tile').hide();
@@ -950,6 +968,7 @@ function noActsmsg(type) {
     $('#status_area').hide();
     $('#stConnimg').hide();
     $('#winfo').hide();
+    $('#locIcon').hide();
     $('#Hrsdd').hide();
     $('#menu_buttons').show();
     $('#status_msgs').hide();
@@ -972,6 +991,7 @@ function drawFriends() {
     $('#seg_leaderboard').hide();
     $('#deets_tile').hide();
     $('#seg_efforts').hide();
+    $('#locIcon').hide();
     $('#seg_weather').hide();
     $('#menubtns').hide();
     $('#profile_tile').hide();

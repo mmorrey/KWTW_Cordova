@@ -69,13 +69,13 @@
                     <ul class="dropdown-menu">
                         <li><a href="#" onclick="getAct('stars')">My Starred Segments</a></li>
                         <li><a href="#" onclick="getFriends()">Mine + Friend's KOMs</a></li>
-                        <li><a href="#" onclick="getNearby()">Segments Nearby</a></li>
+                        <li><a href="#" onclick="getNearby()">Map</a></li>
                         <li><a href="#" onclick="Settings()">Settings</a></li>
                         <li><a href="#" onclick="showCmty()">Community</a></li>
                     </ul>
 
                 </div>
-
+                <div id="locIcon" style="display:inline-block;color:#fff;padding-left:5px" onclick="checkLoc()"><i class="fa fa-dot-circle-o"></i></div>
             </div>
 
             <div id="pic_header" class="profile" style="display:none"></div>
@@ -254,7 +254,7 @@
                                 <div style="height:20px">&nbsp;</div>
                                 <button type="button" class="btn btn-primary btn-sm" onclick="purchaseProduct()">Buy 1 Year</button>
                                 <div style="height:20px">&nbsp;</div>
-                                <button type="button" class="btn btn-primary btn-sm" onclick="restorePurchases()">Buy 1 Year</button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="restorePurchases()">Restore</button>
                                 <div id="pmsg"></div>
                             </div>
 
