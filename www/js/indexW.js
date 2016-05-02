@@ -257,11 +257,7 @@ function checkLoc() {
     navigator.geolocation.getCurrentPosition(function (position) {
         loc = position.coords.latitude + "," + position.coords.longitude;
         alert(loc);
-        //var latlngsaved = localStorage.getItem("latmap");
-        // if (latlngsaved == null) {
-        //     localStorage.setItem("latmap", position.coords.latitude);
-        //    localStorage.setItem("lngmap", position.coords.longitude);
-        // } 
+      
         showmap(11, position.coords.latitude, position.coords.longitude);
     }, function () {
         $('#winfomap').html("Location not available");
