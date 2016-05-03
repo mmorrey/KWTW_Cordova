@@ -59,7 +59,8 @@ app.initialize();
 
 
 function listSub() {
-    alert("buy sub");
+    // alert("buy sub");
+    $('#pmsg').append("list sub")
     window.iap.setUp(androidApplicationLicenseKey);
 
     //get all products' infos for all productIds
@@ -86,10 +87,7 @@ function listSub() {
             var p = result[i];
 
             product_info[p["productId"]] = { title: p["title"], price: p["price"] };
-
-            alert("productId: " + p["productId"]);
-            alert("title: " + p["title"]);
-            alert("price: " + p["price"]);
+            $('#pmsg').append("Loaded: " + +p["title"]);
         }
     }, function (error) {
         alert("error: " + error);
@@ -102,12 +100,17 @@ var existing_purchases = [];
 var product_info = {};
 
 function purchaseProduct() {
-    var productId = "sub1year";
+    var productId = "sub2year";
+    var user = eval('(' + userdata + ')');
+    var stravaID = user.deets[0]['stravaID'];
     //purchase product id, put purchase product id info into server.
     window.iap.purchaseProduct(productId, function (result) {
         //alert("purchaseProduct");
         //alert(JSON.stringify(result));
+        var payID = "dskfdsfgdssd94454543";
+        savePmt(stravaID,payID)
         $('#pmsg').append("Thank you for your subscription");
+        $('#pmsg').append(JSON.stringify(result));
     },
     function (error) {
         alert("error: " + error);
@@ -133,7 +136,7 @@ function restorePurchases() {
             if (self.existing_purchases.indexOf(p['productId']) === -1)
                 self.existing_purchases.push(p['productId']);
 
-            alert("productId: " + p['productId']);
+            $('#pmsg').append("Already purchased " + p['title']);
         }
     },
     function (error) {
@@ -213,7 +216,7 @@ function onError(error) {
 }
 
 function geo() {
-    $('#status_msgs').html(" geo connecting ...");
+    alert(" geo connecting ...");
     navigator.geolocation.getCurrentPosition(
     function (position) {
         alert("Lat: " + position.coords.latitude + "\nLon: " + position.coords.longitude);
@@ -275,7 +278,8 @@ function saveUser(firstname, lastname, stravaID, NumAct, NumSeg) {
 
     $.ajax({
         type: "POST",
-        url: "/Home/SaveUser",
+        timeout: 15000,
+        url: "http://komwiththewind.apphb.com/Home/SaveUser",
         data: "firstname=" + firstname + "&lastname=" + lastname + "&StravaID=" + stravaID + "&NumAct=" + NumAct + "&NumSeg=" + NumSeg,
         dataType: "html",
         success: function (data) {
@@ -292,7 +296,8 @@ function savePmt(stravaID, payID) {
 
     $.ajax({
         type: "POST",
-        url: "/Home/SavePmt",
+        timeout: 15000,
+        url: "http://komwiththewind.apphb.com/Home/SavePmt",
         data: "StravaID=" + stravaID + "&PayID=" + payID,
         dataType: "html",
         success: function (data) {
@@ -329,8 +334,8 @@ function communityUsers() {
     var top = "<div class=\"framemail\"><div class=\"window\"><ul class=\"mail\" id=\"ultop\">";
     $.ajax({
         type: "GET",
-        url: "/Home/AllUsers",
-        timeout: 4000,
+        url: "http://komwiththewind.apphb.com/Home/AllUsers",
+        timeout: 15000,
        // data: "dayosag=" + daysago,
         dataType: "json",
         success: function (data) {
@@ -378,10 +383,9 @@ function getWindiest(daysago) {
 
     $.ajax({
         type: "GET",
-        url: "/Home/TopW",
-   //     data: "dayosag=" + daysago,
+        url: "http://komwiththewind.apphb.com/Home/TopW",
         dataType: "jsonp",
-        timeout: 10000,
+        timeout: 15000,
         success: function (parsed_json) {
            // var parsed_json = eval(data);
             $('#comspin').hide();
@@ -467,6 +471,7 @@ function saveTW(segID, segName, wspd, loc, stars, epoch, timestamp) {
     var poly = localStorage.getItem(segID + "_poly")
     $.ajax({
         type: "POST",
+        timeout: 15000,
         url: "http://komwiththewind.apphb.com/Home/SaveTopWeather",
         data: "UserID=" + UserID + "&segID=" + segID + "&segName=" + segName + "&poly=" + poly + "&wspd=" + wspd + "&loc=" + loc + "&stars=" + stars + "&epoch=" + epoch + "&timestamp=" + timestamp,
         //tring segname, int segID, string array, string polyline, string latlng
@@ -549,23 +554,6 @@ function updateUser(firstname, lastname, stravaID) {
     return false;
 }
 
-function updateUserPayment(stravaID, paymentID) {
-
-    $('#pmsg').append(paymentID);
-    $.ajax({
-        type: "POST",
-        url: "/Home/UpdateUserPmt",
-        data: "StravaID=" + stravaID + "&payID=" + paymentID,
-        dataType: "html",
-        success: function (data) {
-
-        },
-        error: function (xhr, error) {
-            console.debug(xhr); console.debug(error);
-        }
-    });
-    return false;
-}
 
 function saveFavToLocal(ID, array, poly) {
     var model = getFavModel(ID);
@@ -696,7 +684,7 @@ function checkData() {
         // initBtns();
         // alert("no data");
     } else {
-        // alert("data");
+         alert("data");
         //clearCache();
         //$('#table_calc_back2').height(200);
        // removeOldweather();
@@ -719,7 +707,7 @@ function checkData() {
         var firstname = user.deets[0]['firstname'];
         var lastname = user.deets[0]['lastname'];
         var stravaID = user.deets[0]['stravaID'];
-
+       
         //updateUser(firstname, lastname, stravaID);
         if (acts.length > 40) {
            drawTable("stars"); 
@@ -728,6 +716,7 @@ function checkData() {
             function startDecode() {
                 clearInterval(timer);
                 dispStarsChk();
+                listSub();
             }
            // dispStarsChk();
         } else {
