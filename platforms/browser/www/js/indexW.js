@@ -156,11 +156,13 @@ function reportOnlineStatus() {
     var status = $("#onlineStatus");
 
     if (isOnLine()) {
-        $('#onlinestatus').html("<div style=\"display:inline-block;color:#DC143C\"><i class=\"fa fa-circle\"></i></div>");
+      //  alert("online");
+        $('#onlineStatus').html("<div style=\"display:inline-block;color:#00a541\"><i class=\"fa fa-circle\"></i></div>");
 
     }
     else {
-        $('#onlinestatus').html("<div style=\"display:inline-block;color:#ffa500\"><i class=\"fa fa-circle-o\"></i></div>");
+      //  alert("offline");
+        $('#onlineStatus').html("<div style=\"display:inline-block;color:#DC143C\"><i class=\"fa fa-circle-o\"></i></div>");
     }
 }
 
@@ -255,15 +257,32 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 function checkLoc() {
 
-    navigator.geolocation.getCurrentPosition(function (position) {
-        loc = position.coords.latitude + "," + position.coords.longitude;
-        alert(loc);
-      
+
+    navigator.geolocation.getCurrentPosition(
+    function (position) {
+        //alert("Lat: " + position.coords.latitude + "\nLon: " + position.coords.longitude);
+        $('#winfomap').html("Retrieving Location ...");
         showmap(11, position.coords.latitude, position.coords.longitude);
-    }, function () {
+    },
+    function (error) {
+      //  alert(error.message);
         $('#winfomap').html("Location not available");
-        return 0;
-    });
+        showmap(11, 48.14, 17.11);
+    }, {
+        enableHighAccuracy: true
+              , timeout: 5000
+    }
+
+
+    //navigator.geolocation.getCurrentPosition(function (position) {
+    //    loc = position.coords.latitude + "," + position.coords.longitude;
+    //    alert(loc);
+      
+    //    showmap(11, position.coords.latitude, position.coords.longitude);
+    //}, function () {
+    //    $('#winfomap').html("Location not available");
+    //    return 0;
+    );
 }
 
 
@@ -380,12 +399,13 @@ function getWindiest(daysago) {
     };
 
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "http://komwiththewind.apphb.com/Home/TopW",
-        dataType: "jsonp",
+        dataType: "json",
         timeout: 15000,
         success: function (parsed_json) {
-           // var parsed_json = eval(data);
+            // var parsed_json = eval(data);
+            alert(parsed_json);
             $('#comspin').hide();
             
             $('#com_table').show();
@@ -424,7 +444,7 @@ function getWindiest(daysago) {
             $('#com_table').html(top + midhtml + "</ul></div></div>");
         },
         error: function (xhr, error) {
-            console.debug(xhr); console.log(error);
+            alert(error);
             $('#comspin').hide();
             var midhtml = "<li style=\"height:65px\"><i class=\"read\"></i><p class=\"un_sel\">Data not available</li>";
             $('#com_table').html(top + midhtml + "</ul></div></div>");
@@ -906,7 +926,7 @@ function getNearby(ID,lat,lng) {
    // alert(isOnLine());
     //rem seg weather table
     if (ID == null) {
-       // checkLoc();
+       //checkLoc();
         $('#profile_tile').hide();
         $('#deets_tile').hide();
         $('#seg_leaderboard').hide();

@@ -305,15 +305,16 @@ function startmap(ID, lat, lng) {
         var latlngsaved = localStorage.getItem("latmap");
         //var latlng = position.split(',');
         if (latlngsaved == null) {
-            var lat = "56.058168";
-            var lng = "-2.719811";
+            var lat = "48.14";
+            var lng = "17.11";
+            var zoom = 5;
         } else {
             var lat = localStorage.getItem("latmap");
             var lng = localStorage.getItem("lngmap");
             var zoom = localStorage.getItem("zoommap");
         }
         //}
-        var map = new GoogleMap(ID, lat, lng, 12);
+        var map = new GoogleMap(ID, lat, lng, zoom);
         map.initialize();
     }
     console.log("latlngmap" + lat + " ... " + lng);
