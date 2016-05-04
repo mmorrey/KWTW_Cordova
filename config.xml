@@ -12,6 +12,7 @@
    <plugin name="cordova-plugin-network-information" source="npm"/>
   <plugin name="cordova-plugin-network-information" source="npm"/>
   <plugin name="cordova-plugin-payment-iap" source="npm" />
+  <plugin name="cordova-plugin-geolocation" source="npm" />
 <feature name="http://api.phonegap.com/1.0/geolocation" />
     <feature name="http://api.phonegap.com/1.0/network" />
     <feature name="http://api.phonegap.com/1.0/device" />
@@ -30,10 +31,6 @@
   <allow-intent href="geo:*" />
     <platform name="android">
     <plugin name="cordova-custom-config" version="*"/>
-    <config-file target="AndroidManifest.xml" parent="/*">
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    </config-file>
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
