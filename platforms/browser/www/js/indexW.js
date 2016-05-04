@@ -37,10 +37,12 @@ var app = {
         }, true);
         document.addEventListener("offline", function (e) {
             reportOnlineStatus();
+       
         }, true);
     },
    
     onDeviceReady: function () {
+        //alert("ready");
         app.receivedEvent('online');
         checkData();
         reportOnlineStatus();
@@ -81,13 +83,13 @@ function listSub() {
             }
         ]
         */
-        alert(JSON.stringify(result));
+        //alert(JSON.stringify(result));
 
         for (var i = 0 ; i < result.length; ++i) {
             var p = result[i];
 
             product_info[p["productId"]] = { title: p["title"], price: p["price"] };
-            $('#pmsg').append("Loaded: " + +p["title"]);
+            $('#pmsg').append("Loaded: " + p["title"]);
         }
     }, function (error) {
         alert("error: " + error);
@@ -100,14 +102,14 @@ var existing_purchases = [];
 var product_info = {};
 
 function purchaseProduct() {
-    var productId = "sub2year";
+    var productId = "sub1year";
     var user = eval('(' + userdata + ')');
     var stravaID = user.deets[0]['stravaID'];
     //purchase product id, put purchase product id info into server.
     window.iap.purchaseProduct(productId, function (result) {
         //alert("purchaseProduct");
         //alert(JSON.stringify(result));
-        var payID = "dskfdsfgdssd94454543";
+        var payID = "dskfdsfgdssd944545438888";
         savePmt(stravaID,payID)
         $('#pmsg').append("Thank you for your subscription");
         $('#pmsg').append(JSON.stringify(result));
@@ -136,7 +138,7 @@ function restorePurchases() {
             if (self.existing_purchases.indexOf(p['productId']) === -1)
                 self.existing_purchases.push(p['productId']);
 
-            $('#pmsg').append("Already purchased " + p['title']);
+            $('#pmsg').append("Already purchased " + p['productId']);
         }
     },
     function (error) {
@@ -154,16 +156,11 @@ function reportOnlineStatus() {
     var status = $("#onlineStatus");
 
     if (isOnLine()) {
-        status.text("Online");
-        status.
-            removeClass("offline").
-            addClass("online");
+        $('#onlinestatus').html("<div style=\"display:inline-block;color:#DC143C\"><i class=\"fa fa-circle\"></i></div>");
+
     }
     else {
-        status.text("Offline");
-        status.
-            removeClass("online").
-            addClass("offline");
+        $('#onlinestatus').html("<div style=\"display:inline-block;color:#ffa500\"><i class=\"fa fa-circle-o\"></i></div>");
     }
 }
 
@@ -217,6 +214,7 @@ function onError(error) {
 
 function geo() {
     alert(" geo connecting ...");
+
     navigator.geolocation.getCurrentPosition(
     function (position) {
         alert("Lat: " + position.coords.latitude + "\nLon: " + position.coords.longitude);
@@ -401,11 +399,6 @@ function getWindiest(daysago) {
                 var timestamp = seg.TS_pretty;
                 var loc = seg.Location;
                 var segname = seg.Name;
-                
-                var latlng1 = JSON.stringify(seg.Latlng[0]);
-                var latlng = latlng1.split(',');
-                var lat = latlng[0];
-                var lng = latlng[1];
                 var PID = seg.SegID
                 var starhtml = "";
                 var starblankhtml = "";
@@ -431,7 +424,7 @@ function getWindiest(daysago) {
             $('#com_table').html(top + midhtml + "</ul></div></div>");
         },
         error: function (xhr, error) {
-            console.debug(xhr); console.debug(error);
+            console.debug(xhr); console.log(error);
             $('#comspin').hide();
             var midhtml = "<li style=\"height:65px\"><i class=\"read\"></i><p class=\"un_sel\">Data not available</li>";
             $('#com_table').html(top + midhtml + "</ul></div></div>");
@@ -671,6 +664,7 @@ function checkData() {
     $('#info').hide();
     $('#status_area').hide();
     $('#locIcon').hide();
+   // listSub();
     hideW();
     if (localStorage.getItem("userdata") == null) {
         $('#status_msgs').show();
@@ -684,7 +678,7 @@ function checkData() {
         // initBtns();
         // alert("no data");
     } else {
-         alert("data");
+        // alert("data");
         //clearCache();
         //$('#table_calc_back2').height(200);
        // removeOldweather();
@@ -716,11 +710,12 @@ function checkData() {
             function startDecode() {
                 clearInterval(timer);
                 dispStarsChk();
-                listSub();
+               
             }
            // dispStarsChk();
         } else {
             noActsmsg("act");
+            
         }
     }
 
@@ -869,6 +864,7 @@ function sw2() {
 //$('#seg_weather').hide();
 
 function Settings() {
+    listSub();
     $('#act_table').hide();
     $('#my_activities').hide();
     $('#profile_tile').show();

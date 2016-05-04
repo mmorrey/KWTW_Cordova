@@ -66,10 +66,10 @@ h5 {
 
 .status {
     position: absolute;
-    right: 100px;
+    right: 145px;
     color:orange;
     z-index: 300;
-    top: 15px
+    top: 12px
 
 }    
 
