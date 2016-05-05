@@ -307,7 +307,7 @@ function startmap(ID, lat, lng) {
         if (latlngsaved == null) {
             var lat = "48.14";
             var lng = "17.11";
-            var zoom = 5;
+            var zoom = 15;
         } else {
             var lat = localStorage.getItem("latmap");
             var lng = localStorage.getItem("lngmap");

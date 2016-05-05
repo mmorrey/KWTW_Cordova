@@ -103,13 +103,15 @@ var product_info = {};
 
 function purchaseProduct() {
     var productId = "sub1year";
+    var userdata = localStorage.getItem('userdata');
     var user = eval('(' + userdata + ')');
     var stravaID = user.deets[0]['stravaID'];
+    alert(stravaID);
     //purchase product id, put purchase product id info into server.
     window.iap.purchaseProduct(productId, function (result) {
         //alert("purchaseProduct");
         //alert(JSON.stringify(result));
-        var payID = "dskfdsfgdssd944545438888";
+        var payID = "dskfdsfgdssd944may6";
         savePmt(stravaID,payID)
         $('#pmsg').append("Thank you for your subscription");
         $('#pmsg').append(JSON.stringify(result));
@@ -271,7 +273,12 @@ function checkLoc() {
     function (error) {
       //  alert(error.message);
         $('#winfomap').html("Location not available");
-        showmap(11, 48.14, 17.11);
+        var lat = localStorage.getItem("latmap");
+        if (lat == null) {
+            showmap(11, 48.14, 17.11);
+        } else {
+
+        }
     }, {
         enableHighAccuracy: true
               , timeout: 5000
