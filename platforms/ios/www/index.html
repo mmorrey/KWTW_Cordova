@@ -80,7 +80,7 @@
             <div id="onlineStatus" class="status"><div style="display:inline-block;color:#ffa500"><i class="fa fa-circle-o"></i></div></div>
 
             <div id="pic_header" class="profile" style="display:none"></div>
-            <div id="logo_header" class="logoimg"><img style="width:auto;height: 42px;" src="img/kom_logo_db.png" /></div>
+            <div id="logo_header" class="logoimg" onclick="checkData()"><img style="width:auto;height: 42px;" src="img/kom_logo_db.png" /></div>
             <div style="height:50px"></div>
             
             <div class="row">
@@ -186,6 +186,7 @@
 
 
                     <!-- USER PROFILE BLOCK -->
+                    <div id="profile_settings">
                     <div class="col-xs-12 col-sm-12 col-lg-6">
                         <div class="dash-unit" style="height:300px">
                             <br>
@@ -203,305 +204,289 @@
                         </div>
                     </div>
 
-                    <!-- DONUT CHART BLOCK -->
-                    <div class="col-xs-12 col-sm-12 col-lg-6" style="display:none">
-                        <div class="dash-unit" style="height:255px">
-                            <dtitle>Weather Credits</dtitle>
-                            <hr>
-                            <div class="text-center">
-
-                                <h1>0 credit left</h1>
-                                <h3>2 days until more credits</h3>
-
-                                <div class="progress center-block" style="width:80%;">
-                                    <!-- set to certain width -->
-                                    <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 60%;">
-                                        <span>
-                                        </span>
-                                    </div>
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <div class="dash-unit" style="height:400px">
+                                <dtitle>Settngs</dtitle>
+                                <hr>
+                                <div class="text-center">
                                 </div>
-                            </div>
-                            <div class="cont">
-                                <input type="submit" id="submit" name="submit" value="Buy Credits">
-                                <input type="submit" id="submit" name="submit" value="Go Premium">
-                            </div>
+                                <div class="cont">
+                                    <div style="display:inline-block">Leaderboard Gender</div>
+                                    <div style="display:inline-block" id="genderDD">
+                                        <div class="btn-group">
+                                            <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Male and Female<span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#" onclick="changeGender('B')">Male and Female</a></li>
+                                                <li><a href="#" onclick="changeGender('M')">Male</a></li>
+                                                <li><a href="#" onclick="changeGender('F')">Female</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
 
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                   <div class="col-xs-12 col-sm-12 col-lg-6">
-                        <div class="dash-unit" style="height:400px">
-                            <dtitle>Settngs</dtitle>
+                    <div class="col-xs-12 col-sm-12 col-lg-6">
+                        <div class="dash-unit" style="height:300px">
+                            <dtitle>Purchases</dtitle>
                             <hr>
                             <div class="text-center">
                             </div>
                             <div class="cont">
-                                <div style="display:inline-block">Leaderboard Gender</div>
-                                <div style="display:inline-block" id="genderDD">
-                                    <div class="btn-group">
-                                        <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Male and Female<span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#" onclick="changeGender('B')">Male and Female</a></li>
-                                            <li><a href="#" onclick="changeGender('M')">Male</a></li>
-                                            <li><a href="#" onclick="changeGender('F')">Female</a></li>
-                                        </ul>
-                                    </div>
+                                <div id="pmsg">Purchases</div>
+                                <div id="pBtns">
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="purchaseProduct()">Buy 1 Year</button>
                                 </div>
-                                <div style="height:20px">&nbsp;</div>
-                        
-                                <button type="button" class="btn btn-primary btn-sm" onclick="listSub()">List</button>
-                                <div style="height:20px">&nbsp;</div>
-                                <button type="button" class="btn btn-primary btn-sm" onclick="purchaseProduct()">Buy 1 Year</button>
                                 <div style="height:20px">&nbsp;</div>
                                 <button type="button" class="btn btn-primary btn-sm" onclick="restorePurchases()">Restore</button>
-                                <div id="pmsg">Purchases</div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
+                        <!-- DONUT CHART BLOCK -->
+
+                    </div><!-- /row -->
+                        <!-- SECOND ROW OF BLOCKS -->
+                        <div id="comty_tile" style="display:none">
 
 
-                    <!-- DONUT CHART BLOCK -->
-
-                </div><!-- /row -->
-                <!-- SECOND ROW OF BLOCKS -->
-                <div id="comty_tile" style="display:none">
-
-
-                    <!-- USER PROFILE BLOCK -->
-                    <div class="col-xs-12 col-sm-12 col-lg-6">
-                        <div class="dash-unit" style="height:1200px">
-                            <dtitle>Community</dtitle>
-                            <hr>
-                            <div class="text-center">
-                                <div class="btn-group btn-group-s" role="group">
-                                    <button type="button" class="btn btn-success btn-sm" id="starpill" autofocus="true" onclick="getWindiest(0)">Top Star Ratings</button>
-
-                                </div>
-                            </div>
-                            <div style="height:25px">&nbsp;</div>
-                            <div id="comHead"></div>
-                            <div class="text-center">
-                                <div id="comspin" style="height:53px;width:60px;text-align:center;color:#00AF96" class="fa fa-4x fa-cog fa-spin"></div>
-                            </div>
-                            <div style="height:25px">&nbsp;</div>
-                            <div id="com_table">
-                            </div>
-                            <div id="comcanvas">
-                                <canvas id="top_canvas" width="320px" height="800px" />
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="col-xs-12 col-sm-12 col-lg-6">
-                    <!-- Activities BLOCK -->
-                    <div id="my_friends" style="display:none">
-
-                        <div class="dash-unit" id="frback">
-                            <dtitle>Friends</dtitle>
-                            <hr>
-                            <div id="friend_list">
-                                <div class="text-center">
-                                    &nbsp;
-                                    <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
-                                    <div id="frdMsgs">Loading ...</div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div><!-- /dash-unit -->
-                </div><!-- /span3 -->
-
-                <div class="col-xs-12 col-sm-12 col-lg-6">
-                    <!-- Activities BLOCK -->
-                    <div id="my_activities" style="display:none">
-
-                        <div class="dash-unit" id="tableback">
-                            <dtitle>Starred Segments</dtitle>
-
-
-                            <div style="position:absolute;left:13px;padding-right:10px" class="msg_sml" id="winfo">
-                                <div style="height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px" class="fa fa-2x fa-cog fa-spin"></div>
-                                <div style="display:inline-block;margin-bottom:8px">&nbsp;Calculating ...</div>
-                            </div>
-
-                            <div style="height:38px">&nbsp;</div>
-
-                            <div id="act_table2">
-                                <div class="text-center">
-                                    &nbsp;
-                                    <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
-                                    <div id="actMsgs"></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div><!-- /dash-unit -->
-                </div><!-- /span3 -->
-                <!-- Dist and Gain HIDE -->
-
-                <div id="friend_info" style="display:none">
-
-                    <div class="col-xs-12 col-sm-12 col-lg-6">
-                        <!-- LOCAL TIME BLOCK -->
-                        <div class="dash-unit" style="height:500px" id="friend_tile">
-                            <div class="framemail">
-                                <div id="friend_KOM_table">
+                            <!-- USER PROFILE BLOCK -->
+                            <div class="col-xs-12 col-sm-12 col-lg-6">
+                                <div class="dash-unit" style="height:1200px">
+                                    <dtitle>Community</dtitle>
+                                    <hr>
                                     <div class="text-center">
-                                        &nbsp;
-                                        <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
-                                        <div id="actMsgs"></div>
+                                        <div class="btn-group btn-group-s" role="group">
+                                            <button type="button" class="btn btn-success btn-sm" id="starpill" autofocus="true" onclick="getWindiest(0)">Top Star Ratings</button>
+
+                                        </div>
+                                    </div>
+                                    <div style="height:25px">&nbsp;</div>
+                                    <div id="comHead"></div>
+                                    <div class="text-center">
+                                        <div id="comspin" style="height:53px;width:60px;text-align:center;color:#00AF96" class="fa fa-4x fa-cog fa-spin"></div>
+                                    </div>
+                                    <div style="height:25px">&nbsp;</div>
+                                    <div id="com_table">
+                                    </div>
+                                    <div id="comcanvas">
+                                        <canvas id="top_canvas" width="320px" height="800px" />
                                     </div>
                                 </div>
 
                             </div>
 
-
-
                         </div>
-                    </div>
 
-                </div>
 
-                <div class="col-xs-12 col-sm-12 col-lg-6" id="deets_tile" style="display:none">
-                    <div>
-                        <!--hide this-->
-                        <div class="half-unit">
 
-                            <div style="position:absolute;left:10px;top:5px;width:240px" id="seg_title"></div>
-                            <div style="position:absolute;right:10px;top:12px" id="backBtn"><div id="favBtn"></div></div>
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <!-- Activities BLOCK -->
+                            <div id="my_friends" style="display:none">
 
-                            <div style="position:absolute;left:32px;top:67px;text-align:center">
-                                <div id="seg_dist"></div>
-                                <div>Total Distance</div>
-                            </div>
+                                <div class="dash-unit" id="frback">
+                                    <dtitle>Friends</dtitle>
+                                    <hr>
+                                    <div id="friend_list">
+                                        <div class="text-center">
+                                            &nbsp;
+                                            <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
+                                            <div id="frdMsgs">Loading ...</div>
+                                        </div>
 
-                            <div style="position:absolute;right:30px;top:67px;text-align:center" ">
-                                <div id="seg_egain"></div>
-                                <div>Elevation Gain</div>
-                            </div>
-
-                            <div style="position:absolute;left:10px;top:156px;text-align:center" ">
-                                <div class="circular" id="static_map">
+                                    </div>
                                 </div>
-                                <div style="padding-top:11px">Route map</div>
+                            </div><!-- /dash-unit -->
+                        </div><!-- /span3 -->
 
-                            </div>
-                            <div style="position:absolute;right:4px;top:148px;text-align:center" ">
-                                <div id="canvas-holder" style="text-align:center">
-                                    <canvas id="chart-area" width="150px" height="150px" />
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <!-- Activities BLOCK -->
+                            <div id="my_activities" style="display:none">
+
+                                <div class="dash-unit" id="tableback">
+                                    <dtitle>Starred Segments</dtitle>
+
+
+                                    <div style="position:absolute;left:13px;padding-right:10px" class="msg_sml" id="winfo">
+                                        <div style="height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px" class="fa fa-2x fa-cog fa-spin"></div>
+                                        <div style="display:inline-block;margin-bottom:8px">&nbsp;Calculating ...</div>
+                                    </div>
+
+                                    <div style="height:38px">&nbsp;</div>
+
+                                    <div id="act_table2">
+                                        <div class="text-center">
+                                            &nbsp;
+                                            <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
+                                            <div id="actMsgs"></div>
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <div>Route Headings</div>
+                            </div><!-- /dash-unit -->
+                        </div><!-- /span3 -->
+                        <!-- Dist and Gain HIDE -->
+
+                        <div id="friend_info" style="display:none">
+
+                            <div class="col-xs-12 col-sm-12 col-lg-6">
+                                <!-- LOCAL TIME BLOCK -->
+                                <div class="dash-unit" style="height:500px" id="friend_tile">
+                                    <div class="framemail">
+                                        <div id="friend_KOM_table">
+                                            <div class="text-center">
+                                                &nbsp;
+                                                <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
+                                                <div id="actMsgs"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-lg-6" id="deets_tile" style="display:none">
+                            <div>
+                                <!--hide this-->
+                                <div class="half-unit">
+
+                                    <div style="position:absolute;left:10px;top:5px;width:240px" id="seg_title"></div>
+                                    <div style="position:absolute;right:10px;top:12px" id="backBtn"><div id="favBtn"></div></div>
+
+                                    <div style="position:absolute;left:32px;top:67px;text-align:center">
+                                        <div id="seg_dist"></div>
+                                        <div>Total Distance</div>
+                                    </div>
+
+                                    <div style="position:absolute;right:30px;top:67px;text-align:center" ">
+                                        <div id="seg_egain"></div>
+                                        <div>Elevation Gain</div>
+                                    </div>
+
+                                    <div style="position:absolute;left:10px;top:156px;text-align:center" ">
+                                        <div class="circular" id="static_map">
+                                        </div>
+                                        <div style="padding-top:11px">Route map</div>
+
+                                    </div>
+                                    <div style="position:absolute;right:4px;top:148px;text-align:center" ">
+                                        <div id="canvas-holder" style="text-align:center">
+                                            <canvas id="chart-area" width="150px" height="150px" />
+                                        </div>
+                                        <div>Route Headings</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Buttons -->
+
+
+
+
+
+                        <div id="pills_row" style="display:none">
+                            <div class="col-xs-12 col-sm-12 col-lg-6">
+
+                                <div class="dash-unit" style="height:50px">
+                                    <div class="cont">
+                                        <div id="data_pills" style="display:none"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="seg_weather" style="display:none">
+
+                            <div class="col-xs-12 col-sm-12 col-lg-12">
+                                <!-- LOCAL TIME BLOCK -->
+                                <div class="dash-unit" style="height:1920px">
+                                    <dtitle>Weather</dtitle>
+                                    <hr>
+                                    <div style="position:absolute;left:5px;top:28px" id="wtitle"></div>
+                                    <div style="position:absolute;right:18px;top:55px;z-index:400" id="refreshBtnW">
+
+
+                                    </div>
+                                    <div style="height:40px">&nbsp;</div>
+                                    <div style="text-align:left;display:inline-block" id="canvas-holder2">
+                                        <canvas id="weather" width='250px' height='1829px'><canvas>
+                                    </div>
+                                    <div style="text-align:left;display:inline-block;position:absolute;right:5px" id="canvas-holder3">
+                                        <canvas id="weather_stars" width='110px' height='1829px'><canvas>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="seg_leaderboard" style="display:none">
+
+                            <div class="col-xs-12 col-sm-12 col-lg-6">
+                                <!-- LOCAL TIME BLOCK -->
+                                <div class="dash-unit" id="leaderback">
+                                    <dtitle>Leaderboard</dtitle>
+                                    <hr>
+                                    <div id="refreshBtnLB"></div>
+                                    <div style="position:absolute;left:13px;top:30px" class="msg_sml" id="lbdata"></div>
+                                    <div id="lbPadding" style="padding-top:10px"></div>
+
+                                    <div style="position:absolute;left:5px;width:35px;height:auto" id="komimg" class="circular_pfl"></div>
+                                    <div style="position:absolute;left:60px;" id="komdata"></div>
+                                    <div style="position:absolute;right:9px;text-align:center;padding-top:35px">
+                                        <div style="width:90px;height:90px" id="g1" class="gauge"></div>
+                                    </div>
+                                    <div id="lbBtn" style="padding-left:3px;padding-top:50px"></div>
+
+
+                                    <div style="position:absolute;left:8px;padding-top:40px" id="canvas-holder3" style="text-align:center">
+                                        <canvas id="leaderbd" width='400px' height='1500px' id="canvas"><canvas>
+                                    </div>
+
+                                    <div id="lb_table" style="display:none"></div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div id="seg_efforts" style="display:none">
+
+                            <div class="col-xs-12 col-sm-12 col-lg-6">
+                                <!-- LOCAL TIME BLOCK -->
+                                <div class="dash-unit" id="effortback">
+                                    <dtitle>Segment Efforts</dtitle>
+                                    <hr>
+                                    <div id="refreshBtneffs">
+                                    </div>
+                                    <div style="position:absolute;left:13px;top:30px" class="msg_sml" id="sgdata"></div>
+                                    <div id="effortPadding" style="padding-top:10px"></div>
+                                    <div id="sgBtn" style="height:30px"></div>
+
+
+
+                                    <div style="position:absolute;left:4px;padding-top:10px" id="canvas-holder5" style="text-align:center">
+                                        <canvas id="segeff" width='400px' height='1500px'><canvas>
+                                    </div>
+
+
+                                </div>
                             </div>
 
                         </div>
                     </div>
-                </div>
-                <!-- Buttons -->
-
-
-
-
-
-                <div id="pills_row" style="display:none">
-                    <div class="col-xs-12 col-sm-12 col-lg-6">
-
-                        <div class="dash-unit" style="height:50px">
-                            <div class="cont">
-                                <div id="data_pills" style="display:none"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="seg_weather" style="display:none">
-
-                    <div class="col-xs-12 col-sm-12 col-lg-12">
-                        <!-- LOCAL TIME BLOCK -->
-                        <div class="dash-unit" style="height:1920px">
-                            <dtitle>Weather</dtitle>
-                            <hr>
-                            <div style="position:absolute;left:5px;top:28px" id="wtitle"></div>
-                            <div style="position:absolute;right:18px;top:55px;z-index:400" id="refreshBtnW">
-
-
-                            </div>
-                            <div style="height:40px">&nbsp;</div>
-                            <div style="text-align:left;display:inline-block" id="canvas-holder2">
-                                <canvas id="weather" width='250px' height='1829px'><canvas>
-                            </div>
-                            <div style="text-align:left;display:inline-block;position:absolute;right:5px" id="canvas-holder3">
-                                <canvas id="weather_stars" width='110px' height='1829px'><canvas>
-                            </div>
-
-
-
-                        </div>
-                    </div>
-
-                </div>
-                <div id="seg_leaderboard" style="display:none">
-
-                    <div class="col-xs-12 col-sm-12 col-lg-6">
-                        <!-- LOCAL TIME BLOCK -->
-                        <div class="dash-unit" id="leaderback">
-                            <dtitle>Leaderboard</dtitle>
-                            <hr>
-                            <div id="refreshBtnLB"></div>
-                            <div style="position:absolute;left:13px;top:30px" class="msg_sml" id="lbdata"></div>
-                            <div id="lbPadding" style="padding-top:10px"></div>
-
-                            <div style="position:absolute;left:5px;width:35px;height:auto" id="komimg" class="circular_pfl"></div>
-                            <div style="position:absolute;left:60px;" id="komdata"></div>
-                            <div style="position:absolute;right:9px;text-align:center;padding-top:35px">
-                                <div style="width:90px;height:90px" id="g1" class="gauge"></div>
-                            </div>
-                            <div id="lbBtn" style="padding-left:3px;padding-top:50px"></div>
-
-
-                            <div style="position:absolute;left:8px;padding-top:40px" id="canvas-holder3" style="text-align:center">
-                                <canvas id="leaderbd" width='400px' height='1500px' id="canvas"><canvas>
-                            </div>
-
-                            <div id="lb_table" style="display:none"></div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div id="seg_efforts" style="display:none">
-
-                    <div class="col-xs-12 col-sm-12 col-lg-6">
-                        <!-- LOCAL TIME BLOCK -->
-                        <div class="dash-unit" id="effortback">
-                            <dtitle>Segment Efforts</dtitle>
-                            <hr>
-                            <div id="refreshBtneffs">
-                            </div>
-                            <div style="position:absolute;left:13px;top:30px" class="msg_sml" id="sgdata"></div>
-                            <div id="effortPadding" style="padding-top:10px"></div>
-                            <div id="sgBtn" style="height:30px"></div>
-
-
-
-                            <div style="position:absolute;left:4px;padding-top:10px" id="canvas-holder5" style="text-align:center">
-                                <canvas id="segeff" width='400px' height='1500px'><canvas>
-                            </div>
-
-
-                        </div>
-                    </div>
-
-                </div>
-                </div>
 
             </div>
 

@@ -138,7 +138,7 @@ function restorePurchases() {
             if (self.existing_purchases.indexOf(p['productId']) === -1)
                 self.existing_purchases.push(p['productId']);
 
-            $('#pmsg').append("Already purchased " + p['productId']);
+            $('#pmsg').append(p + " One year subscription purchased.");
         }
     },
     function (error) {
@@ -405,7 +405,7 @@ function getWindiest(daysago) {
         timeout: 15000,
         success: function (parsed_json) {
             // var parsed_json = eval(data);
-            alert(parsed_json);
+           // alert(parsed_json);
             $('#comspin').hide();
             
             $('#com_table').show();
@@ -452,6 +452,49 @@ function getWindiest(daysago) {
         }
     });
     return false;
+}
+
+function addDays(date, days) {
+    alert(date);
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+}
+
+function getStatus(StravaID) {
+    
+    $.ajax({
+        type: "POST",
+        url: "http://komwiththewind.apphb.com/Home/Ustatus",
+        dataType: "json",
+        timeout: 15000,
+        data: "StravaID=" + StravaID,
+        success: function (parsed_json) {
+                 
+                   var FirstLogin = parsed_json.ustatus[0]['FirstLogin'];
+                   var PaymentID = parsed_json.ustatus[0]['PaymentID'];
+                   var PaymentDate = parsed_json.ustatus[0]['PaymentDate'];
+                   //alert("F=" + parsed_json.ustatus[0]['PaymentID']);
+                var LoginDate = new Date();
+                LoginDate = FirstLogin;
+                var ExpDate = new Date();
+                var today = new Date();
+                ExpDate = addDays(LoginDate, 5);
+             //   alert(ExpDate + " " + today);
+                if (ExpDate < today) {
+                    var status = 0;
+                } else {
+                    var status = 1;
+                }
+            
+        },
+        error: function (xhr, error) {
+           // alert(error);
+            var status = -1;
+        }
+    });
+    return status;
+   
 }
 
 function getFavs() {
@@ -701,42 +744,85 @@ function checkData() {
         // alert("data");
         //clearCache();
         //$('#table_calc_back2').height(200);
-       // removeOldweather();
-        $('#menu_buttons').show();
-        $('#status_msgs').hide();
-        $('#status_area').hide();
-       // $('#deets_tile').hide();
-        $('#rem_info').show();
-        $('#info').hide();
-        $('#table_calc_area2').hide();
-      //  $('#info').show();
-        //$('#hr1a').button('active');
-        countWdata();
-       // parse("stars");
-        var data = localStorage.getItem("userdata");
-        var wdata = localStorage.getItem("weatherdata");
-        var acts = localStorage.getItem("starsdata");
+        // removeOldweather();
         var userdata = localStorage.getItem('userdata');
         var user = eval('(' + userdata + ')');
         var firstname = user.deets[0]['firstname'];
         var lastname = user.deets[0]['lastname'];
-        var stravaID = user.deets[0]['stravaID'];
-       
-        //updateUser(firstname, lastname, stravaID);
-        if (acts.length > 40) {
-           drawTable("stars"); 
-            $('#act_table').show();
-            var timer = setInterval(function () { startDecode() }, 4000); 
-            function startDecode() {
-                clearInterval(timer);
-                dispStarsChk();
-               
+        var stravaID = user.deets[0]['stravaID'];  
+        $.ajax({
+            type: "POST",
+            url: "http://komwiththewind.apphb.com/Home/Ustatus",
+            dataType: "json",
+            timeout: 15000,
+            data: "StravaID=" + stravaID,
+            success: function (parsed_json) {
+                var FirstLogin = parsed_json.ustatus[0]['FirstLogin'];
+                var PaymentID = parsed_json.ustatus[0]['PaymentID'];
+                var PaymentDate = parsed_json.ustatus[0]['PaymentDate'];
+                //alert("F=" + parsed_json.ustatus[0]['PaymentID']);
+                var LoginDate = new Date();
+                LoginDate = PaymentDate //FirstLogin;
+                var ExpDate = new Date();
+                var today = new Date();
+                ExpDate = addDays(LoginDate, 5);
+                alert(ExpDate + " " + today);
+                if (ExpDate > today) {
+                    $('#menu_buttons').show();
+                    $('#status_msgs').hide();
+                    $('#status_area').hide();
+                    // $('#deets_tile').hide();
+                    $('#rem_info').show();
+                    $('#info').hide();
+                    $('#table_calc_area2').hide();
+                    //  $('#info').show();
+                    //$('#hr1a').button('active');
+                    countWdata();
+                    // parse("stars");
+
+                    var wdata = localStorage.getItem("weatherdata");
+                    var acts = localStorage.getItem("starsdata");
+
+
+
+                    //updateUser(firstname, lastname, stravaID);
+                    if (acts.length > 40) {
+                        drawTable("stars");
+                        $('#act_table').show();
+                        var timer = setInterval(function () { startDecode() }, 4000);
+                        function startDecode() {
+                            clearInterval(timer);
+                            dispStarsChk();
+
+                        }
+                        // dispStarsChk();
+                    } else {
+                        noActsmsg("act");
+
+                    }
+                } else {
+                    $('#menu_buttons').hide();
+                    $('#my_activities').show();
+                    $('#act_table2').show();
+                    $('#profile_settings').hide();
+                    $('#profile_tile').show();
+                    var top = "<div class=\"framemail\"><div class=\"window\"><ul class=\"mail\" id=\"ultop\">";
+                    //  if (type == "act") {
+                    var midhtml = "<li style=\"height:70px\"><i class=\"read\"></i><p class=\"un_sel\">Trial period has expired.</p>";
+                    //    } else {
+                    //      var midhtml = "<li class=\"polylink\"><i class=\"read\"></i><p class=\"un_sel\">You have no KOMs/QOMs or Course Records</p>";
+                    //  }
+                    $('#act_table2').html(top + midhtml + "</ul></div></div>");
+                }
+
+            },
+            error: function (xhr, error) {
+                // alert(error);
+                
             }
-           // dispStarsChk();
-        } else {
-            noActsmsg("act");
-            
-        }
+        });
+
+       
     }
 
     
@@ -885,6 +971,13 @@ function sw2() {
 
 function Settings() {
     listSub();
+    var timer = setInterval(function () { startDecode() }, 1000);
+    function startDecode() {
+        clearInterval(timer);
+        restorePurchases();
+
+    }
+    $('#profile_settings').show();
     $('#act_table').hide();
     $('#my_activities').hide();
     $('#profile_tile').show();
