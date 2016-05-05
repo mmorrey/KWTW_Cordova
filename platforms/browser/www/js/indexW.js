@@ -113,6 +113,7 @@ function purchaseProduct() {
         savePmt(stravaID,payID)
         $('#pmsg').append("Thank you for your subscription");
         $('#pmsg').append(JSON.stringify(result));
+        checkData();
     },
     function (error) {
         alert("error: " + error);
@@ -135,10 +136,13 @@ function restorePurchases() {
         for (var i = 0 ; i < result.length; ++i) {
             var p = result[i];
 
-            if (self.existing_purchases.indexOf(p['productId']) === -1)
+            if (self.existing_purchases.indexOf(p['productId']) === -1) {
                 self.existing_purchases.push(p['productId']);
 
-            $('#pmsg').append(p + " One year subscription purchased.");
+                $('#pmsg').append("One year subscription purchased.");
+            } else {
+                $('#pmsg').append("Subscription not purchased.");
+            }
         }
     },
     function (error) {
@@ -455,46 +459,9 @@ function getWindiest(daysago) {
 }
 
 function addDays(date, days) {
-    alert(date);
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
-}
-
-function getStatus(StravaID) {
-    
-    $.ajax({
-        type: "POST",
-        url: "http://komwiththewind.apphb.com/Home/Ustatus",
-        dataType: "json",
-        timeout: 15000,
-        data: "StravaID=" + StravaID,
-        success: function (parsed_json) {
-                 
-                   var FirstLogin = parsed_json.ustatus[0]['FirstLogin'];
-                   var PaymentID = parsed_json.ustatus[0]['PaymentID'];
-                   var PaymentDate = parsed_json.ustatus[0]['PaymentDate'];
-                   //alert("F=" + parsed_json.ustatus[0]['PaymentID']);
-                var LoginDate = new Date();
-                LoginDate = FirstLogin;
-                var ExpDate = new Date();
-                var today = new Date();
-                ExpDate = addDays(LoginDate, 5);
-             //   alert(ExpDate + " " + today);
-                if (ExpDate < today) {
-                    var status = 0;
-                } else {
-                    var status = 1;
-                }
-            
-        },
-        error: function (xhr, error) {
-           // alert(error);
-            var status = -1;
-        }
-    });
-    return status;
-   
 }
 
 function getFavs() {
@@ -760,13 +727,13 @@ function checkData() {
                 var FirstLogin = parsed_json.ustatus[0]['FirstLogin'];
                 var PaymentID = parsed_json.ustatus[0]['PaymentID'];
                 var PaymentDate = parsed_json.ustatus[0]['PaymentDate'];
-                //alert("F=" + parsed_json.ustatus[0]['PaymentID']);
+          
                 var LoginDate = new Date();
-                LoginDate = PaymentDate //FirstLogin;
+                LoginDate = FirstLogin //FirstLogin;
                 var ExpDate = new Date();
                 var today = new Date();
                 ExpDate = addDays(LoginDate, 5);
-                alert(ExpDate + " " + today);
+               
                 if (ExpDate > today) {
                     $('#menu_buttons').show();
                     $('#status_msgs').hide();
@@ -802,17 +769,11 @@ function checkData() {
                     }
                 } else {
                     $('#menu_buttons').hide();
-                    $('#my_activities').show();
-                    $('#act_table2').show();
+                   
                     $('#profile_settings').hide();
                     $('#profile_tile').show();
-                    var top = "<div class=\"framemail\"><div class=\"window\"><ul class=\"mail\" id=\"ultop\">";
-                    //  if (type == "act") {
-                    var midhtml = "<li style=\"height:70px\"><i class=\"read\"></i><p class=\"un_sel\">Trial period has expired.</p>";
-                    //    } else {
-                    //      var midhtml = "<li class=\"polylink\"><i class=\"read\"></i><p class=\"un_sel\">You have no KOMs/QOMs or Course Records</p>";
-                    //  }
-                    $('#act_table2').html(top + midhtml + "</ul></div></div>");
+                   
+                    $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
                 }
 
             },
