@@ -66,8 +66,19 @@ var app = {
             }
         } else {
             //offline
-            $('#status_msgs').show();
-            $('#status_msgs').append("App is not authenticated with a Strava account, and device is offline");
+            var userdata = localStorage.getItem('userdata');
+            //app.receivedEvent('online');
+            if (userdata == null) {
+                $('#status_area').show();
+                $('#status_msgs').show();
+                $('#status_msgs').append("App is not authenticated with a Strava account, and device is offline");
+            } else {
+                var user = eval('(' + userdata + ')');
+                var stravaID = user.deets[0]['stravaID'];
+
+                checkStatus(stravaID, null);
+            }
+
 
         }
         
@@ -138,7 +149,7 @@ function purchaseProduct() {
         //alert("purchaseProduct");
         //alert(JSON.stringify(result));
         var payID = "dskfdsfgdssd944may6";
-        savePmt(stravaID, result.orderId)
+        savePmt(stravaID, result.orderId);
         $('#pmsg').html("Thank you for your subscription");
         $('#pmsg').append(JSON.stringify(result));
         checkData();
@@ -807,7 +818,8 @@ function checkData() {
    
     if (exp != "expired") {
         var today = new Date();
-        var diff = today - sub;
+        var diff = today - exp;
+        //if diff < 0, set to expired and recheck
         $('#pmsg').html(diff + " days remaining of your trial period.");
         $('#menu_buttons').show();
 
@@ -1344,7 +1356,7 @@ function drawLeaderboard(ID, type) {
 
     }
         if (lbhistchk1 == null) {
-            var btnhtml = "<div id=\"cont\"><a class=\"btn btn-success btn-sm\" href=\"#leaderback\" onclick=\"showHistweather(" + ID + ",'" + type + "',true,'all')\">" +
+            var btnhtml = "<div id=\"cont\"><a class=\"btn btn-success btn-sm\" href=\"#leaderback\" onclick=\"kompic = j2.segs[0].profile;(" + ID + ",'" + type + "',true,'all')\">" +
                            "Show all historical wind data</i></a></div>";
             $('#lbBtn').show();
             $('#lbBtn').html(btnhtml);
@@ -1362,9 +1374,14 @@ function drawLeaderboard(ID, type) {
     var timestr = j2.timestamp[0].now;
     var refstr = "Data as of " + timestr;
     var kompic = j2.segs[0].profile;
+    if (kompic == "avatar/athlete/large.png") {
+        kompic = "/Content/blank_avatar.jpg";
+    } else {
+        kompic = j2.segs[0].profile;
+    }
     var komname = j2.segs[0].name;
     var komtime = j2.segs[0].mov_time;
-    var komimg = "<img style=\"width:35px;height:auto\" src=\"" + kompic + "\">";
+    var komimg = "<img style=\"width:35px;height:35px\" src=\"" + kompic + "\">";
     $('#lbdata').html(refstr);
     $('#komimg').html(komimg);
     $('#komdata').html("<div style=\"font-size:18px\">" + komname + "</div><div style=\"text-align:left\">" + komtime + " seconds</div>");
@@ -2161,6 +2178,24 @@ function drawSegEffort(ID, frID) {
 }
 var hc = -1;;
 
+function countHistW(count, SegID) {
+    var str1 = "_hist_";
+    var i = 0;
+    for (var i = 0; i < localStorage.length; i++) {
+        //  if (localStorage.key(i) == 'weatherdata') {
+        if ((localStorage.key(i).indexOf(str1) > -1) && (localStorage.key(i).indexOf(SegID) > -1)) {
+            i++;
+        }
+        // do something with localStorage.getItem(localStorage.key(i));
+    }
+    if (count < i) {
+        return 0;
+    } else {
+        return 1;
+    }
+
+}
+
 function showHistweather(SegID,type,lb,num,frID) {
     //make an array of the first three
     //find out if seg is private or not
@@ -2226,10 +2261,18 @@ function showHistweather(SegID,type,lb,num,frID) {
                             clearTimeout(timerAA);
                             if (lb == true) {
                                 console.log("finished" + count + " " + i);
-                                drawLeaderboard(SegID, type); //was hist yyy
+                                if (countHistW(count, SegID) == 1) {
+                                    drawLeaderboard(SegID, type); //was hist yyy
+                                } else {
+                                    $('#lbdata').html("Incomplete Historical data, please try again.");
+                                }
                             } else {
                                 console.log("finished" + count + " " + i);
-                                showEfforts(SegID, type, frID);
+                                if (countHistW(count, SegID) == 1) {
+                                    showEfforts(SegID, type, frID);
+                                } else {
+                                    $('#lbdata').html("Incomplete Historical data, please try again.");
+                                }
                             }
                         }
                     }
