@@ -815,10 +815,10 @@ function checkData() {
     $('#status_msgs').hide();
 
     var exp = localStorage.getItem("sub");
-   
+    alert(exp);
     if (exp != "expired") {
         var today = new Date();
-        var diff = today - exp;
+        var diff = "2";
         //if diff < 0, set to expired and recheck
         $('#pmsg').html(diff + " days remaining of your trial period.");
         $('#menu_buttons').show();
