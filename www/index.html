@@ -32,7 +32,7 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
      
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap0.css" />
         <link href="css/main.css" rel="stylesheet">
         <link href="css/font-style.css" rel="stylesheet">
         <link href="css/flexslider.css" rel="stylesheet">
@@ -64,25 +64,33 @@
             <div class="menubtns" id="menu_buttons" style="display:none">
                 <div class="btn-group">
                     <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        My Starred Segments<span class="caret"></span>
+                        My Segments<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#" onclick="getAct('stars')">My Starred Segments</a></li>
+                        <li><a href="#" onclick="getAct('stars')">My Segments</a></li>
                         <li><a href="#" onclick="getFriends()">Mine + Friend's KOMs</a></li>
                         <li><a href="#" onclick="getNearby()">Map</a></li>
-                        <li><a href="#" onclick="Settings()">Settings</a></li>
-                        <li><a href="#" onclick="showCmty()">Community</a></li>
+                        <li><a href="#" onclick="showSettingsTile()">Settings</a></li>
                     </ul>
 
                 </div>
-                <div id="locIcon" style="display:inline-block;color:#fff;padding-left:5px" onclick="checkLoc()"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-dot-circle-o"></i></button></div>
-            </div>
-            <div id="onlineStatus" class="status"><div style="display:inline-block;color:#ffa500"><i class="fa fa-circle-o"></i></div></div>
+             </div>
+            <div id="locIcon" style="display:inline-block;color:#fff;padding-left:5px" onclick="checkLoc()"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-dot-circle-o"></i></button></div>
+
+            <div id="onlineStatus" class="status_on">Online</div>
 
             <div id="pic_header" class="profile" style="display:none"></div>
             <div id="logo_header" class="logoimg" onclick="checkData()"><img style="width:auto;height: 42px;" src="img/kom_logo_db.png" /></div>
             <div style="height:50px"></div>
-            
+            <div id="Statusreport" style="display:none">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-lg-12">
+                        <div class="dash-unit" style="height:30px">
+                            <h2>Device is Offline</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div id="seg_nearby" style="display:none;padding:0px">
 
@@ -206,7 +214,7 @@
 
                         <div class="col-xs-12 col-sm-12 col-lg-6">
                             <div class="dash-unit" style="height:400px">
-                                <dtitle>Settngs</dtitle>
+                                <dtitle>Settings</dtitle>
                                 <hr>
                                 <div class="text-center">
                                 </div>
@@ -230,6 +238,8 @@
                             </div>
                         </div>
                     </div>
+
+
                     <div class="col-xs-12 col-sm-12 col-lg-6">
                         <div class="dash-unit" style="height:200px">
                             <dtitle>Purchases</dtitle>
@@ -237,10 +247,10 @@
                             <div class="text-center">
                             </div>
                             <div class="cont">
-                                <div class="msg_sml "id="pmsg"></div>
+                                <div class="msg_sml" id="pmsg"></div>
                                 <div style="height:20px">&nbsp;</div>
                                 <div id="pBtns">
-                                    <button type="button" class="btn btn-primary btn-sm" onclick="purchaseProduct()">Purchase Yearly Subscription</button>
+                                    <button type="button" class="btn btn-primary btn-sm" id="purchBtn" onclick="purchaseProduct()">Purchase Yearly Subscription</button>
                                 </div>
                                 <div style="height:20px">&nbsp;</div>
                                 <button type="button" class="btn btn-primary btn-sm" onclick="restorePurchases()">Restore</button>
@@ -304,34 +314,44 @@
                             </div><!-- /dash-unit -->
                         </div><!-- /span3 -->
 
-                        <div class="col-xs-12 col-sm-12 col-lg-6">
-                            <!-- Activities BLOCK -->
-                            <div id="my_activities" style="display:none">
-
-                                <div class="dash-unit" id="tableback">
-                                    <dtitle>Starred Segments</dtitle>
-
-
-                                    <div style="position:absolute;left:13px;padding-right:10px" class="msg_sml" id="winfo">
-                                        <div style="height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px" class="fa fa-2x fa-cog fa-spin"></div>
-                                        <div style="display:inline-block;margin-bottom:8px">&nbsp;Calculating ...</div>
-                                    </div>
-
-                                    <div style="height:38px">&nbsp;</div>
-
-                                    <div id="act_table2">
-                                        <div class="text-center">
-                                            &nbsp;
-                                            <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
-                                            <div id="actMsgs"></div>
-                                        </div>
-                                    </div>
-
+                <div id="my_activities" style="display:none">
+                    <div class="col-xs-12 col-sm-12 col-lg-6">
+                        <div class="dash-unit" style="height:50px">
+                            <div class="cont">
+                                <div class="btn-group btn-group-s" role="group">
+                                    <button type="button" class="btn btn-success btn-sm" id="segmentsBtn" autofocus="true" onclick="getAct('stars')">Starred</button>
+                                    <button type="button" class="btn btn-success btn-sm" onclick="getAct('favs')">Favorites</button>
                                 </div>
-                            </div><!-- /dash-unit -->
-                        </div><!-- /span3 -->
-                        <!-- Dist and Gain HIDE -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-lg-6">
+                        <!-- Activities BLOCK -->
 
+
+                        <div class="dash-unit" id="tableback">
+                            <dtitle>Segments Starred on Strava</dtitle>
+
+
+                            <div style="position:absolute;left:13px;padding-right:10px" class="msg_sml" id="winfo">
+                                <div style="height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px" class="fa fa-2x fa-cog fa-spin"></div>
+                                <div style="display:inline-block;margin-bottom:8px">&nbsp;Calculating ...</div>
+                            </div>
+
+                            <div style="height:38px">&nbsp;</div>
+
+                            <div id="act_table2">
+                                <div class="text-center">
+                                    &nbsp;
+                                    <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
+                                    <div id="actMsgs"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /dash-unit -->
+                </div><!-- /span3 -->
+  
                         <div id="friend_info" style="display:none">
 
                             <div class="col-xs-12 col-sm-12 col-lg-6">
@@ -361,7 +381,7 @@
                                 <div class="half-unit">
 
                                     <div style="position:absolute;left:10px;top:5px;width:240px" id="seg_title"></div>
-                                    <div style="position:absolute;right:10px;top:12px" id="backBtn"><div id="favBtn"></div></div>
+                                    <div style="position:absolute;right:10px;top:12px" id="favBtn"></div>
 
                                     <div style="position:absolute;left:32px;top:67px;text-align:center">
                                         <div id="seg_dist"></div>
@@ -390,10 +410,6 @@
                             </div>
                         </div>
                         <!-- Buttons -->
-
-
-
-
 
                         <div id="pills_row" style="display:none">
                             <div class="col-xs-12 col-sm-12 col-lg-6">
@@ -441,7 +457,7 @@
                                     <hr>
                                     <div id="refreshBtnLB"></div>
                                     <div style="position:absolute;left:13px;top:30px" class="msg_sml" id="lbdata"></div>
-                                    <div id="lbPadding" style="padding-top:10px"></div>
+                                    <div id="lbPadding" style="padding-top:35px"></div>
 
                                     <div style="position:absolute;left:5px;width:35px;height:auto" id="komimg" class="circular_pfl"></div>
                                     <div style="position:absolute;left:60px;" id="komdata"></div>
@@ -474,11 +490,8 @@
                                     <div id="refreshBtneffs">
                                     </div>
                                     <div style="position:absolute;left:13px;top:30px" class="msg_sml" id="sgdata"></div>
-                                    <div id="effortPadding" style="padding-top:10px"></div>
+                                    <div id="effortPadding" style="padding-top:24px"></div>
                                     <div id="sgBtn" style="height:30px"></div>
-
-
-
                                     <div style="position:absolute;left:4px;padding-top:10px" id="canvas-holder5" style="text-align:center">
                                         <canvas id="segeff" width='400px' height='1500px'><canvas>
                                     </div>

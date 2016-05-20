@@ -110,8 +110,21 @@ function segAlgoData() {
     for (var i = 0; i < str.length; i++) {
         var nextChar = str.charAt(i);
         var pval = "p" + nextChar;
-
+        //var flipval = document.getElementById(flipstr).value;
+        //  alert(pval);
+        //selected.push(flipstr + "=" + flipval);
+        //selected.push(("flip" + nextChar).val());
+        //   alert(nextChar)
     }
+
+    //do {
+    // segBearings.pvals.push({
+    //    i: p+i            
+    // });
+    //  alert(p3);
+    // }
+    //while (--i);
+
 
 }
 
@@ -252,7 +265,7 @@ function drawChart(ID) {
 
 
 function getDistance(latlng1, latlng2) {
-    console.log(latlng1 + " ll " + latlng2);
+  
     var dist = google.maps.geometry.spherical.computeDistanceBetween(latlng1, latlng2);
     dist = Math.round(parseInt(dist));
     totalDist = totalDist + dist;
@@ -307,7 +320,7 @@ function startmap(ID, lat, lng) {
         if (latlngsaved == null) {
             var lat = "48.14";
             var lng = "17.11";
-            var zoom = 15;
+            var zoom = 5;
         } else {
             var lat = localStorage.getItem("latmap");
             var lng = localStorage.getItem("lngmap");
@@ -433,6 +446,7 @@ var timer_m;
 
 function setMarkers(map, bounds_map, PID) {
     $('#map_table').show();
+    $("#winfomap").html();
     var midhtml = "";
     clearTimeout(timer_m);
     var bds_fmt = format_bounds(bounds_map.toString());
@@ -477,8 +491,8 @@ function setMarkers(map, bounds_map, PID) {
                 var segname = seg.name;
                 // segname = segname.replace(/[^a-z0-9 ,.?!]/ig, '');
                 segname = segname.replace("'", "");
-                midhtml = midhtml + "<li onclick=\"poly_map(" + seg.id + "," + i + ")\"><i class=\"read\"></i><p id=\"trow_" + seg.id + "\" class=\"un_sel\">" + segname + "</p><p class=\"message\">" + seg.distance + "m</p>" +
-        "<div class=\"actions\" id=\"stars_" + seg.id + "\"></div></li>";
+                midhtml = midhtml + "<tr id=\"trow_" + seg.id + "\" class=\"hover_o\" onclick=\"poly_map(" + seg.id + "," + i + ")\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px\">" + segname + "</div>" +
+                "<div style=\"display:inline-block;padding-left:3px\" id=\"stars_" + seg.id + "\"></div><div style=\"display:inline-block\" id=\"stars_best_" + seg.id + "\"></div></td></tr>";
 
 
                 ct++;
@@ -494,7 +508,7 @@ function setMarkers(map, bounds_map, PID) {
                 $('#refreshBtnmap').html("");
                 $('#mapWind').hide(); //aaa
             }
-            var ht = parseInt((ct * 48) + 95);
+            var ht = parseInt((ct * 48) + 50);
             $('#tableback_map').height(ht);
             var jsonsegs = JSON.stringify(seg_loc_data);
             localStorage.setItem('seg_loc_data', jsonsegs);
@@ -506,11 +520,13 @@ function setMarkers(map, bounds_map, PID) {
                 //      alert("hihi");
                 $('#stars_n' + markers.PID).html("<p>stars n</p>");
                 if (markers.PID == parseInt(PID)) {
-                   
+                    //   var image = 'marker_search.png';
+                    //ListComments(markers.PID);
+                    $('#place_name').html(markers.name);
                 } else if (markers.PID == 1) {
                     //   var image = 'marker_search.png';
                 } else {
-                    var image = 'img/map_marker_start.png';
+                    var image = '/Content/map_marker_start.png';
                 }
                 //var infoWindow = new google.maps.InfoWindow({ content: 'Place ID' + markers.PID });
                 var siteLatLng = new google.maps.LatLng(markers.lat, markers.longval);
@@ -531,42 +547,37 @@ function setMarkers(map, bounds_map, PID) {
                 //initMap("}g|eFnm@n@Op@VJr@");
                 google.maps.event.addListener(markerp, "click", function () {
                     //$('#map_markers').fadeOut().html("<p>Click: " + markers.name + markers.PID + "</p>").fadeIn();
-                    var image2 = 'img/map_marker_end.png';
-                    //highlight table entry
-                    var marker_end = new google.maps.Marker({ 'position': endLatLng, 'map': map, 'icon': image2 });
-                    $('#seg_' + markers.PID).addClass("list");
 
+                    //highlight table entry
+                    var marker_end = new google.maps.Marker({ 'position': endLatLng, 'map': map, 'icon': image });
+                  
+                    var images = '/Content/map_marker_end.png';
                     addPolyline(returnpoly(markers.points)).setMap(map);
-                    $('#ultop > li').each(function (index, el) {
-                        //     alert($(this)[0]);
-                        $(this).siblings().find('p').removeClass('sel');
+                    $('table tbody tr').each(function (index, el) {
+
+                        $(this).siblings().removeClass('sel_p');
 
                     });
-                    jQuery('#trow_' + markers.PID).addClass('sel').removeClass('un_sel');
-
-                    //infoWindow.open(map, markerp);
+                    jQuery('#trow_' + markers.PID).addClass('sel_p').removeClass('un_sel').removeClass('sel');
                 });
 
             });
 
-            var top = "<div class=\"framemail\"><div class=\"window\"><ul class=\"mail\" id=\"ultop\">";
+            var top = "<div id=\"ttop_map\"><table class=\"table table-striped\">"
 
-            $('#map_table').html(top + midhtml + "</ul></div></div>");
+            $('#map_table').html(top + midhtml + "</table></div>");
             //var mcOptions = { gridSize: 50, maxZoom: 18 };
             //var markerCluster = new MarkerClusterer(map, markers_array, mcOptions);
             $("#winfomap").html("Found " + ct + " segments");
             if (ct > 0) {
+                var zoom = localStorage.getItem("zoommap");
+                if (zoom >= 12) {
+                    $('#winfomap').append("<br/>Retrieve one segment's weather to see all star ratings in this view");
+                }
                 displayStarsmap(24, ct); //aaa
                 drawWindcanvas(null, 0, 5, ct);
                 parse("map");
 
-                //var timer1 = setTimeout(function () { startDecode() }, 8000);
-
-                function startDecode() {
-                    clearTimeout(timer1);
-                    saveSegmentsDB("map");
-
-                }
             }
         }).fail(function (err) {
             //alert("fail");
@@ -610,7 +621,7 @@ function backMap() {
 }
 
 function backAct() {
-    checkConnection();
+
     $('html, body').animate({
         scrollTop: $("#my_activities").offset().top
     }, 2000);
@@ -618,37 +629,34 @@ function backAct() {
 }
 
 function getFriends() {
-
+    showKOMsTile();
     var frdata = localStorage.getItem('frdata');
     if (frdata != null) {
         drawFriends();
 
     } else {
-        $('#profile_tile').hide();
-        $('#act_table_header').hide();
-        $('#act_table2').hide();
-        $('#my_activities').hide();
-        $('#seg_nearby').hide();
-        $('#deets_tile').hide();
-        $('#seg_weather').hide();
-        $('#menubtns').hide();
-        $('#seg_efforts').hide();
-        $('#seg_leaderboard').hide();
-        $('#Hrsdd').hide();
-        $('#pills_row').hide();
-        $('#refreshBtn').hide();
-        $('#my_friends').show();
+   
         stFriends(); //changed
     }
 }
 
 function showFriend(ID, name, i) {
+
     $('#friend_info').show();
-    //$('#friend_tile').html("<dtitle>KOMS: " + name + "</dtitle><hr>");
-    $('#deets_tile').show();
+    $('#friend_tile_title').html("<dtitle>KOMS: " + name + "</dtitle>");
+    $('#deets_tile').hide();
+    $('#seg_weather').hide();
+    $('#pills_row').hide()
+    $('#seg_efforts').hide();
+    $('#seg_leaderboard').hide();
+    $('table tbody tr').each(function (index, el) {
+        $(this).siblings().removeClass('sel');
+    });
+
+    jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel');
     localStorage.setItem("frID", ID);
     var type = "kom";
-    var top = "<dtitle>KOMS: " + name + "</dtitle><hr><div class=\"framemail\"><div class=\"window\"><ul class=\"mail\" style=\"list-style-type:none\" id=\"ultop\">";
+    var top = "<table class=\"table table-striped\">";
     var json = localStorage.getItem('komdata_' + ID);
     var frID = ID;
     var j2 = eval('(' + json + ')');
@@ -661,30 +669,19 @@ function showFriend(ID, name, i) {
     var name;
     $.each(j2.segs, function (i, seg) {
         var date = formatTime(seg.time);
-        if (act_ct == 0) {
-            firstID = seg.ID;
-            n = i;
-            name = seg.name;
-
-            midhtml = midhtml + "<li style=\"list-style-type:none\" class=\"polylink\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type + "', " + frID + ")\"><i class=\"read\" style=\"list-style-type none\"></i><p id=\"trow_" + seg.ID + "\" class=\"sel\">" + seg.name + "</p><p class=\"message\">" + date + "</p>" +
-        "<div class=\"actions\" id=\"stars_" + seg.ID + "\"></div><div class=\"actions_b\" id=\"stars_best_" + seg.ID + "\"></div></li><div id=\"segs_" + seg.ID + "\"></div>";
-
-        } else {
-            midhtml = midhtml + "<li style=\"list-style-type:none\" class=\"polylink\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type + "', " + frID + ")\"><i class=\"read\" style=\"list-style-type none\"></i><p id=\"trow_" + seg.ID + "\" class=\"un_sel\">" + seg.name + "</p><p class=\"message\">" + date + "</p>" +
-        "<div class=\"actions\" id=\"stars_" + seg.ID + "\"></div><div class=\"actions_b\" id=\"stars_best_" + seg.ID + "\"></div></li><div id=\"segs_" + seg.ID + "\"></div>";
-
-        }
+        var date = formatTime(seg.time);
+        midhtml = midhtml + "<tr id=\"trow_" + seg.ID + "\" class=\"un_sel\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type + "', " + frID + ")\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + seg.name + "</div>" +
+                   "<div class=\"msg_sml\" style=\"padding-left:3px\">" + date + "</div></td></tr>";
         act_ct++;
 
     });
 
 
-    var ht = parseInt((act_ct * 48) + 80); //56
+    var ht = parseInt((act_ct * 50) + 18); //56
     $('#friend_tile').height(ht);
     // alert(firstID)
-    poly2(firstID, n, name, type, frID);
-
-    $('#friend_tile').html(top + midhtml + "</ul></div></div>");
+    //poly2(firstID, n, name, type, frID);   
+    $('#friend_tile_list').html(top + midhtml + "</table></div>");
 
 }
 
@@ -708,14 +705,21 @@ function showLeader(ID, type) {
     ctx2d.fillStyle = "rgba(255, 255, 255, 0.0)";
     ctx2d.fillRect(0, 0, 350, 2000);
     if (lbdata == null) {
-        stLeader(ID, type);
         $('#seg_leaderboard').show();
-        $('#lbdata').html("Retrieving Leaderboard ...");
+      
+        if (isOnLine()) {
+            $('#lbdata').html("Retrieving Leaderboard ...");
+            stLeader(ID, type);
+        } else {
+            $('#lbdata').html("Device is offline.");
+        }
+       
         console.log("no local lb data");
     } else {
         console.log("local lb data");
-        drawLeaderboard(ID, type); //changed
+        drawLeaderboard(ID,type); //changed
     }
+}
 }
 
 function showEfforts(ID, type, frID) {
@@ -730,7 +734,6 @@ function showEfforts(ID, type, frID) {
     ctx2d.fillRect(0, 0, 350, 2000);
     // var effs = localStorage.getItem('eff_data_' + ID);
     console.log(ID);
-    // if (isOnLine()) {
     if (frID != null) {
         var effs = localStorage.getItem('eff_data_' + ID + '_' + frID);
     } else {
@@ -756,14 +759,15 @@ function showEfforts(ID, type, frID) {
 
     }
 
-    // }
-    // else {
-    //   $('#sgdata').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Device offline</div>");
-    //  }
 }
 
 function poly_map(ID, i) {
     //  $('#map_table').hide();
+    $('table tbody tr').each(function (index, el) {
+        $(this).siblings().removeClass('sel');
+    });
+
+    jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel').removeClass('sel_p');
     $('#seg_data').show();
     $('#seg_weather').show();
     $('#data_pills').show();
@@ -774,8 +778,7 @@ function poly_map(ID, i) {
     $('html, body').animate({
         scrollTop: $("#seg_title").offset().top
     }, 2000);
-    // $('#map_activities').hide();
-    // $('#map_canvas_nearby').hide();
+   
     $('#static_map').fadeIn();
     var json = localStorage.getItem('seg_loc_data');
     var j2 = eval('(' + json + ')');
@@ -783,14 +786,22 @@ function poly_map(ID, i) {
     var dist = j2.points[i].dist;
     var egain = j2.points[i].gain;
     var name = j2.points[i].name;
-    var favbtn = "<a class=\"btn btn-large btn-primary\" href=\"#\" onclick=\"addFav(" + ID + ")\"><i class=\"fa fa-star-o icon-2x pull-left\"></i>Add<br>To Fvourites</a>";
-    var Backbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"backMap()\">Back</button>";
+    var latlng = getLatlng(ID, "map");
+    var fstate = localStorage.getItem(ID + "_fav");
+    if (fstate == null) {
+        fstate = 1;
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','map','" + dist + "','" + egain + "')\"><i class=\"fa fa-heart-o\"></li></button>";
+    } else {
+        fstate = 0;
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','map','" + dist + "','" + egain + "')\"><i class=\"fa fa-heart\"></li></button>";
+    }
+    $('#favBtn').html(favbtn);
     $('#seg_title').html("<h1>" + name + "</h1>");
     $('#seg_dist').html("<p><bold>" + dist + "</bold></p>");
     $('#seg_egain').html("<p><bold>" + egain + "</bold></p>");
     //$('#leaderboardBtn').html(Lbbtn);
-    $('#backBtn').html(Backbtn);
-    $('#favBtn').html(favbtn);
+    $('#backBtn').html(favbtn);
+    // $('#favBtn').html(favbtn);
     var type = "map";
     $('#ultop > li').each(function (index, el) {
         //     alert($(this)[0]);
@@ -843,6 +854,73 @@ function poly_map(ID, i) {
 
 
 
+function polyF(ID) {
+    $('#deets_tile').show();
+    var canvas = document.getElementById('weather_stars');
+    var ctx2d = canvas.getContext('2d');
+    ctx2d.clearRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
+    ctx2d.fillStyle = "rgba(255, 255, 255, 0.0)";
+    ctx2d.fillRect(0, 0, 130, 2000);
+    var scroll = true;
+    $('#seg_data').show();
+    $('#pills_row').show();
+    $('#seg_weather').show();
+    $('#deets_tile').show();
+    $('#data_pills').show();
+    $('#seg_details').show();
+    $('#static_map').fadeIn();
+    var pl = localStorage.getItem(ID + "_poly");
+    if (scroll == true) {
+        $('html, body').animate({
+            scrollTop: $("#seg_title").offset().top
+        }, 2000);
+    }
+
+    var fstate = localStorage.getItem(ID + "_fav");
+    var j2 = eval('(' + fstate + ')');
+
+    var name = j2.segs[0].name;
+    var latlng = j2.segs[0].latlng;
+    var type = "favs";
+    var dist = j2.segs[0].dist;
+    var gain = j2.segs[0].gain;
+    $('#seg_title').html("<h1>" + name + "</h1>");
+    $('#seg_dist').html("");
+    $('#seg_egain').html("");
+    if (fstate == null) {
+        fstate = 1;
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','" + type + "')\"><i class=\"fa fa-heart-o\"></li></button>";
+    } else {
+        fstate = 0;
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','" + type + "')\"><i class=\"fa fa-heart\"></li></button>";
+    }
+    $('#favBtn').html(favbtn);
+
+    $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'" + type + "')\">Weather</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ",'" + type + "')\">Efforts</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
+"</div></div>");
+    drawWeather(ID, type);
+
+    drawMap(pl);
+    drawChart(ID);
+
+    p1 = 0
+    p2 = 0
+    p3 = 0
+    p4 = 0
+    p5 = 0
+    p6 = 0
+    p7 = 0
+    p8 = 0
+    p9 = 0
+    p10 = 0
+    p11 = 0
+    p12 = 0;
+    totalDist = 0
+}
+
 function poly2(ID, i, scroll, type, frID) {
     $('#deets_tile').show();
     var canvas = document.getElementById('weather_stars');
@@ -850,9 +928,8 @@ function poly2(ID, i, scroll, type, frID) {
     ctx2d.clearRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
     ctx2d.fillStyle = "rgba(255, 255, 255, 0.0)";
     ctx2d.fillRect(0, 0, 130, 2000);
-    $('#ultop > li').each(function (index, el) {
-        //     alert($(this)[0]);
-        $(this).siblings().find('p').removeClass('sel');
+    $('table tbody tr').each(function (index, el) {
+        $(this).siblings().removeClass('sel');
     });
     jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel');
 
@@ -864,7 +941,7 @@ function poly2(ID, i, scroll, type, frID) {
     $('#data_pills').show();
     $('#seg_details').show();
     $('#static_map').fadeIn();
-    // alert(scroll);
+
     if (scroll == true) {
         $('html, body').animate({
             scrollTop: $("#seg_title").offset().top
@@ -889,16 +966,25 @@ function poly2(ID, i, scroll, type, frID) {
     var name = j2.segs[i].name;
     var elev_h = j2.segs[i].elev_h;
     var elev_l = j2.segs[i].elev_l;
+    var latlng = j2.segs[i].latlng;
+    var lat = latlng[0];
     var gain = parseInt(elev_h) - parseInt(elev_l);
     //var Lbbtn ="<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick=\"showLeader(" + ID +")\">Leaderboard</button>";
-    var Backbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"backAct()\">Back</button>";
-    var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"addFav(" + ID + ")\">Back</button>";
+    //var Backbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"Fav(" + ID + ")\">Fav</button>
+    var fstate = localStorage.getItem(ID + "_fav");
+    if (fstate == null) {
+        fstate = 1;
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','" + type + "','" + dist + "','" + gain + "')\"><i class=\"fa fa-heart-o\"></li></button>";
+    } else {
+        fstate = 0;
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','" + type + "','" + dist + "','" + gain + "')\"><i class=\"fa fa-heart\"></li></button>";
+    }
+    $('#favBtn').html(favbtn);
     $('#seg_title').html("<h1>" + name + "</h1>");
     $('#seg_dist').html("<p><bold>" + dist + "</bold></p>");
     $('#seg_egain').html("<p><bold>" + gain + "</bold></p>");
     //$('#leaderboardBtn').html(Lbbtn);
-    $('#backBtn').html(Backbtn);
-    $('#favBtn').html(favbtn);
+    //$('#favBtn').html(favbtn);
     //$('#seg_details').html(top_html + side_html);
     if (type == "stars") {
         $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
@@ -908,10 +994,10 @@ function poly2(ID, i, scroll, type, frID) {
 "</div></div>");
         drawWeather(ID, type);
     } else {
-
+       
         $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ")\">My Efforts</button>" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ",'" + type + "', " + frID + ")\">" + frStr + "</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ",'" + type + "', " + frID +")\">" + frStr + "</button>" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
 "</div></div>");
         showLeader(ID, type);
@@ -940,6 +1026,37 @@ function poly2(ID, i, scroll, type, frID) {
 
 
 }
+
+function setFav(ID, fstate, name, latlng, type, dist, gain) {
+        
+    if (fstate == 0) {
+        //remove 
+        localStorage.removeItem(ID + "_fav")
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + ",1,'" + name + "','" + latlng + "','" + type + "','" + dist + "','" + gain + "')\"><i class=\"fa fa-heart-o\"></li></button>";
+        // getAct('favs');
+    } else {
+        var strava_segs = {
+            segs: []
+        };
+        console.log(name + " " + latlng);
+        strava_segs.segs.push({
+            "name": name,
+            "latlng": latlng,
+            "type": type,
+            "dist": dist,
+            "gain": gain
+            //"seg_efforts" : data[i]['segment_efforts']
+        });
+        var jsonsegs = JSON.stringify(strava_segs);
+        localStorage.setItem(ID + "_fav", jsonsegs);
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + ",0,'" + name + "','" + latlng + "','" + type + "','" + dist + "','" + gain + "')\"><i class=\"fa fa-heart\"></li></button>";
+    }
+
+    $('#favBtn').html(favbtn);
+   
+
+}
+
 
 function polySegs(ID, i, name) {
     //$('#table_calc_area2').hide();
@@ -1680,6 +1797,8 @@ function getTimeW(ID) {
 
 }
 
+
+
 function getTimediff(ID, type) {
     var epoch = 0;
     var datestr;
@@ -1688,7 +1807,7 @@ function getTimediff(ID, type) {
         var jsondata = localStorage.getItem(ID + "_weather_map");
         var parsed_json = eval('(' + jsondata + ')');
         if (jsondata == null) {
-            return 5000000;
+            return 50000001;
         } else {
             var firsthour = parsed_json.hourly_forecast[0].FCTTIME.epoch;
             console.log(firsthour)
@@ -1698,11 +1817,15 @@ function getTimediff(ID, type) {
         }
     } else {
         var wdata = localStorage.getItem("weatherdata");
-        if (wdata == null) {
-            return 5000000;
+        var wdatap = eval('(' + wdata + ')');
+       
+        var wdatac = localStorage.getItem(ID + "_weather_act");
+        console.log(wdatac);
+        if ((wdatap == null) || (wdatac == null)) {
+            return 50000002;
         } else {
-            var wdatap = eval('(' + wdata + ')');
-
+           
+           
             $.each(wdatap.wdata, function (i, wd) {
                 // alert(wd.timestamp);
                 if (wd.ID == ID) {
@@ -1716,18 +1839,105 @@ function getTimediff(ID, type) {
     }
 }
 
+function getFriendFirstname(frID) {
+    var json = localStorage.getItem('frdata');
+    var j2 = eval('(' + json + ')');
+    var firstname;
+    $.each(j2.people, function (i, wd) {
+        console.log(frID + " " + wd.ID);
+        if (wd.ID == frID) { //or parentID
+            //lat = wd.lat;
+            // lng = wd.lng;
+            firstname = wd.firstname;
+        }
+    });
+    return firstname;
+}
+function getLatlng(ID, type) {
+    
+    if (type == 'map') {
+        var json = localStorage.getItem('seg_loc_data');
+        var j2 = eval('(' + json + ')');
+        var lat;
+        var lng;
+        var latlng;
+        $.each(j2.points, function (i, wd) {
+            console.log(ID + " " + wd.PID);
+            if (wd.PID == ID) { //or parentID
+                latlng = wd.endlatlong;
+            }
+        });
+        return latlng;
+    } else if (type == 'stars') {
+        var json = localStorage.getItem('starsdata');
+        var j2 = eval('(' + json + ')');
+        var lat;
+        var lng;
+        var latlng;
+       
+        $.each(j2.segs, function (i, wd) {
+            if (wd.ID == ID) { //or parentID
+                console.log(wd.latlng)
+                latlng = wd.latlng;
+            }
+        });
+        return latlng;
+    
+
+    }  else if (type == 'segs') {
+        var json = localStorage.getItem('starsdata');
+        var j2 = eval('(' + json + ')');
+        var lat;
+        var lng;
+        var latlng;
+
+        $.each(j2.segs, function (i, wd) {
+            if (wd.ID == ID) { //or parentID
+                console.log(wd.latlng)
+                latlng = wd.latlng;
+            }
+        });
+        return latlng;
+    }
+
+    else if (type == 'kom') {
+        var stravaID = localStorage.getItem("frID");
+        var json = localStorage.getItem('komdata_' + stravaID);
+        var j2 = eval('(' + json + ')');
+        var lat;
+        var lng;
+        var latlng;
+        $.each(j2.segs, function (i, wd) {
+            if (wd.ID == ID) { //or parentID
+                console.log(wd.latlng)
+                latlng = wd.latlng;
+            }
+        });
+        return latlng;
+    }
+    else if (type == 'favs') {
+        console.log("ty" + type)
+        var json = localStorage.getItem(ID + "_fav");
+        var j2 = eval('(' + json + ')');
+        
+        var latlng = j2.segs[0].latlng;
+      
+        return latlng;
+    }
+}
+
 function getSegName(ID, type) {
 
     if (type == 'map') {
         var json = localStorage.getItem('seg_loc_data');
         var j2 = eval('(' + json + ')');
         var name
-        $.each(j2.points, function (i, wd) {
+        $.each(j2.points, function (i, wd) {  
             if (wd.PID == ID) { //or parentID      
                 name = wd.name;
             }
         });
-
+      
         return name;
     } else if (type == 'stars') {
         var json = localStorage.getItem('starsdata');
@@ -1768,102 +1978,6 @@ function getSegName(ID, type) {
         });
         //alert(timenow + " " + epoch);
         return name;
-    }
-}
-
-function getFriendFirstname(frID) {
-    var json = localStorage.getItem('frdata');
-    var j2 = eval('(' + json + ')');
-    var firstname;
-    $.each(j2.people, function (i, wd) {
-        console.log(frID + " " + wd.ID);
-        if (wd.ID == frID) { //or parentID
-            //lat = wd.lat;
-            // lng = wd.lng;
-            firstname = wd.firstname;
-        }
-    });
-    return firstname;
-}
-function getLatlng(ID, type) {
-
-    if (type == 'map') {
-        var json = localStorage.getItem('seg_loc_data');
-        var j2 = eval('(' + json + ')');
-        var lat;
-        var lng;
-        var latlng;
-        //     console.log(ID + " " + json);
-        //var timenow = Math.round(new Date().getTime() / 1000);
-        $.each(j2.points, function (i, wd) {
-            console.log(ID + " " + wd.PID);
-            if (wd.PID == ID) { //or parentID
-                //lat = wd.lat;
-                // lng = wd.lng;
-                latlng = wd.endlatlong;
-            }
-        });
-        //alert(timenow + " " + epoch);
-        return latlng;
-    } else if (type == 'stars') {
-        var json = localStorage.getItem('starsdata');
-        var j2 = eval('(' + json + ')');
-        var lat;
-        var lng;
-        var latlng;
-
-        //var timenow = Math.round(new Date().getTime() / 1000);
-        $.each(j2.segs, function (i, wd) {
-            if (wd.ID == ID) { //or parentID
-                console.log(wd.latlng)
-                //lat = wd.lat;
-                // lng = wd.lng;
-                latlng = wd.latlng;
-            }
-        });
-        //alert(timenow + " " + epoch);
-        return latlng;
-
-
-    } else if (type == 'segs') {
-        var json = localStorage.getItem('starsdata');
-        var j2 = eval('(' + json + ')');
-        var lat;
-        var lng;
-        var latlng;
-
-        //var timenow = Math.round(new Date().getTime() / 1000);
-        $.each(j2.segs, function (i, wd) {
-            if (wd.ID == ID) { //or parentID
-                console.log(wd.latlng)
-                //lat = wd.lat;
-                // lng = wd.lng;
-                latlng = wd.latlng;
-            }
-        });
-        //alert(timenow + " " + epoch);
-        return latlng;
-    }
-
-    else if (type == 'kom') {
-        var stravaID = localStorage.getItem("frID");
-        var json = localStorage.getItem('komdata_' + stravaID);
-        var j2 = eval('(' + json + ')');
-        var lat;
-        var lng;
-        var latlng;
-
-        //var timenow = Math.round(new Date().getTime() / 1000);
-        $.each(j2.segs, function (i, wd) {
-            if (wd.ID == ID) { //or parentID
-                console.log(wd.latlng)
-                //lat = wd.lat;
-                // lng = wd.lng;
-                latlng = wd.latlng;
-            }
-        });
-        //alert(timenow + " " + epoch);
-        return latlng;
     }
 }
 
@@ -1940,7 +2054,10 @@ function prettify(diff) {
     return time;
 }
 
+
+
 function drawWeather(ID, type) {
+    //var bdata = localStorage.getItem(ID+"_array");
     console.log("draw" + ID + type)
     var starvals = {
         stardata: []
@@ -1959,23 +2076,38 @@ function drawWeather(ID, type) {
     } else {
         var jsondata = localStorage.getItem(ID + "_weather_act");
     }
+    // var jsondata = localStorage.getItem(ID + "_weather");
     if (jsondata != null) {
         $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Refresh Weather</a>");
         var bdata = localStorage.getItem(bearing_store);
         var parsed_json = eval('(' + jsondata + ')');
+        //alert(parsed_json);
         var cutoff = parseInt("16");
         var country = parsed_json['location']['country_name'];
         var location = parsed_json['location']['city'];
+        //alert(location);
         var locstr = location + ", " + country
+        // var timediff = getTimediff(ID);
         var wdate = getTimeW(ID);
         $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Weather for " + location + ", " + country + "</div>");
+        //var theDatas = new Lawnchair('data');
         var timenow = new Date();
         var hour_now = timenow.getHours();
         var today = timenow.getDate();
+        // var timesaved = theJsonData.timesaved;
+        //if (age == "olddata") {
+        //    $('#loc_result').append("<br /> cached data from: " + age);
+        // }
+        //  var country = parsed_json['location']['country'];
+        //alert("saved= " + json_data);
         var posy = 4; //54;
         var posyt = 15; //65;
         var canvas = document.getElementById('weather');
         var canvasr = document.getElementById('weather_stars');
+        //   canvas.width = 350;
+        // canvas.height = 1500;
+        //   canvas.style.width = '350px';
+        //   canvas.style.height = '1500px';
         var ctx2d = canvas.getContext('2d');
         var ctx2dr = canvasr.getContext('2d');
         ctx2d.clearRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
@@ -1990,6 +2122,8 @@ function drawWeather(ID, type) {
         var first_hour = -1;
         hour_bg_bk = "000";
         var totalsnow = 0;
+        //var diff = (Math.round(new Date().getTime() / 1000) - epochdata) / 360;
+        //var hours = Math.round(diff);
         var dt = parseInt(0);
         var dt_ct = parseInt(0);
         var total_score = parseInt(0);
@@ -2000,6 +2134,9 @@ function drawWeather(ID, type) {
 
 
         $.each(parsed_json.hourly_forecast, function (i, zone) {
+            //ctx2d.restore();
+
+
             var imgi = new Image();
             imgi.src = "http://icons.wxug.com/i/c/a/nt_snow.gif" //"http://icons.wxug.com/i/c/i/" + zone.icon + ".gif";
             var ws = (parseInt(zone.wspd.english) * 5) + 10;
@@ -2240,16 +2377,9 @@ function drawWeather(ID, type) {
         } else {
             var priv = false;
         }
-
         var segName = getSegName(ID, type);
 
-        if (type == 'act' && priv == false) { //or is an act segment not a private activity
-            saveTW(maxPpg.SegID, segName, maxPpg.wspd, loc, maxPpg.stars, maxPpg.epoch, maxPpg.timestamp);
-
-        }
-        if (type == 'map' || type == 'stars' || type == 'kom') { //or is an act segment not a private activity
-            saveTW(maxPpg.SegID, segName, maxPpg.wspd, loc, maxPpg.stars, maxPpg.epoch, maxPpg.timestamp);
-        }
+       
     } else {
         var canvas = document.getElementById('weather');
         var canvasr = document.getElementById('weather_stars');
@@ -2262,7 +2392,6 @@ function drawWeather(ID, type) {
         ctx2dr.fillStyle = "rgba(255, 255, 255, 0.0)";
         ctx2dr.fillRect(0, 0, 350, 2000);
         $('#refreshBtnW').show();
-        //    if (isOnLine()) {
         $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Weather not yet retrieved</div>");
         var latlng = getLatlng(ID, type);
         if (type != 'map') {
@@ -2270,11 +2399,6 @@ function drawWeather(ID, type) {
         } else {
             $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Retrieve Weather</a>");
         }
-
-        //   } else {
-        //     $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Device is offline</div>");
-        //  }
-
         //     $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#tableback_map\" onclick=\"getW('" + latlng + "'," + ID + ", 'stars')\">Retrieve Weather</a>");
         //no weather data for ID
     }
@@ -2415,7 +2539,9 @@ function calcStarsInline(ID, hrs, type) {
                     //var priv = checkSegisAct(ID);
                     console.log("max ts " + maxPpg.timestamp);
                     //  besthtml = "<div>" + maxPpg.timestamp + "</div>";
-                    $('#stars_best_' + ID).html("<div style=\"color:#ffca4a\">" + maxPpg.timestamp + "</div>");//<i class=\"fa fa-trophy\"></i></p>");
+                    $('#stars_best_' + ID).fadeIn('slow');
+                    $('#stars_best_' + ID).html("<div class=\"msg_sml\">" + maxPpg.timestamp + "</div>");
+
                     showStars(ID, maxPpg.stars);
                 } else {
                     showStars(ID, star_avg);
@@ -2445,18 +2571,17 @@ function showStars(ID, numstars) {
     //   do {
     for (var x = i; x > 0; x--) {
 
-        starhtml = starhtml + "<i class=\"fa fa-star\"></i>&nbsp;&nbsp;&nbsp;";
+        starhtml = starhtml + "<i class=\"fa fa-star\"></i>&nbsp;";
 
     }
 
     for (var x = j; x > 0; x--) {
-        starblankhtml = starblankhtml + "<i class=\"fa fa-star-o\"></i>&nbsp;&nbsp;&nbsp;";
+        starblankhtml = starblankhtml + "<i class=\"fa fa-star-o\"></i>&nbsp;";
     }
     //  while (--i);
 
 
-    $('#stars_' + ID).html("<p style=\"color:#ffca4a\">" + starhtml + starblankhtml + "</p>");//<i class=\"fa fa-trophy\"></i></p>");
-    //alert(ID + starhtml);//<p>Calc<i class=\"fa fa-trophy\"></i></p>
+    $('#stars_' + ID).html("<div style=\"color:#ffca4a\">" + starhtml + starblankhtml + "</div>");
 }
 
 function drawStarsO(ctx2d, i, y, xval) {
@@ -2551,6 +2676,7 @@ function getW(latlng, ID, type) {
         //dispStarsChk();
         //$('#refreshBtnW').fadeIn();
         // $('#winfo').fadeIn()
+        clearInterval(timer1); 
         drawWeather(ID, type);
         $('#refreshBtnW').fadeIn();
     }
@@ -2591,10 +2717,10 @@ function checkWeather(latlng1, ct, ID, type) {
     var lng = latlng[1];
     console.log("lat=" + lat);
     console.log("Checking weather2 for " + latlng + "</br>");
-    var latx = lat - 0.1;
-    var latxx = lat + 0.1;
-    var lngx = lng - 0.1;
-    var lngxx = lng + 0.1;
+    var latx = lat - 0.05;
+    var latxx = lat + 0.05;
+    var lngx = lng - 0.05;
+    var lngxx = lng + 0.05;
     var epoch = Math.round(new Date().getTime() / 1000);
     //Nb = 56.05,-2.7
     //hadd = 55.9,-2.7
@@ -2663,8 +2789,24 @@ function checkWeather(latlng1, ct, ID, type) {
 
 }
 
+function copyMapWeather(ID) {
+   
+    jsondata = localStorage.getItem(ID + "_weather_map");
+    var jsonact = localStorage.getItem('seg_loc_data');
+    var j2s = eval('(' + jsonact + ')');
+    $.each(j2s.points, function (i, seg) {
+      
+        localStorage.setItem(seg.PID + '_weather_map', jsondata);
+             
+    });
+    displayStarsmap(24,null)
+
+}
+
+
 function copyWeather(fromID, toID, lat, lng, type) {
     var jsondata;
+    var zoom = localStorage.getItem("zoommap");
     if (type == "map") {
         jsondata = localStorage.getItem(fromID + "_weather_map");
         if (jsondata == null) {
@@ -2672,12 +2814,18 @@ function copyWeather(fromID, toID, lat, lng, type) {
             localStorage.setItem(toID + '_weather_map', jsondata);
             console.log("json null, used act")
             calcStarsInline(toID, 24, type);
-            drawWeather(toID, type);
+            drawWeather(toID, type);     
+            if (zoom >= 12) {
+                copyMapWeather(fromID);
+            }
             $('#refreshBtnW').show();
         } else {
             jsondata = localStorage.getItem(fromID + "_weather_map");
             localStorage.setItem(toID + '_weather_map', jsondata);
             console.log("json not null, used map")
+            if (zoom >= 12) {
+                copyMapWeather(fromID);
+            }
             calcStarsInline(toID, 24, type);
             drawWeather(toID, type);
             $('#refreshBtnW').show();
@@ -2690,7 +2838,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
         calcStarsInline(toID, 24, type);
         drawWeather(toID, type);
         $('#refreshBtnW').show();
-
+  
 
     }
     //var jsondata = localStorage.getItem(fromID+"_weather");
@@ -2705,14 +2853,14 @@ function copyWeather(fromID, toID, lat, lng, type) {
     if (ct == null) {
         ct = 0;
     }
-
+   
     var ct2 = 0;
     var wdata = localStorage.getItem('weatherdata');
     //  if (wdata != null) {
     var wdata_json = eval('(' + wdata + ')');
-
+         
     $.each(wdata_json.wdata, function (i, wd) {
-
+          
         weather_deets.wdata.push({
             "ID": wd.ID,
             "lat": wd.lat,
@@ -2722,7 +2870,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
             //ct--;
         });
         // alert("pushed  "+ ID + "ct=" + ct + "ct2=" + ct2);
-
+            
         //  var jsondeets = JSON.stringify(weather_deets);
         //   $('#location').append("Writing Weather data 1 = " + ID + "</br>");
         //   localStorage.setItem('weatherdata', jsondeets);
@@ -2734,20 +2882,20 @@ function copyWeather(fromID, toID, lat, lng, type) {
             weather_deets.wdata.push({
                 "ID": toID,
                 "lat": lat,
-                "lng": lng,
+                "lng": lng, 
                 "timestamp": epoch,
                 "datestr": moment().format("MMM Do YYYY, h:mm:ss a")
             });
             //alert("pushed last  "+ ID + "ct=" + ct + "ct2=" + ct2);
             var jsondeets = JSON.stringify(weather_deets);
-
+      
             $('#location').append("Copied weather data " + toID + "</br>");
             //   localStorage.setItem('weatherdata', jsondeets); don'copy add copied weather to weatherdata //bkk2 not saving wdata for copies
             countWdata();
-
+        
         }
-
-    });
+        
+    });  
 
 }
 
@@ -2799,7 +2947,7 @@ function countWdata() {
 
 }
 
-function callWeather(latlng, ID, type) {
+function callWeather(latlng,ID,type)  {
     var lat = latlng[0];
     var lng = latlng[1];
     var epoch = Math.round(new Date().getTime() / 1000);
@@ -2812,12 +2960,12 @@ function callWeather(latlng, ID, type) {
     if (ct == null) {
         ct = 0;
     }
-
+   
     var ct2 = 0;
     var wdata = localStorage.getItem('weatherdata');
     if (wdata != null) {
         var wdata_json = eval('(' + wdata + ')');
-
+         
         $.each(wdata_json.wdata, function (i, wd) {
             if (ID != wd.ID) {
                 weather_deets.wdata.push({
@@ -2842,13 +2990,13 @@ function callWeather(latlng, ID, type) {
                 weather_deets.wdata.push({
                     "ID": ID,
                     "lat": lat,
-                    "lng": lng,
+                    "lng": lng, 
                     "timestamp": epoch,
                     "datestr": moment().format("MMM Do YYYY, h:mm:ss a")
                 });
                 //alert("pushed last  "+ ID + "ct=" + ct + "ct2=" + ct2);
                 var jsondeets = JSON.stringify(weather_deets);
-                RealCallWeather(latlng, ID, type);
+                RealCallWeather(latlng,ID,type);
                 $('#location').append("Writing Weather data 2 = " + ID + "</br>");
                 localStorage.setItem('weatherdata', jsondeets);
                 //   $('#location').append("Retrieved weather for " + ID + "</br>");
@@ -2858,24 +3006,24 @@ function callWeather(latlng, ID, type) {
                 //   alert("push=" + wd.ID);
             } else {
                 //    alert("not push=" + wd.ID);
-            }
-
+            }         
+         
             //ct--;
-
-        });
-
+        
+        });  
+    
     } else {
         // alert("push " + ID);
         weather_deets.wdata.push({
             "ID": ID,
             "lat": lat,
-            "lng": lng,
+            "lng": lng, 
             "timestamp": epoch,
             "datestr": moment().format("MMM Do YYYY, h:mm:ss a")
         });
-
+    
         var jsondeets = JSON.stringify(weather_deets);
-        RealCallWeather(latlng, ID, type);
+        RealCallWeather(latlng,ID,type);
         $('#location').append("Writing Weather data = " + ID + "</br>");
         localStorage.setItem('weatherdata', jsondeets);
         //alert("get weather 1   " +ID + weather_deets);
@@ -2884,16 +3032,17 @@ function callWeather(latlng, ID, type) {
 
         countWdata();
     }
-
+    
     // alert(wdata_json);
-
+        
     //localStorage.getItem('loc');
     //"37.833,-122.483";
     //"56.052,-2.732";
     // alert(latlng);
-}
-function RealCallWeather(latlng, ID, type) {
+}   
 
+function RealCallWeather(latlng, ID, type) {
+   
     $.ajax({
         type: "GET",
         url: "http://api.wunderground.com/api/bf45926a1b878028/hourly/geolookup/q/" + latlng + ".json",
@@ -2905,11 +3054,19 @@ function RealCallWeather(latlng, ID, type) {
         success: function (json) {
             //var jsontxt = eval('(' + json + ')');
 
+            
+            var key = "location.nearby_weather_stations";
+            delete json['location']['nearby_weather_stations'];
             var jsontext = JSON.stringify(json);
             var location = json['location']['city'];
-            console.log("Retrieved weather for " + location + "  " + ID + "</br>");
+            console.log(jsontext);
             if (type == "map") {
                 localStorage.setItem(ID + '_weather_map', jsontext);
+                var zoom = localStorage.getItem("zoommap");
+                if (zoom >= 12) {
+                    copyMapWeather(ID);
+                }
+                //copyMapWeather(ID);
             } else {
                 localStorage.setItem(ID + '_weather_act', jsontext);
             }
@@ -2924,7 +3081,7 @@ function RealCallWeather(latlng, ID, type) {
             calcStarsInline(ID, 24, type);
             drawWeather(ID, type);
             $('#refreshBtnW').show();
-
+         
             //add ajax timeout as per lb, stop timer
         },
         error: function (xhr, error) {

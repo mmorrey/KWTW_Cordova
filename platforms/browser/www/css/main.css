@@ -95,8 +95,7 @@ td.alnright { text-align: right; }
 	-moz-border-radius: 150px;
 	border: 1px solid #2fb4c8;
     display: block;
-    margin-left: auto;
-    margin-right: auto
+    margin-left: 0px;
 }
       
 .circular_sml {
@@ -111,8 +110,8 @@ td.alnright { text-align: right; }
 }
 
 .circular_pfl {
-	width: 35px;
-	height: 35px;
+	width: 26px;
+	height: 26px;
 	border-radius: 50%;
 	overflow: hidden;
     -webkit-border-radius: 150px;
@@ -121,7 +120,28 @@ td.alnright { text-align: right; }
 	margin-left:10px;
 }
 
-      
+.circular_pfl_on {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	overflow: hidden;
+    -webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	border: 2px solid #00a541;
+	margin-left:10px;
+}
+
+.circular_pfl_off {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	overflow: hidden;
+    -webkit-border-radius: 150px;
+	-moz-border-radius: 150px;
+	border: 2px solid #DC143C;
+	margin-left:10px;
+}
+
 .circular {
 	width: 135px;
 	height: 135px;
@@ -189,7 +209,11 @@ td.alnright { text-align: right; }
   	border: 0;
   	border-top: 1px solid #151515;
   	
-	margin-top:1px;
+	margin-top:0px;
+}
+
+.row_h {
+
 }
 
 .dash-unit h1 {
@@ -652,11 +676,33 @@ digiclock {
 
 }    
 
+.status_on {
+    position: absolute;
+    right: 99px;
+    color: #00a541;
+    z-index: 300;
+    top: 34px;
+    font-size: 8px
+}    
+
+.status_off {
+    position: absolute;
+    right: 99px;
+    color: #DC143C;
+    z-index: 300;
+    top: 34px;
+    font-size: 8px
+}    
+
+.online {
+
+}
+
 .profile {
     position: absolute;
     right: 98px;
     z-index: 300;
-    top: 5px
+    top: 8px
 
 }    
 
@@ -736,6 +782,18 @@ digiclock {
     top: 3px;
     color: #999;
 }
+
+.framemail .window .mail li .sel {
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    left: 0px;
+    position: absolute;
+    top: 3px;
+    color: white;
+}
+
+
 
 .framemail .window .mail li .sel {
     font-size: 14px;

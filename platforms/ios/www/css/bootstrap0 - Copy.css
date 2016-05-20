@@ -382,8 +382,6 @@ img {
   border-radius: 50%;
 }
 
-
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -397,7 +395,7 @@ img {
 
 p {
   margin: 0px;
-  text-align: center
+  text-overflow:ellipsis
 }
 
 .lead {
@@ -753,12 +751,10 @@ pre code {
 }
 
 .container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
+  padding-right: 10px;
+  padding-left: 10px;
 
+}
 
 .container:before,
 .container:after {
@@ -1415,18 +1411,6 @@ th {
   margin-bottom: 20px;
 }
 
-.un_sel {
-
-}
-
-.sel {
-  background-color: rgba(115, 216, 0, 0.12);
-}
-
-.sel_p {
-  background-color: rgba(255, 0, 0, 0.21);
-}
-
 .table thead > tr > th,
 .table tbody > tr > th,
 .table tfoot > tr > th,
@@ -1458,7 +1442,7 @@ th {
 }
 
 .table .table {
-  background-color: #ffffff;
+
 }
 
 .table-condensed thead > tr > th,
@@ -1490,7 +1474,7 @@ th {
 
 .table-striped > tbody > tr:nth-child(odd) > td,
 .table-striped > tbody > tr:nth-child(odd) > th {
-  background-color: rgba(5, 5, 5, 0.2);
+  background-color: black;
 }
 
 .table-striped > tbody > tr.un_sel {
@@ -2112,8 +2096,8 @@ fieldset[disabled] .btn-default.active {
 
 .btn-primary {
   color: #ffffff;
-   background-color: rgba(32, 32, 32, 0.54);
-  border-color: rgb(0, 48, 92);
+  background-color: #428bca;
+  border-color: #357ebd;
 }
 
 .btn-primary:hover,
@@ -2245,8 +2229,8 @@ fieldset[disabled] .btn-danger.active {
 .btn-success.active,
 .open .dropdown-toggle.btn-success {
   color: #ffffff;
-  background-color: rgba(32, 32, 32, 0.54);
-  border-color: rgb(6, 48, 92)
+  background-color: #47a447;
+  border-color: #398439;
 }
 
 .btn-success:active,
