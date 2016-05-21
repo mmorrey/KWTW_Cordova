@@ -39,8 +39,8 @@ var app = {
     },
    
     onDeviceReady: function () {
-        //alert("ready");
-        reportOnlineStatus();
+      //  alert("ready");
+      //  reportOnlineStatus();
         checkData();
         //var ol = isOnLine();
         
@@ -352,6 +352,7 @@ function checkLoc() {
       //  alert(error.message);
         $('#winfomap').html("Location not available");
         var lat = localStorage.getItem("latmap");
+        alert(lat);
         if (lat == null) {
             showmap(11, 48.14, 17.11);
         } else {
@@ -785,32 +786,38 @@ function removeOldweather() {
 }
 
 function checkData() {
-
+    var today2 = Math.floor(moment() / 1000);
+    localStorage.setItem("sub", today2);
+  
     $('#info').hide();
     $('#locIcon').hide();
     $('#status_area').hide();
-    removeOldweather()
+   // removeOldweather()
     var sub = localStorage.getItem("sub");
-    var sub2 = new Date(sub);
-
-    //var ExpDate = new Date();
-    var today = new Date();
+    
+    var credits = localStorage.getItem("credits");
     var pass = false;
     if (sub == null) { //not auth
         pass = true;
 
     } else { //has logged in before 
-        var LoginDate = localStorage.getItem("sub");
-        var ExpDate = new Date();
-        ExpDate = LoginDate;
-        // to add 4 days to current date
-        ExpDate = moment(LoginDate).add(6, 'days');
-        var sdate = new Date('01/MAY/2016');
-        var diff = ExpDate - today;
-        // alert(moment(ExpDate).isAfter(today, 'day') + " " + sdate);
-        if (ExpDate > today) {
+        var ExpDate = parseInt(604800) + parseInt(sub) //Math.floor(moment(sub).add(7, 'days') / 1000);   
+        var today2 = Math.floor(moment() / 1000);
+        var diff = parseInt(ExpDate - today2);
+        var edays = Math.floor(diff / 86400);
+        var estr;
+        if (edays == 0) {
+            estr = "tomorrow.";
+        } else {
+            estr = "in " + edays + " days."
+        }
+        var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
+      
+        if (diff > 0) {
             //not expired
             $('#status_msgs').append("Trial period expires on " + ExpDate);
+            $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
+            $('#credits_no').html(credits);
             //localStorage.setItem("sub", LoginDate);
             pass = true;
         } else {
@@ -838,8 +845,8 @@ function checkData() {
             $('#menu_buttons').hide();
             $('#deets_tile').hide();
         } else {
-
-            countWdata();
+         
+           // countWdata();
             var data = localStorage.getItem("userdata");
             var wdata = localStorage.getItem("weatherdata");
             var acts = localStorage.getItem("starsdata");
@@ -1198,10 +1205,9 @@ function drawTable(type) {
     $('#my_activities').show();
     $('#deets_tile').hide();
     $('#menubtns').show();
-    $('#Hrsdd').show();
     $('#refreshBtn').show();
     var fav = false;
-
+    alert(type);
     if (type == "favs") {
         fav = true;
     } else if (type == "kom") {
@@ -1226,6 +1232,7 @@ function drawTable(type) {
         $.each(j2.segs, function (i, seg) {
             var seg_ct = 0;
             LB = true
+        //    alert(seg.ID + "," + i + " b " + type);
             midhtml = midhtml + "<tr id=\"trow_" + seg.ID + "\" class=\"un_sel\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px\">" + seg.name + "</div>" +
                    "<div style=\"display:inline-block;padding-left:3px\" id=\"stars_" + seg.ID + "\"></div><div style=\"display:inline-block\" id=\"stars_best_" + seg.ID + "\"></div></td></tr>";
 
@@ -2966,11 +2973,8 @@ function stConn2() {
 
             var timex = 30000;
 
-            var sub = localStorage.getItem("sub");
-            //var ExpDate = new Date();
-            var today = new Date();
-            var pass = false;
-            localStorage.setItem("sub", today)
+            var sub = Math.floor(moment().add(0, 'days') / 1000);
+            localStorage.setItem("sub", sub);
 
             var timerst = setInterval(function () { closeStatus() }, timex); //rem bkk2
             function closeStatus() {
@@ -3025,7 +3029,7 @@ function checkServerStatus(stravaID) {
             var LoginDate = parsed_json.ustatus[0]['FirstLogin'];
             localStorage.setItem('credits', credits);
 
-            ExpDate = Math.floor(moment(LoginDate, "DD-MM-YYYYY").add(7, 'days') / 1000);
+            var ExpDate = Math.floor(moment(LoginDate, "DD-MM-YYYYY").add(7, 'days') / 1000);
 
             var LoginDate2 = new Date(LoginDate)
             var today2 = Math.floor(moment() / 1000);
@@ -3038,7 +3042,7 @@ function checkServerStatus(stravaID) {
                 estr = "in " + edays + " days."
             }
             var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
-            console.log(ExpDate + " " + today2 + " " + diff + " " + edays);
+          //  alert(ExpDate + " " + today2 + " " + diff + " " + edays);
 
             //  ExpDate = moment(LoginDate).add(7, 'days');
             if (diff > 0) {
