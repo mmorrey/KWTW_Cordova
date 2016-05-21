@@ -2235,8 +2235,9 @@ fieldset[disabled] .btn-danger.active {
 
 .btn-success {
   color: #ffffff;
-  background-color: #5cb85c;
-  border-color: #4cae4c;
+  background-color: rgb(32, 32, 32);
+  border-color: rgb(6, 48, 92)
+
 }
 
 .btn-success:hover,

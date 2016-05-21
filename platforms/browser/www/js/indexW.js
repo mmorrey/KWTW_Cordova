@@ -2977,21 +2977,22 @@ function stConn2() {
                 clearInterval(timerst);
                 $('#status_msgs').append("</br>Done .... stand by");
 
-                console.log(timex + " seconds up")
-                // weatherSeg();
-                drawTable("stars");
-                $('#UnAuthApp').hide();
-
+                //console.log(timex + " seconds up")
+                //// weatherSeg();
+                //drawTable("stars");
+                //$('#UnAuthApp').hide();
+                //reportOnlineStatus();
 
                 var timerst2 = setInterval(function () { dispstarst() }, 2000);
                 function dispstarst() {
-                    clearInterval(timerst2);
-                    $('#status_msgs').hide();
-                    $('#status_area').hide();
+                    //clearInterval(timerst2);
+                    //$('#status_msgs').hide();
+                    //$('#status_area').hide();
 
-                    $('#menu_buttons').show();
+                    //$('#menu_buttons').show();
 
-                    displayStars(3);
+                    //displayStars(3);
+                    checkData();
 
                 }
 
@@ -3014,8 +3015,8 @@ function stConn2() {
 function checkServerStatus(stravaID) {
     $.ajax({
         type: "POST",
-        //url: "http://komwiththewind.apphb.com/Home/Ustatus",
-        url: "/Home/Ustatus",
+        url: "http://komwiththewind.apphb.com/Home/Ustatus",
+        //url: "/Home/Ustatus",
         dataType: "json",
         timeout: 20000,
         data: "StravaID=" + stravaID,
@@ -3042,7 +3043,7 @@ function checkServerStatus(stravaID) {
             //  ExpDate = moment(LoginDate).add(7, 'days');
             if (diff > 0) {
                 //not expired
-                $('#status_msgs').append("Trial period expires on " + ExpDate);
+                $('#status_msgs').append("Trial period expires " + estr + " <br/");
                 //localStorage.setItem("sub", LoginDate);
                 $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
                 $('#credits_no').html(credits);
