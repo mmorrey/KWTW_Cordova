@@ -93,9 +93,10 @@ td.alnright { text-align: right; }
 	overflow: hidden;
     -webkit-border-radius: 150px;
 	-moz-border-radius: 150px;
-	border: 1px solid #2fb4c8;
+	border: 2px solid #2fb4c8;
     display: block;
-    margin-left: 0px;
+     margin-left: auto;
+    margin-right: auto
 }
       
 .circular_sml {

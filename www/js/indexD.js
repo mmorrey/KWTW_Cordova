@@ -628,62 +628,6 @@ function backAct() {
 
 }
 
-function getFriends() {
-    showKOMsTile();
-    var frdata = localStorage.getItem('frdata');
-    if (frdata != null) {
-        drawFriends();
-
-    } else {
-   
-        stFriends(); //changed
-    }
-}
-
-function showFriend(ID, name, i) {
-
-    $('#friend_info').show();
-    $('#friend_tile_title').html("<dtitle>KOMS: " + name + "</dtitle>");
-    $('#deets_tile').hide();
-    $('#seg_weather').hide();
-    $('#pills_row').hide()
-    $('#seg_efforts').hide();
-    $('#seg_leaderboard').hide();
-    $('table tbody tr').each(function (index, el) {
-        $(this).siblings().removeClass('sel');
-    });
-
-    jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel');
-    localStorage.setItem("frID", ID);
-    var type = "kom";
-    var top = "<table class=\"table table-striped\">";
-    var json = localStorage.getItem('komdata_' + ID);
-    var frID = ID;
-    var j2 = eval('(' + json + ')');
-    var midhtml = "";
-    var act_ct = 0;
-    //get count from storage, update with seg efforts
-    var LB = false;
-    var firstID;
-    var n;
-    var name;
-    $.each(j2.segs, function (i, seg) {
-        var date = formatTime(seg.time);
-        var date = formatTime(seg.time);
-        midhtml = midhtml + "<tr id=\"trow_" + seg.ID + "\" class=\"un_sel\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type + "', " + frID + ")\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + seg.name + "</div>" +
-                   "<div class=\"msg_sml\" style=\"padding-left:3px\">" + date + "</div></td></tr>";
-        act_ct++;
-
-    });
-
-
-    var ht = parseInt((act_ct * 50) + 18); //56
-    $('#friend_tile').height(ht);
-    // alert(firstID)
-    //poly2(firstID, n, name, type, frID);   
-    $('#friend_tile_list').html(top + midhtml + "</table></div>");
-
-}
 
 function showLeader(ID, type) {
     console.log("show leader" + ID);
@@ -707,7 +651,7 @@ function showLeader(ID, type) {
     if (lbdata == null) {
         $('#seg_leaderboard').show();
       
-        if (isOnLine()) {
+        if (devOnline == true) {
             $('#lbdata').html("Retrieving Leaderboard ...");
             stLeader(ID, type);
         } else {
@@ -719,7 +663,6 @@ function showLeader(ID, type) {
         console.log("local lb data");
         drawLeaderboard(ID,type); //changed
     }
-}
 }
 
 function showEfforts(ID, type, frID) {
@@ -1000,7 +943,7 @@ function poly2(ID, i, scroll, type, frID) {
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ",'" + type + "', " + frID +")\">" + frStr + "</button>" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
 "</div></div>");
-        showLeader(ID, type);
+       // showLeader(ID, type);
         //showHistweather(ID, type, true, "one")
     }
     drawMap(pl);
@@ -2918,6 +2861,19 @@ function countKOMs(ID) {
 function countSegs() {
     var ct = 0;
     var str = "_seg_efforts";
+    for (var i = 0; i < localStorage.length; i++) {
+        //  if (localStorage.key(i) == 'weatherdata') {
+        if (localStorage.key(i).indexOf(str) > -1) {
+            ct++;
+        }
+    }
+    return ct;
+}
+
+
+function countFavs() {
+    var ct = 0;
+    var str = "_fav";
     for (var i = 0; i < localStorage.length; i++) {
         //  if (localStorage.key(i) == 'weatherdata') {
         if (localStorage.key(i).indexOf(str) > -1) {

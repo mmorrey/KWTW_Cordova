@@ -81,7 +81,7 @@
             <div id="onlineStatus" class="status_on">Online</div>
 
             <div id="pic_header" class="profile" style="display:none"></div>
-            <div id="logo_header" class="logoimg" onclick="checkServerStatus(10375624)"><img style="width:auto;height: 42px;" src="img/kom_logo_db.png" /></div>
+            <div id="logo_header" class="logoimg" onclick="drawTable('stars')"><img style="width:auto;height: 42px;" src="img/kom_logo_db.png" /></div>
             <div style="height:50px"></div>
             <div id="Statusreport" style="display:none">
                 <div class="row">
@@ -214,7 +214,7 @@
                     </div>
 
                         <div class="col-xs-12 col-sm-12 col-lg-6">
-                            <div class="dash-unit" style="height:400px">
+                            <div class="dash-unit" style="height:100px">
                                 <dtitle>Settings</dtitle>
                                 <hr>
                                 <div class="text-center">
@@ -331,9 +331,8 @@
 
 
                         <div class="dash-unit" id="tableback">
-                            <dtitle>Segments Starred on Strava</dtitle>
-
-
+                            <div id="act_tile_title"></div>
+                            <hr>
                             <div style="position:absolute;left:13px;padding-right:10px" class="msg_sml" id="winfo">
                                 <div style="height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px" class="fa fa-2x fa-cog fa-spin"></div>
                                 <div style="display:inline-block;margin-bottom:8px">&nbsp;Calculating ...</div>
@@ -353,28 +352,20 @@
                     </div><!-- /dash-unit -->
                 </div><!-- /span3 -->
   
-                        <div id="friend_info" style="display:none">
+                <div id="friend_info" style="display:none">
 
-                            <div class="col-xs-12 col-sm-12 col-lg-6">
-                                <!-- LOCAL TIME BLOCK -->
-                                <div class="dash-unit" style="height:500px" id="friend_tile">
-                                    <div class="framemail">
-                                        <div id="friend_KOM_table">
-                                            <div class="text-center">
-                                                &nbsp;
-                                                <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
-                                                <div id="actMsgs"></div>
-                                            </div>
-                                        </div>
+                    <div class="col-xs-12 col-sm-12 col-lg-6">
+                        <!-- LOCAL TIME BLOCK -->
+                        <div class="dash-unit" style="height:500px" id="friend_tile">
+                            <div id="friend_tile_title"></div>
+                            <hr>
+                            <div id="friend_tile_list"></div>
 
-                                    </div>
-
-
-
-                                </div>
-                            </div>
 
                         </div>
+                    </div>
+
+                </div>
 
                         <div class="col-xs-12 col-sm-12 col-lg-6" id="deets_tile" style="display:none">
                             <div>
@@ -510,10 +501,11 @@
         
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/indexD.js"></script>
         <script type="text/javascript" src="js/indexW.js"></script>
         <script type="text/javascript" src="js/oauth.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
-        <script type="text/javascript" src="js/indexD.js"></script>
+
 
         <script type="text/javascript" src="js/markerclusterer.js"></script>
 
