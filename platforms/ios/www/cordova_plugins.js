@@ -89,6 +89,14 @@ module.exports = [
         "clobbers": [
             "window.iap"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "id": "cordova-plugin-statusbar.statusbar",
+        "pluginId": "cordova-plugin-statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -102,7 +110,8 @@ module.exports.metadata =
     "cordova-plugin-geolocation": "2.2.1-dev",
     "cc.fovea.cordova.purchase": "4.0.0",
     "cordova-plugin-inapppurchase": "1.0.0",
-    "cordova-plugin-payment-iap": "2.0.48"
+    "cordova-plugin-payment-iap": "2.0.48",
+    "cordova-plugin-statusbar": "2.1.3"
 }
 // BOTTOM OF METADATA
 });

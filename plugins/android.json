@@ -28,6 +28,9 @@
         },
         "cordova-plugin-inapppurchase": {
             "PACKAGE_NAME": "com.kwtw.kw1"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.kwtw.kw1"
         }
     },
     "dependent_plugins": {

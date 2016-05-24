@@ -526,7 +526,7 @@ function setMarkers(map, bounds_map, PID) {
                 } else if (markers.PID == 1) {
                     //   var image = 'marker_search.png';
                 } else {
-                    var image = '/Content/map_marker_start.png';
+                    var image = 'img/map_marker_start.png';
                 }
                 //var infoWindow = new google.maps.InfoWindow({ content: 'Place ID' + markers.PID });
                 var siteLatLng = new google.maps.LatLng(markers.lat, markers.longval);
@@ -549,9 +549,10 @@ function setMarkers(map, bounds_map, PID) {
                     //$('#map_markers').fadeOut().html("<p>Click: " + markers.name + markers.PID + "</p>").fadeIn();
 
                     //highlight table entry
+                    var image = 'img/map_marker_end.png';
                     var marker_end = new google.maps.Marker({ 'position': endLatLng, 'map': map, 'icon': image });
                   
-                    var images = '/Content/map_marker_end.png';
+                   
                     addPolyline(returnpoly(markers.points)).setMap(map);
                     $('table tbody tr').each(function (index, el) {
 
@@ -650,18 +651,18 @@ function showLeader(ID, type) {
     ctx2d.fillRect(0, 0, 350, 2000);
     if (lbdata == null) {
         $('#seg_leaderboard').show();
-      
-        if (devOnline == true) {
+
+        if (isOnLine() == true) {
             $('#lbdata').html("Retrieving Leaderboard ...");
             stLeader(ID, type);
         } else {
             $('#lbdata').html("Device is offline.");
         }
-       
+
         console.log("no local lb data");
     } else {
         console.log("local lb data");
-        drawLeaderboard(ID,type); //changed
+        drawLeaderboard(ID, type); //changed
     }
 }
 

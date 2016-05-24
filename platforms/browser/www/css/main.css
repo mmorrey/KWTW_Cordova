@@ -39,7 +39,8 @@ h3,h4 , h5 {
 }
 
 h2{
-	font-size:22px;
+	font-size:14px;
+    color:rgba(138, 0, 0, 0.87)
 }
 
 h3 {
@@ -231,14 +232,11 @@ td.alnright { text-align: right; }
 }
 
 .dash-unit h2 {
-	font-family: 'Open Sans', sans-serif;
-	font-weight: bold;
-	font-size: 30px;
-	line-height: 26px;
+	font-size: 16px;
+	color:rgba(138, 0, 0, 0.87);
 	letter-spacing: 0px;
-	color: #ffffff;
-	padding-top:10px;
-	padding-left:5px;
+	padding-top:5px;
+	
 	margin-top:2px;
 	text-align:center;
 }
