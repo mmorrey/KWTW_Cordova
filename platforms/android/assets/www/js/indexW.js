@@ -126,7 +126,7 @@ function listSub() {
             var p = result[i];
 
             product_info[p["productId"]] = { title: p["title"], price: p["price"] };
-            $('#pmsg').append("Loaded: " + p["title"]);
+           // $('#pmsg').append("Loaded: " + p["title"]);
         }
     }, function (error) {
         alert("error: " + error);
@@ -134,12 +134,12 @@ function listSub() {
 }
 
 var androidApplicationLicenseKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB";
-var productIds = "sub1year";
+var productIds = "sub1yearl1";
 var existing_purchases = [];
 var product_info = {};
 
-function purchaseProduct() {
-    var productId = "sub1year";
+function purchaseProduct(productId) {
+    //var productId = "sub1year";
     var userdata = localStorage.getItem('userdata');
     var user = eval('(' + userdata + ')');
     var stravaID = user.deets[0]['stravaID'];
@@ -148,11 +148,11 @@ function purchaseProduct() {
     window.iap.purchaseProduct(productId, function (result) {
         //alert("purchaseProduct");
         //alert(JSON.stringify(result));
-        var payID = "dskfdsfgdssd944may6";
+        
         savePmt(stravaID, result.orderId);
         localStorage.setItem("credits", "4000000");
         $('#pmsg').html("Thank you for your subscription");
-        $('#pmsg').append("OID= " + result.orderId + " " + JSON.stringify(result));
+       // $('#pmsg').append("OID= " + result.orderId + " " + JSON.stringify(result));
         //checkData();
     },
     function (error) {
@@ -859,15 +859,10 @@ function isPhoneGap() {
 
 
 function checkData() {
-
-
-    //var today2 = Math.floor(moment() / 1000);
-    //localStorage.setItem("sub", today2);
     removeOldweather();
     $('#info').hide();
     $('#locIcon').hide();
     $('#status_area').hide();
-    countWdata();
     var purch = 0;
 
     if (isPhoneGap()) {
@@ -883,6 +878,8 @@ function checkData() {
 
         purch = localStorage.getItem("OneYrSub");
     }
+    $('#pmsg').append("<br/>is PG:" + isPhoneGap());
+    $('#pmsg').append("<br/>Putch:" + sub);
     if (purch == "1") {
         //++credits
         localStorage.setItem("credits", "3000000");
@@ -1165,13 +1162,13 @@ function showKOMsTile() {
 }
 
 function showSettingsTile() {
-    listSub();
-    var timer = setInterval(function () { startDecode() }, 1000);
-    function startDecode() {
-        clearInterval(timer);
-        restorePurchases();
+ //   listSub();
+    //var timer = setInterval(function () { startDecode() }, 1000);
+    //function startDecode() {
+    //    clearInterval(timer);
+   //     restorePurchases();
 
-    }
+   // }
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();

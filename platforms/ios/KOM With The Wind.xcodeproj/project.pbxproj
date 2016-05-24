@@ -29,7 +29,7 @@
 		B6C8D37EFE9E4B1C8C7E1651 /* RMStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D05B2C2B65994501B2C5566A /* RMStore.m */; };
 		7EABBE4429804C8F9428D6FE /* PaymentsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 84133F83A2C944DD96FDD88E /* PaymentsPlugin.m */; };
 		51F850002DA14696A5DFB191 /* IAP.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BD920C4EBE4A938BA6210E /* IAP.m */; };
-		EA54335F1DB2486B885EC05A /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = ABBECB8E18814161A2D3E324 /* CDVStatusBar.m */; };
+		2D6E9F23B9C14C8BAF39091A /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 873C629459B04F39A922C5D1 /* CDVStatusBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,8 +94,8 @@
 		A4BD920C4EBE4A938BA6210E /* IAP.m */ = {isa = PBXFileReference; name = "IAP.m"; path = "cordova-plugin-payment-iap/IAP.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		2752BFDB180C4F4A9985726A /* IAP.h */ = {isa = PBXFileReference; name = "IAP.h"; path = "cordova-plugin-payment-iap/IAP.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		E3C7E41E69564C09A6545271 /* IAPDebugLog.h */ = {isa = PBXFileReference; name = "IAPDebugLog.h"; path = "cordova-plugin-payment-iap/IAPDebugLog.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
-		ABBECB8E18814161A2D3E324 /* CDVStatusBar.m */ = {isa = PBXFileReference; name = "CDVStatusBar.m"; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
-		060D83026AAC475986879066 /* CDVStatusBar.h */ = {isa = PBXFileReference; name = "CDVStatusBar.h"; path = "cordova-plugin-statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		873C629459B04F39A922C5D1 /* CDVStatusBar.m */ = {isa = PBXFileReference; name = "CDVStatusBar.m"; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		DDCD624581F7458BA7F55E24 /* CDVStatusBar.h */ = {isa = PBXFileReference; name = "CDVStatusBar.h"; path = "cordova-plugin-statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,8 +227,8 @@
 				A4BD920C4EBE4A938BA6210E /* IAP.m */,
 				2752BFDB180C4F4A9985726A /* IAP.h */,
 				E3C7E41E69564C09A6545271 /* IAPDebugLog.h */,
-				ABBECB8E18814161A2D3E324 /* CDVStatusBar.m */,
-				060D83026AAC475986879066 /* CDVStatusBar.h */,
+				873C629459B04F39A922C5D1 /* CDVStatusBar.m */,
+				DDCD624581F7458BA7F55E24 /* CDVStatusBar.h */,
 			);
 			name = Plugins;
 			path = "KOM With The Wind/Plugins";
@@ -353,7 +353,7 @@
 				B6C8D37EFE9E4B1C8C7E1651 /* RMStore.m in Sources */,
 				7EABBE4429804C8F9428D6FE /* PaymentsPlugin.m in Sources */,
 				51F850002DA14696A5DFB191 /* IAP.m in Sources */,
-				EA54335F1DB2486B885EC05A /* CDVStatusBar.m in Sources */,
+				2D6E9F23B9C14C8BAF39091A /* CDVStatusBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
