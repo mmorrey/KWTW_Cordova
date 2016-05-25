@@ -44,7 +44,8 @@ var app = {
    //     $('#menu_buttons').show();
       //  getFriends();
         //
-       checkData();
+      //  appPurchChk()
+       checkData("1");
         //var ol = isOnLine();
         
         //if (ol == true) {
@@ -867,9 +868,34 @@ function isPhoneGap() {
 
 }
 
+function appPurchChk() {
+    listSub();
+    var purch = "0";
+    $('#pmsg').append("<br/>Purch0:" + purch);
+
+    var timer = setInterval(function () { startPchk1() }, 1000);
+    function startPchk1() {
+        clearInterval(timer);
+        restorePurchases();
+        $('#pmsg').append("<br/>Purch1:" + purch);
+
+        var timer = setInterval(function () { startPchk2() }, 1000);
+        function startPchk2() {
+            clearInterval(timer);
+            var purch = localStorage.getItem("OneYrSub");
+            $('#pmsg').append("<br/>Purch2:" + purch);
+
+            checkData(purch);
+        }
+
+    }
+    
+}
 
 
-function checkData() {
+function checkData(purch) {
+    $('#pmsg').append("<br/>Purch3:" + purch);
+
     removeOldweather();
     $('#info').hide();
     $('#locIcon').hide();
@@ -881,20 +907,6 @@ function checkData() {
     //    purch = "1";
     //} else {
     //    alert(isPhoneGap());
-    listSub();
-    restorePurchases();
-        var timer = setInterval(function () { startPchk() }, 500);
-        function startPchk() {
-            clearInterval(timer);
-            var purch = localStorage.getItem("OneYrSub");
-
-        }
-
-        
-    //}
-    //$('#pmsg').append("<br/>is PG:" + isPhoneGap());
-        alert(purch);
-    $('#pmsg').append("<br/>Putch:" + purch);
     if (purch == "1") {
         //++credits
         localStorage.setItem("credits", "3000000");
