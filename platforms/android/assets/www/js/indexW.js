@@ -44,8 +44,8 @@ var app = {
    //     $('#menu_buttons').show();
       //  getFriends();
         //
-        appPurchChk()
-      // checkData("1");
+      //  appPurchChk()
+       checkData("0");
         //var ol = isOnLine();
         
         //if (ol == true) {
@@ -144,7 +144,7 @@ function purchaseProduct(productId) {
     var userdata = localStorage.getItem('userdata');
     var user = eval('(' + userdata + ')');
     var stravaID = user.deets[0]['stravaID'];
-    $('#pmsg').append(stravaID);
+  //  $('#pmsg').append(stravaID);
     //purchase product id, put purchase product id info into server.
     window.iap.purchaseProduct(productId, function (result) {
         //alert("purchaseProduct");
@@ -871,19 +871,19 @@ function isPhoneGap() {
 function appPurchChk() {
     listSub();
     var purch = "0";
-    $('#pmsg').append("<br/>Purch0:" + purch);
+    $('#pmsg2').append("<br/>Purch0:" + purch);
 
     var timer1 = setInterval(function () { startPchk1() }, 1000);
     function startPchk1() {
         clearInterval(timer1);
         restorePurchases();
-        $('#pmsg').append("<br/>Purch1:" + purch);
+        $('#pmsg2').append("<br/>Purch1:" + purch);
 
         var timer2 = setInterval(function () { startPchk2() }, 1000);
         function startPchk2() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
-            $('#pmsg').append("<br/>Purch2:" + purch);
+            $('#pmsg2').append("<br/>Purch2:" + purch);
 
             checkData(purch);
         }
@@ -894,13 +894,13 @@ function appPurchChk() {
 
 
 function checkData(purch) {
-    $('#pmsg').append("<br/>Purch3:" + purch);
+    $('#pmsg2').append("<br/>Purch3:" + purch);
 
     removeOldweather();
     $('#info').hide();
     $('#locIcon').hide();
     $('#status_area').hide();
-   // var purch = 0;
+    // var purch = 0;
 
     //if (isPhoneGap()) {
     //    alert(isPhoneGap());
@@ -909,6 +909,7 @@ function checkData(purch) {
     //    alert(isPhoneGap());
     if (purch == "1") {
         //++credits
+        var sub = localStorage.getItem("sub");
         localStorage.setItem("credits", "3000000");
         var data = localStorage.getItem("userdata");
         var wdata = localStorage.getItem("weatherdata");
@@ -945,7 +946,7 @@ function checkData(purch) {
         $('#table_calc_area2').hide();
         if (acts.length > 40) {
             getAct("stars");
-            $('#pmsg').append("<br/>" + sub);
+            $('#pmsg').append("<br/>Sub:" + sub);
 
             // dispStarsChk();
         } else {
@@ -954,61 +955,63 @@ function checkData(purch) {
         updateUser(firstname, lastname, stravaID);
 
     } else {
+        var udata = localStorage.getItem("userdata");
+        alert(udata);
+        if (udata == null) {
+            $('#UnAuthApp').show();
+            $('#onlineStatus').hide();
+            $('#status_area').show();
+            $('#status_msgs').show();
+            $('#status_msgs').append("Not connected");
+            
+            $('#pic_header').hide();
+            $('#logo_header').hide();
+            $('#menu_buttons').hide();
+            $('#deets_tile').hide();
 
-        var sub = localStorage.getItem("sub");
-
-        var credits = localStorage.getItem("credits");
-        var pass = false;
-        if (sub == null) { //not auth
-            pass = true;
-
-        } else { //has logged in before 
-            var ExpDate = parseInt(604800) + parseInt(sub) //Math.floor(moment(sub).add(7, 'days') / 1000);   
-            var today2 = Math.floor(moment() / 1000);
-            var diff = parseInt(ExpDate - today2);
-            var edays = Math.floor(diff / 86400);
-            var estr;
-            if (edays == 0) {
-                estr = "tomorrow.";
-            } else {
-                estr = "in " + edays + " days."
-            }
-            var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
-
-            if (diff > 0) {
-                //not expired
-                $('#status_msgs').append("Trial period expires on " + ExpDate);
-                $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
-                $('#credits_no').html(credits);
-                //localStorage.setItem("sub", LoginDate);
+        } else {
+            var sub = localStorage.getItem("sub");
+                
+            var credits = localStorage.getItem("credits");
+            var pass = false;
+            if (sub == null) { //not auth
                 pass = true;
-            } else {
-                //expired
-                $('#status_msgs').append("Trial expired");
-                //  localStorage.setItem("sub", "expired");
-                // listSub();
-                $('#menu_buttons').hide();
-                $('#profile_settings').hide();
-                $('#profile_tile').show();
-                $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
-                pass = false;
 
+            } else { //has logged in before 
+                var ExpDate = parseInt(604800) + parseInt(sub) //Math.floor(moment(sub).add(7, 'days') / 1000);   
+                var today2 = Math.floor(moment() / 1000);
+                var diff = parseInt(ExpDate - today2);
+                var edays = Math.floor(diff / 86400);
+                var estr;
+                if (edays == 0) {
+                    estr = "tomorrow.";
+                } else {
+                    estr = "in " + edays + " days."
+                }
+                var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
+
+                if (diff > 0) {
+                    //not expired
+                    $('#status_msgs').append("Trial period expires on " + ExpDate);
+                    $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
+                    $('#credits_no').html(credits);
+                    //localStorage.setItem("sub", LoginDate);
+                    pass = true;
+                } else {
+                    //expired
+                    $('#status_msgs').append("Trial expired");
+                    //  localStorage.setItem("sub", "expired");
+                    // listSub();
+                    $('#menu_buttons').hide();
+                    $('#profile_settings').hide();
+                    $('#profile_tile').show();
+                    $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
+                    pass = false;
+
+                }
             }
-        }
 
-        if (pass == true) {
-            if (localStorage.getItem("userdata") == null) {
-                $('#onlineStatus').hide();
-                $('#status_msgs').show();
-                $('#status_msgs').append("Not connected");
-                $('#UnAuthApp').show();
-                $('#pic_header').hide();
-                $('#logo_header').hide();
-                $('#menu_buttons').hide();
-                $('#deets_tile').hide();
-            } else {
-
-
+            if (pass == true) {
                 var data = localStorage.getItem("userdata");
                 var wdata = localStorage.getItem("weatherdata");
                 var acts = localStorage.getItem("starsdata");
@@ -1055,19 +1058,9 @@ function checkData(purch) {
                 }
             }
 
-
-
-            if (localStorage.getItem('oauthio_provider_strava') === null) {
-                $('#footerMsgS').html("Not Authenticated with Strava. Tap 'Connect to Strava'");
-                $('#UnAuthApp').show();
-
-            } else {
-                $('#AuthApp').show();
-                var userdata = localStorage.getItem('userdata');
-              
-
-            }
         }
+        
+    
 
     }
 }
@@ -3098,7 +3091,7 @@ function stConn2() {
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8')
     OAuth.popup('strava', { cache: true }).done(function (result) {
         // alert(result);
-        console.log(result)
+        //console.log(result)
 
         localStorage.removeItem('userdata');
         // result.me().done(function (data) {
@@ -3145,6 +3138,7 @@ function stConn2() {
             var timex = 30000;
 
             var sub = Math.floor(moment().add(0, 'days') / 1000);
+            alert(sub);
             localStorage.setItem("sub", sub);
 
             var timerst = setInterval(function () { closeStatus() }, timex); //rem bkk2
@@ -3162,12 +3156,12 @@ function stConn2() {
                 function dispstarst() {
                     clearInterval(timerst2);
                     //$('#status_msgs').hide();
-                    //$('#status_area').hide();
+                    $('#status_area').hide();
 
                     //$('#menu_buttons').show();
-
+                    appPurchChk();
                     //displayStars(3);
-                    checkData();
+                   // checkData("0");
 
                 }
 
@@ -3218,14 +3212,14 @@ function checkServerStatus(stravaID) {
             //  ExpDate = moment(LoginDate).add(7, 'days');
             if (diff > 0) {
                 //not expired
-                $('#status_msgs').append("Trial period expires " + estr + " <br/");
+                $('#status_msgs').append("<br/>Trial period expires " + estr + " <br/");
                 //localStorage.setItem("sub", LoginDate);
                 $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
                 $('#credits_no').html(credits);
             } else {
                 //expired
 
-                $('#status_msgs').append("Trial expired");
+                $('#status_msgs').append("</br>Trial expired");
                 //  localStorage.setItem("sub", "expired");
                 // listSub();
                 $('#menu_buttons').hide();
