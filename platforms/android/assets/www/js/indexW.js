@@ -135,7 +135,7 @@ function listSub() {
 }
 
 var androidApplicationLicenseKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB";
-var productIds = "sub1yearl1,sub1yearl2";
+var productIds = "sub1yearl1";
 var existing_purchases = [];
 var product_info = {};
 
@@ -873,15 +873,15 @@ function appPurchChk() {
     var purch = "0";
     $('#pmsg').append("<br/>Purch0:" + purch);
 
-    var timer = setInterval(function () { startPchk1() }, 1000);
+    var timer1 = setInterval(function () { startPchk1() }, 1000);
     function startPchk1() {
-        clearInterval(timer);
+        clearInterval(timer1);
         restorePurchases();
         $('#pmsg').append("<br/>Purch1:" + purch);
 
-        var timer = setInterval(function () { startPchk2() }, 1000);
+        var timer2 = setInterval(function () { startPchk2() }, 1000);
         function startPchk2() {
-            clearInterval(timer);
+            clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
             $('#pmsg').append("<br/>Purch2:" + purch);
 
