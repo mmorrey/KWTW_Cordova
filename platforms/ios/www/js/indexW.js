@@ -853,6 +853,7 @@ function showFriend(ID, name, i) {
 
 function isPhoneGap() {
     var app = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
+    alert(app);
     if (app) {
         return true;
         // PhoneGap application
@@ -873,8 +874,10 @@ function checkData() {
     var purch = 0;
 
     if (isPhoneGap()) {
+        alert(isPhoneGap());
         purch = "1";
     } else {
+        alert(isPhoneGap());
         listSub();
         var timer = setInterval(function () { startPchk() }, 500);
         function startPchk() {
