@@ -181,7 +181,7 @@ function restorePurchases() {
                 localStorage.setItem("OneYrSub", "1");
                 $('#pmsg').append("One year subscription purchased. " + p['productId']);
             } else {
-                $('#pmsg').append("Subscription not purchased.");
+                $('#pmsg').append("Subscription not purchased. " + p['productId']);
                 localStorage.setItem("OneYrSub", "0");
             }
         }
@@ -852,9 +852,12 @@ function showFriend(ID, name, i) {
 }
 
 function isPhoneGap() {
-    var app = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
-    alert(app);
-    if (app) {
+
+    //var app = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
+    //alert(app);
+    if (window.Device !== undefined) { 
+   
+   // if (app) {
         return true;
         // PhoneGap application
     } else {
@@ -871,25 +874,27 @@ function checkData() {
     $('#info').hide();
     $('#locIcon').hide();
     $('#status_area').hide();
-    var purch = 0;
+   // var purch = 0;
 
-    if (isPhoneGap()) {
-        alert(isPhoneGap());
-        purch = "1";
-    } else {
-        alert(isPhoneGap());
-        listSub();
+    //if (isPhoneGap()) {
+    //    alert(isPhoneGap());
+    //    purch = "1";
+    //} else {
+    //    alert(isPhoneGap());
+    listSub();
+    restorePurchases();
         var timer = setInterval(function () { startPchk() }, 500);
         function startPchk() {
             clearInterval(timer);
-            restorePurchases();
+            var purch = localStorage.getItem("OneYrSub");
 
         }
 
-        purch = localStorage.getItem("OneYrSub");
-    }
-    $('#pmsg').append("<br/>is PG:" + isPhoneGap());
-    $('#pmsg').append("<br/>Putch:" + sub);
+        
+    //}
+    //$('#pmsg').append("<br/>is PG:" + isPhoneGap());
+        alert(purch);
+    $('#pmsg').append("<br/>Putch:" + purch);
     if (purch == "1") {
         //++credits
         localStorage.setItem("credits", "3000000");
