@@ -852,10 +852,17 @@ function showFriend(ID, name, i) {
 }
 
 function isPhoneGap() {
-    return (window.cordova || window.PhoneGap || window.phonegap)
-    && /^file:\/{3}[^\/]/i.test(window.location.href)
-    && /ios|iphone|ipod|ipad|android/i.test(navigator.userAgent);
+    var app = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
+    if (app) {
+        return true;
+        // PhoneGap application
+    } else {
+        // Web page
+        return false;
+    }
+
 }
+
 
 
 function checkData() {
