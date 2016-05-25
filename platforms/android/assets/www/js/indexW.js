@@ -44,8 +44,8 @@ var app = {
    //     $('#menu_buttons').show();
       //  getFriends();
         //
-      //  appPurchChk()
-       checkData("1");
+        appPurchChk()
+      // checkData("1");
         //var ol = isOnLine();
         
         //if (ol == true) {
