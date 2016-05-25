@@ -127,7 +127,7 @@ function listSub() {
             var p = result[i];
 
             product_info[p["productId"]] = { title: p["title"], price: p["price"] };
-           // $('#pmsg').append("Loaded: " + p["title"]);
+            $('#pmsg2').append("Loaded: " + p["title"]);
         }
     }, function (error) {
         alert("error: " + error);
@@ -135,7 +135,7 @@ function listSub() {
 }
 
 var androidApplicationLicenseKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB";
-var productIds = "sub1year";
+var productIds = "sub1yearl2";
 var existing_purchases = [];
 var product_info = {};
 
@@ -151,6 +151,7 @@ function purchaseProduct(productId) {
         //alert(JSON.stringify(result));
         
         savePmt(stravaID, result.orderId);
+        localStorage.setItem("OneYrSub", "1")
         localStorage.setItem("credits", "4000000");
         $('#pmsg').html("Thank you for your subscription");
        // $('#pmsg').append("OID= " + result.orderId + " " + JSON.stringify(result));
@@ -1188,7 +1189,8 @@ function showSettingsTile() {
     //    clearInterval(timer);
    //     restorePurchases();
 
-   // }
+    // }
+    $('#pmsg2').append("<br/>" + localStorage.getItem("OneYrSub"));
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();
