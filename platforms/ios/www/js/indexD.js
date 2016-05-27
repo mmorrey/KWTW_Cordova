@@ -2502,6 +2502,8 @@ function calcStarsInline(ID, hrs, type) {
         }
 
     }
+
+    return 
     //  });
 }
 
@@ -2738,12 +2740,29 @@ function copyMapWeather(ID) {
     jsondata = localStorage.getItem(ID + "_weather_map");
     var jsonact = localStorage.getItem('seg_loc_data');
     var j2s = eval('(' + jsonact + ')');
-    $.each(j2s.points, function (i, seg) {
-      
+    $.each(j2s.points, function (i, seg) {     
         localStorage.setItem(seg.PID + '_weather_map', jsondata);
              
     });
     displayStarsmap(24,null)
+
+}
+
+function checkLocalW() {
+    var ID;
+    var jsonact = localStorage.getItem('seg_loc_data');
+    var j2s = eval('(' + jsonact + ')');
+    $.each(j2s.points, function (i, seg) {
+        var wdata = localStorage.getItem(ID + "_weather_map");
+        if (wdata != null) {
+            ID = seg.PID;
+        } else {
+            ID = null;
+        }
+
+    });
+
+    return ID;
 
 }
 
@@ -2999,7 +3018,7 @@ function callWeather(latlng,ID,type)  {
 }   
 
 function RealCallWeather(latlng, ID, type) {
-   
+    $('#pmsg2').append(latlng);
     $.ajax({
         type: "GET",
         url: "http://api.wunderground.com/api/bf45926a1b878028/hourly/geolookup/q/" + latlng + ".json",
@@ -3007,7 +3026,7 @@ function RealCallWeather(latlng, ID, type) {
         //url: "json.txt",
         //dataType: "html",
         timeout: 4000,
-        dataType: "jsonp",
+        dataType: "json",
         success: function (json) {
             //var jsontxt = eval('(' + json + ')');
 

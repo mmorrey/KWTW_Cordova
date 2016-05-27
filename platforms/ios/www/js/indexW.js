@@ -127,7 +127,7 @@ function listSub() {
             var p = result[i];
 
             product_info[p["productId"]] = { title: p["title"], price: p["price"] };
-            $('#pmsg2').append("Loaded: " + p["title"]);
+           // $('#pmsg2').append("Loaded: " + p["title"]);
         }
     }, function (error) {
         alert("error: " + error);
@@ -183,13 +183,14 @@ function restorePurchases() {
                 localStorage.setItem("OneYrSub", "1");
                 $('#pmsg').append("One year subscription purchased. " + p['productId']);
             } else {
-                $('#pmsg').append("Subscription not purchased. " + p['productId']);
-                localStorage.setItem("OneYrSub", "0");
+             
             }
         }
     },
     function (error) {
-        alert("error: " + error);
+        $('#pmsg').append("Subscription not purchased. " + p['productId']);
+        localStorage.setItem("OneYrSub", "0");
+        //alert("error: " + error);
     });
 }
 
@@ -1190,7 +1191,7 @@ function showSettingsTile() {
    //     restorePurchases();
 
     // }
-    $('#pmsg2').append("<br/>" + localStorage.getItem("OneYrSub"));
+    //$('#pmsg2').append("<br/>1yrSub:" + localStorage.getItem("OneYrSub"));
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();
@@ -3115,7 +3116,8 @@ function stConn2() {
             localStorage.setItem('userdata', jsondeets);
             localStorage.setItem('fulluserdata', JSON.stringify(result));
             localStorage.setItem('Hrs', "3");
-            // saveUser(data.firstname, data.lastname, data.id, 0, 0);
+            saveUser(data.firstname, data.lastname, data.id, 0, 0);
+            localStorage.setItem('credits', "20");
             ID = data.id;
             checkServerStatus(ID);
             if (data.profile == "avatar/athlete/large.png") {
