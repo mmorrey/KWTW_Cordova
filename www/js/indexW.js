@@ -189,7 +189,7 @@ function restorePurchases() {
         }
     },
     function (error) {
-        alert("not purchsed");
+       // alert("not purchsed");
         $('#pmsg').append("Subscription not purchased.");
         localStorage.setItem("OneYrSub", "0");
         //alert("error: " + error);
@@ -876,11 +876,11 @@ function appPurchChk() {
     listSub();
     var purch = "0";
     $('#pmsg2').append("<br/>Purch0:" + purch);
-    alert(purch);
+    //alert(purch);
     var timer1 = setInterval(function () { startPchk1() }, 2000);
     function startPchk1() {
         clearInterval(timer1);
-        alert("rest");
+       // alert("rest");
         restorePurchases();
         $('#pmsg2').append("<br/>Purch1:" + purch);
 
@@ -889,7 +889,7 @@ function appPurchChk() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
             $('#pmsg2').append("<br/>Purch2:" + purch);
-            alert("cdstart");
+          //  alert("cdstart");
             checkData(purch);
         }
 
@@ -900,9 +900,9 @@ function appPurchChk() {
 
 function checkData(purch) {
     $('#pmsg2').append("<br/>Purch3:" + purch);
-    alert("cd" + purch);
+  //  alert("cd" + purch);
     removeOldweather();
-    alert("cd2");
+   // alert("cd2");
     $('#info').hide();
     $('#locIcon').hide();
     $('#status_area').hide();
@@ -916,14 +916,13 @@ function checkData(purch) {
     if (purch == "1") {
         //++credits
         var udata = localStorage.getItem("userdata");
-        alert(udata);
+     //   alert(udata);
         if (udata == null) {
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
             $('#status_area').show();
             $('#status_msgs').show();
             $('#status_msgs').append("Not connected");
-
             $('#pic_header').hide();
             $('#logo_header').hide();
             $('#menu_buttons').hide();
@@ -976,7 +975,7 @@ function checkData(purch) {
         }
     } else {
         var udata = localStorage.getItem("userdata");
-       alert(udata);
+    //   alert(udata);
         if (udata == null) {
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
@@ -3177,7 +3176,8 @@ function stConn2() {
                 var timerst2 = setInterval(function () { dispstarst() }, 2000);
                 function dispstarst() {
                     clearInterval(timerst2);
-                    //$('#status_msgs').hide();
+                    $('#UnAuthApp').hide();
+                    $('#status_msgs').hide();
                     $('#status_area').hide();
 
                     //$('#menu_buttons').show();
@@ -3733,7 +3733,7 @@ function stKOMs(ID) {
             var jsonsegs = JSON.stringify(strava_segs);
             localStorage.setItem('komdata_' + ID, jsonsegs);
            // localStorage.setItem('komct', ct);
-            $('#status_msgs').append('Found ' + ct + ' KOMs and CRs </br>');
+            $('#status_msgs').append('Found ' + ct + ' KOMs</br>');
             var userdata = localStorage.getItem('userdata');
             var user = eval('(' + userdata + ')');
            
@@ -3751,7 +3751,9 @@ function stKOMs(ID) {
                 parse("kom",ID);              
             }
                              
-            } 
+            } else {
+                $('#status_msgs').append('No KOMs/QOMs Found</br>');
+            }
         });
 
     });
