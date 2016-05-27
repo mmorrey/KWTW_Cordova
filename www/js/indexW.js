@@ -44,8 +44,8 @@ var app = {
    //     $('#menu_buttons').show();
       //  getFriends();
         //
-     //   appPurchChk();
-     checkData("0");
+        appPurchChk();
+     //checkData("0");
         //var ol = isOnLine();
         
         //if (ol == true) {
@@ -100,7 +100,7 @@ app.initialize();
 
 function listSub() {
     // alert("buy sub");
-    $('#pmsg').append("list sub")
+    alert("list sub");
     window.iap.setUp(androidApplicationLicenseKey);
 
     //get all products' infos for all productIds
@@ -181,6 +181,7 @@ function restorePurchases() {
             if (self.existing_purchases.indexOf(p['productId']) === -1) {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
+                alert("purchsed");
                 $('#pmsg').append("One year subscription purchased. " + p['productId']);
             } else {
              
@@ -188,6 +189,7 @@ function restorePurchases() {
         }
     },
     function (error) {
+        alert("not purchsed");
         $('#pmsg').append("Subscription not purchased. " + p['productId']);
         localStorage.setItem("OneYrSub", "0");
         //alert("error: " + error);
@@ -874,10 +876,11 @@ function appPurchChk() {
     listSub();
     var purch = "0";
     $('#pmsg2').append("<br/>Purch0:" + purch);
-
+    alert(purch);
     var timer1 = setInterval(function () { startPchk1() }, 1000);
     function startPchk1() {
         clearInterval(timer1);
+        alert("rest");
         restorePurchases();
         $('#pmsg2').append("<br/>Purch1:" + purch);
 
