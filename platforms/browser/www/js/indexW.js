@@ -189,7 +189,7 @@ function restorePurchases() {
         }
     },
     function (error) {
-      //  alert("not purchsed");
+        alert("not purchsed");
         $('#pmsg').append("Subscription not purchased.");
         localStorage.setItem("OneYrSub", "0");
         //alert("error: " + error);
@@ -889,7 +889,7 @@ function appPurchChk() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
             $('#pmsg2').append("<br/>Purch2:" + purch);
-
+            alert("cdstart");
             checkData(purch);
         }
 
@@ -900,8 +900,9 @@ function appPurchChk() {
 
 function checkData(purch) {
     $('#pmsg2').append("<br/>Purch3:" + purch);
-
+    alert("cd" + purch);
     removeOldweather();
+    alert("cd2");
     $('#info').hide();
     $('#locIcon').hide();
     $('#status_area').hide();
@@ -961,7 +962,7 @@ function checkData(purch) {
 
     } else {
         var udata = localStorage.getItem("userdata");
-     //   alert(udata);
+       alert(udata);
         if (udata == null) {
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
