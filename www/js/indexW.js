@@ -876,11 +876,11 @@ function appPurchChk() {
     listSub();
     var purch = "0";
     $('#pmsg2').append("<br/>Purch0:" + purch);
-  //  alert(purch);
+    alert(purch);
     var timer1 = setInterval(function () { startPchk1() }, 2000);
     function startPchk1() {
         clearInterval(timer1);
-    //    alert("rest");
+        alert("rest");
         restorePurchases();
         $('#pmsg2').append("<br/>Purch1:" + purch);
 
