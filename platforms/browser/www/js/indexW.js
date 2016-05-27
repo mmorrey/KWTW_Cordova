@@ -190,7 +190,7 @@ function restorePurchases() {
     },
     function (error) {
       //  alert("not purchsed");
-        $('#pmsg').append("Subscription not purchased. " + p['productId']);
+        $('#pmsg').append("Subscription not purchased.");
         localStorage.setItem("OneYrSub", "0");
         //alert("error: " + error);
     });
