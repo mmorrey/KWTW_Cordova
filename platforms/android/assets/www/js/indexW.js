@@ -3119,7 +3119,7 @@ function stConn2() {
             saveUser(data.firstname, data.lastname, data.id, 0, 0);
             localStorage.setItem('credits', "20");
             ID = data.id;
-            checkServerStatus(ID);
+            
             if (data.profile == "avatar/athlete/large.png") {
                 pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
                 pic_header = "<img class=\"circular_pfl\" src=\"img/blank_avatar.jpg\">";
@@ -3142,14 +3142,14 @@ function stConn2() {
             var timex = 30000;
 
             var sub = Math.floor(moment().add(0, 'days') / 1000);
-            alert(sub);
+           
             localStorage.setItem("sub", sub);
 
             var timerst = setInterval(function () { closeStatus() }, timex); //rem bkk2
             function closeStatus() {
                 clearInterval(timerst);
                 $('#status_msgs').append("</br>Done .... stand by");
-
+                checkServerStatus(ID);
                 //console.log(timex + " seconds up")
                 //// weatherSeg();
                 //drawTable("stars");
