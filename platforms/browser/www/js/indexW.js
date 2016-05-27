@@ -915,51 +915,65 @@ function checkData(purch) {
     //    alert(isPhoneGap());
     if (purch == "1") {
         //++credits
-        var sub = localStorage.getItem("sub");
-        localStorage.setItem("credits", "3000000");
-        var data = localStorage.getItem("userdata");
-        var wdata = localStorage.getItem("weatherdata");
-        var acts = localStorage.getItem("starsdata");
-        var userdata = localStorage.getItem('userdata');
-        var user = eval('(' + userdata + ')');
-        var firstname = user.deets[0]['firstname'];
-        var lastname = user.deets[0]['lastname'];
-        var stravaID = user.deets[0]['stravaID'];
-        var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
-   
-        var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
+        var udata = localStorage.getItem("userdata");
+        alert(udata);
+        if (udata == null) {
+            $('#UnAuthApp').show();
+            $('#onlineStatus').hide();
+            $('#status_area').show();
+            $('#status_msgs').show();
+            $('#status_msgs').append("Not connected");
 
-        var pic
-        var pic_header
-        //  console.log(user.deets[0]['profile'])
-        if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
-            pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
-            pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
+            $('#pic_header').hide();
+            $('#logo_header').hide();
+            $('#menu_buttons').hide();
+            $('#deets_tile').hide();
         } else {
-            pic = "<img style=\"width:80px;height:auto\" src=\"" + user.deets[0]['profile'] + "\">";
-            pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"" + user.deets[0]['profile'] + "\">";
+            var sub = localStorage.getItem("sub");
+            localStorage.setItem("credits", "3000000");
+            var data = localStorage.getItem("userdata");
+            var wdata = localStorage.getItem("weatherdata");
+            var acts = localStorage.getItem("starsdata");
+            var userdata = localStorage.getItem('userdata');
+            var user = eval('(' + userdata + ')');
+            var firstname = user.deets[0]['firstname'];
+            var lastname = user.deets[0]['lastname'];
+            var stravaID = user.deets[0]['stravaID'];
+            var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
+
+            var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
+
+            var pic
+            var pic_header
+            //  console.log(user.deets[0]['profile'])
+            if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
+                pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
+                pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
+            } else {
+                pic = "<img style=\"width:80px;height:auto\" src=\"" + user.deets[0]['profile'] + "\">";
+                pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"" + user.deets[0]['profile'] + "\">";
+            }
+            $('#user_details').html("<h1>" + name + "</h1><h3>" + loc + "</h3>");
+            $('#pic_header').show();
+            $('#userimg').html(pic);
+            $('#pic_header').html(pic_header);
+
+            $('#menu_buttons').show();
+            $('#status_msgs').hide();
+            $('#status_area').hide();
+            $('#rem_info').show();
+            $('#info').hide();
+            $('#table_calc_area2').hide();
+            if (acts.length > 40) {
+                getAct("stars");
+                $('#pmsg').append("<br/>Sub:" + sub);
+
+                // dispStarsChk();
+            } else {
+                noActsmsg("stars");
+            }
+            updateUser(firstname, lastname, stravaID);
         }
-        $('#user_details').html("<h1>" + name + "</h1><h3>" + loc + "</h3>");
-        $('#pic_header').show();
-        $('#userimg').html(pic);
-        $('#pic_header').html(pic_header);
-
-        $('#menu_buttons').show();
-        $('#status_msgs').hide();
-        $('#status_area').hide();
-        $('#rem_info').show();
-        $('#info').hide();
-        $('#table_calc_area2').hide();
-        if (acts.length > 40) {
-            getAct("stars");
-            $('#pmsg').append("<br/>Sub:" + sub);
-
-            // dispStarsChk();
-        } else {
-            noActsmsg("stars");
-        }
-        updateUser(firstname, lastname, stravaID);
-
     } else {
         var udata = localStorage.getItem("userdata");
        alert(udata);
