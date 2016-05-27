@@ -961,7 +961,7 @@ function checkData(purch) {
 
     } else {
         var udata = localStorage.getItem("userdata");
-        alert(udata);
+     //   alert(udata);
         if (udata == null) {
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
