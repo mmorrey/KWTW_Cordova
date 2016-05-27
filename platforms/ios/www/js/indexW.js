@@ -44,8 +44,8 @@ var app = {
    //     $('#menu_buttons').show();
       //  getFriends();
         //
-        appPurchChk();
-     //  checkData("0");
+     //   appPurchChk();
+     checkData("0");
         //var ol = isOnLine();
         
         //if (ol == true) {
@@ -1184,7 +1184,7 @@ function showKOMsTile() {
 }
 
 function showSettingsTile() {
-    listSub();
+   listSub();
     //var timer = setInterval(function () { startDecode() }, 1000);
     //function startDecode() {
     //    clearInterval(timer);
