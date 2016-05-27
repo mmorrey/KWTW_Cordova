@@ -3194,45 +3194,38 @@ function checkServerStatus(stravaID) {
         timeout: 20000,
         data: "StravaID=" + stravaID,
         success: function (parsed_json) {
-            var credits = parsed_json.ustatus[0]['Credits'];
-            var LoginDate = parsed_json.ustatus[0]['FirstLogin'];
-            localStorage.setItem('credits', credits);
+            if (parsed_json.length > 0) {
+                var credits = parsed_json.ustatus[0]['Credits'];
+                var LoginDate = parsed_json.ustatus[0]['FirstLogin'];
+                localStorage.setItem('credits', credits);
 
-            var ExpDate = Math.floor(moment(LoginDate, "DD-MM-YYYYY").add(7, 'days') / 1000);
+                var ExpDate = Math.floor(moment(LoginDate, "DD-MM-YYYYY").add(7, 'days') / 1000);
 
-            var LoginDate2 = new Date(LoginDate)
-            var today2 = Math.floor(moment() / 1000);
-            var diff = parseInt(ExpDate - today2);
-            var edays = Math.floor(diff / 86400);
-            var estr;
-            if (edays == 0) {
-                estr = "tomorrow.";
+                var LoginDate2 = new Date(LoginDate)
+                var today2 = Math.floor(moment() / 1000);
+                var diff = parseInt(ExpDate - today2);
+                var edays = Math.floor(diff / 86400);
+                var estr;
+                if (edays == 0) {
+                    estr = "tomorrow.";
+                } else {
+                    estr = "in " + edays + " days."
+                }
+                var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
+                if (diff > 0) {
+                    $('#status_msgs').append("<br/>Trial period expires " + estr + " <br/");
+                    $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
+                    $('#credits_no').html(credits);
+                } else {
+                    $('#status_msgs').append("</br>Trial expired");
+                    $('#menu_buttons').hide();
+                    $('#profile_settings').hide();
+                    $('#profile_tile').show();
+                    $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase Yearly Subscription to get full access including unlimited Historical data queries.");
+                }
             } else {
-                estr = "in " + edays + " days."
+                //new user, not yet saved
             }
-            var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
-          //  alert(ExpDate + " " + today2 + " " + diff + " " + edays);
-
-            //  ExpDate = moment(LoginDate).add(7, 'days');
-            if (diff > 0) {
-                //not expired
-                $('#status_msgs').append("<br/>Trial period expires " + estr + " <br/");
-                //localStorage.setItem("sub", LoginDate);
-                $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
-                $('#credits_no').html(credits);
-            } else {
-                //expired
-
-                $('#status_msgs').append("</br>Trial expired");
-                //  localStorage.setItem("sub", "expired");
-                // listSub();
-                $('#menu_buttons').hide();
-                $('#profile_settings').hide();
-                $('#profile_tile').show();
-                $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase Yearly Subscription to get full access including unlimited Historical data queries.");
-
-            }
-
         },
         error: function (xhr, error) {
             // alert(error);
