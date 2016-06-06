@@ -43,17 +43,21 @@
     </head>
     <body>
         <div class="container">
-           
+            <div id="splashDiv" style="position:absolute;left:0px;top:0px;width:100%;height:600px;z-index:2000;background-color:#1f1f1f">
+                <div class="cont">
+                    <img style="padding-top:150px;width:250px;height:auto;" src="img/logo_app1_lg.png" />
+                </div>
+            </div>
             <div id="UnAuthApp" style="display:none">
                 <div class="cont">
                     <div id="bigLogoimg">
-                        <img style="width:auto;height:80px;" src="img/kom_logo_db.png" />
+                        <img style="width:auto;" src="img/logo_app1_sml.png" />
                     </div>
                     <div style="height:50px"></div>
                     <div id="stConnimg">
                         <img src="img/ConnectWithStrava@2x.png" onclick="stConn2()" onmouseover="" style="cursor: pointer;width:250px;height:auto" />
                     </div>
-                    <div class="text-center" style="padding-top:20px" id="status_area">
+                    <div class="text-center" style="padding-top:20px;display:none" id="status_area">
                         &nbsp;
                         <div style="height:53px;width:60px;text-align:center;color:#00AF96" class="fa fa-4x fa-cog fa-spin"></div>
                         <div id="status_msgs" style="text-align:center;color:#00AF96">&nbsp;</div>
@@ -81,7 +85,7 @@
             <div id="onlineStatus" class="status_on">Online</div>
 
             <div id="pic_header" class="profile" style="display:none"></div>
-            <div id="logo_header" class="logoimg" onclick="reportOnlineStatus()"><img style="width:auto;height: 42px;" src="img/kom_logo_db.png" /></div>
+            <div id="logo_header" class="logoimg" onclick="reportOnlineStatus()"><img style="width:auto;height: 42px;" src="img/logo_app1_sml.png" /></div>
             <div style="height:50px"></div>
             <div id="Statusreport" style="display:none">
                 <div class="row">
@@ -122,11 +126,7 @@
 
 
                                 <div id="map_table" style="padding-top:10px">
-                                    <div class="text-center">
-                                        &nbsp;
-                                        <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
 
-                                    </div>
                                 </div>
                             </div><!-- /dash-unit -->
 

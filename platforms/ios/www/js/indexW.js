@@ -135,7 +135,7 @@ function listSub() {
 }
 
 var androidApplicationLicenseKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB";
-var productIds = "sub1yearl2";
+var productIds = "sub1yearl1";
 var existing_purchases = [];
 var product_info = {};
 
@@ -723,15 +723,15 @@ function SignOut() {
 }
 
 function removeOldweather() {
-
     var wdata = localStorage.getItem("weatherdata");
+//    alert(wdata);
     if (wdata == null) {
         localStorage.removeItem('weatherdata_ct');
     } else {
         var wdatap = eval('(' + wdata + ')');
         var epoch = 0;
         var datestr;
-        var timenow = Math.round(new Date().getTime() / 1000);
+        var timenow = Math.floor(moment() / 1000);
         var diff = 0;
         var weather_deets = {
             wdata: []
@@ -741,11 +741,11 @@ function removeOldweather() {
         $.each(wdatap.wdata, function (i, wd) {
             diff = timenow - wd.timestamp;
             console.log(diff + " " + wd.ID)
-            if (diff > 10000) {
+            if (diff > 90000) {
                 var str = wd.ID + "_weather_act";
 
                 localStorage.removeItem(str);
-                console.log("removed st" + str);
+          //      alert("removed st" + str);
             } else {
 
                 weather_deets.wdata.push({
@@ -780,21 +780,29 @@ function removeOldweather() {
     }
 
     var str = "weather_map";
-    var timenow = Math.round(new Date().getTime() / 1000);
+    var timenow = Math.floor(moment() / 1000);
+   // alert(timenow);
     for (var i = 0; i < localStorage.length; i++) {
         //  if (localStorage.key(i) == 'weatherdata') {
         if (localStorage.key(i).indexOf(str) > -1) {
+     //       alert(localStorage.key(i));
             var jsondata = localStorage.getItem(localStorage.key(i));
-            var parsed_json = eval('(' + jsondata + ')');
-            var wepoch = parsed_json.hourly_forecast[0].FCTTIME.epoch;
-            if ((timenow - wepoch) > 1000) {
-                console.log("Removing " + localStorage.key(i) + "</br >");
-                // }
-                localStorage.removeItem(localStorage.key(i));
+          //  alert(jsondata);
+            if (jsondata != null) {
+                var parsed_json = eval('(' + jsondata + ')');
+                var wepoch = parsed_json.hourly_forecast[0].FCTTIME.epoch;
+          //      alert(timenow + " " + wepoch);
+                if ((timenow - wepoch) > 90000) {
+             //       alert("Removing " + localStorage.key(i) + "</br >");
+                    //         }
+                    localStorage.removeItem(localStorage.key(i));
+                    //    }
+                }
             }
+            // do something with localStorage.getItem(localStorage.key(i));
         }
-        // do something with localStorage.getItem(localStorage.key(i));
     }
+ //   alert("end");
 
 }
 
@@ -811,50 +819,6 @@ function getFriends() {
     }
 }
 
-function showFriend(ID, name, i) {
-
-    $('#friend_info').show();
-    $('#friend_tile_title').html("<dtitle>KOMS: " + name + "</dtitle>");
-    $('#deets_tile').hide();
-    $('#seg_weather').hide();
-    $('#pills_row').hide()
-    $('#seg_efforts').hide();
-    $('#seg_leaderboard').hide();
-    $('table tbody tr').each(function (index, el) {
-        $(this).siblings().removeClass('sel');
-    });
-
-    jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel');
-    localStorage.setItem("frID", ID);
-    var type = "kom";
-    var top = "<table class=\"table table-striped\">";
-    var json = localStorage.getItem('komdata_' + ID);
-    var frID = ID;
-    var j2 = eval('(' + json + ')');
-    var midhtml = "";
-    var act_ct = 0;
-    //get count from storage, update with seg efforts
-    var LB = false;
-    var firstID;
-    var n;
-    var name;
-    var w = window.innerWidth;
-    var nameW = w - 70;
-    $.each(j2.segs, function (i, seg) {
-        var date = formatTime(seg.time);
-        midhtml = midhtml + "<tr id=\"trow_" + seg.ID + "\" class=\"un_sel\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type + "', " + frID + ")\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + seg.name + "</div>" +
-                   "<div class=\"msg_sml\" style=\"padding-left:3px\">" + date + "</div></td></tr>";
-        act_ct++;
-    });
-
-
-    var ht = parseInt((act_ct * 50) + 18); //56
-    $('#friend_tile').height(ht);
-    // alert(firstID)
-    //poly2(firstID, n, name, type, frID);   
-    $('#friend_tile_list').html(top + midhtml + "</table></div>");
-
-}
 
 function isPhoneGap() {
 
@@ -899,8 +863,9 @@ function appPurchChk() {
 
 
 function checkData(purch) {
+    $('#splashDiv').fadeOut();
     $('#pmsg2').append("<br/>Purch3:" + purch);
-  //  alert("cd" + purch);
+   // alert("cd" + purch);
     removeOldweather();
    // alert("cd2");
     $('#info').hide();
@@ -918,11 +883,12 @@ function checkData(purch) {
         var udata = localStorage.getItem("userdata");
      //   alert(udata);
         if (udata == null) {
+            $('#splashDiv').fadeOut();
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
-            $('#status_area').show();
-            $('#status_msgs').show();
-            $('#status_msgs').append("Not connected");
+           // $('#status_area').show();
+         //   $('#status_msgs').show();
+         //   $('#status_msgs').append("Not connected");
             $('#pic_header').hide();
             $('#logo_header').hide();
             $('#menu_buttons').hide();
@@ -963,6 +929,7 @@ function checkData(purch) {
             $('#rem_info').show();
             $('#info').hide();
             $('#table_calc_area2').hide();
+            $('#splashDiv').fadeOut();
             if (acts.length > 40) {
                 getAct("stars");
                 $('#pmsg').append("<br/>Sub:" + sub);
@@ -974,14 +941,16 @@ function checkData(purch) {
             updateUser(firstname, lastname, stravaID);
         }
     } else {
+        $('#splashDiv').fadeOut();
         var udata = localStorage.getItem("userdata");
-    //   alert(udata);
+  //     alert(udata);
         if (udata == null) {
+
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
-            $('#status_area').show();
-            $('#status_msgs').show();
-            $('#status_msgs').append("Not connected");
+          //  $('#status_area').show();
+         //   $('#status_msgs').show();
+         //   $('#status_msgs').append("Not connected");
             
             $('#pic_header').hide();
             $('#logo_header').hide();
@@ -989,6 +958,7 @@ function checkData(purch) {
             $('#deets_tile').hide();
 
         } else {
+            $('#splashDiv').fadeOut();
             var sub = localStorage.getItem("sub");
                 
             var credits = localStorage.getItem("credits");
@@ -1021,6 +991,16 @@ function checkData(purch) {
                     $('#status_msgs').append("Trial expired");
                     //  localStorage.setItem("sub", "expired");
                     // listSub();
+                    $('#pills_row').hide();
+                    $('#seg_nearby').hide();
+                    $('#seg_efforts').hide();
+                    $('#seg_weather').hide();
+                    $('#seg_leaderboard').hide();
+                    $('#deets_tile').hide();
+                    $('#locIcon').hide();
+                    $('#my_friends').hide();
+                    $('#friend_info').hide();
+                    $('#my_activities').hide();
                     $('#menu_buttons').hide();
                     $('#profile_settings').hide();
                     $('#profile_tile').show();
@@ -1031,6 +1011,7 @@ function checkData(purch) {
             }
 
             if (pass == true) {
+
                 var data = localStorage.getItem("userdata");
                 var wdata = localStorage.getItem("weatherdata");
                 var acts = localStorage.getItem("starsdata");
@@ -1067,6 +1048,7 @@ function checkData(purch) {
                 $('#rem_info').show();
                 $('#info').hide();
                 $('#table_calc_area2').hide();
+                $('#splashDiv').fadeOut();
                 if (acts.length > 40) {
                     getAct("stars");
                     $('#pmsg').append("<br/>" + sub);
@@ -1117,6 +1099,10 @@ function dispStarsChk() {
 
 
 function getAct(type) {
+    $('#map_table').html("");
+    $('#seg_weather').hide();
+    $('#seg_leaderboard').hide();
+    $('#seg_efforts').hide();
     var favsct = countFavs();
     if (type == "act") {
         var segdata = localStorage.getItem("segdata")
@@ -1245,17 +1231,13 @@ function showCmty() {
 }
 
 function getNearby(ID,lat,lng) {
-  
+    $("#winfomap").html("");
     if (ID == null) {
         showMapTile();
           showmap();
-    //    }
-    //    else {
-          //  $("#winfomap").html("Device is offline.");
-    //    }
-       
+         
     } else {
-        //from cmty table
+      
         $('#map_activities').hide();
         $('#seg_nearby').show();
         showmap(ID,lat,lng);
@@ -1273,10 +1255,8 @@ function noActsmsg(type) {
     $('#status_area').hide();
     $('#stConnimg').hide();
     $('#winfo').hide();
-    $('#locIcon').hide();
     $('#Hrsdd').hide();
     $('#menu_buttons').show();
-    $('#seg_nearby').hide();
     $('#status_msgs').hide();
     $('#refreshBtn').hide();
     $('#my_activities').show();
@@ -1957,15 +1937,7 @@ function drawSegEffort(ID, frID) {
         var bdata = localStorage.getItem(bearing_store);
     }
 
-   if ((lbhistchk0 != null && lbhistchk1 == null) || (lbhistchk0 == null && lbhistchk1 == null)) {
-        var btnhtml = "<div style=\"padding-left:5px\"><a class=\"btn btn-success btn-sm\" href=\"#leaderback\" onclick=\"showHistweather(" + ID + ",'" + type + "',false,'all'," + frID + ")\">" +
-                       "Show all historical wind conditions</i></a></div>";
-        $('#effortPadding').show();
-        console.log(btnhtml)
-    $('#sgBtn').show();
-    $('#sgBtn').html(btnhtml);
-    }
-    //style=\"position:absolute;right:18px;top:40px;z-index:400\"
+      //style=\"position:absolute;right:18px;top:40px;z-index:400\"
     
     //  var json = localStorage.getItem('eff_data_' + ID);
     if (frID != null) {
@@ -2232,7 +2204,16 @@ function drawSegEffort(ID, frID) {
         posyt = posyt + 60
         i++;
     })
-
+    if (ct > 1) {
+        if ((lbhistchk0 != null && lbhistchk1 == null) || (lbhistchk0 == null && lbhistchk1 == null)) {
+            var btnhtml = "<div style=\"padding-left:5px\"><a class=\"btn btn-success btn-sm\" href=\"#leaderback\" onclick=\"showHistweather(" + ID + ",'" + type + "',false,'all'," + frID + ")\">" +
+                           "Show all historical wind conditions</i></a></div>";
+            $('#effortPadding').show();
+            console.log(btnhtml)
+            $('#sgBtn').show();
+            $('#sgBtn').html(btnhtml);
+        }
+    }
 
     var ht = parseInt((ct * 48) + 120);
     $('#effortback').height(ht);
@@ -2241,22 +2222,50 @@ function drawSegEffort(ID, frID) {
 }
 var hc = -1;;
 
-function countHistW(count, SegID) {
-    var str1 = "_hist";
+function countHistW(count, SegID, frID, lb) {
+
+    console.log(lb);
     var j = -1;
     for (var i = 0; i < localStorage.length; i++) {
         //  if (localStorage.key(i) == 'weatherdata') {
-        if ((localStorage.key(i).indexOf(str1) > -1) && (localStorage.key(i).indexOf(SegID) > -1)) { //separate
-            if (localStorage.key(i).indexOf("_hist_") > -1) {
+        if ((localStorage.key(i).indexOf(SegID) > -1))
+            if (lb == true) {
+                //count just _hist ad 2_
+                if (localStorage.key(i).indexOf("_hist") > -1) {
+                    console.log("found lb hist");
+                    if ((localStorage.key(i).split("_").length - 1) == 2) {
+                        console.log("count lb hist");
+                        j++
+                    }
+                }
+            } else if (frID == null) {
+                //count own efforts
+                // _hist_user with 3_
+                if (localStorage.key(i).indexOf("_hist_") > -1) {
+                    console.log("found own hist");
+                    if ((localStorage.key(i).split("_").length - 1) == 3) {
+                        console.log("count own hist");
+                        j++
+                    }
+                }
 
             } else {
-                j++;
+                //friend's efforts
+                // couunt frID_segID
+                if (localStorage.key(i).indexOf("_hist_") > -1) {
+                    console.log("found fr hist");
+                    if ((localStorage.key(i).split("_").length - 1) == 4) {
+                        console.log("count friend hist");
+                        j++
+                    }
+                }
             }
+        //&& (localStorage.key(i).indexOf(SegID) > -1)) { //separate
 
-            console.log(localStorage.getItem(localStorage.key(i)));
-        }
-        // do something with localStorage.getItem(localStorage.key(i));
+
     }
+    // do something with localStorage.getItem(localStorage.key(i));
+
     console.log("c: " + j + " " + count);
     if (j == count) {
         return 1;
@@ -2281,7 +2290,7 @@ function showHistweather(SegID, type, lb, num, frID) { //friday
         var json = localStorage.getItem('lb_data_' + SegID);
         var j2 = eval('(' + json + ')');
         count = (j2.count[0].num - 1);
-        countHistW(count, SegID);
+        countHistW(count, SegID, frID, lb);
         console.log(count + " " + j2.segs[0].time)
         lbhistchk1 = localStorage.getItem(SegID + '_1_hist');
     } else {
@@ -2326,7 +2335,7 @@ function showHistweather(SegID, type, lb, num, frID) { //friday
 
             $.each(j2.segs, function (i, seg) {
                 console.log(i);
-                if ((i == 0) && (lb == true)) {
+                if ((i == 0)) {
 
                 } else {
                     var date = j2.segs[i].time;
@@ -2339,15 +2348,15 @@ function showHistweather(SegID, type, lb, num, frID) { //friday
                                 clearTimeout(timerAA);
                                 if (lb == true) {
                                     console.log("finished" + count + " " + i);
-                                    if (countHistW(count, SegID) == 1) {
+                                    if (countHistW(count, SegID, frID, lb) == 1) {
                                         drawLeaderboard(SegID, type); //was hist yyy
                                         var credits = localStorage.getItem("credits");
                                         credits = credits - 3;
                                         var userdata = localStorage.getItem('userdata');
                                         var user = eval('(' + userdata + ')');
                                         var stravaID = user.deets[0]['stravaID'];
-                                        saveCredit(stravaID, credits)
-                                        localStorage.setItem("credits", "3");
+                                        saveCredit(stravaID, "3")
+                                        localStorage.setItem("credits", credits);
                                         $('#credits_no').html(credits);
                                     } else {
                                         $('#lbdata').html(type + " lb Incomplete Historical data, please try again.");
@@ -2369,7 +2378,7 @@ function showHistweather(SegID, type, lb, num, frID) { //friday
                                     }
                                 } else {
                                     console.log("finished" + count + " " + i);
-                                    if (countHistW(count, SegID) == 1) {
+                                    if (countHistW(count, SegID, frID, lb) == 1) {
                                         showEfforts(SegID, type, frID);
                                         var credits = localStorage.getItem("credits");
                                         credits = credits - 3;
@@ -2381,11 +2390,20 @@ function showHistweather(SegID, type, lb, num, frID) { //friday
                                         $('#credits_no').html(credits);
                                     } else {
                                         $('#lbdata').html(type + "Incomplete Historical data, please try again.");
-                                        while (j < 20) {
-                                            console.log("Removing " + SegID + "_" + j + "_hist");
-                                            // }
-                                            localStorage.removeItem(SegID + "_" + j + "_hist");
-                                            j++;
+                                        if (frID == null) {
+                                            while (j < 20) {
+                                                console.log("Removing " + SegID + "_" + j + "_hist_user");
+                                                // }
+                                                localStorage.removeItem(SegID + "_" + j + "_hist_user");
+                                                j++;
+                                            }
+                                        } else {
+                                            while (j < 20) {
+                                                console.log("Removing " + SegID + "_" + frID + "_" + j + "_hist_user");
+                                                // }
+                                                localStorage.removeItem(SegID + "_" + frID + "_" + j + "_hist_user");
+                                                j++;
+                                            }
                                         }
                                         $('#lbBtn').show();
                                     }
@@ -2520,7 +2538,7 @@ function refreshWeather(type,ct) {
     if (type == 'map') {
         $('#winfomap').html("<div style=\"height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px\" class=\"fa fa-2x fa-cog fa-spin\"></div>" +
                         "<div style=\"display:inline-block;margin-bottom:8px\">&nbsp;Retrieving weather ...</div>");
-        weatherMap(ct);
+        weatherMap1(type, ct);
         $('#refreshBtnmap').fadeOut();
        
      } else {
@@ -2693,43 +2711,27 @@ wct++;
 
 }
 
+function weatherMap1(type, ct) {          //  create a loop function
+    var json = localStorage.getItem('seg_loc_data');
+    var j2 = eval('(' + json + ')');
+
+    var ID = checkLocalW(); //does seg loc have any wind data?
+    console.log("wct=" + ID);
+    //if yes, copy to the rest
+    if (ID != null) {
+        copyMapWeather(ID);
+    } else {
+        weatherMap(ct);
+    }
+
+}
+
 function weatherMap(ct) {          //  create a loop function
-var json = localStorage.getItem('seg_loc_data');
-var j2 = eval('(' + json + ')');
-console.log(ct);
-var wct = 1;
-//$('#winfomap').html("Retrieving weather data ...");
-//$('#location').show();
-var time = 0;
-
-    $.each(j2.points, function (i, seg) { //if (i < 10) {            //  if the counter < 10, call the loop function
-        
-        setTimeout(function() {
-//alert('paused');
-getW(seg.endlatlong,seg.PID,"map");
-ct--;
-console.log(ct);
-
-$('#winfomap').html("<div style=\"height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px\" class=\"fa fa-2x fa-cog fa-spin\"></div>" +
-            "<div style=\"display:inline-block;margin-bottom:8px\">&nbsp;Refreshing weather ... " + wct + "</div>");
-wct++;
- if (ct == 0) {
-     var timer1x = setTimeout(function () { startDecode() }, 2000);
-     function startDecode() {
-         console.log("timeout");
-         clearTimeout(timer1x);
-         displayStarsmap(24);
-        // $('#refreshBtnmap').fadeIn('slow');
-     }
-            
-        }
-    }, time);
-
-        time += 4500;
-       
-    });                       //  ..  setTimeout()
-
-
+    var json = localStorage.getItem('seg_loc_data');
+    var j2 = eval('(' + json + ')');
+    $('#winfomap').html("<div style=\"display:inline-block;margin-bottom:8px\">Refreshing weather ...</div>");
+    console.log(j2.points[0].endlatlong + " " + j2.points[0].PID);
+    getW(j2.points[0].endlatlong, j2.points[0].PID, "map");
 }
 
 function weatherSeg() {
@@ -2770,7 +2772,7 @@ function displayStarsmap(hrs, ct) { //get seg weather
     var j2s = eval('(' + jsonact + ')');
     var segct = j2s.count[0].num;
     console.log("l=" + jsonact.length);
-    if (jsonact.length > 20) {
+    if (jsonact.length > 50) {
         var ID = j2s.points[0].PID;      //"469475975";
         var jsondata = localStorage.getItem(ID + "_weather_map");
         $('#refreshStarsmapbtn').html("Refresh Stars Ratings");
@@ -2804,6 +2806,7 @@ function displayStarsmap(hrs, ct) { //get seg weather
 
 
         }
+        $('#seg_weather').hide();
         var noW = 0;
         $.each(j2s.points, function (i, seg) {
             var wdata = localStorage.getItem(seg.PID + "_weather_map");
@@ -2830,202 +2833,207 @@ function drawWindcanvas(ID, from, to, ct) {
     //  function findMapWeatherStars() {
     ct = 0;
     var wdata = localStorage.getItem("seg_loc_data");
-    if (wdata.length < 20) {
+    if (wdata == null) {
 
     } else {
-        var j2 = eval('(' + wdata + ')');
-        var fPID;
-        var flatlng
-        $.each(j2.points, function (i, wd) {
-            ct++;
 
-            fPID = wd.PID;
-            flatlng = wd.endlatlong;
-            var wchk = localStorage.getItem(wd.PID + "_weather_map");
-            if (wchk != null) { //or parentID
-                console.log("found w for" + wd.PID);
-                ID = wd.PID;
-            }
-        });
-    }
+        if (wdata.length < 20) {
 
-    var jsondata = localStorage.getItem(ID + "_weather_map");
-    //console.log(jsondata);
-    if (ID == null) {
-        if (zoom >= 12) {
-            // $('#refreshBtnmap').html("<a class=\"btn btn-primary btn-sm\" href=\"#tableback\" onclick=\"refreshWeather('map'," + ct + ")\" id=\"refreshStarsbtn\">Get weather for Segments in this view</a>");
-            // $('#refreshBtnmap').show();
-            //getW(flatlng, fPID, "map");
-            //refreshWeather('map', ct);
-
-            $('#mapWind').hide();
-            $('#btnLeft').hide();
-            $('#btnRight').hide();
         } else {
-            $('#mapWind').hide();
-            $('#btnLeft').hide();
-            $('#btnRight').hide();
+            var j2 = eval('(' + wdata + ')');
+            var fPID;
+            var flatlng
+            $.each(j2.points, function (i, wd) {
+                ct++;
+
+                fPID = wd.PID;
+                flatlng = wd.endlatlong;
+                var wchk = localStorage.getItem(wd.PID + "_weather_map");
+                if (wchk != null) { //or parentID
+                    console.log("found w for" + wd.PID);
+                    ID = wd.PID;
+                }
+            });
+        }
+
+        var jsondata = localStorage.getItem(ID + "_weather_map");
+        //console.log(jsondata);
+        if (ID == null) {
+            if (zoom >= 12) {
+                // $('#refreshBtnmap').html("<a class=\"btn btn-primary btn-sm\" href=\"#tableback\" onclick=\"refreshWeather('map'," + ct + ")\" id=\"refreshStarsbtn\">Get weather for Segments in this view</a>");
+                // $('#refreshBtnmap').show();
+                //getW(flatlng, fPID, "map");
+                //refreshWeather('map', ct);
+
+                $('#mapWind').hide();
+                $('#btnLeft').hide();
+                $('#btnRight').hide();
+            } else {
+                $('#mapWind').hide();
+                $('#btnLeft').hide();
+                $('#btnRight').hide();
+                $('#refreshBtnmap').html("");
+                $('#refreshBtnmap').hide();
+            }
+        } else {
+            //$('#mapWind').hide();
             $('#refreshBtnmap').html("");
             $('#refreshBtnmap').hide();
-        }
-    } else {
-        //$('#mapWind').hide();
-        $('#refreshBtnmap').html("");
-        $('#refreshBtnmap').hide();
 
-        var canvas = document.getElementById('map_wind_canvas');
-        var ctx2d = canvas.getContext('2d');
-        ctx2d.clearRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
-        ctx2d.fillStyle = "rgba(255, 255, 255, 0.0)";
-        ctx2d.fillRect(0, 0, 240, 70);
-        $('#mapWind').show();
-        var ht = parseInt((ct * 48) + 150);
-        $('#tableback_map').height(ht);
-        if (zoom < 12) {
-            $('#btnLeft').hide();
-            $('#btnRight').hide();
-            $('#mapWind').hide();
-            // ctx2d.fillStyle = '#FFF';
-            /// ctx2d.font = '14px Arial';
-            // ctx2d.fillText("Zoom in for wind information for this view", 10, 10);
-        } else {
-
-            $('#btnLeft').show();
-            $('#btnRight').show();
-
-
-            var fromPrev = from - 6;
-            var toPrev = to - 6;
-            var fromNext = from + 6;
-            var toNext = to + 6;
-            if (from != 0) {
-                $('#btnLeft').html("<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"drawWindcanvas(" + ID + "," + fromPrev + "," + toPrev + ")\"><</button>");
-            } else {
-                $('#btnLeft').html("");
-            }
-            if (to <= 24) {
-                $('#btnRight').html("<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"drawWindcanvas(" + ID + "," + fromNext + "," + toNext + ")\">></button>");
-            } else {
-                $('#btnRight').html("");
-            }
-            var start = from;
-            var end = to;
-
-
-
-            var parsed_json = eval('(' + jsondata + ')');
-            var posx = 0; //54;
             var canvas = document.getElementById('map_wind_canvas');
             var ctx2d = canvas.getContext('2d');
             ctx2d.clearRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
             ctx2d.fillStyle = "rgba(255, 255, 255, 0.0)";
             ctx2d.fillRect(0, 0, 240, 70);
-            var first_hour = -1;
-            hour_bg_bk = "000";
-            ctx2d.fillStyle = '#FFF';
-            ctx2d.font = '14px Arial';
-            ctx2d.strokeStyle = "#2fb4c8";
-            ctx2d.save();
+            $('#mapWind').show();
+            var ht = parseInt((ct * 48) + 150);
+            $('#tableback_map').height(ht);
+            if (zoom < 12) {
+                $('#btnLeft').hide();
+                $('#btnRight').hide();
+                $('#mapWind').hide();
+                // ctx2d.fillStyle = '#FFF';
+                /// ctx2d.font = '14px Arial';
+                // ctx2d.fillText("Zoom in for wind information for this view", 10, 10);
+            } else {
+
+                $('#btnLeft').show();
+                $('#btnRight').show();
 
 
-
-            while (from <= to) {
-                //ctx2d.restore();
-
-                var winddeg = parsed_json.hourly_forecast[from].wdir.degrees;
-
-                var hour = parsed_json.hourly_forecast[from].FCTTIME.hour;
-                if (hour > 12) {
-                    hour = hour - 12
+                var fromPrev = from - 6;
+                var toPrev = to - 6;
+                var fromNext = from + 6;
+                var toNext = to + 6;
+                if (from != 0) {
+                    $('#btnLeft').html("<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"drawWindcanvas(" + ID + "," + fromPrev + "," + toPrev + ")\"><</button>");
+                } else {
+                    $('#btnLeft').html("");
                 }
-
-                var hour_bg_bk = "9F9F9F";
-                var border = "2fb4c8";
-                var wind_bg = "51D251";
-                var temp_bg = "FFB336";
-                var wind_txt = "2f3e46";
-                var temp_txt = "FFF";
-                var ampm = parsed_json.hourly_forecast[from].FCTTIME.ampm;
-                if (first_hour == -1) {
-                    first_hour = parsed_json.hourly_forecast[from].FCTTIME.hour;
+                if (to <= 24) {
+                    $('#btnRight').html("<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"drawWindcanvas(" + ID + "," + fromNext + "," + toNext + ")\">></button>");
+                } else {
+                    $('#btnRight').html("");
                 }
+                var start = from;
+                var end = to;
 
 
-                var day = parsed_json.hourly_forecast[from].FCTTIME.weekday_name;
-                var mon = parsed_json.hourly_forecast[from].FCTTIME.month_name;
-                var mday = parsed_json.hourly_forecast[from].FCTTIME.mday;
-                var userhtml = " ";
-                var longtime = parsed_json.hourly_forecast[from].FCTTIME.pretty;
-                ctx2d.font = '12px Arial';
+
+                var parsed_json = eval('(' + jsondata + ')');
+                var posx = 0; //54;
+                var canvas = document.getElementById('map_wind_canvas');
+                var ctx2d = canvas.getContext('2d');
+                ctx2d.clearRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
+                ctx2d.fillStyle = "rgba(255, 255, 255, 0.0)";
+                ctx2d.fillRect(0, 0, 240, 70);
+                var first_hour = -1;
+                hour_bg_bk = "000";
                 ctx2d.fillStyle = '#FFF';
-                if (hour < 10) {
-                    ctx2d.fillText(hour, posx, 25);
-                } else {
-                    ctx2d.fillText(hour, posx, 25);
-                }
-                //alert(hour);
-                ctx2d.font = '10px Arial';
-                if (hour < 10) {
-                    ctx2d.fillText(ampm, posx + 9, 25);
-                } else {
-                    ctx2d.fillText(ampm, posx + 14, 25);
-                }
-
-                if (from == start) {
-                    ctx2d.fillText(day + " " + mday + " " + mon, posx, 12);
-
-                }
-
-                ctx2d.save();
-                ctx2d.strokeStyle = "#2fb4c8";
-                ctx2d.translate(posx + 12, 38);
-                ctx2d.rotate(90 * Math.PI / 180);
-                //ctx2d.save();
-                ctx2d.rotate(winddeg * Math.PI / 180);
-
-                ctx2d.lineWidth = 1;
-                ctx2d.fillStyle = "#2fb4c8";
-                //ctx2d.moveTo(60, -15);
-                ctx2d.fillRect(-5, -5, 10, 10);
-                ctx2d.beginPath();
-
-
-                ctx2d.lineTo(0, -5);
-                ctx2d.lineTo(0, -10);
-                ctx2d.lineTo(10, 0);
-                ctx2d.lineTo(0, 10);
-                ctx2d.lineTo(0, 5);
-                ctx2d.lineTo(-10, 5);
-                ctx2d.lineTo(-10, -5);
-
-                ctx2d.closePath();
-                ctx2d.fill();
-                ctx2d.stroke();
-                ctx2d.restore();
-
-                //wind
-
                 ctx2d.font = '14px Arial';
-                ctx2d.fillStyle = "#fff";
-                //  ctx2d.font = '12px Arial';
+                ctx2d.strokeStyle = "#2fb4c8";
+                ctx2d.save();
 
-                if (parsed_json.hourly_forecast[from].wspd.metric < 10) {
-                    ctx2d.fillText(parsed_json.hourly_forecast[from].wspd.metric, posx, 60);
+
+
+                while (from <= to) {
+                    //ctx2d.restore();
+
+                    var winddeg = parsed_json.hourly_forecast[from].wdir.degrees;
+
+                    var hour = parsed_json.hourly_forecast[from].FCTTIME.hour;
+                    if (hour > 12) {
+                        hour = hour - 12
+                    }
+
+                    var hour_bg_bk = "9F9F9F";
+                    var border = "2fb4c8";
+                    var wind_bg = "51D251";
+                    var temp_bg = "FFB336";
+                    var wind_txt = "2f3e46";
+                    var temp_txt = "FFF";
+                    var ampm = parsed_json.hourly_forecast[from].FCTTIME.ampm;
+                    if (first_hour == -1) {
+                        first_hour = parsed_json.hourly_forecast[from].FCTTIME.hour;
+                    }
+
+
+                    var day = parsed_json.hourly_forecast[from].FCTTIME.weekday_name;
+                    var mon = parsed_json.hourly_forecast[from].FCTTIME.month_name;
+                    var mday = parsed_json.hourly_forecast[from].FCTTIME.mday;
+                    var userhtml = " ";
+                    var longtime = parsed_json.hourly_forecast[from].FCTTIME.pretty;
+                    ctx2d.font = '12px Arial';
+                    ctx2d.fillStyle = '#FFF';
+                    if (hour < 10) {
+                        ctx2d.fillText(hour, posx, 25);
+                    } else {
+                        ctx2d.fillText(hour, posx, 25);
+                    }
+                    //alert(hour);
                     ctx2d.font = '10px Arial';
-                    ctx2d.fillText("kph", posx + 10, 60);
-                } else {
-                    ctx2d.fillText(parsed_json.hourly_forecast[from].wspd.metric, posx, 60);
-                    ctx2d.font = '10px Arial';
-                    ctx2d.fillText("kph", posx + 17, 60);
+                    if (hour < 10) {
+                        ctx2d.fillText(ampm, posx + 9, 25);
+                    } else {
+                        ctx2d.fillText(ampm, posx + 14, 25);
+                    }
+
+                    if (from == start) {
+                        ctx2d.fillText(day + " " + mday + " " + mon, posx, 12);
+
+                    }
+
+                    ctx2d.save();
+                    ctx2d.strokeStyle = "#2fb4c8";
+                    ctx2d.translate(posx + 12, 38);
+                    ctx2d.rotate(90 * Math.PI / 180);
+                    //ctx2d.save();
+                    ctx2d.rotate(winddeg * Math.PI / 180);
+
+                    ctx2d.lineWidth = 1;
+                    ctx2d.fillStyle = "#2fb4c8";
+                    //ctx2d.moveTo(60, -15);
+                    ctx2d.fillRect(-5, -5, 10, 10);
+                    ctx2d.beginPath();
+
+
+                    ctx2d.lineTo(0, -5);
+                    ctx2d.lineTo(0, -10);
+                    ctx2d.lineTo(10, 0);
+                    ctx2d.lineTo(0, 10);
+                    ctx2d.lineTo(0, 5);
+                    ctx2d.lineTo(-10, 5);
+                    ctx2d.lineTo(-10, -5);
+
+                    ctx2d.closePath();
+                    ctx2d.fill();
+                    ctx2d.stroke();
+                    ctx2d.restore();
+
+                    //wind
+
+                    ctx2d.font = '14px Arial';
+                    ctx2d.fillStyle = "#fff";
+                    //  ctx2d.font = '12px Arial';
+
+                    if (parsed_json.hourly_forecast[from].wspd.metric < 10) {
+                        ctx2d.fillText(parsed_json.hourly_forecast[from].wspd.metric, posx, 60);
+                        ctx2d.font = '10px Arial';
+                        ctx2d.fillText("kph", posx + 10, 60);
+                    } else {
+                        ctx2d.fillText(parsed_json.hourly_forecast[from].wspd.metric, posx, 60);
+                        ctx2d.font = '10px Arial';
+                        ctx2d.fillText("kph", posx + 17, 60);
+                    }
+                    ctx2d.fillStyle = "#2fb4c8";
+
+                    posx = posx + 40
+                    from = from + 1
                 }
-                ctx2d.fillStyle = "#2fb4c8";
 
-                posx = posx + 40
-                from = from + 1
             }
 
         }
-
     }
 
 }
@@ -3035,7 +3043,7 @@ function drawWindcanvas(ID, from, to, ct) {
 function tryMapWeatherStars(SegID) {
     console.log("try " + SegID);
     var wdata = localStorage.getItem(SegID + "_weather_map");
-    var hrs = localStorage.getItem("Hrs_map");
+    var hrs = "24";
     if (wdata == null) {
        // calcStarsInline(seg.PID, hrs);
     } else {
@@ -3044,79 +3052,57 @@ function tryMapWeatherStars(SegID) {
     }
 }
 
-function displayStars(hrs,type) { //get seg weather
-    //1-3 = 3
-    //4-6 = 6
+function displayStars(hrs, type) { //get seg weather
     var wdata = localStorage.getItem("weatherdata");
     if (wdata == null) {
         $('#winfo').html("Showing the best star ratings for the next 24 hours of retrieved weather");
-        //  weatherAct();
-        //alert("no weather");
     } else {
-     //   var wdataj = eval('(' + wdata + ')');
-     //   var ID = wdataj.wdata[0].ID;      //"469475975";
         var jsonact = localStorage.getItem('starsdata');
-       // var jsonseg = localStorage.getItem('all_seg_efforts');
-     //   var jsondata = localStorage.getItem(ID + "_weather_act");
-       // //if (jsondata == null) {
-          //  console.log(ID + " weather null");
-       // } else {
-            //   $('#refreshStarsbtn').html("Refresh Stars Ratings");
-            //  var Hrs = localStorage.getItem("Hrs");
-            localStorage.setItem("Hrs", hrs);
-
-       //     var parsed_json = eval('(' + jsondata + ')');
+        localStorage.setItem("Hrs", hrs);
         hrs = 24
-            //var j2s = eval('(' + jsonseg + ')');
-            var j2a = eval('(' + jsonact + ')');
-            var fh = hrs - 2;
-            var lh = hrs;
-            fh = fh.toString();
-            lh = lh.toString();
-            //alert(fh + lh);
-            if (hrs == 24) {
-                var hrstxt = "Best (24 hrs)";
-            } else {
-                var hrstxt = fh + " - " + lh + " Hrs";
+        var j2a = eval('(' + jsonact + ')');
+        var fh = hrs - 2;
+        var lh = hrs;
+        fh = fh.toString();
+        lh = lh.toString();
+        if (hrs == 24) {
+            var hrstxt = "Best (24 hrs)";
+        } else {
+            var hrstxt = fh + " - " + lh + " Hrs";
+        }
+        if (hrs == 24) {
+            $('#winfo').html("Showing the best star ratings for the next 24 hours of retrieved weather");
+            $('#winfo').fadeIn();
+        } else {
+
+        }
+
+        $.each(j2a.segs, function (i, seg) {
+            calcStarsInline(seg.ID, hrs, 'stars');
+        });
+
+        for (var i = 0; i < localStorage.length; i++) {
+            if (localStorage.key(i).indexOf("_fav") > -1) {
+                var ID = localStorage.key(i).replace("_fav", "");
+                calcStarsInline(ID, hrs, 'map');
             }
+        }
 
-            $('#location').append("Calculating activity ratings for selected wind conditions");
-
-            if (hrs == 24) {
-                $('#winfo').html("Showing the best star ratings for the next 24 hours of retrieved weather");
-                $('#winfo').fadeIn();
-            } else {
-
-            }
-        
-            $.each(j2a.segs, function (i, seg) {
-            
-               
-                calcStarsInline(seg.ID, hrs, 'stars');
-            });
-       // }
     }
 
 }
-
 
 function stConn2() {
     var strava_deets = {
         deets: []
     };
     var ID;
-    //   alert("connect");
     $('#status_area').show();
     $('#status_msgs').html("Connecting to Strava ...");
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8')
     OAuth.popup('strava', { cache: true }).done(function (result) {
-        // alert(result);
-        //console.log(result)
-
         localStorage.removeItem('userdata');
-        // result.me().done(function (data) {
         result.get('https://www.strava.com/api/v3/athlete').done(function (data) {
-            // do something with `data`, e.g. print data.name
             $('#stConnimg').hide();
             $('#bigLogoimg').hide();
             strava_deets.deets.push({
@@ -3167,37 +3153,20 @@ function stConn2() {
                 clearInterval(timerst);
                 $('#status_msgs').append("</br>Done .... stand by");
                 checkServerStatus(ID);
-                //console.log(timex + " seconds up")
-                //// weatherSeg();
-                //drawTable("stars");
-                //$('#UnAuthApp').hide();
-                //reportOnlineStatus();
-
                 var timerst2 = setInterval(function () { dispstarst() }, 2000);
                 function dispstarst() {
                     clearInterval(timerst2);
                     $('#UnAuthApp').hide();
                     $('#status_msgs').hide();
                     $('#status_area').hide();
-
-                    //$('#menu_buttons').show();
                     appPurchChk();
-                    //displayStars(3);
-                   // checkData("0");
-
                 }
-
-
             }
             $('#status_msgs').append("</br >Retrieving Starred Segments for </br>" + data.firstname + " " + data.lastname + "</br >");
 
-            //  getFavs();
-            //  stAct();
             stKOMs(ID);
             stStars(ID);
 
-            // seg_efforts(ID);
-            // do some stuff with result
         });
 
     });
@@ -3209,7 +3178,7 @@ function checkServerStatus(stravaID) {
         url: "http://komwiththewind.apphb.com/Home/Ustatus",
         //url: "/Home/Ustatus",
         dataType: "json",
-        timeout: 20000,
+        timeout: 25000,
         data: "StravaID=" + stravaID,
         success: function (parsed_json) {
             if (parsed_json.length > 0) {
@@ -3224,6 +3193,7 @@ function checkServerStatus(stravaID) {
                 var diff = parseInt(ExpDate - today2);
                 var edays = Math.floor(diff / 86400);
                 var estr;
+                var cint = parseInt(credits);
                 if (edays == 0) {
                     estr = "tomorrow.";
                 } else {
@@ -3231,8 +3201,11 @@ function checkServerStatus(stravaID) {
                 }
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
-                    $('#status_msgs').append("<br/>Trial period expires " + estr + " <br/");
+                   // $('#status_msgs').append("<br/>Trial period expires " + estr + " <br/");
                     $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
+                    if (cint < 0) {
+                        credits = "0";
+                    }
                     $('#credits_no').html(credits);
                 } else {
                     $('#status_msgs').append("</br>Trial expired");
@@ -3522,40 +3495,26 @@ var index = 0;
     
     var seg_data =localStorage.getItem('seg_loc_data');
     var j2 = eval('(' + seg_data + ')');
-//console.log("parse " + seg_data);
     var index = 0;
-    $.each(j2.points, function (i, seg) {
-       
+    $.each(j2.points, function (i, seg) {      
       var name = i;
-      //
-      var poly = seg.points; //seg[i]['map']['summary_polyline'];
+      var poly = seg.points; 
       var ID = seg.PID;
       var chk = localStorage.getItem(ID + '_array');
-        //  alert("start " + poly + ID);
         if (chk == null) { 
       var timer = setInterval(function () { startDecode(poly,ID,i,index) }, 1000);
-      //var speed = 1000;
-      //var timer = setInterval(startDecode(poly,ID,i), speed);
       index++;
-      //startDecode(poly,ID,i);      
       function startDecode(poly,ID,i,index) {
           clearInterval(timer);
-          //index++;
-          //  alert(poly + " start ... " + ID + " idx=" + index);
- 
-          decodepoly(poly, ID, parentID,"notkml");
-          
-
+          decodepoly(poly, ID, parentID,"notkml");        
       }
         } else {
             console.log("not prarsing " + ID);
         }
       
     });
-    //getAct();
-    
+   
     }
-
 
 }
 
@@ -4096,7 +4055,7 @@ function stEffort(ID,frID,type) {
             } else {
                 $('#sgdata').html("You have no recorded efforts for this segment");
                 $('#refreshBtneffs').html("");
-                $('#segBtn').html("")
+                $('#sgBtn').html("")
             }
 
         });
