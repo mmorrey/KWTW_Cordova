@@ -40,12 +40,12 @@ var app = {
    
     onDeviceReady: function () {
       //  alert("ready");
-      // reportOnlineStatus();
+       reportOnlineStatus();
    //     $('#menu_buttons').show();
       //  getFriends();
         //
-        appPurchChk();
-     //checkData("0");
+      //  appPurchChk();
+     checkData("0");
         //var ol = isOnLine();
         
         //if (ol == true) {
@@ -203,6 +203,7 @@ function isOnLine() {
 
 function reportOnlineStatus() {
     var userdata = localStorage.getItem('userdata');
+    $('#onlineStatus').show();
     if (userdata != null) {
         var user = eval('(' + userdata + ')');
         var pic_header_on
@@ -886,9 +887,9 @@ function checkData(purch) {
             $('#splashDiv').fadeOut();
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
-           // $('#status_area').show();
-         //   $('#status_msgs').show();
-         //   $('#status_msgs').append("Not connected");
+            $('#status_area').show();
+            $('#status_msgs').show();
+            $('#status_msgs').append("Not connected");
             $('#pic_header').hide();
             $('#logo_header').hide();
             $('#menu_buttons').hide();
@@ -948,9 +949,9 @@ function checkData(purch) {
 
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
-          //  $('#status_area').show();
-         //   $('#status_msgs').show();
-         //   $('#status_msgs').append("Not connected");
+            $('#status_area').show();
+            $('#status_msgs').show();
+            $('#status_msgs').append("Not connected");
             
             $('#pic_header').hide();
             $('#logo_header').hide();
@@ -1187,14 +1188,22 @@ function showKOMsTile() {
 }
 
 function showSettingsTile() {
-   listSub();
+    listSub();
+    var total = 0;
+    for (var x in localStorage) {
+        var amount = (localStorage[x].length * 2) / 1024 / 1024;
+        total += amount;
+        console.log(x + " = " + amount.toFixed(2) + " MB");
+    }
+  //  console.log("Total: " + total.toFixed(2) + " MB");
+
     //var timer = setInterval(function () { startDecode() }, 1000);
     //function startDecode() {
     //    clearInterval(timer);
    //     restorePurchases();
 
     // }
-    //$('#pmsg2').append("<br/>1yrSub:" + localStorage.getItem("OneYrSub"));
+    $('#pmsg2').append("<br/>Total: " + total.toFixed(2) + " MB");
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();
@@ -3181,7 +3190,7 @@ function checkServerStatus(stravaID) {
         timeout: 25000,
         data: "StravaID=" + stravaID,
         success: function (parsed_json) {
-            if (parsed_json.length > 0) {
+            if (parsed_json.length > 10) {
                 var credits = parsed_json.ustatus[0]['Credits'];
                 var LoginDate = parsed_json.ustatus[0]['FirstLogin'];
                 localStorage.setItem('credits', credits);
