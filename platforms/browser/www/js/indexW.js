@@ -44,7 +44,7 @@ var app = {
    //     $('#menu_buttons').show();
       //  getFriends();
         //
-      //  appPurchChk();
+   //    appPurchChk();
      checkData("0");
         //var ol = isOnLine();
         
@@ -782,30 +782,87 @@ function removeOldweather() {
 
     var str = "weather_map";
     var timenow = Math.floor(moment() / 1000);
-   // alert(timenow);
     for (var i = 0; i < localStorage.length; i++) {
-        //  if (localStorage.key(i) == 'weatherdata') {
         if (localStorage.key(i).indexOf(str) > -1) {
-     //       alert(localStorage.key(i));
             var jsondata = localStorage.getItem(localStorage.key(i));
-          //  alert(jsondata);
             if (jsondata != null) {
                 var parsed_json = eval('(' + jsondata + ')');
                 var wepoch = parsed_json.hourly_forecast[0].FCTTIME.epoch;
-          //      alert(timenow + " " + wepoch);
                 if ((timenow - wepoch) > 90000) {
-             //       alert("Removing " + localStorage.key(i) + "</br >");
-                    //         }
                     localStorage.removeItem(localStorage.key(i));
-                    //    }
                 }
             }
-            // do something with localStorage.getItem(localStorage.key(i));
         }
     }
- //   alert("end");
 
 }
+
+function delOldst(type) {
+
+    if (type == "unused") {
+
+        var str = "_chart";
+        for (var i = 0; i < localStorage.length; i++) {
+            if (localStorage.key(i).indexOf(str) > -1) {
+                var IDstr = localStorage.key(i).split("_");
+                var ID = IDstr[0];
+                var isStarred = checkSegisStarred(ID);
+                var isMap = checkSegisMap(ID);
+                var key1 = ID + "_chart";
+                var key2 = ID + "_array";
+                var wdata1 = localStorage.getItem(ID + "_weather_act");
+                var wdata2 = localStorage.getItem(ID + "_weather_map");
+                var fav = localStorage.getItem(ID + "_fav");
+                if ((wdata1 == null) && (wdata2 == null) && (fav == null) && (isStarred == false) && (isMap == false)) {
+                    localStorage.removeItem(key1);
+                    localStorage.removeItem(key2);
+                    // alert("removed " + key1 + " " + key2);
+                } else {
+                    //    alert("not removed " + ID + fav + isStarred + isMap);
+                }
+            }
+        }
+
+    } else if (type = "weather") { // non-fav or star weather
+        var str = "_weather_";
+        for (var i = 0; i < localStorage.length; i++) {
+            if (localStorage.key(i).indexOf(str) > -1) {
+                var IDstr = localStorage.key(i).split("_");
+                var ID = IDstr[0];
+                var isStarred = checkSegisStarred(ID);
+                var isMap = checkSegisMap(ID);
+                var wdata1 = localStorage.getItem(ID + "_weather_act");
+                var wdata2 = localStorage.getItem(ID + "_weather_map");
+                var fav = localStorage.getItem(ID + "_fav");
+                if ((wdata1 == null) && (wdata2 == null) && (fav == null) && (isStarred == false) && (isMap == false)) {
+                   
+                    localStorage.removeItem(ID + "_weather_map");
+                    alert(ID + "_weather_map");
+                } else {
+                    //    alert("not removed " + ID + fav + isStarred + isMap);
+                }
+            }
+        }
+
+    } else { //all
+        for (var i = 0; i < localStorage.length; i++) {
+            if (localStorage.key(i) == 'userdata') { //and more todo
+                localStorage.removeItem(localStorage.key(i));
+                console.log(localStorage.key(i));
+            }
+        }
+
+    }
+
+    var total = 0;
+    for (var x in localStorage) {
+        var amount = (localStorage[x].length * 2) / 1024 / 1024;
+        total += amount;
+    }
+    $('#stmsg').html("Total: " + total.toFixed(2) + " MB");
+
+}
+
 
 function getFriends() {
   
@@ -887,9 +944,9 @@ function checkData(purch) {
             $('#splashDiv').fadeOut();
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
-            $('#status_area').show();
-            $('#status_msgs').show();
-            $('#status_msgs').append("Not connected");
+           // $('#status_area').show();
+           // $('#status_msgs').show();
+           // $('#status_msgs').append("Not connected");
             $('#pic_header').hide();
             $('#logo_header').hide();
             $('#menu_buttons').hide();
@@ -949,9 +1006,9 @@ function checkData(purch) {
 
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
-            $('#status_area').show();
-            $('#status_msgs').show();
-            $('#status_msgs').append("Not connected");
+           // $('#status_area').show();
+           // $('#status_msgs').show();
+          //  $('#status_msgs').append("Not connected");
             
             $('#pic_header').hide();
             $('#logo_header').hide();
@@ -1188,22 +1245,13 @@ function showKOMsTile() {
 }
 
 function showSettingsTile() {
-    listSub();
+//    listSub();
     var total = 0;
     for (var x in localStorage) {
         var amount = (localStorage[x].length * 2) / 1024 / 1024;
         total += amount;
-        console.log(x + " = " + amount.toFixed(2) + " MB");
     }
-  //  console.log("Total: " + total.toFixed(2) + " MB");
-
-    //var timer = setInterval(function () { startDecode() }, 1000);
-    //function startDecode() {
-    //    clearInterval(timer);
-   //     restorePurchases();
-
-    // }
-    $('#pmsg2').append("<br/>Total: " + total.toFixed(2) + " MB");
+    $('#stmsg').html("Total: " + total.toFixed(2) + " MB");
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();
@@ -2652,19 +2700,45 @@ function refreshWeather(type,ct) {
     }
 }
 
-function checkSegisAct(ID) {          //  create a loop function
-    var json = localStorage.getItem('segdata');
-    var j2 = eval('(' + json + ')');
-    var priv = false;
-    $.each(j2.segs, function (i, seg) { //if (i < 10) {            //  if the counter < 10, call the loop function
-        if (seg.ID == ID) {
-            priv = true;
-        }
-            
-    });                       //  ..  setTimeout()
+function checkSegisStarred(ID) {          //  create a loop function
+    var json = localStorage.getItem('starsdata');
+    var star = false;
+    if (json != null) {
+        var j2 = eval('(' + json + ')');
+        $.each(j2.segs, function (i, seg) { //if (i < 10) {            //  if the counter < 10, call the loop function
+            if (seg.ID == ID) {
+                star = true;
+                return false;
+            }
 
-    return priv;
+        });
+    } else {
+        star = false;
+    }
+
+    return star;
 }
+
+function checkSegisMap(ID) {          //  create a loop function
+    var json = localStorage.getItem('seg_loc_data');
+    var inmap = false;
+    if (json != null) {
+        var j2 = eval('(' + json + ')');
+        $.each(j2.points, function (i, seg) { //if (i < 10) {            //  if the counter < 10, call the loop function
+            if (seg.PID == ID) {
+                inmap = true;
+                return false;
+            }
+
+        });
+    } else {
+        inmap = false;
+    }
+    //  ..  setTimeout()
+
+    return inmap;
+}
+
 
 function weatherAct() {          //  create a loop function
 var json = localStorage.getItem('starsdata');  //apr4 was segdata
@@ -3780,6 +3854,7 @@ function stStars(ID) {
                    
                 }
             } else {
+                $('#status_msgs').append('Stand by ... </br>')
              //   $('#UnAuthApp').hide();
               //  noActsmsg("stars");
             }
