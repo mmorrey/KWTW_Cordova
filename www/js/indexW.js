@@ -1719,7 +1719,7 @@ function drawTable(type) {
 
     }
 
-    var ht = parseInt(((act_ct) * 50) + 49); //56
+    var ht = parseInt(((act_ct) * 50) + 56); //56
 
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");

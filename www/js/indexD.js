@@ -723,7 +723,6 @@ function poly_map(ID, i) {
     $('#static_map').fadeIn();
     var json = localStorage.getItem('seg_loc_data');
     var j2 = eval('(' + json + ')');
-    alert(json);
     var dist = j2.points[i].dist;
     var egain = j2.points[i].gain;
     var name = j2.points[i].name;
