@@ -502,6 +502,11 @@ function setMarkers(map, bounds_map, PID) {
 
 }
 
+function ctest(a,b) {
+
+    alert("hi" + a + " " + b);
+}
+
 function setMarkers2(map, bounds_map, PID, ct) {
     var jsonact = localStorage.getItem('seg_loc_data');
     var j2s = eval('(' + jsonact + ')');
@@ -518,8 +523,7 @@ function setMarkers2(map, bounds_map, PID, ct) {
         var nameW = w - 80;
         midhtml = midhtml + "<tr id=\"trow_" + markers.PID + "\" class=\"hover_o\" onclick=\"poly_map(" + markers.PID + "," + i + ")\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + segname + "</div>" +
          "<div style=\"display:inline-block;padding-left:3px\" id=\"stars_" + markers.PID + "\"></div><div style=\"display:inline-block\" id=\"stars_best_" + markers.PID + "\"></div></td></tr>";
-
-
+    
         $('#stars_n' + markers.PID).html("<p>stars n</p>");
         var stars = calcStarsInline(markers.PID, "24", "map");
         if (stars == "-1") {
@@ -576,11 +580,7 @@ function setMarkers2(map, bounds_map, PID, ct) {
     $("#winfomap").html("Found " + ct + " segments");
 
     var zoom = localStorage.getItem("zoommap");
-    if (zoom >= 12) {
-        //  $('#winfomap').append("<br/>Retrieve one segment's weather to see all star ratings in this view");
-        // weatherMap1("map", ct);
 
-    }
     if (ct > 0) {
         displayStarsmap(24, ct); //aaa
         drawWindcanvas(null, 0, 5, ct);
@@ -589,18 +589,14 @@ function setMarkers2(map, bounds_map, PID, ct) {
 }
 
 function format_bounds(bds) {
-    //console.log(bds);
     var bds2 = bds.replace("((", "");
     var bds3 = bds2.replace("))", "");
     var bds4 = bds3.replace("), (", ",");
     var bds5 = bds4.replace(" ", "");
     var bds6 = bds5.replace(" ", "");
-
     var bdsar = bds6.split(',');
     var lat = (parseFloat(bdsar[2] - bdsar[0])) + parseFloat(bdsar[0]);
     var lng = (parseFloat(bdsar[3] - bdsar[1])) + parseFloat(bdsar[1]);
-
-    //console.log("lat=" + lat + "lng=" + lng);
     return (bds6);
 }
 
@@ -627,14 +623,13 @@ function backAct() {
 
 
 function showLeader(ID, type) {
-    console.log("show leader" + ID);
     $('#seg_weather').hide();
     $('#seg_efforts').hide();
     $('#refreshBtnLB').hide();
     $('#komimg').hide();
     $('#komdata').html("");
     $('#lbBtn').hide();
-    $('#g1').hide();
+    $('#g1').hide();  
     var lbdata = localStorage.getItem('lb_data_' + ID);
     var canvas = document.getElementById('leaderbd');
     canvas.width = 350;
@@ -647,7 +642,9 @@ function showLeader(ID, type) {
     ctx2d.fillRect(0, 0, 350, 2000);
     if (lbdata == null) {
         $('#seg_leaderboard').show();
-
+        $('html, body').animate({
+            scrollTop: $("#leaderback").offset().top
+        }, 2000);
         if (devOnline == true) {
             $('#lbdata').html("Retrieving Leaderboard ...");
             stLeader(ID, type);
@@ -707,6 +704,95 @@ function showEfforts(ID, type, frID) {
     }
 }
 
+function poly_map(ID, i) {
+    //  $('#map_table').hide();
+    $('table tbody tr').each(function (index, el) {
+        $(this).siblings().removeClass('sel');
+    });
+
+    jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel').removeClass('sel_p');
+    $('#seg_data').show();
+    $('#seg_weather').show();
+    $('#data_pills').show();
+    $('#seg_details').show();
+    $('#pills_row').show();
+    $('#deets_tile').show();
+    $('html, body').animate({
+        scrollTop: $("#seg_title").offset().top
+    }, 2000);
+    $('#static_map').fadeIn();
+    var json = localStorage.getItem('seg_loc_data');
+    var j2 = eval('(' + json + ')');
+    alert(json);
+    var dist = j2.points[i].dist;
+    var egain = j2.points[i].gain;
+    var name = j2.points[i].name;
+    var latlng = getLatlng(ID, "map");
+    var fstate = localStorage.getItem(ID + "_fav");
+    name = name.replace("'", "");
+    if (fstate == null) {
+        fstate = 1;
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','map','" + dist + "','" + egain + "'," + i + ")\"><i class=\"fa fa-heart-o\"></li></button>";
+    } else {
+        fstate = 0;
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','map','" + dist + "','" + egain + "')\"><i class=\"fa fa-heart\"></li></button>";
+    }
+    $('#favBtn').html(favbtn);
+    $('#seg_title').html("<h1>" + name + "</h1>");
+    $('#seg_dist').html("<p><bold>" + dist + "</bold></p>");
+    $('#seg_egain').html("<p><bold>" + egain + "</bold></p>");
+    //$('#leaderboardBtn').html(Lbbtn);
+    $('#backBtn').html(favbtn);
+    // $('#favBtn').html(favbtn);
+    var type = "map";
+    $('#ultop > li').each(function (index, el) {
+        //     alert($(this)[0]);
+        $(this).siblings().find('p').removeClass('sel');
+
+    });
+    jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel');
+    var effs = localStorage.getItem('eff_data_' + ID);
+    if (effs == null) {
+        $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'map')\">Weather</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
+"</div></div>");
+    } else {
+
+        $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'map')\">Weather</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ")\">Efforts</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
+"</div></div>");
+    }
+
+
+    var pl = j2.points[i].points;
+    drawMap(pl);
+
+
+
+    p1 = 0
+    p2 = 0
+    p3 = 0
+    p4 = 0
+    p5 = 0
+    p6 = 0
+    p7 = 0
+    p8 = 0
+    p9 = 0
+    p10 = 0
+    p11 = 0
+    p12 = 0;
+    totalDist = 0
+    $('#title').html(name);
+    //decodepoly(pl, ID);
+    drawChart(ID);
+
+    drawWeather(ID, 'map');
+
+
+}
 
 function polyF(ID, ftype) {
     $('#deets_tile').show();
@@ -828,7 +914,6 @@ function poly2(ID, i, scroll, type, frID) {
         var frStr = getFriendFirstname(frID) + "'s Efforts";
     }
 
-    //  alert(json);
     var j2 = eval('(' + json + ')');
     var dist = j2.segs[i].dist;
     //  var egain = j2.segs[i].egain;

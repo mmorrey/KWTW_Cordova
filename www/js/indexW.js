@@ -40,7 +40,7 @@ var app = {
    
     onDeviceReady: function () {
       //  alert("ready");
-       reportOnlineStatus();
+    //   reportOnlineStatus();
    //     $('#menu_buttons').show();
       //  getFriends();
         //
@@ -135,7 +135,7 @@ function listSub() {
 }
 
 var androidApplicationLicenseKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB";
-var productIds = "sub1yearl1";
+var productIds = "sub1yearL3";
 var existing_purchases = [];
 var product_info = {};
 
@@ -201,6 +201,8 @@ function isOnLine() {
     return navigator.onLine;
 }
 
+var devOnline = true;
+
 function reportOnlineStatus() {
     var userdshoata = localStorage.getItem('userdata');
     $('#onlineStatus').show();
@@ -220,7 +222,7 @@ function reportOnlineStatus() {
         }
       
         if (isOnLine()) {
-        
+            devOnline = true;
             //document.getElementById('stRefresh').style.pointerEvents = 'auto';
             //document.getElementById('stFrRefresh').style.pointerEvents = 'auto';
             //document.getElementById('purchBtn').style.pointerEvents = 'auto';
@@ -235,7 +237,7 @@ function reportOnlineStatus() {
             $('#frRefBtn').show();
         }
         else {
-          
+            devOnline = false;
             //document.getElementById('stRefresh').style.pointerEvents = 'none';
             //document.getElementById('stFrRefresh').style.pointerEvents = 'none';
             //document.getElementById('purchBtn').style.pointerEvents = 'none';
@@ -263,6 +265,8 @@ function reportOnlineStatus() {
         }
     }
 }
+
+
 
 $(function () {
     $(".dropdown-menu li a").click(function () {
@@ -1102,20 +1106,20 @@ function isPhoneGap() {
 function appPurchChk() {
     listSub();
     var purch = "0";
-    $('#pmsg2').append("<br/>Purch0:" + purch);
+  //  $('#pmsg2').append("<br/>Purch0:" + purch);
     //alert(purch);
     var timer1 = setInterval(function () { startPchk1() }, 2000);
     function startPchk1() {
         clearInterval(timer1);
        // alert("rest");
         restorePurchases();
-        $('#pmsg2').append("<br/>Purch1:" + purch);
+     //   $('#pmsg2').append("<br/>Purch1:" + purch);
 
         var timer2 = setInterval(function () { startPchk2() }, 2000);
         function startPchk2() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
-            $('#pmsg2').append("<br/>Purch2:" + purch);
+          //  $('#pmsg2').append("<br/>Purch2:" + purch);
           //  alert("cdstart");
             checkData(purch);
         }
@@ -1127,8 +1131,8 @@ function appPurchChk() {
 
 function checkData(purch) {
     $('#splashDiv').fadeOut();
-    $('#pmsg2').append("<br/>Purch3:" + purch);
-   // alert("cd" + purch);
+   // $('#pmsg2').append("<br/>Purch3:" + purch);
+  
     removeOldweather();
    // alert("cd2");
     $('#info').hide();
@@ -1206,7 +1210,7 @@ function checkData(purch) {
     } else {
         $('#splashDiv').fadeOut();
         var udata = localStorage.getItem("userdata");
-  //     alert(udata);
+     
         if (udata == null) {
 
             $('#UnAuthApp').show();
@@ -1253,7 +1257,7 @@ function checkData(purch) {
                     //expired
                     $('#status_msgs').append("Trial expired");
                     //  localStorage.setItem("sub", "expired");
-                    listSub();
+                   listSub();
                     $('#pills_row').hide();
                     $('#seg_nearby').hide();
                     $('#seg_efforts').hide();
@@ -1467,9 +1471,8 @@ function showKOMsTile() {
 }
 
 function showSettingsTile() {
-//    listSub();
+    listSub();
     calcStorage();
-    $('#stmsg').html("Total: " + total.toFixed(2) + " MB");
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();
@@ -1509,7 +1512,7 @@ function getNearby(ID,lat,lng) {
     $("#winfomap").html("");
     if (ID == null) {
         showMapTile();
-        if (devOnline) {
+        if (devOnline == true) {
             showmap();
         } else {
             $("#winfomap").html("Device is offline");
