@@ -40,7 +40,6 @@ var w1 = 0, w2 = 0, w3 = 0, w4 = 0, w5 = 0, w6 = 0, w7 = 0, w8 = 0, w9 = 0, w10 
 var besthtml;
 
 function whichP(bearing, percent) {
-    //  alert(bearing + " .. " + percent);
     if (bearing < 30) {
         p1 = p1 + (percent / 100);
     }
@@ -49,7 +48,6 @@ function whichP(bearing, percent) {
     }
     if (bearing >= 60 && bearing < 90) {
         p3 = p3 + (percent / 100);
-        //alert(p3);
     }
     if (bearing >= 90 && bearing < 120) {
         p4 = p4 + (percent / 100);
@@ -151,39 +149,51 @@ function saveChart(ID) {
     console.log("array for " + ID + " " + pArray + "<br />");
     var obj = [{
         value: p1,
+        color: "#f93",
     },
     {
-      value: p2,
+        value: p2,
+        color: "#f93",
     },
     {
         value: p3,
+        color: "#f93",
     },
     {
         value: p4,
+        color: "#f93",
     },
     {
         value: p5,
+        color: "#f93",
     },
     {
         value: p6,
+        color: "#f93",
     },
     {
         value: p7,
+        color: "#f93",
     },
 	{
 	    value: p8,
+	    color: "#f93",
 	},
 	{
 	    value: p9,
+	    color: "#f93",
 	},
 	{
 	    value: p10,
+	    color: "#f93",
 	},
 	{
 	    value: p11,
+	    color: "#f93",
 	},
 	{
 	    value: p12,
+	    color: "#f93",
 	}];
 
     localStorage.setItem(ID + "_chart", JSON.stringify(obj));
@@ -334,9 +344,9 @@ function GoogleMap(ID, lat, lng, zoom1) {
         var bounds;
         google.maps.event.addListener(map, 'bounds_changed', (function () {
             bounds = map.getBounds();
-            $("#map_msg").html("Map moved ...");
             var timer;
             return function () {
+                if (devOnline) { 
                 clearTimeout(timer);
                 timer = setTimeout(function () {
 
@@ -349,6 +359,8 @@ function GoogleMap(ID, lat, lng, zoom1) {
                     localStorage.setItem("latmap", latn);
                     localStorage.setItem("lngmap", lngn);
                     $("#winfomap").html("Retrieving segments ...");
+                    $('#map_table').html("");
+                    $('#mapWind').hide();
                     removeMarkers(null);
 
                     markers_array = [];
@@ -360,6 +372,10 @@ function GoogleMap(ID, lat, lng, zoom1) {
                     $('#seg_leaderboard').hide();
                     setMarkers(map, bounds, ID);
                 }, 2000);
+                } else {
+                    $('#map_table').html("");
+                    $("#winfomap").html("Device is offline.");
+                }
             }
         }()));
 
@@ -474,8 +490,12 @@ function setMarkers(map, bounds_map, PID) {
             function startDecode() {
 
                 clearTimeout(timer1m);
+                delOldst("unused");
                 setMarkers2(map, bounds_map, PID, ct);
+                calcStorage();
             }
+
+
 
         });
     });
@@ -628,16 +648,16 @@ function showLeader(ID, type) {
     if (lbdata == null) {
         $('#seg_leaderboard').show();
 
-        if (isOnLine() == true) {
+        if (devOnline == true) {
             $('#lbdata').html("Retrieving Leaderboard ...");
             stLeader(ID, type);
         } else {
             $('#lbdata').html("Device is offline.");
         }
 
-        console.log("no local lb data");
+      
     } else {
-        console.log("local lb data");
+
         drawLeaderboard(ID, type); //changed
     }
 }
@@ -652,131 +672,49 @@ function showEfforts(ID, type, frID) {
     ctx2d.clearRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
     ctx2d.fillStyle = "rgba(255, 255, 255, 0.0)";
     ctx2d.fillRect(0, 0, 350, 2000);
-    // var effs = localStorage.getItem('eff_data_' + ID);
-    console.log(ID);
-    if (frID != null) {
-        var effs = localStorage.getItem('eff_data_' + ID + '_' + frID);
+    if (devOnline == true) {
+
+        if (frID != null) {
+            var effs = localStorage.getItem('eff_data_' + ID + '_' + frID);
+        } else {
+            var effs = localStorage.getItem('eff_data_' + ID);
+        }
+        if (effs == null) {
+            $('#seg_weather').hide();
+            $('#seg_leaderboard').hide();
+            $('#seg_efforts').show();
+            $('#sgdata').html("Retrieving segment efforts ...");
+            if (frID != null) {
+                stEffort(ID, frID, type); //add frID to 
+            } else {
+                stEffort(ID, null, type);
+            }
+            //save to _seg_efforts
+        } else {
+            if (frID != null) {
+                drawSegEffort(ID, frID); //add frID to 
+            } else {
+                drawSegEffort(ID, null);
+            }
+
+        }
+
     } else {
-        var effs = localStorage.getItem('eff_data_' + ID);
-    }
-    if (effs == null) {
         $('#seg_weather').hide();
         $('#seg_leaderboard').hide();
         $('#seg_efforts').show();
-        $('#sgdata').html("Retrieving segment efforts ...");
-        if (frID != null) {
-            stEffort(ID, frID, type); //add frID to 
-        } else {
-            stEffort(ID, null, type);
-        }
-        //save to _seg_efforts
-    } else {
-        if (frID != null) {
-            drawSegEffort(ID, frID); //add frID to 
-        } else {
-            drawSegEffort(ID, null);
-        }
-
+        $('#sgdata').html("Device is offline.");
     }
-
 }
 
-function poly_map(ID, i) {
-    //  $('#map_table').hide();
+
+function polyF(ID, ftype) {
+    $('#deets_tile').show();
     $('table tbody tr').each(function (index, el) {
         $(this).siblings().removeClass('sel');
     });
 
-    jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel').removeClass('sel_p');
-    $('#seg_data').show();
-    $('#seg_weather').show();
-    $('#data_pills').show();
-    $('#seg_details').show();
-    $('#pills_row').show();
-    $('#data_pills').show();
-    $('#deets_tile').show();
-    $('html, body').animate({
-        scrollTop: $("#seg_title").offset().top
-    }, 2000);
-   
-    $('#static_map').fadeIn();
-    var json = localStorage.getItem('seg_loc_data');
-    var j2 = eval('(' + json + ')');
-    //alert(json);
-    var dist = j2.points[i].dist;
-    var egain = j2.points[i].gain;
-    var name = j2.points[i].name;
-    var latlng = getLatlng(ID, "map");
-    var fstate = localStorage.getItem(ID + "_fav");
-    if (fstate == null) {
-        name = name.replace("'", "");
-        fstate = 1;
-        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','map','" + dist + "','" + egain + "')\"><i class=\"fa fa-heart-o\"></li></button>";
-    } else {
-        fstate = 0;
-        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','map','" + dist + "','" + egain + "')\"><i class=\"fa fa-heart\"></li></button>";
-    }
-    $('#favBtn').html(favbtn);
-    $('#seg_title').html("<h1>" + name + "</h1>");
-    $('#seg_dist').html("<p><bold>" + dist + "</bold></p>");
-    $('#seg_egain').html("<p><bold>" + egain + "</bold></p>");
-    //$('#leaderboardBtn').html(Lbbtn);
-    $('#backBtn').html(favbtn);
-    // $('#favBtn').html(favbtn);
-    var type = "map";
-    $('#ultop > li').each(function (index, el) {
-        //     alert($(this)[0]);
-        $(this).siblings().find('p').removeClass('sel');
-
-    });
     jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel');
-    var effs = localStorage.getItem('eff_data_' + ID);
-    if (effs == null) {
-        $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'map')\">Weather</button>" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
-"</div></div>");
-    } else {
-
-        $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'map')\">Weather</button>" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ")\">Efforts</button>" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
-"</div></div>");
-    }
-
-
-    var pl = j2.points[i].points;
-    drawMap(pl);
-
-
-
-    p1 = 0
-    p2 = 0
-    p3 = 0
-    p4 = 0
-    p5 = 0
-    p6 = 0
-    p7 = 0
-    p8 = 0
-    p9 = 0
-    p10 = 0
-    p11 = 0
-    p12 = 0;
-    totalDist = 0
-    $('#title').html(name);
-    //decodepoly(pl, ID);
-    drawChart(ID);
-
-    drawWeather(ID, 'map');
-
-
-}
-
-
-
-function polyF(ID) {
-    $('#deets_tile').show();
     var canvas = document.getElementById('weather_stars');
     var ctx2d = canvas.getContext('2d');
     ctx2d.clearRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
@@ -790,7 +728,7 @@ function polyF(ID) {
     $('#data_pills').show();
     $('#seg_details').show();
     $('#static_map').fadeIn();
-    var pl = localStorage.getItem(ID + "_poly");
+
     if (scroll == true) {
         $('html, body').animate({
             scrollTop: $("#seg_title").offset().top
@@ -799,15 +737,19 @@ function polyF(ID) {
 
     var fstate = localStorage.getItem(ID + "_fav");
     var j2 = eval('(' + fstate + ')');
-
+    if ((ftype == "kom") || (ftype == "stars")) {
+        var pl = localStorage.getItem(ID + "_poly");
+    } else {
+        var pl = j2.segs[0].poly;
+    }
     var name = j2.segs[0].name;
     var latlng = j2.segs[0].latlng;
     var type = "favs";
     var dist = j2.segs[0].dist;
     var gain = j2.segs[0].gain;
     $('#seg_title').html("<h1>" + name + "</h1>");
-    $('#seg_dist').html("");
-    $('#seg_egain').html("");
+    $('#seg_dist').html("<p><bold>" + dist + "</bold></p>");
+    $('#seg_egain').html("<p><bold>" + gain + "</bold></p>");
     if (fstate == null) {
         fstate = 1;
         var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','" + type + "')\"><i class=\"fa fa-heart-o\"></li></button>";
@@ -818,11 +760,11 @@ function polyF(ID) {
     $('#favBtn').html(favbtn);
 
     $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'map')\">Weather</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'" + ftype + "')\">Weather</button>" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ",'" + type + "')\">Efforts</button>" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
 "</div></div>");
-    drawWeather(ID, 'favs');
+    drawWeather(ID, ftype);
 
     drawMap(pl);
     drawChart(ID);
@@ -843,17 +785,21 @@ function polyF(ID) {
 }
 
 function poly2(ID, i, scroll, type, frID) {
+
     $('#deets_tile').show();
     var canvas = document.getElementById('weather_stars');
     var ctx2d = canvas.getContext('2d');
     ctx2d.clearRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
     ctx2d.fillStyle = "rgba(255, 255, 255, 0.0)";
     ctx2d.fillRect(0, 0, 130, 2000);
+    var userdata = localStorage.getItem('userdata');
+    var user = eval('(' + userdata + ')');
+    var stravaID = user.deets[0]['stravaID'];
     $('table tbody tr').each(function (index, el) {
         $(this).siblings().removeClass('sel');
     });
-    jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel');
 
+    jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel');
 
     $('#seg_data').show();
     $('#pills_row').show();
@@ -895,8 +841,8 @@ function poly2(ID, i, scroll, type, frID) {
     //var Lbbtn ="<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick=\"showLeader(" + ID +")\">Leaderboard</button>";
     //var Backbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"Fav(" + ID + ")\">Fav</button>
     var fstate = localStorage.getItem(ID + "_fav");
+    name = name.replace("'", "");
     if (fstate == null) {
-        name = name.replace("'", "");
         fstate = 1;
         var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + "," + fstate + ",'" + name + "','" + latlng + "','" + type + "','" + dist + "','" + gain + "')\"><i class=\"fa fa-heart-o\"></li></button>";
     } else {
@@ -918,19 +864,18 @@ function poly2(ID, i, scroll, type, frID) {
 "</div></div>");
         drawWeather(ID, type);
     } else {
-       
+
         $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ")\">My Efforts</button>" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ",'" + type + "', " + frID +")\">" + frStr + "</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ",'" + type + "', " + frID + ")\">" + frStr + "</button>" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
 "</div></div>");
-       // showLeader(ID, type);
+        //   showLeader(ID, type);
         //showHistweather(ID, type, true, "one")
     }
     drawMap(pl);
     drawChart(ID);
 
-    $('#location').append(ID + "poly2" + pl + "</br>");
     p1 = 0
     p2 = 0
     p3 = 0
@@ -951,6 +896,46 @@ function poly2(ID, i, scroll, type, frID) {
 
 }
 
+function setFav(ID, fstate, name, latlng, type, dist, gain, i) {
+
+    if (fstate == 0) {
+        //remove 
+        localStorage.removeItem(ID + "_fav")
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + ",1,'" + name + "','" + latlng + "','" + type + "','" + dist + "','" + gain + "')\"><i class=\"fa fa-heart-o\"></li></button>";
+        // getAct('favs');
+    } else {
+        var strava_segs = {
+            segs: []
+        };
+        if (i > -1) {
+            if (type == "map") {
+                var json = localStorage.getItem('seg_loc_data');
+            } else if (type == "kom") {
+                var json = localStorage.getItem('seg_loc_data');
+            }
+
+            var j2 = eval('(' + json + ')');
+            var pl = j2.points[i].points;
+        }
+        console.log(name + " " + pl);
+        strava_segs.segs.push({
+            "name": name,
+            "latlng": latlng,
+            "type": type,
+            "dist": dist,
+            "gain": gain,
+            "poly": pl
+            //"seg_efforts" : data[i]['segment_efforts']
+        });
+        var jsonsegs = JSON.stringify(strava_segs);
+        localStorage.setItem(ID + "_fav", jsonsegs);
+        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + ",0,'" + name + "','" + latlng + "','" + type + "','" + dist + "','" + gain + "')\"><i class=\"fa fa-heart\"></li></button>";
+    }
+
+    $('#favBtn').html(favbtn);
+
+
+}
 
 function showFriend(ID, name, i) {
 
@@ -2025,10 +2010,8 @@ function prettify(diff) {
 }
 
 
-
 function drawWeather(ID, type) {
-    //var bdata = localStorage.getItem(ID+"_array");
-    console.log("draw" + ID + type)
+
     var starvals = {
         stardata: []
     };
@@ -2051,19 +2034,23 @@ function drawWeather(ID, type) {
         $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Refresh Weather</a>");
         var bdata = localStorage.getItem(bearing_store);
         var parsed_json = eval('(' + jsondata + ')');
+        //alert(parsed_json);
         var cutoff = parseInt("16");
         var country = parsed_json['location']['country_name'];
         var location = parsed_json['location']['city'];
+        //alert(location);
         var locstr = location + ", " + country
-        var wdate = getTimeW(ID);
+
         $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Weather for " + location + ", " + country + "</div>");
-        var timenow = new Date();
-        var hour_now = timenow.getHours();
-        var today = timenow.getDate();
+
         var posy = 4; //54;
         var posyt = 15; //65;
         var canvas = document.getElementById('weather');
         var canvasr = document.getElementById('weather_stars');
+        //   canvas.width = 350;
+        // canvas.height = 1500;
+        //   canvas.style.width = '350px';
+        //   canvas.style.height = '1500px';
         var ctx2d = canvas.getContext('2d');
         var ctx2dr = canvasr.getContext('2d');
         ctx2d.clearRect(0, 0, ctx2d.canvas.width, ctx2d.canvas.height);
@@ -2078,6 +2065,8 @@ function drawWeather(ID, type) {
         var first_hour = -1;
         hour_bg_bk = "000";
         var totalsnow = 0;
+        //var diff = (Math.round(new Date().getTime() / 1000) - epochdata) / 360;
+        //var hours = Math.round(diff);
         var dt = parseInt(0);
         var dt_ct = parseInt(0);
         var total_score = parseInt(0);
@@ -2085,7 +2074,12 @@ function drawWeather(ID, type) {
         ctx2d.font = '14px Arial';
         ctx2d.strokeStyle = "#2fb4c8";
         ctx2d.save();
+
+
         $.each(parsed_json.hourly_forecast, function (i, zone) {
+            //ctx2d.restore();
+
+
             var imgi = new Image();
             imgi.src = "http://icons.wxug.com/i/c/a/nt_snow.gif" //"http://icons.wxug.com/i/c/i/" + zone.icon + ".gif";
             var ws = (parseInt(zone.wspd.english) * 5) + 10;
@@ -2111,7 +2105,9 @@ function drawWeather(ID, type) {
             if (first_hour == -1) {
                 first_hour = zone.FCTTIME.hour;
             }
+
             var cond = zone.condition;
+
             var yday = parseInt(zone.FCTTIME.yday);
             var hour_padded = parseInt(zone.FCTTIME.hour);
             var civil = parseInt(zone.FCTTIME.civil);
@@ -2155,9 +2151,12 @@ function drawWeather(ID, type) {
             ctx2d.lineTo(0, 5);
             ctx2d.lineTo(-10, 5);
             ctx2d.lineTo(-10, -5);
+
+
             ctx2d.closePath();
             ctx2d.fill();
             ctx2d.stroke();
+            //ctx2d.rotate(-(20*Math.PI/180));
             ctx2d.restore();
 
 
@@ -2168,6 +2167,7 @@ function drawWeather(ID, type) {
 
             ctx2d.font = '14px Arial';
             ctx2d.fillStyle = "#fff";
+            //  ctx2d.font = '12px Arial';
             ctx2d.fillText("kph", 80, posyt + 46);
             ctx2d.fillText(zone.wspd.metric, 62, posyt + 46);
             ctx2d.fillStyle = "#2fb4c8";
@@ -2176,11 +2176,11 @@ function drawWeather(ID, type) {
             ctx2d.fillText(cond, 59, posyt + 6);  //was cond
 
             ctx2d.font = '16px Arial';
+            //        ctx2d.fillStyle = temp_txt;
             ctx2d.fillText(zone.temp.metric, (start), posyt + 27);//33
             ctx2d.fillText("°C", (start + 15), posyt + 27);//33
 
 
-            
             dt_ct = dt_ct + 1;
             var brg = winddeg;
             //alert(brg);
@@ -2223,16 +2223,25 @@ function drawWeather(ID, type) {
             var brgh0 = parseInt(arval1h * windspeed);  //fine 2h //not 1h
             var brgh1 = parseInt(arval2h * windspeed) * 0.75;
             var brgh2 = parseInt(arval3h * windspeed) * 0.75;
-            console.log(brgf0 + " " + brgf1 + " " + brgf2)
+
             var foll_wind_val = parseInt(brgf0) + parseInt(brgf1) + parseInt(brgf2) + parseInt(brgf3) + parseInt(brgf4); //1000; // ((arval1f * windspeed) + ((arval2f * windspeed) / 0.5) + ((arval3f * windspeed) / 0.5));
             var head_wind_val = parseInt(brgh0) + parseInt(brgh1) + parseInt(brgh2);
-            console.log("new" + parseInt(brgf3) + " " + parseInt(brgf4))
+            //head_wind_val = brgh0;
+            //alert(brgh0);
+
             var starval = 500 + (parseInt(foll_wind_val) - parseInt(head_wind_val));
+            // $('#bdata').append("starval:" + starval + "</br>");
             var numstars = 0;
+
+            //var head_wind_val
+            // alert(starval);
             ctx2d.font = '14px Arial';
             ctx2d.fillStyle = "#f93";
+            // ctx2d.fillText(brg + "." + pval0f + "." + arval1f + " .. " + (brg - 30) + "." + pval1f + "." + arval2f + " .. " + (brg + 30) + "." + pval2f + "." + arval3f + " " + foll_wind_val + "stm:" + numstars, 53, posyt);
+            // ctx2d.fillText(brg + "." + pval0h + "." + arval1h + " .. " + (brg - 30) + "." + pval1h + "." + arval2h + " .. " + (brg + 30) + "." + pval2h + "." + arval3h + " " + head_wind_val + "st:" + starval, 53, posyt + 32);
             ctx2d.font = '13px Arial Bold';
             ctx2d.fillStyle = "#ffca4a";
+            //if (foll_wind_val > 20 || 
             ctx2dr.fillStyle = "#ffca4a";
 
             if (starval <= 0) {
@@ -2242,6 +2251,7 @@ function drawWeather(ID, type) {
                 drawStarsF(ctx2dr, numstars, posy + 30, 9);
             }
 
+            // console.log(numstars);
             if (dt_ct < 25) {
                 starvals.stardata.push({
                     "stars": numstars,
@@ -2253,10 +2263,15 @@ function drawWeather(ID, type) {
                 });
             }
 
+            //star(ctx2d, 260, posy + 30, 10, 5, 0.5, "f");
+            //star(ctx2d, 295, posy + 30, 10, 5, 0.5, "f");
+            //star(ctx2d, 330, posy + 30, 10, 5, 0.5, "o");
             posy = posy + 76;
             posyt = posyt + 76;
+            // ctx2d.save();
 
         });
+        //  console.log(starvals.stardata
         var locupdate = localStorage.getItem("locupdate");
         if (locupdate == false) {
             saveSegment(null, ID, null, null, null, null, locstr);
@@ -2266,10 +2281,14 @@ function drawWeather(ID, type) {
         }
         var maxPpg = getMax(starvals.stardata, "stars");
         var loc = location + ", " + country
-        console.log(JSON.stringify(starvals) + " " + maxPpg.SegID + " - " + maxPpg.stars);
+
+        if (type == "act") {
+            var priv = checkSegisAct(ID);
+        } else {
+            var priv = false;
+        }
         var segName = getSegName(ID, type);
 
-       
     } else {
         var canvas = document.getElementById('weather');
         var canvasr = document.getElementById('weather_stars');
@@ -2281,13 +2300,19 @@ function drawWeather(ID, type) {
         ctx2dr.clearRect(0, 0, ctx2dr.canvas.width, ctx2dr.canvas.height);
         ctx2dr.fillStyle = "rgba(255, 255, 255, 0.0)";
         ctx2dr.fillRect(0, 0, 350, 2000);
-        $('#refreshBtnW').show();
-        $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Weather not yet retrieved</div>");
-        var latlng = getLatlng(ID, type);
-        if (type != 'map') {
-            $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Retrieve Weather</a>");
+        if (devOnline) {
+
+            $('#refreshBtnW').show();
+            $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Weather not yet retrieved</div>");
+            var latlng = getLatlng(ID, type);
+            if (type != 'map') {
+                $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Retrieve Weather</a>");
+            } else {
+                $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Retrieve Weather</a>");
+            }
         } else {
-            $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Retrieve Weather</a>");
+            $('#refreshBtnW').hide();
+            $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Device is offline.</div>");
         }
     }
 
@@ -2322,6 +2347,8 @@ function calcStarsInline(ID, hrs, type) {
         jsondata = localStorage.getItem(ID + "_weather_act");
     }
     if (jsondata != null) {
+        $('#winfo').html("Showing the best star ratings for the next 24 hours of retrieved weather");
+        $('#winfo').fadeIn();
         var beststars;
         //  = localStorage.getItem(ID+"_weather");
         // alert(jsondata);
@@ -2395,10 +2422,13 @@ function calcStarsInline(ID, hrs, type) {
 
             var numstars = 0;
             if (starval <= 0) {
+                //drawStarsO(ctx2d, 5, posy + 30, 230);
+                //$('#location').append("Stars for " + ID + "  " + numstars + "</br>");
             } else {
                 numstars = calcStars(starval);
 
             }
+
             stars_tot = stars_tot + numstars;
             starvals.stardata.push({
                 "stars": numstars,
@@ -2408,17 +2438,21 @@ function calcStarsInline(ID, hrs, type) {
                 "timestamp": longtime
 
             });
+            //"<p style=\"color:#ffca4a\">"
             diff--;
 
             if (diff == 0) {
                 star_avg = Math.round(stars_tot / ct);
                 $('#location').append("Avg Stars for " + ID + "  " + star_avg + "</br>");
-                $('#stars_best_' + ID).html("");
+                // alert(star_avg);
+                //return false
+                $('#stars_best_' + ID).hide();
                 if (hrs == 24) {
                     var maxPpg = getMax(starvals.stardata, "stars");
 
-                    $('#stars_best_' + ID).fadeIn('slow');
+
                     $('#stars_best_' + ID).html("<div class=\"msg_sml\">" + maxPpg.timestamp + "</div>");
+                    $('#stars_best_' + ID).fadeIn();
                     beststars = maxPpg.stars;
                     showStars(ID, maxPpg.stars);
                 } else {
@@ -2435,6 +2469,7 @@ function calcStarsInline(ID, hrs, type) {
         }
         return "-1";
     }
+    //  });
 }
 
 function showStars(ID, numstars) {
@@ -2591,8 +2626,7 @@ function checkWeather(latlng1, ct, ID, type) {
 
     var lat = latlng[0];
     var lng = latlng[1];
-    console.log("lat=" + lat);
-    console.log("Checking weather2 for " + latlng + "</br>");
+
     var latx = lat - 0.05;
     var latxx = lat + 0.05;
     var lngx = lng - 0.05;
@@ -2697,11 +2731,33 @@ function copyMapWeather(ID) {
         localStorage.setItem(seg.PID + '_weather_map', jsondata);
              
     });
-    displayStarsmap(24,null)
+   
 
 }
 
 
+function checkLocalW() {
+    var ID = 0;
+    var jsonact = localStorage.getItem('seg_loc_data');
+    var j2s = eval('(' + jsonact + ')');
+    $.each(j2s.points, function (i, seg) {
+        var wdata = localStorage.getItem(seg.PID + "_weather_map");
+
+        if (wdata != null) {
+            ID = seg.PID;
+            console.log("return found" + ID);
+            return false;
+
+        } else {
+            ID = null;
+
+        }
+
+    });
+
+    return ID;
+
+}
 
 function copyWeather(fromID, toID, lat, lng, type) {
     var jsondata;
@@ -2713,7 +2769,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
             localStorage.setItem(toID + '_weather_map', jsondata);
             console.log("json null, used act")
             calcStarsInline(toID, 24, type);
-            drawWeather(toID, type);     
+            // drawWeather(toID, type);     
             if (zoom >= 12) {
                 copyMapWeather(fromID);
             }
@@ -2726,7 +2782,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
                 copyMapWeather(fromID);
             }
             calcStarsInline(toID, 24, type);
-            drawWeather(toID, type);
+            // drawWeather(toID, type);
             $('#refreshBtnW').show();
         }
         //localStorage.setItem(toID + '_weather_map', jsondata);
@@ -2737,7 +2793,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
         calcStarsInline(toID, 24, type);
         drawWeather(toID, type);
         $('#refreshBtnW').show();
-  
+
 
     }
     //var jsondata = localStorage.getItem(fromID+"_weather");
@@ -2752,14 +2808,14 @@ function copyWeather(fromID, toID, lat, lng, type) {
     if (ct == null) {
         ct = 0;
     }
-   
+
     var ct2 = 0;
     var wdata = localStorage.getItem('weatherdata');
     //  if (wdata != null) {
     var wdata_json = eval('(' + wdata + ')');
-         
+
     $.each(wdata_json.wdata, function (i, wd) {
-          
+
         weather_deets.wdata.push({
             "ID": wd.ID,
             "lat": wd.lat,
@@ -2769,7 +2825,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
             //ct--;
         });
         // alert("pushed  "+ ID + "ct=" + ct + "ct2=" + ct2);
-            
+
         //  var jsondeets = JSON.stringify(weather_deets);
         //   $('#location').append("Writing Weather data 1 = " + ID + "</br>");
         //   localStorage.setItem('weatherdata', jsondeets);
@@ -2781,20 +2837,20 @@ function copyWeather(fromID, toID, lat, lng, type) {
             weather_deets.wdata.push({
                 "ID": toID,
                 "lat": lat,
-                "lng": lng, 
+                "lng": lng,
                 "timestamp": epoch,
                 "datestr": moment().format("MMM Do YYYY, h:mm:ss a")
             });
             //alert("pushed last  "+ ID + "ct=" + ct + "ct2=" + ct2);
             var jsondeets = JSON.stringify(weather_deets);
-      
+
             $('#location').append("Copied weather data " + toID + "</br>");
             //   localStorage.setItem('weatherdata', jsondeets); don'copy add copied weather to weatherdata //bkk2 not saving wdata for copies
             countWdata();
-        
+
         }
-        
-    });  
+
+    });
 
 }
 
@@ -2936,8 +2992,9 @@ function callWeather(latlng,ID,type)  {
 
 }   
 
+
 function RealCallWeather(latlng, ID, type) {
-    $('#pmsg2').append(latlng);
+
     $.ajax({
         type: "GET",
         url: "http://api.wunderground.com/api/bf45926a1b878028/hourly/geolookup/q/" + latlng + ".json",
@@ -2947,22 +3004,32 @@ function RealCallWeather(latlng, ID, type) {
         timeout: 4000,
         dataType: "json",
         success: function (json) {
-                delete json['location']['nearby_weather_stations'];
-                delete json['response'];
-                $.each(json.hourly_forecast, function (i, zone) {
-                    delete json['hourly_forecast'][i]['dewpoint'];
-                    delete json['hourly_forecast'][i]['windchill'];
-                    delete json['hourly_forecast'][i]['heatindex'];
-                    delete json['hourly_forecast'][i]['feelslike'];              
-                    delete json['hourly_forecast'][i]['icon_url'];
-                    delete json['hourly_forecast'][i]['FCTTIME']['weekday_name_abbrev'];
-                    delete json['hourly_forecast'][i]['FCTTIME']['weekday_name_night_unlang'];
-                    delete json['hourly_forecast'][i]['qpf'];
-                    delete json['hourly_forecast'][i]['snow'];
-                    delete json['hourly_forecast'][i]['pop'];
-                    delete json['hourly_forecast'][i]['mslp'];
-                    delete json['hourly_forecast'][i]['wx'];
-                });
+            delete json['location']['nearby_weather_stations'];
+            delete json['location']['wuiurl'];
+            //delete json['location']['l'];
+            //delete json['location']['requesturl'];
+            //delete json['location']['tz_long'];
+            delete json['response'];
+            $.each(json.hourly_forecast, function (i, zone) {
+                delete json['hourly_forecast'][i]['dewpoint'];
+                delete json['hourly_forecast'][i]['windchill'];
+                delete json['hourly_forecast'][i]['heatindex'];
+                delete json['hourly_forecast'][i]['feelslike'];
+                delete json['hourly_forecast'][i]['icon_url'];
+                delete json['hourly_forecast'][i]['FCTTIME']['weekday_name_abbrev'];
+                delete json['hourly_forecast'][i]['FCTTIME']['weekday_name_night'];
+                delete json['hourly_forecast'][i]['FCTTIME']['weekday_name_unlang'];
+                delete json['hourly_forecast'][i]['FCTTIME']['weekday_name_night_unlang'];
+                delete json['hourly_forecast'][i]['qpf'];
+                delete json['hourly_forecast'][i]['snow'];
+                delete json['hourly_forecast'][i]['pop'];
+                delete json['hourly_forecast'][i]['mslp'];
+                delete json['hourly_forecast'][i]['wx'];
+                delete json['hourly_forecast'][i]['sky'];
+                delete json['hourly_forecast'][i]['humidity'];
+                delete json['hourly_forecast'][i]['fctcode'];
+                delete json['hourly_forecast'][i]['icon'];
+            });
             var jsontext = JSON.stringify(json);
             var location = json['location']['city'];
             console.log(jsontext);
@@ -2987,7 +3054,7 @@ function RealCallWeather(latlng, ID, type) {
             calcStarsInline(ID, 24, type);
             drawWeather(ID, type);
             $('#refreshBtnW').show();
-         
+
             //add ajax timeout as per lb, stop timer
         },
         error: function (xhr, error) {

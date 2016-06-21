@@ -202,7 +202,7 @@ function isOnLine() {
 }
 
 function reportOnlineStatus() {
-    var userdata = localStorage.getItem('userdata');
+    var userdshoata = localStorage.getItem('userdata');
     $('#onlineStatus').show();
     if (userdata != null) {
         var user = eval('(' + userdata + ')');
@@ -231,7 +231,8 @@ function reportOnlineStatus() {
             $('#onlineStatus').html("Online");
             $('#Statusreport').hide();
             $('#pic_header').html(pic_header_on);
-
+            $('#stRefBtn').show();
+            $('#frRefBtn').show();
         }
         else {
           
@@ -246,6 +247,8 @@ function reportOnlineStatus() {
             $('#onlineStatus').html("Offline");
             $('#pic_header').html(pic_header_off);
             $('#Statusreport').show();
+            $('#stRefBtn').hide();
+            $('#frRefBtn').hide();
         }
     } else {
         if (isOnLine()) {
@@ -723,16 +726,26 @@ function SignOut() {
 
 }
 
+
+function getWloc(ID, type) {
+    var jasondata = localStorage.getItem(ID + "_weather_" + type);
+    var parsed_json = eval('(' + jsondata + ')');
+    var country = parsed_json['location']['country_name'];
+    var location = parsed_json['location']['city'];
+    return location + ", " + country;
+}
+
 function removeOldweather() {
+    $('#logmsg').html("");
+    var remw = 0;
     var wdata = localStorage.getItem("weatherdata");
-//    alert(wdata);
     if (wdata == null) {
         localStorage.removeItem('weatherdata_ct');
     } else {
         var wdatap = eval('(' + wdata + ')');
         var epoch = 0;
         var datestr;
-        var timenow = Math.floor(moment() / 1000);
+        var timenow = Math.round(new Date().getTime() / 1000);
         var diff = 0;
         var weather_deets = {
             wdata: []
@@ -742,11 +755,12 @@ function removeOldweather() {
         $.each(wdatap.wdata, function (i, wd) {
             diff = timenow - wd.timestamp;
             console.log(diff + " " + wd.ID)
-            if (diff > 90000) {
+            if (diff > 9000) { //+000
                 var str = wd.ID + "_weather_act";
-
+                console.log("removed st" + str);
                 localStorage.removeItem(str);
-          //      alert("removed st" + str);
+                remw++;
+
             } else {
 
                 weather_deets.wdata.push({
@@ -763,16 +777,17 @@ function removeOldweather() {
 
 
         });
-
+        var remMapw = false;
         function rewrite() {
             clearInterval(timery);
             var jsondeets = JSON.stringify(weather_deets);
-            console.log(jsondeets);
+
             if (jsondeets.length > 50) {
                 localStorage.setItem('weatherdata', jsondeets);
 
                 countWdata();
             } else {
+                remMapw = true;
                 localStorage.removeItem('weatherdata');
                 localStorage.removeItem('weatherdata_ct');
             }
@@ -781,18 +796,213 @@ function removeOldweather() {
     }
 
     var str = "weather_map";
-    var timenow = Math.floor(moment() / 1000);
+    var timenow = Math.round(new Date().getTime() / 1000);
     for (var i = 0; i < localStorage.length; i++) {
+        //  if (localStorage.key(i) == 'weatherdata') {
         if (localStorage.key(i).indexOf(str) > -1) {
             var jsondata = localStorage.getItem(localStorage.key(i));
-            if (jsondata != null) {
-                var parsed_json = eval('(' + jsondata + ')');
-                var wepoch = parsed_json.hourly_forecast[0].FCTTIME.epoch;
-                if ((timenow - wepoch) > 90000) {
-                    localStorage.removeItem(localStorage.key(i));
-                }
+            var parsed_json = eval('(' + jsondata + ')');
+            var wepoch = parsed_json.hourly_forecast[0].FCTTIME.epoch;
+            if ((timenow - wepoch) > 9000) {
+                console.log("Removing " + localStorage.key(i) + "</br >");
+                remw++;
+                // }
+                //check that map w is not in weatherdata ... 
+                var country = parsed_json['location']['country_name'];
+                var location = parsed_json['location']['city'];
+                var loc = location + ", " + country;
+                localStorage.removeItem(localStorage.key(i));
             }
         }
+        // do something with localStorage.getItem(localStorage.key(i));
+    }
+    var now = moment().format('LTS');
+    if (remw == 0) {
+        $('#logmsg').append(now + ":  No expired weather data found.</br>")
+    } else {
+        $('#logmsg').append(now + ":  Removed expired weather data for " + remw + " Segments.</br>")
+    }
+    calcStorage();
+}
+
+
+function calcFrStorage() {
+    var total = 0;
+    var fdata = localStorage.getItem("frdata");
+    if (fdata == null) {
+        return total;
+    } else {
+        var amount0 = (fdata.length * 2) / 1024;
+        total += amount0;
+        var fdatap = eval('(' + fdata + ')');
+
+        $.each(fdatap.people, function (i, p) {
+            var komdata = localStorage.getItem("komdata_" + p.ID);
+            if (komdata != null) {
+                var komdatap = eval('(' + komdata + ')');
+                $.each(komdatap.segs, function (i, fr) {
+                    var segID = fr.ID;
+                    var chart = localStorage.getItem(segID + "_chart");
+                    var poly = localStorage.getItem(segID + "_poly");
+                    var array = localStorage.getItem(segID + "_array");
+                    if (chart != null) {
+                        var amount1 = (chart.length * 2) / 1024;
+                        total += amount1;
+                        var amount2 = (poly.length * 2) / 1024;
+                        total += amount2;
+                        var amount3 = (array.length * 2) / 1024;
+                        total += amount3;
+                    }
+                    //  console.log(p.ID + " " + segID + " " + amount1);
+                });
+            }
+        });
+        return total;
+    }
+}
+
+
+
+function calcStarStorage() {
+    var total = 0;
+    var sdata = localStorage.getItem("starsdata");
+    if (sdata == null) {
+        return total;
+    } else {
+        var sdatap = eval('(' + sdata + ')');
+        $.each(sdatap.segs, function (i, s) {
+            var segID = s.ID;
+            var chart = localStorage.getItem(segID + "_chart");
+            var poly = localStorage.getItem(segID + "_poly");
+            var array = localStorage.getItem(segID + "_array");
+            var amount1 = (chart.length * 2) / 1024;
+            total += amount1;
+            var amount2 = (poly.length * 2) / 1024;
+            total += amount2;
+            var amount3 = (array.length * 2) / 1024;
+            total += amount3;
+            //  console.log(s.ID + " " + segID + " " + amount1);
+        });
+        return total;
+    }
+}
+function calcStorage() {
+    var LB_hist = 0;
+    var star_fav = 0;
+    var favc = 0;
+    var star = 0;
+    var unused = 0;
+    var lweather = 0;
+    var friend = 0;
+    var total = 0;
+    var total_all = 0;
+    var str = "_chart";
+    for (var i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i).indexOf(str) > -1) {
+            var IDstr = localStorage.key(i).split("_");
+            var ID = IDstr[0];
+            var isStarred = checkSegisStarred(ID);
+            var isMap = checkSegisMap(ID);
+            var key1 = ID + "_chart";
+            var key2 = ID + "_array";
+            var key3 = ID + "_weather_map";
+            var wdata1 = localStorage.getItem(ID + "_weather_act");
+            var wdata2 = localStorage.getItem(ID + "_weather_map");
+            // console.log()            
+            var fav = localStorage.getItem(ID + "_fav");
+            if ((wdata1 == null) && (fav == null) && (isStarred == false) && (isMap == false)) {
+                var amount1 = (localStorage.getItem(key1).length * 2) / 1024;
+                unused += amount1;
+                var amount2 = (localStorage.getItem(key2).length * 2) / 1024;
+                unused += amount2;
+                //var amount3 = (localStorage.getItem(key3).length * 2) / 1024;
+                //unused += amount3;
+            }
+            if (wdata1 != null) {
+                //   live weather
+                var amount1 = ((wdata1).length * 2) / 1024;
+                lweather += amount1
+                console.log("w=1 " + ID);
+            }
+
+            if (wdata2 != null) {
+                //   live weather
+                var amount2 = ((wdata2).length * 2) / 1024;
+                lweather += amount2
+                console.log("w=2 " + ID);
+            }
+        }
+
+    }
+
+    var stardata = localStorage.getItem("starsdata");
+    if (stardata != null) {
+        star = (stardata.length * 2) / 1024;
+    }
+    var str = "_fav";
+    for (var i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i).indexOf(str) > -1) {
+            var amount1 = (localStorage.key(i).length * 2) / 1024;
+            favc += amount1
+        }
+    }
+
+    var str = "_hist";
+    for (var i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i).indexOf(str) > -1) {
+            var amount1 = (localStorage.key(i).length * 2) / 1024;
+            LB_hist += amount1
+        }
+    }
+
+    star_fav = calcStarStorage() + star + favc;
+    //  console.log(calcStarStorage() + " " + star + " " + favc)
+
+    friend = calcFrStorage();
+    total = star_fav + LB_hist + friend + lweather;
+    for (var x in localStorage) {
+        var amount = (localStorage[x].length * 2) / 1024 / 1024;
+        total_all += amount;
+        // console.log("x:" + x);
+    }
+    var other = total_all - (total / 1024);
+    var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
+
+    var w = window.innerWidth;
+    var nameW = w - 80;
+    var midhtml = "";
+    midhtml = midhtml + "<tr class=\"un_sel\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">Starred and Favorite Segments</div>" +
+                   "<div class=\"msg_sml\" style=\"display:inline-block;padding-left:3px\">" + star_fav.toFixed(2) + " Kb</div></td></tr>";
+    midhtml = midhtml + "<tr class=\"un_sel\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">Current weather</div>" +
+                   "<div class=\"msg_sml\" style=\"display:inline-block;padding-left:3px\">" + lweather.toFixed(2) + " Kb</div></td></tr>";
+    midhtml = midhtml + "<tr class=\"un_sel\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">Friend data</div>" +
+                  "<div class=\"msg_sml\" style=\"display:inline-block;padding-left:3px\">" + friend.toFixed(2) + " Kb</div></td></tr>";
+    midhtml = midhtml + "<tr class=\"un_sel\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">Historical wind data</div>" +
+                "<div class=\"msg_sml\" style=\"display:inline-block;padding-left:3px\">" + LB_hist.toFixed(2) + " Kb</div></td></tr>";
+    midhtml = midhtml + "<tr class=\"un_sel\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">Other essential data</div>" +
+                "<div class=\"msg_sml\" style=\"display:inline-block;padding-left:3px\">" + other.toFixed(2) + " Kb</div></td></tr>";
+    midhtml = midhtml + "<tr class=\"un_sel\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">Total</div>" +
+               "<div class=\"msg_sml\" style=\"display:inline-block;padding-left:3px\">" + total_all.toFixed(2) + " Mb</div></td></tr>";
+    midhtml = midhtml + "<tr class=\"un_sel\" style=\"height:1px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\"></div>" +
+              "</td></tr>";
+
+
+
+    var ttable = "<table><tr><td>Unused map data</td><td>" + unused.toFixed(2) + " Kb</td><td>Remove</td></tr>" +
+                  "<tr><td>Starred and Favorites</td><td>" + star_fav.toFixed(2) + " Kb</td><td></td></tr>" +
+                  "<tr><td>Current weather</td><td>" + lweather.toFixed(2) + " Kb</td><td></td></tr>" +
+                  "<tr><td>Friend data</td><td>" + friend.toFixed(2) + " Kb</td><td></td></tr>" +
+                  "<tr><td>Historical wind data</td><td>" + LB_hist.toFixed(2) + " Kb</td><td>Remove</td></tr>" +
+                  "<tr><td>Total All</td><td>" + total_all.toFixed(2) + " Mb</td><td></td></tr>" +
+                  "<tr><td>Total</td><td>" + total.toFixed(2) + " Mb</td><td></td></tr></table>";
+    $('#stmsg').html(top + midhtml + "</table></div>");
+
+    if (total_all > 0.5) {
+        var spare = 5 - total_all;
+        $('#Storagereport').show();
+        $('#stgmsg').html("You have " + spare.toFixed(2) + "Mb remaining. You may need to wait up to 24 hours for some weather data to clear.");
+    } else {
+        $('#Storagereport').hide();
     }
 
 }
@@ -808,15 +1018,16 @@ function delOldst(type) {
                 var ID = IDstr[0];
                 var isStarred = checkSegisStarred(ID);
                 var isMap = checkSegisMap(ID);
+                var isFr = checkSegisFr(ID);
                 var key1 = ID + "_chart";
                 var key2 = ID + "_array";
                 var wdata1 = localStorage.getItem(ID + "_weather_act");
                 var wdata2 = localStorage.getItem(ID + "_weather_map");
                 var fav = localStorage.getItem(ID + "_fav");
-                if ((wdata1 == null) && (wdata2 == null) && (fav == null) && (isStarred == false) && (isMap == false)) {
+                if ((wdata1 == null) && (wdata2 == null) && (fav == null) && (isStarred == false) && (isMap == false) && (isFr == false)) {
                     localStorage.removeItem(key1);
                     localStorage.removeItem(key2);
-                    // alert("removed " + key1 + " " + key2);
+                    console.log("removed " + key1 + " " + key2);
                 } else {
                     //    alert("not removed " + ID + fav + isStarred + isMap);
                 }
@@ -835,9 +1046,9 @@ function delOldst(type) {
                 var wdata2 = localStorage.getItem(ID + "_weather_map");
                 var fav = localStorage.getItem(ID + "_fav");
                 if ((wdata1 == null) && (wdata2 == null) && (fav == null) && (isStarred == false) && (isMap == false)) {
-                   
+
                     localStorage.removeItem(ID + "_weather_map");
-                    alert(ID + "_weather_map");
+                    console.log("rem: " + ID + "_weather_map");
                 } else {
                     //    alert("not removed " + ID + fav + isStarred + isMap);
                 }
@@ -846,23 +1057,17 @@ function delOldst(type) {
 
     } else { //all
         for (var i = 0; i < localStorage.length; i++) {
-            if (localStorage.key(i) == 'userdata') { //and more todo
+            if ((localStorage.key(i) != 'userdata') && (localStorage.key(i) != 'fulluserdata') && (localStorage.key(i) != 'sub') && (localStorage.key(i) != 'starsdata') && (localStorage.key(i) != 'credits') && (localStorage.key(i) != 'oauthio_cache') && (localStorage.key(i) != 'oauthio_provider_strava') && (localStorage.key(i) != 'starsdata')) { //and more todo
                 localStorage.removeItem(localStorage.key(i));
-                console.log(localStorage.key(i));
+                console.log("rem all: " + localStorage.key(i));
             }
         }
 
     }
 
-    var total = 0;
-    for (var x in localStorage) {
-        var amount = (localStorage[x].length * 2) / 1024 / 1024;
-        total += amount;
-    }
-    $('#stmsg').html("Total: " + total.toFixed(2) + " MB");
+
 
 }
-
 
 function getFriends() {
   
@@ -1048,7 +1253,7 @@ function checkData(purch) {
                     //expired
                     $('#status_msgs').append("Trial expired");
                     //  localStorage.setItem("sub", "expired");
-                    // listSub();
+                    listSub();
                     $('#pills_row').hide();
                     $('#seg_nearby').hide();
                     $('#seg_efforts').hide();
@@ -1177,10 +1382,10 @@ function getAct(type) {
         var segdata = "1234567890123456789012345678901234567890"
         $('#act_tile_title').html("<dtitle>KOM With The Wind Favorites</dtitle>");
     }
- 
+
     if ((segdata.length < 30) || (favsct == 0)) {
         showActsTile();
-      
+
         noActsmsg(type);
 
     } else {
@@ -1196,8 +1401,23 @@ function getAct(type) {
     }
 }
 
+function hideAll() {
+    $('#act_table_header').hide();
+    $('#act_table').hide();
+    $('#my_activities').hide();
+    $('#seg_nearby').hide();
+    $('#locIcon').hide();
+    $('#deets_tile').hide();
+    $('#seg_leaderboard').hide();
+    $('#pills_row').hide();
+    $('#my_friends').hide();
+    $('#friend_info').hide();
+    $('#seg_weather').hide();
+    $('#profile_tile').show();
+}
 
 function showActsTile() {
+    calcStorage();
     $('#seg_nearby').hide();
     $('#locIcon').hide();
     $('#deets_tile').hide();
@@ -1210,6 +1430,7 @@ function showActsTile() {
 }
 
 function showMapTile() {
+    calcStorage();
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();
@@ -1229,6 +1450,7 @@ function showMapTile() {
 }
 
 function showKOMsTile() {
+    calcStorage();
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();
@@ -1246,11 +1468,7 @@ function showKOMsTile() {
 
 function showSettingsTile() {
 //    listSub();
-    var total = 0;
-    for (var x in localStorage) {
-        var amount = (localStorage[x].length * 2) / 1024 / 1024;
-        total += amount;
-    }
+    calcStorage();
     $('#stmsg').html("Total: " + total.toFixed(2) + " MB");
     $('#btnLeft').hide();
     $('#btnRight').hide();
@@ -1291,7 +1509,11 @@ function getNearby(ID,lat,lng) {
     $("#winfomap").html("");
     if (ID == null) {
         showMapTile();
-          showmap();
+        if (devOnline) {
+            showmap();
+        } else {
+            $("#winfomap").html("Device is offline");
+        }
          
     } else {
       
@@ -1306,6 +1528,7 @@ function showRem() {
     $('#rem_section').show();
     $('#rem_msg').html("15hrs until next credit");
 }
+
 
 function noActsmsg(type) {
     $('#status_msgs').hide();
@@ -1423,6 +1646,7 @@ function countKOMs(ID) {
     }
 }
 
+
 function drawTable(type) {
 
     $('#act_table2').html("");
@@ -1431,9 +1655,10 @@ function drawTable(type) {
     $('#my_activities').show();
     $('#deets_tile').hide();
     $('#menubtns').show();
+    $('#Hrsdd').show();
     $('#refreshBtn').show();
     var fav = false;
-  
+
     if (type == "favs") {
         fav = true;
     } else if (type == "kom") {
@@ -1453,19 +1678,18 @@ function drawTable(type) {
     var n;
     var name;
     var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
+    var w = window.innerWidth;
+    var nameW = w - 80;
     if (fav == false) {
         var j2 = eval('(' + json + ')');
         $.each(j2.segs, function (i, seg) {
             var seg_ct = 0;
             LB = true
-        //    alert(seg.ID + "," + i + " b " + type);
-            midhtml = midhtml + "<tr id=\"trow_" + seg.ID + "\" class=\"un_sel\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px\">" + seg.name + "</div>" +
+            midhtml = midhtml + "<tr id=\"trow_" + seg.ID + "\" class=\"un_sel\" onclick=\"poly2(" + seg.ID + "," + i + ",true, '" + type + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + seg.name + "</div>" +
                    "<div style=\"display:inline-block;padding-left:3px\" id=\"stars_" + seg.ID + "\"></div><div style=\"display:inline-block\" id=\"stars_best_" + seg.ID + "\"></div></td></tr>";
-            //midhtml = midhtml + "<tr onclick=\"poly2a()\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px\">A1" + seg.name + "</div>" +
-            ////       "<div style=\"display:inline-block;padding-left:3px\" id=\"stars_" + seg.ID + "\"></div><div style=\"display:inline-block\" id=\"stars_best_" + seg.ID + "\"></div></td></tr>";
 
             act_ct++;
-           
+
         });
 
     } else {
@@ -1477,11 +1701,13 @@ function drawTable(type) {
                 var json = localStorage.getItem(localStorage.key(i));
                 var j2 = eval('(' + json + ')');
                 var name = j2.segs[0].name;
-                var w = window.innerWidth;
-                var nameW = w - 80;
+                var ftype = j2.segs[0].type;
+                if (ftype == "map") {
+                    ftype = "favs";
+                }
                 act_ct++;
                 // var infoW = w - 
-                midhtml = midhtml + "<tr id=\"trow_" + ID + "\" class=\"un_sel\" onclick=\"polyF(" + ID + ")\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + name + "</div>" +
+                midhtml = midhtml + "<tr id=\"trow_" + ID + "\" class=\"un_sel\" onclick=\"polyF(" + ID + ",'" + ftype + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + name + "</div>" +
                     "<div style=\"display:inline-block;padding-left:3px\" id=\"stars_" + ID + "\"></div><div style=\"display:inline-block\" id=\"stars_best_" + ID + "\"></div></td></tr>";
 
             }
@@ -1490,13 +1716,14 @@ function drawTable(type) {
 
     }
 
-    var ht = parseInt(((act_ct) * 50) + 55); //56
+    var ht = parseInt(((act_ct) * 50) + 49); //56
 
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
-  
-}
 
+
+
+}
 
 var getSegtimer;
 
@@ -1578,6 +1805,8 @@ function clearCanvas(datatype) {
         $('#g1').hide();
     }
 }
+
+
 function drawLeaderboard(ID, type) {
     $('#seg_leaderboard').show();
     $('#lb_table').show();
@@ -1664,7 +1893,7 @@ function drawLeaderboard(ID, type) {
     var refstr = "Data as of " + timestr;
     var kompic = j2.segs[0].profile;
     if (kompic == "avatar/athlete/large.png") {
-        kompic = "img/blank_avatar.jpg";
+        kompic = "/Content/blank_avatar.jpg";
     } else {
         kompic = j2.segs[0].profile;
     }
@@ -1913,7 +2142,7 @@ function drawLeaderboard(ID, type) {
     if (ct == 1) {
         var ht = 340;
     } else {
-        var ht = parseInt((ct * 100) + 30);
+        var ht = parseInt((ct * 100) + 60);
     }
     $('#leaderback').height(ht);
 
@@ -1943,8 +2172,8 @@ function drawSegEffort(ID, frID) {
     $('#seg_leaderboard').hide();
     $('#lb_table').hide();
     $('#eff_table').show();
-     $('#seg_weather').hide();
-     $('#seg_efforts').show();
+    $('#seg_weather').hide();
+    $('#seg_efforts').show();
     console.log("efforts " + ID + " " + frID);
     var type = 'segs';
     if (frID != null) {
@@ -1964,7 +2193,7 @@ function drawSegEffort(ID, frID) {
         var btnhtml2 = "<button style=\"position:absolute;right:10px;top:29px\" type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"stEffort(" + ID + ")\">Refresh</button>";
         $('#refreshBtneffs').html(btnhtml2)
         //"Refresh historical wind conditions</i></a></div>";
-       
+
         var bearing_store = ID + "_array";
         var j3 = eval('(' + lbhistchk1 + ')');
         var komwspd = j3.hdata[0].wspeed;
@@ -1983,7 +2212,7 @@ function drawSegEffort(ID, frID) {
         var btnhtml2 = "<button style=\"position:absolute;right:10px;top:29px\" type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"stEffort(" + ID + ")\">Refresh</button>";
         $('#refreshBtneffs').html(btnhtml2)
         //"Refresh historical wind conditions</i></a></div>";
-       
+
         var bearing_store = ID + "_array";
         var j3 = eval('(' + lbhistchk0 + ')');
         var komwspd = j3.hdata[0].wspeed;
@@ -1994,15 +2223,16 @@ function drawSegEffort(ID, frID) {
         var bdata = localStorage.getItem(bearing_store);
     }
 
-      //style=\"position:absolute;right:18px;top:40px;z-index:400\"
-    
+
+    //style=\"position:absolute;right:18px;top:40px;z-index:400\"
+
     //  var json = localStorage.getItem('eff_data_' + ID);
     if (frID != null) {
         var json = localStorage.getItem('eff_data_' + ID + '_' + frID);
     } else {
         var json = localStorage.getItem('eff_data_' + ID);
     }
-   
+
     var j2 = eval('(' + json + ')');
     var timestr = j2.timestamp[0].now;
     var refstr = "Data as of " + timestr;
@@ -2061,7 +2291,7 @@ function drawSegEffort(ID, frID) {
         if (hist == true && lbhistchk1 != null) {
             if (frID != null) {
                 var hdata = localStorage.getItem(ID + '_' + frID + '_' + i + '_hist_user');
-               
+
             } else {
                 var hdata = localStorage.getItem(ID + '_' + i + '_hist_user');
 
@@ -2143,18 +2373,18 @@ function drawSegEffort(ID, frID) {
             var head_wind_val = parseInt(brgh0) + parseInt(brgh1) + parseInt(brgh2);
             var starval = 500 + (parseInt(foll_wind_val) - parseInt(head_wind_val));
             var numstars = 0;
-           
+
             ctx2d.fillStyle = "#ffca4a";
 
             if (starval <= 0) {
-                    drawStarsO(ctx2d, 5, posy + 28, 200);
-                } else {
-                    numstars = calcStars(starval);
-                    drawStarsF(ctx2d, numstars, posy + 28, 200);
-                }
-                komf = Math.floor(6 - (numstars + 1));
-                console.log(komf);
-       //     }
+                drawStarsO(ctx2d, 5, posy + 28, 200);
+            } else {
+                numstars = calcStars(starval);
+                drawStarsF(ctx2d, numstars, posy + 28, 200);
+            }
+            komf = Math.floor(6 - (numstars + 1));
+            console.log(komf);
+            //     }
 
         } else if (hist == true && lbhistchk1 == null) {
             if (i == 0) {
@@ -2261,21 +2491,35 @@ function drawSegEffort(ID, frID) {
         posyt = posyt + 60
         i++;
     })
+    var credits = localStorage.getItem("credits");
+
+    var btnhtml = "<div id=\"cont\"><a class=\"btn btn-success btn-sm\" href=\"#leaderback\" onclick=\"showHistweather(" + ID + ",'" + type + "',true,'all')\">" +
+                  "Show all historical wind data</i></a></div>";
+    $('#lbBtn').show();
+    $('#lbBtn').html(btnhtml);
+
+
     if (ct > 1) {
         if ((lbhistchk0 != null && lbhistchk1 == null) || (lbhistchk0 == null && lbhistchk1 == null)) {
-            var btnhtml = "<div style=\"padding-left:5px\"><a class=\"btn btn-success btn-sm\" href=\"#leaderback\" onclick=\"showHistweather(" + ID + ",'" + type + "',false,'all'," + frID + ")\">" +
-                           "Show all historical wind conditions</i></a></div>";
-            $('#effortPadding').show();
-            console.log(btnhtml)
-            $('#sgBtn').show();
-            $('#sgBtn').html(btnhtml);
+            if (credits >= 3) {
+                var btnhtml = "<div style=\"padding-left:5px\"><a class=\"btn btn-success btn-sm\" href=\"#leaderback\" onclick=\"showHistweather(" + ID + ",'" + type + "',false,'all'," + frID + ")\">" +
+                               "Show all historical wind conditions</i></a></div>";
+                $('#effortPadding').show();
+                //  console.log(btnhtml)
+                $('#sgBtn').show();
+                $('#sgBtn').html(btnhtml);
+            } else {
+                $('#sgBtn').show();
+                $('#sgBtn').html("<div style=\"padding-left:5px\" class=\"msg_sml\">You do not have enough credits to<br/>retrieve all historical data</div>");
+                // $('#lbBtn').html(btnhtml);
+            }
         }
     }
 
     var ht = parseInt((ct * 48) + 120);
     $('#effortback').height(ht);
 
-    
+
 }
 var hc = -1;;
 
@@ -2585,20 +2829,20 @@ function CallHistWeather(latlng, date, SegID, i, type, lb, frID) {
 
 function startWeather() {
 
-weatherAct();
+    weatherAct();
 
 }
 
 
-function refreshWeather(type,ct) {
+function refreshWeather(type, ct) {
 
     if (type == 'map') {
         $('#winfomap').html("<div style=\"height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px\" class=\"fa fa-2x fa-cog fa-spin\"></div>" +
                         "<div style=\"display:inline-block;margin-bottom:8px\">&nbsp;Retrieving weather ...</div>");
         weatherMap1(type, ct);
         $('#refreshBtnmap').fadeOut();
-       
-     } else {
+
+    } else {
 
 
         var timenow = Math.round(new Date().getTime() / 1000);
@@ -2700,6 +2944,7 @@ function refreshWeather(type,ct) {
     }
 }
 
+
 function checkSegisStarred(ID) {          //  create a loop function
     var json = localStorage.getItem('starsdata');
     var star = false;
@@ -2717,6 +2962,39 @@ function checkSegisStarred(ID) {          //  create a loop function
     }
 
     return star;
+}
+
+
+function checkSegisFr(ID) {
+
+    var fdata = localStorage.getItem("frdata");
+    if (fdata == null) {
+        var fr = false;
+        return fr;
+    } else {
+
+        var fdatap = eval('(' + fdata + ')');
+
+        $.each(fdatap.people, function (i, p) {
+            var komdata = localStorage.getItem("komdata_" + p.ID);
+            if (komdata != null) {
+                var komdatap = eval('(' + komdata + ')');
+                $.each(komdatap.segs, function (i, fr) {
+                    var segID = fr.ID;
+
+                    if (segID == ID) {
+                        var fr = true;
+                        console.log(fr + " = " + ID);
+                        return false;
+                    }
+                    //  console.log(p.ID + " " + segID + " " + amount1);
+                });
+            } else {
+                var fr = false;
+            }
+        });
+        return fr;
+    }
 }
 
 function checkSegisMap(ID) {          //  create a loop function
@@ -2739,56 +3017,55 @@ function checkSegisMap(ID) {          //  create a loop function
     return inmap;
 }
 
-
 function weatherAct() {          //  create a loop function
-var json = localStorage.getItem('starsdata');  //apr4 was segdata
-var j2 = eval('(' + json + ')');
-$('#status_msgs').append("Retrieving weather data for Starred Segments</br>");
+    var json = localStorage.getItem('starsdata');  //apr4 was segdata
+    var j2 = eval('(' + json + ')');
+    $('#status_msgs').append("Retrieving weather data for Starred Segments</br>");
     //$('#location').show();
-var wct = 1;
-var time = 0;
-var ct = localStorage.getItem('weatherdata_ct');
-var timerw = ct * 4000;
+    var wct = 1;
+    var time = 0;
+    var ct = localStorage.getItem('weatherdata_ct');
+    var timerw = ct * 4000;
     //var ct = localStorage.getItem('weatherdata_ct');
     //var timerw = ct * 4000;
-var actct = localStorage.getItem("starsct");
-timex = (actct * 4000)
-console.log(timex + " estimated time for weather in wAct");
-var timerst = setInterval(function () { closeStatus() }, timex);
-function closeStatus() {
-    clearInterval(timerst);
-    $('#status_msgs').append("</br>Done .... stand by");
+    var actct = localStorage.getItem("starsct");
+    timex = (actct * 4000)
+    console.log(timex + " estimated time for weather in wAct");
+    var timerst = setInterval(function () { closeStatus() }, timex);
+    function closeStatus() {
+        clearInterval(timerst);
+        $('#status_msgs').append("</br>Done .... stand by");
 
-    console.log(timex + " seconds up")
-   // weatherSeg();
-    drawTable("stars");
+        console.log(timex + " seconds up")
+        // weatherSeg();
+        drawTable("stars");
 
 
-    var timerst2 = setInterval(function () { dispstarst() }, 2000);
-    function dispstarst() {
-        clearInterval(timerst2);
-        $('#status_msgs').hide();
-        $('#status_area').hide();
-        $('#UnAuthApp').hide();
-        $('#menu_buttons').show();
-    
-        displayStars(3);
-   
+        var timerst2 = setInterval(function () { dispstarst() }, 2000);
+        function dispstarst() {
+            clearInterval(timerst2);
+            $('#status_msgs').hide();
+            $('#status_area').hide();
+            $('#UnAuthApp').hide();
+            $('#menu_buttons').show();
+
+            displayStars(3);
+
+        }
+
+
     }
+    $.each(j2.segs, function (i, seg) { //if (i < 10) {            //  if the counter < 10, call the loop function
 
-
-}
-$.each(j2.segs, function (i, seg) { //if (i < 10) {            //  if the counter < 10, call the loop function
-        
-        setTimeout(function() {
-//alert('paused');
-getW(seg.latlng,seg.ID,"act");
-$('#winfo').html("<div style=\"height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px\" class=\"fa fa-2x fa-cog fa-spin\"></div>" +
-"<div style=\"display:inline-block;margin-bottom:8px\">&nbsp;Refreshing weather ... " + wct + "</div>");
-$('#status_msgs').html("Retrieving weather data for Activities and Segments ... " + wct + "</br>");
-wct++;
-    }, time);
-    time += 4000;
+        setTimeout(function () {
+            //alert('paused');
+            getW(seg.latlng, seg.ID, "act");
+            $('#winfo').html("<div style=\"height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px\" class=\"fa fa-2x fa-cog fa-spin\"></div>" +
+            "<div style=\"display:inline-block;margin-bottom:8px\">&nbsp;Refreshing weather ... " + wct + "</div>");
+            $('#status_msgs').html("Retrieving weather data for Activities and Segments ... " + wct + "</br>");
+            wct++;
+        }, time);
+        time += 4000;
     });                       //  ..  setTimeout()
 
 
@@ -2818,27 +3095,27 @@ function weatherMap(ct) {          //  create a loop function
 }
 
 function weatherSeg() {
-var all_seg_data =localStorage.getItem('all_seg_efforts');
-var j2 = eval('(' + all_seg_data + ')');
-//alert(all_seg_data);
-if (all_seg_data.length > 80) {
-var index = 0;
- $.each(j2.segs, function (i, seg) {
-     var name = i;
-   //  $('#status_msgs').append("Retrieving weather data </br>");
-      var timer1 = setInterval(function () { startDecode(seg.ID,seg.parentID) }, 1000);
-    index++;
-    //alert(poly);
-      //startDecode(poly,ID,i);      
-     function startDecode(toID,fromID) {
-    clearInterval(timer1);
-    copyWeather(fromID, toID);
+    var all_seg_data = localStorage.getItem('all_seg_efforts');
+    var j2 = eval('(' + all_seg_data + ')');
+    //alert(all_seg_data);
+    if (all_seg_data.length > 80) {
+        var index = 0;
+        $.each(j2.segs, function (i, seg) {
+            var name = i;
+            //  $('#status_msgs').append("Retrieving weather data </br>");
+            var timer1 = setInterval(function () { startDecode(seg.ID, seg.parentID) }, 1000);
+            index++;
+            //alert(poly);
+            //startDecode(poly,ID,i);      
+            function startDecode(toID, fromID) {
+                clearInterval(timer1);
+                copyWeather(fromID, toID);
 
-        
-     }
-     console.log("copying seg weather")
-    });
-    
+
+            }
+            console.log("copying seg weather")
+        });
+
     }
 
 }
@@ -2847,6 +3124,7 @@ function displayStarsmap(hrs, ct) { //get seg weather
     //1-3 = 3
     //4-6 = 6
     //tryMapWeatherStars(ID);
+    //alert(ct);
     $('#refreshBtnmap').html("");
     $('#refreshBtnmap').hide();
     var wdata = localStorage.getItem("weatherdata");
@@ -2854,7 +3132,7 @@ function displayStarsmap(hrs, ct) { //get seg weather
     var jsonact = localStorage.getItem('seg_loc_data');
     var j2s = eval('(' + jsonact + ')');
     var segct = j2s.count[0].num;
-    console.log("l=" + jsonact.length);
+
     if (jsonact.length > 50) {
         var ID = j2s.points[0].PID;      //"469475975";
         var jsondata = localStorage.getItem(ID + "_weather_map");
@@ -2873,22 +3151,8 @@ function displayStarsmap(hrs, ct) { //get seg weather
 
 
         // 
-        if (parsed_json != null) {
-            var firsthour = parsed_json.hourly_forecast[fh].FCTTIME.civil;
-            var lasthour = parsed_json.hourly_forecast[lh].FCTTIME.civil;
-            $('#location').append("Calculating activity ratings for selected wind conditions");
-            var timediff = getTimediff(ID);
-            var timeago = getTimeW(ID); //moment(getTimeW(ID)).fromNow;
-            if (hrs == 24) {
-                $('#winfomap').html("Showing the best star ratings for the next 24 hours of retrieved weather");
-            } else {
-                $('#winfomap').html("Showing star ratings from " + firsthour + " to " + lasthour);
-            }
+        $('#winfomap').html("Showing the best star ratings for the next 24 hours of retrieved weather");
 
-
-
-
-        }
         $('#seg_weather').hide();
         var noW = 0;
         $.each(j2s.points, function (i, seg) {
@@ -2907,6 +3171,7 @@ function displayStarsmap(hrs, ct) { //get seg weather
     }
     //save hrs val and also info that stars are showing
 }
+
 function changeGender(g) {
     localStorage.setItem("gender", g);
 }
@@ -2933,7 +3198,7 @@ function drawWindcanvas(ID, from, to, ct) {
                 flatlng = wd.endlatlong;
                 var wchk = localStorage.getItem(wd.PID + "_weather_map");
                 if (wchk != null) { //or parentID
-                    console.log("found w for" + wd.PID);
+
                     ID = wd.PID;
                 }
             });
@@ -2943,10 +3208,6 @@ function drawWindcanvas(ID, from, to, ct) {
         //console.log(jsondata);
         if (ID == null) {
             if (zoom >= 12) {
-                // $('#refreshBtnmap').html("<a class=\"btn btn-primary btn-sm\" href=\"#tableback\" onclick=\"refreshWeather('map'," + ct + ")\" id=\"refreshStarsbtn\">Get weather for Segments in this view</a>");
-                // $('#refreshBtnmap').show();
-                //getW(flatlng, fPID, "map");
-                //refreshWeather('map', ct);
 
                 $('#mapWind').hide();
                 $('#btnLeft').hide();
@@ -3118,17 +3379,14 @@ function drawWindcanvas(ID, from, to, ct) {
 
         }
     }
-
 }
-
-
 
 function tryMapWeatherStars(SegID) {
     console.log("try " + SegID);
     var wdata = localStorage.getItem(SegID + "_weather_map");
     var hrs = "24";
     if (wdata == null) {
-       // calcStarsInline(seg.PID, hrs);
+        // calcStarsInline(seg.PID, hrs);
     } else {
         console.log("found weather for " + SegID);
         calcStarsInline(SegID, hrs, 'map');
@@ -3138,7 +3396,7 @@ function tryMapWeatherStars(SegID) {
 function displayStars(hrs, type) { //get seg weather
     var wdata = localStorage.getItem("weatherdata");
     if (wdata == null) {
-        $('#winfo').html("Showing the best star ratings for the next 24 hours of retrieved weather");
+        //  $('#winfo').html("Showing the best star ratings for the next 24 hours of retrieved weather");
     } else {
         var jsonact = localStorage.getItem('starsdata');
         localStorage.setItem("Hrs", hrs);
@@ -3164,13 +3422,17 @@ function displayStars(hrs, type) { //get seg weather
             calcStarsInline(seg.ID, hrs, 'stars');
         });
 
-        for (var i = 0; i < localStorage.length; i++) {
-            if (localStorage.key(i).indexOf("_fav") > -1) {
-                var ID = localStorage.key(i).replace("_fav", "");
-                calcStarsInline(ID, hrs, 'map');
-            }
-        }
 
+
+    }
+
+    for (var i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i).indexOf("_fav") > -1) {
+            var ID = localStorage.key(i).replace("_fav", "");
+            calcStarsInline(ID, hrs, 'act');
+            calcStarsInline(ID, hrs, 'map');
+
+        }
     }
 
 }
@@ -3214,7 +3476,7 @@ function stConn2() {
                 pic_header = "<img class=\"circular_pfl\" src=\"" + data.profile + "\">";
             }
 
-            var name = data.firstname + ", " + data.lastname;
+            var name = data.firstname + " " + data.lastname;
 
             var loc = data.city + ", " + data.country;
 
@@ -3242,11 +3504,12 @@ function stConn2() {
                     $('#UnAuthApp').hide();
                     $('#status_msgs').hide();
                     $('#status_area').hide();
+                    $('#stRefBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\" id=\"stRefresh\" onclick=\"stConn2()\">Refresh data from Strava</button>");
                     appPurchChk();
                 }
             }
             $('#status_msgs').append("</br >Retrieving Starred Segments for </br>" + data.firstname + " " + data.lastname + "</br >");
-
+            $('#stRefBtn').html("Retrieving Starred Segments for </br>" + data.firstname + " " + data.lastname);
             stKOMs(ID);
             stStars(ID);
 
@@ -3291,10 +3554,12 @@ function checkServerStatus(stravaID) {
                     }
                     $('#credits_no').html(credits);
                 } else {
-                    $('#status_msgs').append("</br>Trial expired");
+                    listSub();
+                   // $('#status_msgs').append("</br>Trial expired");
                     $('#menu_buttons').hide();
                     $('#profile_settings').hide();
-                    $('#profile_tile').show();
+                    $('#profile_settings').hide();
+                    hideAll();
                     $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase Yearly Subscription to get full access including unlimited Historical data queries.");
                 }
             } else {
@@ -3358,7 +3623,7 @@ function analyseSegs() {
             function startDecode() {
                 clearTimeout(timer2);
                 //  drawTable();
-                saveSegmentsDB("act");
+              
                 weatherAct();
                
             }
@@ -3382,222 +3647,153 @@ function analyseSegs() {
 }
 
 
-function saveSegmentsDB(type) {
-    if (type == "map") {
-        var all_seg_data = localStorage.getItem('seg_loc_data');
-        if (all_seg_data != null) {
-            var j2 = eval('(' + all_seg_data + ')');
-            //alert(all_seg_data);
-            if (all_seg_data.length > 80) {
-                var index = 0;
-                $.each(j2.points, function (i, seg) {
+function parse(type, ID) {
+    //alert(type);
+    var parentID = "111";
+    if (type == "act") {
 
-                    var name = seg.name;
-                    var latlng = seg.endlatlong;
-                    var poly = seg.points;
-                    var array = localStorage.getItem(seg.PID + "_array");
-                    //  alert(poly);
-                    var ID = seg.PID
-                    var priv = false
-
-                    saveSegment(name, ID, poly, array, latlng, priv, null);
-                    console.log("save " + array + " " + poly);
-                });
-
-            }
-        }
-    } else if (type == "stars") {
-        var all_seg_data = localStorage.getItem('starsdata');
-        if (all_seg_data != null) {
-            var j2 = eval('(' + all_seg_data + ')');
-            //alert(all_seg_data);
-            if (all_seg_data.length > 80) {
-                var index = 0;
-                $.each(j2.segs, function (i, seg) {
-               
-                    var name = seg.name;
-                    var latlng = seg.latlng;
-                    var poly = localStorage.getItem(seg.ID + "_poly");
-                    var array = localStorage.getItem(seg.ID + "_array");
-                    //  alert(poly);
-                    var ID = seg.ID
-                    
-               
-                    saveSegment(name, ID, poly, array, latlng, false, null);
-                    console.log("save " + array + " " + poly);
-                });
-
-            }
-        }
-    
-    } else {
-        var all_seg_data = localStorage.getItem('all_seg_efforts');
-        if (all_seg_data != null) {
-            var j2 = eval('(' + all_seg_data + ')');
-            //alert(all_seg_data);
-            if (all_seg_data.length > 80) {
-                var index = 0;
-                $.each(j2.segs, function (i, seg) {
-                    //alert("hi");
-                    var name = seg.name;
-                    var latlng = seg.latlng;
-                    var poly = localStorage.getItem(seg.ID + "_poly");
-                    var array = localStorage.getItem(seg.ID + "_array");
-                    //  alert(poly);
-                    var ID = seg.ID
-                    var priv = seg.private
-                    var parentID = seg.parentID
-                    saveSegment(name, ID, poly, array, latlng, priv, null);
-                });
-
-            }
-        }
-    }
-}
-
-
-function parse(type,ID) {
-//alert(type);
-var parentID = "111";
-if (type == "act") {
-
-    var seg_data =localStorage.getItem('segdata');
-    var j2 = eval('(' + seg_data + ')');
-    var dist = j2.segs[0].dist;
-    $.each(j2.segs, function (i, seg) {
-        var poly = seg.poly;
-        var ID = seg.ID;
-        var timer2 = setInterval(function () { startDecode(poly,ID,parentID) }, 2000);
-   
-        //alert(poly);
-        //startDecode(poly,ID,i);      
-    
-        function startDecode(poly, ID, parentID) {
-            clearInterval(timer2);
-            decodepoly(poly, ID, parentID,"notkml");
-            //copyWeather(fromID, toID)
-
-
-        }
-    });
-   
-} else if (type == "kom") {
-
-        var seg_data =localStorage.getItem('komdata_' + ID);
+        var seg_data = localStorage.getItem('segdata');
         var j2 = eval('(' + seg_data + ')');
         var dist = j2.segs[0].dist;
-        $.each(j2.segs, function (i, seg) {          
-            var ID2 = seg.ID;
-            var poly = localStorage.getItem(ID2 + '_poly');
-            var timer2 = setInterval(function () { startDecode(poly,ID2,parentID) }, 2000);
-   
+        $.each(j2.segs, function (i, seg) {
+            var poly = seg.poly;
+            var ID = seg.ID;
+            var timer2 = setInterval(function () { startDecode(poly, ID, parentID) }, 2000);
+
             //alert(poly);
             //startDecode(poly,ID,i);      
-    
-            function startDecode(poly, ID2, parentID) {
+
+            function startDecode(poly, ID, parentID) {
                 clearInterval(timer2);
-             //  console.log(ID2 + " " + poly)
-              decodepoly(poly, ID2, parentID,"nokkml");
+                decodepoly(poly, ID, parentID, "notkml");
                 //copyWeather(fromID, toID)
 
 
             }
         });
 
-       // getAct("kom");
+    } else if (type == "kom") {
 
-} else if (type == "stars") {
+        var seg_data = localStorage.getItem('komdata_' + ID);
+        var j2 = eval('(' + seg_data + ')');
+        var dist = j2.segs[0].dist;
+        $.each(j2.segs, function (i, seg) {
+            var ID2 = seg.ID;
+            var poly = localStorage.getItem(ID2 + '_poly');
+            var timer2 = setInterval(function () { startDecode(poly, ID2, parentID) }, 2000);
 
-    var seg_data =localStorage.getItem('starsdata');
-    var j2 = eval('(' + seg_data + ')');
-    var dist = j2.segs[0].dist;
-    $.each(j2.segs, function (i, seg) {
-       
-        var ID = seg.ID;
-      
-        var pstr = ID + "_poly";
-      //  console.log(pstr);
-        var poly = localStorage.getItem(pstr);
-       // var poly = segjson.segs.poly;
-        var timer2 = setInterval(function () { startDecode(poly,ID,parentID) }, 2000);
-   
-        //alert(poly);
-        //startDecode(poly,ID,i);      
-    
-        function startDecode(poly, ID, parentID) {
-            clearInterval(timer2);
-            console.log("decode " + poly)
-            decodepoly(poly, ID, parentID,"notkml");
-            //copyWeather(fromID, toID)
+            //alert(poly);
+            //startDecode(poly,ID,i);      
+
+            function startDecode(poly, ID2, parentID) {
+                clearInterval(timer2);
+                //  console.log(ID2 + " " + poly)
+                decodepoly(poly, ID2, parentID, "nokkml");
+                //copyWeather(fromID, toID)
 
 
-        }
-    });
+            }
+        });
 
-  
-    
-    
+        // getAct("kom");
+
+    } else if (type == "stars") {
+
+        var seg_data = localStorage.getItem('starsdata');
+        var j2 = eval('(' + seg_data + ')');
+        var dist = j2.segs[0].dist;
+        $.each(j2.segs, function (i, seg) {
+
+            var ID = seg.ID;
+
+            var pstr = ID + "_poly";
+            //  console.log(pstr);
+            var poly = localStorage.getItem(pstr);
+            // var poly = segjson.segs.poly;
+            var timer2 = setInterval(function () { startDecode(poly, ID, parentID) }, 2000);
+
+            //alert(poly);
+            //startDecode(poly,ID,i);      
+
+            function startDecode(poly, ID, parentID) {
+                clearInterval(timer2);
+                console.log("decode " + poly)
+                decodepoly(poly, ID, parentID, "notkml");
+                //copyWeather(fromID, toID)
+
+
+            }
+        });
+
+
+
+
     } else if (type == "seg") {
 
-var seg_data = localStorage.getItem('segdata');  //not here
-//alert(seg_data);
-var j2 = eval('(' + seg_data + ')');
+        var seg_data = localStorage.getItem('segdata');  //not here
+        //alert(seg_data);
+        var j2 = eval('(' + seg_data + ')');
 
-var index = 0;
-    $.each(j2.segs, function (i, seg) {
-    var seg_eff = localStorage.getItem(seg.ID+'_seg_efforts'); //has ID +parent ID
-    var j2eff = eval('(' + seg_eff + ')');
-    //alert("eff" + seg_eff + seg.ID);  //vf is top onlist
-    var name = i;
-    var segjson = localStorage.getItem(ID+"_poly");
-    var poly = segjson.segs.poly;
-    var ID = segjson.segs.ID;
- //   alert("start decode" + poly + " " + ID);
-      var timers = setInterval(function () { startDecode(poly,ID,i,index) }, 5000);
-      //var speed = 1000;
-      //var timer = setInterval(startDecode(poly,ID,i), speed);
-      index++;
-      //startDecode(poly,ID,i);      
-      function startDecode(poly,ID,i,index) {
-    clearInterval(timers);
-    //index++;
-   // alert(i + " start ... " + ID + " idx=" + index);
-   $('#location').append("decode poly for segment: " + ID); //was actmsgs
-    decodepoly(poly,ID,parentID,"notkml");
-         
-        }
-      
-    });
-    
-    getAct("stars");
+        var index = 0;
+        $.each(j2.segs, function (i, seg) {
+            var seg_eff = localStorage.getItem(seg.ID + '_seg_efforts'); //has ID +parent ID
+            var j2eff = eval('(' + seg_eff + ')');
+            //alert("eff" + seg_eff + seg.ID);  //vf is top onlist
+            var name = i;
+            var segjson = localStorage.getItem(ID + "_poly");
+            var poly = segjson.segs.poly;
+            var ID = segjson.segs.ID;
+            //   alert("start decode" + poly + " " + ID);
+            var timers = setInterval(function () { startDecode(poly, ID, i, index) }, 5000);
+            //var speed = 1000;
+            //var timer = setInterval(startDecode(poly,ID,i), speed);
+            index++;
+            //startDecode(poly,ID,i);      
+            function startDecode(poly, ID, i, index) {
+                clearInterval(timers);
+                //index++;
+                // alert(i + " start ... " + ID + " idx=" + index);
+                $('#location').append("decode poly for segment: " + ID); //was actmsgs
+                decodepoly(poly, ID, parentID, "notkml");
 
-    
-    
-    
+            }
+
+        });
+
+        getAct("act");
+
+
+
+
     } else if (type == "map") {
-    
-    var seg_data =localStorage.getItem('seg_loc_data');
-    var j2 = eval('(' + seg_data + ')');
-    var index = 0;
-    $.each(j2.points, function (i, seg) {      
-      var name = i;
-      var poly = seg.points; 
-      var ID = seg.PID;
-      var chk = localStorage.getItem(ID + '_array');
-        if (chk == null) { 
-      var timer = setInterval(function () { startDecode(poly,ID,i,index) }, 1000);
-      index++;
-      function startDecode(poly,ID,i,index) {
-          clearInterval(timer);
-          decodepoly(poly, ID, parentID,"notkml");        
-      }
-        } else {
-            console.log("not prarsing " + ID);
-        }
-      
-    });
-   
+
+        var seg_data = localStorage.getItem('seg_loc_data');
+        var j2 = eval('(' + seg_data + ')');
+        var index = 0;
+        $.each(j2.points, function (i, seg) {
+
+            var name = i;
+            //
+            var poly = seg.points; //seg[i]['map']['summary_polyline'];
+            var ID = seg.PID;
+            var chk = localStorage.getItem(ID + '_array');
+            if (chk == null) {
+                var timer = setInterval(function () { startDecode(poly, ID, i, index) }, 500);
+                index++;
+                function startDecode(poly, ID, i, index) {
+                    clearInterval(timer);
+                    console.log("parse " + ID);
+                    decodepoly(poly, ID, parentID, "notkml");
+                }
+            } else {
+                console.log("not prarsing " + ID);
+            }
+
+        });
+        //getAct();
+
     }
+
 
 }
 
