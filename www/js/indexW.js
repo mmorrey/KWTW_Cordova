@@ -40,8 +40,8 @@ var app = {
    
     onDeviceReady: function () {
 
-       appPurchChk();
-   
+  //     appPurchChk();
+    checkData("0");
         
       
     },
@@ -3277,7 +3277,7 @@ function checkServerStatus(stravaID) {
                     }
                     $('#credits_no').html(credits);
                 } else {
-                    listSub();
+                   listSub();
            
                     $('#menu_buttons').hide();
                     $('#profile_settings').hide();
