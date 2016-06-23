@@ -20,7 +20,7 @@
 
 
 var app = {
-    // Application Constructor
+
     initialize: function () {
         this.bindEvents();
      
@@ -30,7 +30,7 @@ var app = {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener("online", function (e) {
             reportOnlineStatus();
-            //saveToServer();
+
         }, true);
         document.addEventListener("offline", function (e) {
            reportOnlineStatus();
@@ -39,56 +39,15 @@ var app = {
     },
    
     onDeviceReady: function () {
-      //  alert("ready");
-    //   reportOnlineStatus();
-   //     $('#menu_buttons').show();
-      //  getFriends();
-        //
-   //    appPurchChk();
-     checkData("0");
-        //var ol = isOnLine();
-        
-        //if (ol == true) {
-        //    var userdata = localStorage.getItem('userdata');
-        //    //app.receivedEvent('online');
-        //    if (userdata == null) {
-        //        $('#status_msgs').show();
-        //        $('#status_msgs').append("App is not authenticated with a Strava account");
-        //        $('#UnAuthApp').show();
-        //        $('#pic_header').hide();
-        //        $('#logo_header').hide();
-        //        $('#menu_buttons').hide();
-        //        $('#deets_tile').hide();
-        //    } else {
-               
-        //        var user = eval('(' + userdata + ')');
-        //        var stravaID = user.deets[0]['stravaID'];
-        //        checkData();
-                
-        //    }
-        //} else {
-        //    //offline
-        //    var userdata = localStorage.getItem('userdata');
-        //    //app.receivedEvent('online');
-        //    if (userdata == null) {
-        //        $('#status_area').show();
-        //        $('#status_msgs').show();
-        //        $('#status_msgs').append("App is not authenticated with a Strava account, and device is offline");
-        //    } else {
-        //        var user = eval('(' + userdata + ')');
-        //        var stravaID = user.deets[0]['stravaID'];
-        //        checkData();
-        //    }
 
-
-       // }
-        
+       appPurchChk();
+   
         
       
     },
 
   
-    // Update DOM on a Received Event
+
     receivedEvent: function (id) {
       
         console.log('Received Event: ' + id);
@@ -99,35 +58,18 @@ app.initialize();
 
 
 function listSub() {
-    // alert("buy sub");
+ 
     
     window.iap.setUp(androidApplicationLicenseKey);
 
-    //get all products' infos for all productIds
     window.iap.requestStoreListing(productIds, function (result) {
-        /*
-        [
-            {
-                "productId": "sword001",
-                "title": "Sword of Truths",
-                "price": "Formatted price of the item, including its currency sign.",
-                "description": "Very pointy sword. Sword knows if you are lying, so don't lie."
-            },
-            {
-                "productId": "shield001",
-                "title": "Shield of Peanuts",
-                "price": "Formatted price of the item, including its currency sign.",
-                "description": "A shield made entirely of peanuts."
-            }
-        ]
-        */
-        //alert(JSON.stringify(result));
+       
 
         for (var i = 0 ; i < result.length; ++i) {
             var p = result[i];
 
             product_info[p["productId"]] = { title: p["title"], price: p["price"] };
-           // $('#pmsg2').append("Loaded: " + p["title"]);
+
         }
     }, function (error) {
         alert("error: " + error);
@@ -140,22 +82,19 @@ var existing_purchases = [];
 var product_info = {};
 
 function purchaseProduct(productId) {
-    //var productId = "sub1year";
+
     var userdata = localStorage.getItem('userdata');
     var user = eval('(' + userdata + ')');
     var stravaID = user.deets[0]['stravaID'];
-  //  $('#pmsg').append(stravaID);
-    //purchase product id, put purchase product id info into server.
+
     window.iap.purchaseProduct(productId, function (result) {
-        //alert("purchaseProduct");
-        //alert(JSON.stringify(result));
+
         
         savePmt(stravaID, result.orderId);
         localStorage.setItem("OneYrSub", "1")
         localStorage.setItem("credits", "4000000");
         $('#pmsg').html("Thank you for your subscription");
-       // $('#pmsg').append("OID= " + result.orderId + " " + JSON.stringify(result));
-        //checkData();
+
     },
     function (error) {
         alert("error: " + error);
@@ -163,7 +102,7 @@ function purchaseProduct(productId) {
 }
 
 function consumeProduct(productId) {
-    //consume product id, throw away purchase product id info from server.
+
     window.iap.consumeProduct(productId, function (result) {
         alert("purchaseProduct");
     },
@@ -173,7 +112,7 @@ function consumeProduct(productId) {
 }
 
 function restorePurchases() {
-    //get user's purchased product ids which purchased before and not cunsumed.
+
     window.iap.restorePurchases(function (result) {
         for (var i = 0 ; i < result.length; ++i) {
             var p = result[i];
@@ -181,7 +120,7 @@ function restorePurchases() {
             if (self.existing_purchases.indexOf(p['productId']) === -1) {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
-              //  alert("purchsed");
+
                 $('#pmsg').append("One year subscription purchased. " + p['productId']);
             } else {
              
@@ -189,10 +128,10 @@ function restorePurchases() {
         }
     },
     function (error) {
-       // alert("not purchsed");
+
         $('#pmsg').append("Subscription not purchased.");
         localStorage.setItem("OneYrSub", "0");
-        //alert("error: " + error);
+
     });
 }
 
@@ -210,7 +149,7 @@ function reportOnlineStatus() {
         var user = eval('(' + userdata + ')');
         var pic_header_on
         var pic_header_off
-        //  console.log(user.deets[0]['profile'])
+
         if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
             pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
             pic_header_on = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
@@ -223,11 +162,7 @@ function reportOnlineStatus() {
       
         if (isOnLine()) {
             devOnline = true;
-            //document.getElementById('stRefresh').style.pointerEvents = 'auto';
-            //document.getElementById('stFrRefresh').style.pointerEvents = 'auto';
-            //document.getElementById('purchBtn').style.pointerEvents = 'auto';
-            //document.getElementById('refreshBtnW').style.pointerEvents = 'auto';
-            //document.getElementById('stConnimg').style.pointerEvents = 'auto';
+
             $('#onlineStatus').removeClass("status_off");
             $('#onlineStatus').addClass("status_on");
             $('#onlineStatus').html("Online");
@@ -238,11 +173,7 @@ function reportOnlineStatus() {
         }
         else {
             devOnline = false;
-            //document.getElementById('stRefresh').style.pointerEvents = 'none';
-            //document.getElementById('stFrRefresh').style.pointerEvents = 'none';
-            //document.getElementById('purchBtn').style.pointerEvents = 'none';
-            //document.getElementById('refreshBtnW').style.pointerEvents = 'none';
-            //document.getElementById('stConnimg').style.pointerEvents = 'none';
+
 
             $('#onlineStatus').removeClass("status_on");
             $('#onlineStatus').addClass("status_off");
@@ -296,7 +227,7 @@ function checkConnection() {
     alert('Connection type: ' + states[networkState]);
 }
 
-//checkConnection();
+
 
 var onSuccess = function (position) {
     alert('Latitude: ' + position.coords.latitude + '\n' +
@@ -309,8 +240,7 @@ var onSuccess = function (position) {
           'Timestamp: ' + position.timestamp + '\n');
 };
 
-// onError Callback receives a PositionError object
-//
+
 function onError(error) {
     alert('code: ' + error.code + '\n' +
           'message: ' + error.message + '\n');
@@ -339,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         id: "g1",
         min: 0,
         max: 5,
-       // donut: true,
+
         gaugeWidthScale: 1.1,
         counter: true,
         hideInnerShadow: true,
@@ -365,12 +295,12 @@ function checkLoc() {
 
     navigator.geolocation.getCurrentPosition(
     function (position) {
-        //alert("Lat: " + position.coords.latitude + "\nLon: " + position.coords.longitude);
+
         $('#winfomap').html("Retrieving Location ...");
         showmap(11, position.coords.latitude, position.coords.longitude);
     },
     function (error) {
-      //  alert(error.message);
+
         $('#winfomap').html("Location not available");
         var lat = localStorage.getItem("latmap");
         alert(lat);
@@ -385,14 +315,6 @@ function checkLoc() {
     }
 
 
-    //navigator.geolocation.getCurrentPosition(function (position) {
-    //    loc = position.coords.latitude + "," + position.coords.longitude;
-    //    alert(loc);
-      
-    //    showmap(11, position.coords.latitude, position.coords.longitude);
-    //}, function () {
-    //    $('#winfomap').html("Location not available");
-    //    return 0;
     );
 }
 
@@ -480,7 +402,7 @@ function communityUsers() {
         type: "GET",
         url: "http://komwiththewind.apphb.com/Home/AllUsers",
         timeout: 15000,
-       // data: "dayosag=" + daysago,
+
         dataType: "json",
         success: function (data) {
             var parsed_json = eval(data);
@@ -491,12 +413,12 @@ function communityUsers() {
                 var segs = wd.Seg;
                 ctx2d.font = '14px Arial';
                 ctx2d.fillStyle = "#fff";
-                //  ctx2d.font = '12px Arial';
+
                 ctx2d.fillText(name, 20, posy);
                 ctx2d.fillStyle = "#2fb4c8";
                 ctx2d.fillText("Activities: " + acts, 20, posy + 22);
                 ctx2d.fillText("Segments: " + segs, 20, posy + 38);
-                //cond
+
                  posy = posy + 75;
             })
            
@@ -515,8 +437,7 @@ function getWindiest(daysago) {
     $('#comcanvas').hide();
     $('#comHead').html("<h1>Top 10 Highest Star Rated Segments for the Last 7 Days</h1>");
     $('#comspin').show();
-   
-   // $('#com_table').hide();
+
     var top = "<div class=\"framemail\"><div class=\"window\"><ul class=\"mail\" id=\"ultop\">";
     var midhtml;
    
@@ -531,15 +452,14 @@ function getWindiest(daysago) {
         dataType: "json",
         timeout: 15000,
         success: function (parsed_json) {
-            // var parsed_json = eval(data);
-           // alert(parsed_json);
+
             $('#comspin').hide();
             
             $('#com_table').show();
-            //  head = "<h3>" + parsed_json.topw[0].Timest + "</h3>";
+
             localStorage.setItem("topw_data", JSON.stringify(parsed_json));
             $.each(parsed_json.topw, function (i, seg) {
-                //console.log(wd.Wspd);
+
                 var stars = seg.Stars;
                 var name = seg.UserID;
                 var wspd = seg.Wspd;
@@ -571,7 +491,7 @@ function getWindiest(daysago) {
             $('#com_table').html(top + midhtml + "</ul></div></div>");
         },
         error: function (xhr, error) {
-            alert(error);
+  
             $('#comspin').hide();
             var midhtml = "<li style=\"height:65px\"><i class=\"read\"></i><p class=\"un_sel\">Data not available</li>";
             $('#com_table').html(top + midhtml + "</ul></div></div>");
@@ -582,50 +502,7 @@ function getWindiest(daysago) {
 }
 
 
-function saveTW(segID, segName, wspd, loc, stars, epoch, timestamp) {
-    var userdata = localStorage.getItem('userdata');
-    var user = eval('(' + userdata + ')');
-    var UserID = user.deets[0]['stravaID'];
-    var poly = localStorage.getItem(segID + "_poly")
-    $.ajax({
-        type: "POST",
-        timeout: 15000,
-        url: "http://komwiththewind.apphb.com/Home/SaveTopWeather",
-        data: "UserID=" + UserID + "&segID=" + segID + "&segName=" + segName + "&poly=" + poly + "&wspd=" + wspd + "&loc=" + loc + "&stars=" + stars + "&epoch=" + epoch + "&timestamp=" + timestamp,
-        //tring segname, int segID, string array, string polyline, string latlng
-        dataType: "html",
-        success: function (data) {
 
-        },
-        error: function (xhr, error) {
-            console.debug(xhr); console.debug(error);
-        }
-    });
-    return false;
-}
-  
-function saveSegment(name, ID, polyline, array, latlng, priv, locstr) {
-    var privseg;
-    if (priv == true) {
-        privseg = 1;
-    } else {
-        privseg = 0;
-    }
-    $.ajax({
-        type: "POST",
-        url: "/Home/SaveSegment",
-        data: "segname=" + name + "&segID=" + ID + "&array=" + array + "&polyline=" + polyline + "&latlng=" + latlng + "&priv=" + privseg + "&location=" + locstr,
-        //tring segname, int segID, string array, string polyline, string latlng
-        dataType: "html",
-        success: function (data) {
-
-        },
-        error: function (xhr, error) {
-            console.debug(xhr); console.debug(error);
-        }
-    });
-    return false;
-}
 
 function updateUserKOMS(stravaID) {
     var userdata = localStorage.getItem('userdata');
@@ -673,38 +550,18 @@ function updateUser(firstname, lastname, stravaID) {
 }
 
 
-function saveFavToLocal(ID, array, poly) {
-    var model = getFavModel(ID);
-    model.Poly = poly;
-    model.Array = array;
-   // model.IsSaved = true;
-    localStorage.setItem(ID,JSON.stringify(model));
-    //alert("new score '" + Score + "' saved locally.");
-}
 
-function getFavModel(index) {
-    var model = {
-        Poly: "",
-        Array: "",
-        ID: ""
-    };
 
-    if (localStorage[index] != null) {
-        model = JSON.parse(localStorage[index]);
-    }
-   // model.Key = index;
-    return model;
-}
 
 
 function SignOut() {
      for (var i = 0; i < localStorage.length; i++) {
-        //  if (localStorage.key(i) == 'weatherdata') {
+
          localStorage.removeItem(localStorage.key(i));
          console.log(localStorage.key(i));
      }
      for (var i = 0; i < localStorage.length; i++) {
-         //  if (localStorage.key(i) == 'weatherdata') {
+
          localStorage.removeItem(localStorage.key(i));
          console.log("2: " + localStorage.key(i));
      }
@@ -759,7 +616,7 @@ function removeOldweather() {
         $.each(wdatap.wdata, function (i, wd) {
             diff = timenow - wd.timestamp;
             console.log(diff + " " + wd.ID)
-            if (diff > 9000) { //+000
+            if (diff > 90000) { //+000
                 var str = wd.ID + "_weather_act";
                 console.log("removed st" + str);
                 localStorage.removeItem(str);
@@ -773,7 +630,7 @@ function removeOldweather() {
                     "lng": wd.lng,
                     "timestamp": wd.timestamp,
                     "datestr": moment().format("MMM Do YYYY, h:mm:ss a")
-                    //ct--;
+
                 });
                 console.log("push " + wd.ID)
 
@@ -802,23 +659,22 @@ function removeOldweather() {
     var str = "weather_map";
     var timenow = Math.round(new Date().getTime() / 1000);
     for (var i = 0; i < localStorage.length; i++) {
-        //  if (localStorage.key(i) == 'weatherdata') {
+
         if (localStorage.key(i).indexOf(str) > -1) {
             var jsondata = localStorage.getItem(localStorage.key(i));
             var parsed_json = eval('(' + jsondata + ')');
             var wepoch = parsed_json.hourly_forecast[0].FCTTIME.epoch;
-            if ((timenow - wepoch) > 9000) {
+            if ((timenow - wepoch) > 90000) {
                 console.log("Removing " + localStorage.key(i) + "</br >");
                 remw++;
-                // }
-                //check that map w is not in weatherdata ... 
+
                 var country = parsed_json['location']['country_name'];
                 var location = parsed_json['location']['city'];
                 var loc = location + ", " + country;
                 localStorage.removeItem(localStorage.key(i));
             }
         }
-        // do something with localStorage.getItem(localStorage.key(i));
+
     }
     var now = moment().format('LTS');
     if (remw == 0) {
@@ -857,7 +713,7 @@ function calcFrStorage() {
                         var amount3 = (array.length * 2) / 1024;
                         total += amount3;
                     }
-                    //  console.log(p.ID + " " + segID + " " + amount1);
+
                 });
             }
         });
@@ -885,7 +741,7 @@ function calcStarStorage() {
             total += amount2;
             var amount3 = (array.length * 2) / 1024;
             total += amount3;
-            //  console.log(s.ID + " " + segID + " " + amount1);
+
         });
         return total;
     }
@@ -919,18 +775,17 @@ function calcStorage() {
                 unused += amount1;
                 var amount2 = (localStorage.getItem(key2).length * 2) / 1024;
                 unused += amount2;
-                //var amount3 = (localStorage.getItem(key3).length * 2) / 1024;
-                //unused += amount3;
+
             }
             if (wdata1 != null) {
-                //   live weather
+
                 var amount1 = ((wdata1).length * 2) / 1024;
                 lweather += amount1
                 console.log("w=1 " + ID);
             }
 
             if (wdata2 != null) {
-                //   live weather
+
                 var amount2 = ((wdata2).length * 2) / 1024;
                 lweather += amount2
                 console.log("w=2 " + ID);
@@ -960,14 +815,14 @@ function calcStorage() {
     }
 
     star_fav = calcStarStorage() + star + favc;
-    //  console.log(calcStarStorage() + " " + star + " " + favc)
+
 
     friend = calcFrStorage();
     total = star_fav + LB_hist + friend + lweather;
     for (var x in localStorage) {
         var amount = (localStorage[x].length * 2) / 1024 / 1024;
         total_all += amount;
-        // console.log("x:" + x);
+
     }
     var other = total_all - (total / 1024);
     var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
@@ -1001,7 +856,7 @@ function calcStorage() {
                   "<tr><td>Total</td><td>" + total.toFixed(2) + " Mb</td><td></td></tr></table>";
     $('#stmsg').html(top + midhtml + "</table></div>");
 
-    if (total_all > 0.5) {
+    if (total_all > 4.5) {
         var spare = 5 - total_all;
         $('#Storagereport').show();
         $('#stgmsg').html("You have " + spare.toFixed(2) + "Mb remaining. You may need to wait up to 24 hours for some weather data to clear.");
@@ -1033,7 +888,7 @@ function delOldst(type) {
                     localStorage.removeItem(key2);
                     console.log("removed " + key1 + " " + key2);
                 } else {
-                    //    alert("not removed " + ID + fav + isStarred + isMap);
+
                 }
             }
         }
@@ -1054,7 +909,7 @@ function delOldst(type) {
                     localStorage.removeItem(ID + "_weather_map");
                     console.log("rem: " + ID + "_weather_map");
                 } else {
-                    //    alert("not removed " + ID + fav + isStarred + isMap);
+
                 }
             }
         }
@@ -1082,45 +937,28 @@ function getFriends() {
 
     } else {
      
-        stFriends(); //changed
+        stFriends(); 
     }
 }
 
 
-function isPhoneGap() {
-
-    //var app = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
-    //alert(app);
-    if (window.Device !== undefined) { 
-   
-   // if (app) {
-        return true;
-        // PhoneGap application
-    } else {
-        // Web page
-        return false;
-    }
-
-}
 
 function appPurchChk() {
     listSub();
     var purch = "0";
-  //  $('#pmsg2').append("<br/>Purch0:" + purch);
-    //alert(purch);
+
     var timer1 = setInterval(function () { startPchk1() }, 2000);
     function startPchk1() {
         clearInterval(timer1);
-       // alert("rest");
+
         restorePurchases();
-     //   $('#pmsg2').append("<br/>Purch1:" + purch);
+
 
         var timer2 = setInterval(function () { startPchk2() }, 2000);
         function startPchk2() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
-          //  $('#pmsg2').append("<br/>Purch2:" + purch);
-          //  alert("cdstart");
+
             checkData(purch);
         }
 
@@ -1131,31 +969,21 @@ function appPurchChk() {
 
 function checkData(purch) {
     $('#splashDiv').fadeOut();
-   // $('#pmsg2').append("<br/>Purch3:" + purch);
-  
+
     removeOldweather();
-   // alert("cd2");
+
     $('#info').hide();
     $('#locIcon').hide();
     $('#status_area').hide();
-    // var purch = 0;
 
-    //if (isPhoneGap()) {
-    //    alert(isPhoneGap());
-    //    purch = "1";
-    //} else {
-    //    alert(isPhoneGap());
     if (purch == "1") {
-        //++credits
+
         var udata = localStorage.getItem("userdata");
-     //   alert(udata);
+
         if (udata == null) {
             $('#splashDiv').fadeOut();
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
-           // $('#status_area').show();
-           // $('#status_msgs').show();
-           // $('#status_msgs').append("Not connected");
             $('#pic_header').hide();
             $('#logo_header').hide();
             $('#menu_buttons').hide();
@@ -1177,7 +1005,7 @@ function checkData(purch) {
 
             var pic
             var pic_header
-            //  console.log(user.deets[0]['profile'])
+
             if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
                 pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
                 pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
@@ -1201,7 +1029,6 @@ function checkData(purch) {
                 getAct("stars");
                 $('#pmsg').append("<br/>Sub:" + sub);
 
-                // dispStarsChk();
             } else {
                 noActsmsg("stars");
             }
@@ -1215,10 +1042,7 @@ function checkData(purch) {
 
             $('#UnAuthApp').show();
             $('#onlineStatus').hide();
-           // $('#status_area').show();
-           // $('#status_msgs').show();
-          //  $('#status_msgs').append("Not connected");
-            
+
             $('#pic_header').hide();
             $('#logo_header').hide();
             $('#menu_buttons').hide();
@@ -1227,7 +1051,7 @@ function checkData(purch) {
         } else {
             $('#splashDiv').fadeOut();
             var sub = localStorage.getItem("sub");
-                
+                alert(sub)
             var credits = localStorage.getItem("credits");
             var pass = false;
             if (sub == null) { //not auth
@@ -1251,12 +1075,12 @@ function checkData(purch) {
                     $('#status_msgs').append("Trial period expires on " + ExpDate);
                     $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
                     $('#credits_no').html(credits);
-                    //localStorage.setItem("sub", LoginDate);
+   
                     pass = true;
                 } else {
                     //expired
                     $('#status_msgs').append("Trial expired");
-                    //  localStorage.setItem("sub", "expired");
+
                    listSub();
                     $('#pills_row').hide();
                     $('#seg_nearby').hide();
@@ -1294,7 +1118,7 @@ function checkData(purch) {
 
                 var pic
                 var pic_header
-                //  console.log(user.deets[0]['profile'])
+
                 if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
                     pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
                     pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
@@ -1320,7 +1144,6 @@ function checkData(purch) {
                     getAct("stars");
                     $('#pmsg').append("<br/>" + sub);
 
-                    // dispStarsChk();
                 } else {
                     noActsmsg("stars");
                 }
@@ -1337,9 +1160,9 @@ function checkData(purch) {
 function getPolyx( param1, callbackFunction ) { 
 var json = localStorage.getItem('all_seg_efforts');
   var jact = eval('(' + json + ')');
-    //alert(json);
+
     $.each(jact.segs, function (i, seg) {
-    //alert(seg.name);
+
    $('#location').append(seg.name + "</br>");
 
     });
@@ -1355,7 +1178,7 @@ function dispStarsChk() {
     var lh = hrs;
     fh = fh.toString();
     lh = lh.toString();
-    //alert(fh + lh);
+
     if (hrs == 24) {
         var hrstxt = "Best (24 hrs)";
     } else {
@@ -1620,7 +1443,7 @@ function drawFriends() {
         fr_ct++;
     });
 
-    // alert(firstID)
+
     var ht = parseInt((fr_ct) * 50) + 12; //56
     $('#frback').height(ht);
 
@@ -1697,7 +1520,7 @@ function drawTable(type) {
 
     } else {
         for (var i = 0; i < localStorage.length; i++) {
-            //  if (localStorage.key(i) == 'weatherdata') {
+
             if (localStorage.key(i).indexOf("_fav") > -1) {
                 var ID = localStorage.key(i).replace("_fav", "");
 
@@ -1709,7 +1532,7 @@ function drawTable(type) {
                     ftype = "favs";
                 }
                 act_ct++;
-                // var infoW = w - 
+
                 midhtml = midhtml + "<tr id=\"trow_" + ID + "\" class=\"un_sel\" onclick=\"polyF(" + ID + ",'" + ftype + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + name + "</div>" +
                     "<div style=\"display:inline-block;padding-left:3px\" id=\"stars_" + ID + "\"></div><div style=\"display:inline-block\" id=\"stars_best_" + ID + "\"></div></td></tr>";
 
@@ -1719,7 +1542,7 @@ function drawTable(type) {
 
     }
 
-    var ht = parseInt(((act_ct) * 50) + 49); //56
+    var ht = parseInt(((act_ct) * 50) + 56); //56
 
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
@@ -1733,9 +1556,9 @@ var getSegtimer;
 
 
 function StartgetSegs() {
-    //alert("timer");
+
     getSegtimer = setTimeout(getSegs, 5000);
-    //getSegtimer = setTimeout(function(){ alert("Hello") }, 3000);
+
 }
 
 
@@ -1761,7 +1584,7 @@ function getSegs() {
             var pbrank = seg.pb_rank;
             var pb = "";
             if (pbrank == "1") {
-                // pb= "<i class=\"fa fa-shield\"></i>&nbsp;&nbsp;&nbsp;"
+
             }
             var seghtml = "";
             
@@ -1833,10 +1656,8 @@ function drawLeaderboard(ID, type) {
         $('#g1').show();
         $('#lbBtn').hide();
 
-        //  $('#lbBtn').hide();
         g1.refresh(0);
-        var btnhtml = ""; //"<div id=\"cont\"><a class=\"btn btn-success btn-sm\" href=\"#leaderback\" onclick=\"refHistweather(" + ID + ",'" + type + "')\">" +
-        //"Refresh historical wind conditions</i></a></div>";
+        var btnhtml = ""; 
         var hdata = localStorage.getItem(ID + '_0_hist');
         var bearing_store = ID + "_array";
         var j3 = eval('(' + hdata + ')');
@@ -1854,8 +1675,7 @@ function drawLeaderboard(ID, type) {
         $('#g1').show()
         $('#lbBtn').hide();
         g1.refresh(0);
-        var btnhtml = ""; //"<div id=\"cont\"><a class=\"btn btn-success btn-sm\" href=\"#leaderback\" onclick=\"refHistweather(" + ID + ",'" + type + "')\">" +
-        //"Refresh historical wind conditions</i></a></div>";
+        var btnhtml = ""; 
         var hdata = localStorage.getItem(ID + '_0_hist');
         var bearing_store = ID + "_array";
         var j3 = eval('(' + hdata + ')');
@@ -1878,16 +1698,12 @@ function drawLeaderboard(ID, type) {
         } else {
             $('#lbBtn').show();
             $('#lbBtn').html("<div class=\"msg_sml\">You do not have enough credits to<br/>retrieve all historical data</div>");
-            // $('#lbBtn').html(btnhtml);
+      
         }
 
         $('#g1').hide();
     }
 
-
-
-
-    //style=\"position:absolute;right:18px;top:40px;z-index:400\"
 
     var top = "<div class=\"framemail\"><div class=\"window\"><ul class=\"mail\">";
     var json = localStorage.getItem('lb_data_' + ID);
@@ -1940,9 +1756,7 @@ function drawLeaderboard(ID, type) {
         var temp_bg = "FFB336";
         var wind_txt = "2f3e46";
         var temp_txt = "FFF";
-        // var ampm = zone.FCTTIME.ampm;
 
-        //moving time
         ctx2d.font = '12px Arial';
         ctx2d.fillStyle = '#8bc7eb';
         ctx2d.fillText(timef, 5, posyt);
@@ -1973,13 +1787,13 @@ function drawLeaderboard(ID, type) {
             ctx2d.strokeStyle = "#2fb4c8";
             ctx2d.translate(145, posy + 34);
             ctx2d.rotate(90 * Math.PI / 180);
-            //ctx2d.save();
+
 
             ctx2d.rotate(brg2 * Math.PI / 180);
 
             ctx2d.lineWidth = 1;
             ctx2d.fillStyle = "#2fb4c8";
-            //ctx2d.moveTo(60, -15);
+ 
             ctx2d.fillRect(-5, -5, 10, 10);
             ctx2d.beginPath();
 
@@ -2010,9 +1824,9 @@ function drawLeaderboard(ID, type) {
             var arval1h = parseInt(pArray[pval0h - 1]);  //brg
             var arval2h = parseInt(pArray[pval1h - 1]);
             var arval3h = parseInt(pArray[pval2h - 1]);
-            //alert(arval3h);
+  
             var windspeed = wspd2;
-            //windspeed = 20;
+ 
             arval1f = cleanPval(arval1f);
             arval2f = cleanPval(arval2f);
             arval3f = cleanPval(arval3f);
@@ -2021,7 +1835,7 @@ function drawLeaderboard(ID, type) {
             arval3h = cleanPval(arval3h);
 
             var brgf0 = arval1f * windspeed;
-            // alert(brgf0);
+ 
             var brgf1 = parseInt(arval2f * windspeed) * 0.75;
             var brgf2 = parseInt(arval3f * windspeed) * 0.75;
             var brgh0 = parseInt(arval1h * windspeed);  //fine 2h //not 1h
@@ -2066,13 +1880,13 @@ function drawLeaderboard(ID, type) {
                 ctx2d.strokeStyle = "#2fb4c8";
                 ctx2d.translate(145, posy + 34);
                 ctx2d.rotate(90 * Math.PI / 180);
-                //ctx2d.save();
+             
 
                 ctx2d.rotate(brg2 * Math.PI / 180);
 
                 ctx2d.lineWidth = 1;
                 ctx2d.fillStyle = "#2fb4c8";
-                //ctx2d.moveTo(60, -15);
+            
                 ctx2d.fillRect(-5, -5, 10, 10);
                 ctx2d.beginPath();
 
@@ -2103,9 +1917,9 @@ function drawLeaderboard(ID, type) {
                 var arval1h = parseInt(pArray[pval0h - 1]);  //brg
                 var arval2h = parseInt(pArray[pval1h - 1]);
                 var arval3h = parseInt(pArray[pval2h - 1]);
-                //alert(arval3h);
+          
                 var windspeed = wspd2;
-                //windspeed = 20;
+            
                 arval1f = cleanPval(arval1f);
                 arval2f = cleanPval(arval2f);
                 arval3f = cleanPval(arval3f);
@@ -2114,7 +1928,7 @@ function drawLeaderboard(ID, type) {
                 arval3h = cleanPval(arval3h);
 
                 var brgf0 = arval1f * windspeed;
-                // alert(brgf0);
+            
                 var brgf1 = parseInt(arval2f * windspeed) * 0.75;
                 var brgf2 = parseInt(arval3f * windspeed) * 0.75;
                 var brgh0 = parseInt(arval1h * windspeed);  //fine 2h //not 1h
@@ -2188,14 +2002,13 @@ function drawSegEffort(ID, frID) {
         var lbhistchk1 = localStorage.getItem(ID + '_1_hist_user');
     }
     console.log(lbhistchk0 + " " + lbhistchk1)
-    //type2 = hist
+ 
     if (lbhistchk1 != null) {
         //have historical data, just show
 
         $('#sgBtn').html("");
         var btnhtml2 = "<button style=\"position:absolute;right:10px;top:29px\" type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"stEffort(" + ID + ")\">Refresh</button>";
         $('#refreshBtneffs').html(btnhtml2)
-        //"Refresh historical wind conditions</i></a></div>";
 
         var bearing_store = ID + "_array";
         var j3 = eval('(' + lbhistchk1 + ')');
@@ -2206,15 +2019,13 @@ function drawSegEffort(ID, frID) {
         var komf;
         var bdata = localStorage.getItem(bearing_store);
 
-        //var komf = Math.floor(1 / (numstars / 5));
-        // $('#komability').html("KOMabilty Factor: " + komf);
     } else if (lbhistchk0 != null) {
-        //have historical data, just show
+        //have historical data, just sho
 
         $('#sgBtn').html("");
         var btnhtml2 = "<button style=\"position:absolute;right:10px;top:29px\" type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"stEffort(" + ID + ")\">Refresh</button>";
         $('#refreshBtneffs').html(btnhtml2)
-        //"Refresh historical wind conditions</i></a></div>";
+      
 
         var bearing_store = ID + "_array";
         var j3 = eval('(' + lbhistchk0 + ')');
@@ -2227,9 +2038,6 @@ function drawSegEffort(ID, frID) {
     }
 
 
-    //style=\"position:absolute;right:18px;top:40px;z-index:400\"
-
-    //  var json = localStorage.getItem('eff_data_' + ID);
     if (frID != null) {
         var json = localStorage.getItem('eff_data_' + ID + '_' + frID);
     } else {
@@ -2268,27 +2076,18 @@ function drawSegEffort(ID, frID) {
         var temp_bg = "FFB336";
         var wind_txt = "2f3e46";
         var temp_txt = "FFF";
-        // var ampm = zone.FCTTIME.ampm;
-
-        //moving time
+   
         ctx2d.font = '14px Arial';
         ctx2d.fillStyle = '#8bc7eb';
         ctx2d.fillText(timef, 10, posyt);
         ctx2d.fillStyle = '#FFF';
         ctx2d.font = '14px Arial';
-        //ctx2d.fillText(seg.name, 5, posyt + 16);
+
         ctx2d.fillText(mov_time, 10, posyt + 25);
-        //alert(hour);
+  
 
         ctx2d.font = '14px Arial';
 
-        // var imgi = new Image();
-        // imgi.src = "http://icons.wxug.com/i/c/a/nt_snow.gif"; //seg.profile;
-        //  imgi.addEventListener("load", function () {
-        //      ctx2d.drawImage(imgi, 6, posyt + 10);
-        // }, false);
-        //    ctx2d.fillStyle = "#2fb4c8";
-        //   ctx2d.fillRect(0, posy - 5, 350, 1);
 
         var wspd = 0;
         if (hist == true && lbhistchk1 != null) {
@@ -2317,13 +2116,13 @@ function drawSegEffort(ID, frID) {
             ctx2d.strokeStyle = "#2fb4c8";
             ctx2d.translate(75, posy + 30);
             ctx2d.rotate(90 * Math.PI / 180);
-            //ctx2d.save();
+        
 
             ctx2d.rotate(brg2 * Math.PI / 180);
 
             ctx2d.lineWidth = 1;
             ctx2d.fillStyle = "#2fb4c8";
-            //ctx2d.moveTo(60, -15);
+       
             ctx2d.fillRect(-5, -5, 10, 10);
             ctx2d.beginPath();
 
@@ -2354,9 +2153,9 @@ function drawSegEffort(ID, frID) {
             var arval1h = parseInt(pArray[pval0h - 1]);  //brg
             var arval2h = parseInt(pArray[pval1h - 1]);
             var arval3h = parseInt(pArray[pval2h - 1]);
-            //alert(arval3h);
+          
             var windspeed = wspd2;
-            //windspeed = 20;
+            
             arval1f = cleanPval(arval1f);
             arval2f = cleanPval(arval2f);
             arval3f = cleanPval(arval3f);
@@ -2365,7 +2164,7 @@ function drawSegEffort(ID, frID) {
             arval3h = cleanPval(arval3h);
 
             var brgf0 = arval1f * windspeed;
-            // alert(brgf0);
+         
             var brgf1 = parseInt(arval2f * windspeed) * 0.75;
             var brgf2 = parseInt(arval3f * windspeed) * 0.75;
             var brgh0 = parseInt(arval1h * windspeed);  //fine 2h //not 1h
@@ -2417,13 +2216,13 @@ function drawSegEffort(ID, frID) {
                 ctx2d.strokeStyle = "#2fb4c8";
                 ctx2d.translate(75, posy + 30);
                 ctx2d.rotate(90 * Math.PI / 180);
-                //ctx2d.save();
+           
 
                 ctx2d.rotate(brg2 * Math.PI / 180);
 
                 ctx2d.lineWidth = 1;
                 ctx2d.fillStyle = "#2fb4c8";
-                //ctx2d.moveTo(60, -15);
+               
                 ctx2d.fillRect(-5, -5, 10, 10);
                 ctx2d.beginPath();
 
@@ -2454,9 +2253,9 @@ function drawSegEffort(ID, frID) {
                 var arval1h = parseInt(pArray[pval0h - 1]);  //brg
                 var arval2h = parseInt(pArray[pval1h - 1]);
                 var arval3h = parseInt(pArray[pval2h - 1]);
-                //alert(arval3h);
+              
                 var windspeed = wspd2;
-                //windspeed = 20;
+             
                 arval1f = cleanPval(arval1f);
                 arval2f = cleanPval(arval2f);
                 arval3f = cleanPval(arval3f);
@@ -2465,7 +2264,7 @@ function drawSegEffort(ID, frID) {
                 arval3h = cleanPval(arval3h);
 
                 var brgf0 = arval1f * windspeed;
-                // alert(brgf0);
+            
                 var brgf1 = parseInt(arval2f * windspeed) * 0.75;
                 var brgf2 = parseInt(arval3f * windspeed) * 0.75;
                 var brgh0 = parseInt(arval1h * windspeed);  //fine 2h //not 1h
@@ -2508,13 +2307,13 @@ function drawSegEffort(ID, frID) {
                 var btnhtml = "<div style=\"padding-left:5px\"><a class=\"btn btn-success btn-sm\" href=\"#leaderback\" onclick=\"showHistweather(" + ID + ",'" + type + "',false,'all'," + frID + ")\">" +
                                "Show all historical wind conditions</i></a></div>";
                 $('#effortPadding').show();
-                //  console.log(btnhtml)
+               
                 $('#sgBtn').show();
                 $('#sgBtn').html(btnhtml);
             } else {
                 $('#sgBtn').show();
                 $('#sgBtn').html("<div style=\"padding-left:5px\" class=\"msg_sml\">You do not have enough credits to<br/>retrieve all historical data</div>");
-                // $('#lbBtn').html(btnhtml);
+      
             }
         }
     }
@@ -2531,44 +2330,42 @@ function countHistW(count, SegID, frID, lb) {
     console.log(lb);
     var j = -1;
     for (var i = 0; i < localStorage.length; i++) {
-        //  if (localStorage.key(i) == 'weatherdata') {
+    
         if ((localStorage.key(i).indexOf(SegID) > -1))
             if (lb == true) {
-                //count just _hist ad 2_
+           
                 if (localStorage.key(i).indexOf("_hist") > -1) {
-                    console.log("found lb hist");
+                  
                     if ((localStorage.key(i).split("_").length - 1) == 2) {
-                        console.log("count lb hist");
+                     
                         j++
                     }
                 }
             } else if (frID == null) {
-                //count own efforts
-                // _hist_user with 3_
+           
                 if (localStorage.key(i).indexOf("_hist_") > -1) {
-                    console.log("found own hist");
+                
                     if ((localStorage.key(i).split("_").length - 1) == 3) {
-                        console.log("count own hist");
+                    
                         j++
                     }
                 }
 
             } else {
-                //friend's efforts
-                // couunt frID_segID
+        
                 if (localStorage.key(i).indexOf("_hist_") > -1) {
-                    console.log("found fr hist");
+              
                     if ((localStorage.key(i).split("_").length - 1) == 4) {
-                        console.log("count friend hist");
+                 
                         j++
                     }
                 }
             }
-        //&& (localStorage.key(i).indexOf(SegID) > -1)) { //separate
+
 
 
     }
-    // do something with localStorage.getItem(localStorage.key(i));
+
 
     console.log("c: " + j + " " + count);
     if (j == count) {
@@ -2579,11 +2376,8 @@ function countHistW(count, SegID, frID, lb) {
 
 }
 
-function showHistweather(SegID, type, lb, num, frID) { //friday
-    //make an array of the first three
-    //find out if seg is private or not
+function showHistweather(SegID, type, lb, num, frID) { 
 
-    // $('#effortPadding').hide();
     $('#sgBtn').hide();
 
     $('#lbBtn').hide();
@@ -2619,7 +2413,7 @@ function showHistweather(SegID, type, lb, num, frID) { //friday
     if (lbhistchk1 != null) {
 
         if (lb == true) {
-            drawLeaderboard(SegID, type); //was hist yyy
+            drawLeaderboard(SegID, type); 
         } else {
             drawSegEffort(SegID, frID, type);
         }
@@ -2644,7 +2438,7 @@ function showHistweather(SegID, type, lb, num, frID) { //friday
                 } else {
                     var date = j2.segs[i].time;
                     setTimeout(function () {
-                        //alert('paused');
+                
                         CallHistWeather(latlng, date, SegID, i, type, lb, frID);
                         if (i == count) {
                             var timerAA = setTimeout(function () { showdata() }, 4000);
@@ -2756,19 +2550,12 @@ function CallHistWeather(latlng, date, SegID, i, type, lb, frID) {
     var hist_deets = {
         hdata: []
     };
-    console.log("i=" + i);
     var j = i + 1;
     $.ajax({
         type: "GET",
-        //url: "http://api.wunderground.com/api/bf45926a1b878028/hourly/geolookup/q/" + latlng + ".json",
         url: "https://api.forecast.io/forecast/1373a09f8179192ac902765c8b56bae5/" + latlng + "," + date,
-        //56.052,-2.732
-        //url: "json.txt",
-        //dataType: "html",
         dataType: "jsonp",
         success: function (json) {
-            //var jsontxt = eval('(' + json + ')');
-
             var jsontext = JSON.stringify(json);
             hist_deets.hdata.push({
                 "wspeed": json.currently.windSpeed,
@@ -2778,10 +2565,7 @@ function CallHistWeather(latlng, date, SegID, i, type, lb, frID) {
                 "timestamp_pretty": moment().format("MMM Do YYYY, h:mm:ss a")
 
             })
-            console.log("Got hist data for " + SegID + " " + i + " " + hc);
-
-            console.log(json.currently.windSpeed);
-            if (lb == true) {
+             if (lb == true) {
                 $('#lbdata').html("Retrieving historical data ..." + j);
             } else {
                 $('#sgdata').html("Retrieving historical data ..." + j);
@@ -2808,7 +2592,6 @@ function CallHistWeather(latlng, date, SegID, i, type, lb, frID) {
                 var userdata = localStorage.getItem('userdata');
                 var user = eval('(' + userdata + ')');
                 var stravaID = user.deets[0]['stravaID'];
-                console.log("ID=" + stravaID)
                 saveCredit(stravaID, "1")
                 localStorage.setItem("credits", credits);
                 $('#credits_no').html(credits);
@@ -2817,11 +2600,9 @@ function CallHistWeather(latlng, date, SegID, i, type, lb, frID) {
 
         },
         error: function (xhr, error) {
-            console.debug(xhr); console.debug(error);
-            return false;
+           return false;
         },
         complete: function () {
-            //load weather
 
         }
 
@@ -2854,30 +2635,22 @@ function refreshWeather(type, ct) {
             var wdatap = eval('(' + wdata + ')');
             var epochw = wdatap.wdata[0].timestamp;
             var diff = timenow - epochw;
-            //alert(diff);
-
 
             function revertText() {
                 clearInterval(timer1);
                 $('#winfo').fadeOut();
                 dispStarsChk();
                 $('#refreshBtn').fadeIn();
-                // $('#winfo').fadeIn()
-
+ 
             }
-            console.log(diff);
+         
             if (diff < 10800) { //10800
                 var timer1 = setInterval(function () { revertText() }, 5000);
                 $('#refreshBtn').fadeOut();
                 $('#winfo').fadeOut('slow', function () {
-                    // will be called when the element finishes fading out
                     $('#winfo').html("Weather data retrieved less than 3 hours ago.</br>Refresh not available");
-                    // if selector matches multiple elements it will be called once for each
-                    $('#winfo').fadeIn();
+                     $('#winfo').fadeIn();
                 });
-                // $('#winfo').fadeOut('slow').html("Weather data retrieved less than 3 hours ago.</br>Refresh not available").fadeIn('slow');
-                //$('#winfo').html("Weather data retrieved less than 3 hours ago.</br>Refresh not available");
-                // $('#winfo').fadeIn();
             } else {
                 $('#refreshBtn').fadeOut('slow');
                 var timex = 20000;
@@ -2886,9 +2659,7 @@ function refreshWeather(type, ct) {
                 var total = parseInt(actct) + parseInt(segct);
                 timex = (total * 2000)
                 var timer2 = setInterval(function () { getSegWeather() }, timex); //timer = weatherct * 2s
-                //timer = weatherct * 2s
 
-                console.log(timex);
                 $('#winfo').html("<div style=\"height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px\" class=\"fa fa-2x fa-cog fa-spin\"></div>" +
                              "<div style=\"display:inline-block;margin-bottom:8px\">&nbsp;Refreshing weather ...</div>");
                 $('*[id*=stars_]:visible').each(function () {
@@ -2907,8 +2678,7 @@ function refreshWeather(type, ct) {
                         countWdata();
                         $('#refreshBtn').fadeIn('slow');
                     }
-                    //  dispStarsChk();
-                }
+               }
 
 
             }
@@ -2920,10 +2690,7 @@ function refreshWeather(type, ct) {
             var total = parseInt(actct) + parseInt(segct);
             timex = (total * 2000)
             var timer2 = setInterval(function () { getSegWeather() }, timex); //timer = weatherct * 2s
-            //timer = weatherct * 2s
-
-            console.log(timex);
-            $('#winfo').html("<div style=\"height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px\" class=\"fa fa-2x fa-cog fa-spin\"></div>" +
+             $('#winfo').html("<div style=\"height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px\" class=\"fa fa-2x fa-cog fa-spin\"></div>" +
                          "<div style=\"display:inline-block;margin-bottom:8px\">&nbsp;Refreshing weather ...</div>");
             $('*[id*=stars_]:visible').each(function () {
                 $(this).html("wait");
@@ -2948,12 +2715,12 @@ function refreshWeather(type, ct) {
 }
 
 
-function checkSegisStarred(ID) {          //  create a loop function
+function checkSegisStarred(ID) {         
     var json = localStorage.getItem('starsdata');
     var star = false;
     if (json != null) {
         var j2 = eval('(' + json + ')');
-        $.each(j2.segs, function (i, seg) { //if (i < 10) {            //  if the counter < 10, call the loop function
+        $.each(j2.segs, function (i, seg) { 
             if (seg.ID == ID) {
                 star = true;
                 return false;
@@ -2990,8 +2757,7 @@ function checkSegisFr(ID) {
                         console.log(fr + " = " + ID);
                         return false;
                     }
-                    //  console.log(p.ID + " " + segID + " " + amount1);
-                });
+                 });
             } else {
                 var fr = false;
             }
@@ -3000,12 +2766,12 @@ function checkSegisFr(ID) {
     }
 }
 
-function checkSegisMap(ID) {          //  create a loop function
+function checkSegisMap(ID) {         
     var json = localStorage.getItem('seg_loc_data');
     var inmap = false;
     if (json != null) {
         var j2 = eval('(' + json + ')');
-        $.each(j2.points, function (i, seg) { //if (i < 10) {            //  if the counter < 10, call the loop function
+        $.each(j2.points, function (i, seg) { 
             if (seg.PID == ID) {
                 inmap = true;
                 return false;
@@ -3015,25 +2781,19 @@ function checkSegisMap(ID) {          //  create a loop function
     } else {
         inmap = false;
     }
-    //  ..  setTimeout()
-
     return inmap;
 }
 
-function weatherAct() {          //  create a loop function
-    var json = localStorage.getItem('starsdata');  //apr4 was segdata
+function weatherAct() {        
+    var json = localStorage.getItem('starsdata');  
     var j2 = eval('(' + json + ')');
     $('#status_msgs').append("Retrieving weather data for Starred Segments</br>");
-    //$('#location').show();
-    var wct = 1;
+     var wct = 1;
     var time = 0;
     var ct = localStorage.getItem('weatherdata_ct');
     var timerw = ct * 4000;
-    //var ct = localStorage.getItem('weatherdata_ct');
-    //var timerw = ct * 4000;
     var actct = localStorage.getItem("starsct");
     timex = (actct * 4000)
-    console.log(timex + " estimated time for weather in wAct");
     var timerst = setInterval(function () { closeStatus() }, timex);
     function closeStatus() {
         clearInterval(timerst);
@@ -3058,10 +2818,9 @@ function weatherAct() {          //  create a loop function
 
 
     }
-    $.each(j2.segs, function (i, seg) { //if (i < 10) {            //  if the counter < 10, call the loop function
+    $.each(j2.segs, function (i, seg) {
 
         setTimeout(function () {
-            //alert('paused');
             getW(seg.latlng, seg.ID, "act");
             $('#winfo').html("<div style=\"height:26px;width:30px;text-align:center;margin-top:9px;margin-left:2px\" class=\"fa fa-2x fa-cog fa-spin\"></div>" +
             "<div style=\"display:inline-block;margin-bottom:8px\">&nbsp;Refreshing weather ... " + wct + "</div>");
@@ -3069,18 +2828,16 @@ function weatherAct() {          //  create a loop function
             wct++;
         }, time);
         time += 4000;
-    });                       //  ..  setTimeout()
+    });               
 
 
 }
 
-function weatherMap1(type, ct) {          //  create a loop function
+function weatherMap1(type, ct) {        
     var json = localStorage.getItem('seg_loc_data');
     var j2 = eval('(' + json + ')');
 
-    var ID = checkLocalW(); //does seg loc have any wind data?
-    console.log("wct=" + ID);
-    //if yes, copy to the rest
+    var ID = checkLocalW(); 
     if (ID != null) {
         copyMapWeather(ID);
     } else {
@@ -3089,7 +2846,7 @@ function weatherMap1(type, ct) {          //  create a loop function
 
 }
 
-function weatherMap(ct) {          //  create a loop function
+function weatherMap(ct) {
     var json = localStorage.getItem('seg_loc_data');
     var j2 = eval('(' + json + ')');
     $('#winfomap').html("<div style=\"display:inline-block;margin-bottom:8px\">Refreshing weather ...</div>");
@@ -3100,16 +2857,12 @@ function weatherMap(ct) {          //  create a loop function
 function weatherSeg() {
     var all_seg_data = localStorage.getItem('all_seg_efforts');
     var j2 = eval('(' + all_seg_data + ')');
-    //alert(all_seg_data);
     if (all_seg_data.length > 80) {
         var index = 0;
         $.each(j2.segs, function (i, seg) {
-            var name = i;
-            //  $('#status_msgs').append("Retrieving weather data </br>");
+            var name = i;       
             var timer1 = setInterval(function () { startDecode(seg.ID, seg.parentID) }, 1000);
-            index++;
-            //alert(poly);
-            //startDecode(poly,ID,i);      
+            index++; 
             function startDecode(toID, fromID) {
                 clearInterval(timer1);
                 copyWeather(fromID, toID);
@@ -3123,11 +2876,7 @@ function weatherSeg() {
 
 }
 
-function displayStarsmap(hrs, ct) { //get seg weather
-    //1-3 = 3
-    //4-6 = 6
-    //tryMapWeatherStars(ID);
-    //alert(ct);
+function displayStarsmap(hrs, ct) {
     $('#refreshBtnmap').html("");
     $('#refreshBtnmap').hide();
     var wdata = localStorage.getItem("weatherdata");
@@ -3137,10 +2886,10 @@ function displayStarsmap(hrs, ct) { //get seg weather
     var segct = j2s.count[0].num;
 
     if (jsonact.length > 50) {
-        var ID = j2s.points[0].PID;      //"469475975";
+        var ID = j2s.points[0].PID;     
         var jsondata = localStorage.getItem(ID + "_weather_map");
         $('#refreshStarsmapbtn').html("Refresh Stars Ratings");
-        //  var Hrs = localStorage.getItem("Hrs");
+      
         localStorage.setItem("Hrs_map", hrs);
 
         var parsed_json = eval('(' + jsondata + ')');
@@ -3149,7 +2898,7 @@ function displayStarsmap(hrs, ct) { //get seg weather
         var lh = hrs;
         fh = fh.toString();
         lh = lh.toString();
-        //alert(fh + lh);
+      
         var hrstxt = fh + " - " + lh + " Hrs";
 
 
@@ -3163,16 +2912,14 @@ function displayStarsmap(hrs, ct) { //get seg weather
             if (wdata == null) {
                 noW++
             }
-            // $('#stars_' + seg.PID).html("<p>Not yet retrieved</p>");
+       
             calcStarsInline(seg.PID, hrs, 'map');
         });
         console.log(noW + " " + segct)
         if (noW == segct) {
-            //$('#mapWind').hide();
         }
 
     }
-    //save hrs val and also info that stars are showing
 }
 
 function changeGender(g) {
@@ -3181,7 +2928,6 @@ function changeGender(g) {
 
 function drawWindcanvas(ID, from, to, ct) {
     var zoom = localStorage.getItem("zoommap");
-    //  function findMapWeatherStars() {
     ct = 0;
     var wdata = localStorage.getItem("seg_loc_data");
     if (wdata == null) {
@@ -3200,7 +2946,7 @@ function drawWindcanvas(ID, from, to, ct) {
                 fPID = wd.PID;
                 flatlng = wd.endlatlong;
                 var wchk = localStorage.getItem(wd.PID + "_weather_map");
-                if (wchk != null) { //or parentID
+                if (wchk != null) { 
 
                     ID = wd.PID;
                 }
@@ -3208,7 +2954,6 @@ function drawWindcanvas(ID, from, to, ct) {
         }
 
         var jsondata = localStorage.getItem(ID + "_weather_map");
-        //console.log(jsondata);
         if (ID == null) {
             if (zoom >= 12) {
 
@@ -3223,7 +2968,6 @@ function drawWindcanvas(ID, from, to, ct) {
                 $('#refreshBtnmap').hide();
             }
         } else {
-            //$('#mapWind').hide();
             $('#refreshBtnmap').html("");
             $('#refreshBtnmap').hide();
 
@@ -3239,9 +2983,6 @@ function drawWindcanvas(ID, from, to, ct) {
                 $('#btnLeft').hide();
                 $('#btnRight').hide();
                 $('#mapWind').hide();
-                // ctx2d.fillStyle = '#FFF';
-                /// ctx2d.font = '14px Arial';
-                // ctx2d.fillText("Zoom in for wind information for this view", 10, 10);
             } else {
 
                 $('#btnLeft').show();
@@ -3284,7 +3025,6 @@ function drawWindcanvas(ID, from, to, ct) {
 
 
                 while (from <= to) {
-                    //ctx2d.restore();
 
                     var winddeg = parsed_json.hourly_forecast[from].wdir.degrees;
 
@@ -3317,7 +3057,6 @@ function drawWindcanvas(ID, from, to, ct) {
                     } else {
                         ctx2d.fillText(hour, posx, 25);
                     }
-                    //alert(hour);
                     ctx2d.font = '10px Arial';
                     if (hour < 10) {
                         ctx2d.fillText(ampm, posx + 9, 25);
@@ -3334,12 +3073,10 @@ function drawWindcanvas(ID, from, to, ct) {
                     ctx2d.strokeStyle = "#2fb4c8";
                     ctx2d.translate(posx + 12, 38);
                     ctx2d.rotate(90 * Math.PI / 180);
-                    //ctx2d.save();
                     ctx2d.rotate(winddeg * Math.PI / 180);
 
                     ctx2d.lineWidth = 1;
                     ctx2d.fillStyle = "#2fb4c8";
-                    //ctx2d.moveTo(60, -15);
                     ctx2d.fillRect(-5, -5, 10, 10);
                     ctx2d.beginPath();
 
@@ -3357,11 +3094,8 @@ function drawWindcanvas(ID, from, to, ct) {
                     ctx2d.stroke();
                     ctx2d.restore();
 
-                    //wind
-
                     ctx2d.font = '14px Arial';
                     ctx2d.fillStyle = "#fff";
-                    //  ctx2d.font = '12px Arial';
 
                     if (parsed_json.hourly_forecast[from].wspd.metric < 10) {
                         ctx2d.fillText(parsed_json.hourly_forecast[from].wspd.metric, posx, 60);
@@ -3385,21 +3119,18 @@ function drawWindcanvas(ID, from, to, ct) {
 }
 
 function tryMapWeatherStars(SegID) {
-    console.log("try " + SegID);
     var wdata = localStorage.getItem(SegID + "_weather_map");
     var hrs = "24";
     if (wdata == null) {
-        // calcStarsInline(seg.PID, hrs);
     } else {
         console.log("found weather for " + SegID);
         calcStarsInline(SegID, hrs, 'map');
     }
 }
 
-function displayStars(hrs, type) { //get seg weather
+function displayStars(hrs, type) { 
     var wdata = localStorage.getItem("weatherdata");
     if (wdata == null) {
-        //  $('#winfo').html("Showing the best star ratings for the next 24 hours of retrieved weather");
     } else {
         var jsonact = localStorage.getItem('starsdata');
         localStorage.setItem("Hrs", hrs);
@@ -3522,22 +3253,21 @@ function stConn2() {
 }
 
 function checkServerStatus(stravaID) {
+
     $.ajax({
         type: "POST",
         url: "http://komwiththewind.apphb.com/Home/Ustatus",
-        //url: "/Home/Ustatus",
         dataType: "json",
         timeout: 25000,
         data: "StravaID=" + stravaID,
         success: function (parsed_json) {
-            if (parsed_json.length > 10) {
+          
                 var credits = parsed_json.ustatus[0]['Credits'];
                 var LoginDate = parsed_json.ustatus[0]['FirstLogin'];
                 localStorage.setItem('credits', credits);
 
                 var ExpDate = Math.floor(moment(LoginDate, "DD-MM-YYYYY").add(7, 'days') / 1000);
 
-                var LoginDate2 = new Date(LoginDate)
                 var today2 = Math.floor(moment() / 1000);
                 var diff = parseInt(ExpDate - today2);
                 var edays = Math.floor(diff / 86400);
@@ -3548,29 +3278,30 @@ function checkServerStatus(stravaID) {
                 } else {
                     estr = "in " + edays + " days."
                 }
+               
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
-                   // $('#status_msgs').append("<br/>Trial period expires " + estr + " <br/");
-                    $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
+                     $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
                     if (cint < 0) {
                         credits = "0";
                     }
                     $('#credits_no').html(credits);
                 } else {
                     listSub();
-                   // $('#status_msgs').append("</br>Trial expired");
+           
                     $('#menu_buttons').hide();
-                    $('#profile_settings').hide();
                     $('#profile_settings').hide();
                     hideAll();
                     $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase Yearly Subscription to get full access including unlimited Historical data queries.");
                 }
-            } else {
-                //new user, not yet saved
-            }
+           
         },
         error: function (xhr, error) {
-            // alert(error);
+            $('#menu_buttons').hide();
+            $('#profile_settings').hide();
+            hideAll();
+            $('#pmsg').html("User status unknown.<br/>Please restart the app.");
+
 
         }
     });
@@ -3586,7 +3317,7 @@ function stTest2() {
             var jsontext = JSON.stringify(data);
             $('#status_msgs').append("</br > " + jsontext);
         })
-        // do some stuff with result
+
     });
 
 
@@ -3596,25 +3327,22 @@ var timer1
 var timer2
 
 function analyseSegs() {
-//start timer, then analyse
-//getSegtimer = setTimeout(analyseSegs2, 5000);
+
     var all_seg_data = localStorage.getItem('all_seg_efforts');
     if (all_seg_data != null) {
         var j2 = eval('(' + all_seg_data + ')');
-        //alert(all_seg_data);
+
         if (all_seg_data.length > 80) {
             var index = 0;
             $.each(j2.segs, function (i, seg) {
-                //alert("hi");
+     
                 var name = i;
                 var poly = localStorage.getItem(seg.ID + "_poly");
-                //  alert(poly);
                 var ID = seg.ID
                 var parentID = seg.parentID
                 var timer1 = setInterval(function () { startDecode(poly, ID, parentID, i, index) }, 5000);
                 index++;
-                //alert(poly);
-                //startDecode(poly,ID,i);      
+      
                 function startDecode(poly, ID, parentID, i, index) {
                     clearInterval(timer1);
                     decodepoly(poly, ID, parentID,"notkml");
@@ -3625,8 +3353,7 @@ function analyseSegs() {
             var timer2 = setTimeout(function () { startDecode() }, 1000);
             function startDecode() {
                 clearTimeout(timer2);
-                //  drawTable();
-              
+            
                 weatherAct();
                
             }
@@ -3637,9 +3364,6 @@ function analyseSegs() {
             var timer3 = setTimeout(function () { startDecode() }, 1000);
             function startDecode() {
                 clearTimeout(timer3);
-               // $('#AuthApp').show();
-           //     $('#status_msgs').hide();
-                //drawTable();
                 weatherAct();
             }
 
@@ -3651,7 +3375,6 @@ function analyseSegs() {
 
 
 function parse(type, ID) {
-    //alert(type);
     var parentID = "111";
     if (type == "act") {
 
@@ -3661,16 +3384,11 @@ function parse(type, ID) {
         $.each(j2.segs, function (i, seg) {
             var poly = seg.poly;
             var ID = seg.ID;
-            var timer2 = setInterval(function () { startDecode(poly, ID, parentID) }, 2000);
-
-            //alert(poly);
-            //startDecode(poly,ID,i);      
+            var timer2 = setInterval(function () { startDecode(poly, ID, parentID) }, 2000);  
 
             function startDecode(poly, ID, parentID) {
                 clearInterval(timer2);
                 decodepoly(poly, ID, parentID, "notkml");
-                //copyWeather(fromID, toID)
-
 
             }
         });
@@ -3685,20 +3403,14 @@ function parse(type, ID) {
             var poly = localStorage.getItem(ID2 + '_poly');
             var timer2 = setInterval(function () { startDecode(poly, ID2, parentID) }, 2000);
 
-            //alert(poly);
-            //startDecode(poly,ID,i);      
-
             function startDecode(poly, ID2, parentID) {
                 clearInterval(timer2);
-                //  console.log(ID2 + " " + poly)
-                decodepoly(poly, ID2, parentID, "nokkml");
-                //copyWeather(fromID, toID)
 
+                decodepoly(poly, ID2, parentID, "nokkml");
 
             }
         });
 
-        // getAct("kom");
 
     } else if (type == "stars") {
 
@@ -3710,20 +3422,15 @@ function parse(type, ID) {
             var ID = seg.ID;
 
             var pstr = ID + "_poly";
-            //  console.log(pstr);
             var poly = localStorage.getItem(pstr);
-            // var poly = segjson.segs.poly;
             var timer2 = setInterval(function () { startDecode(poly, ID, parentID) }, 2000);
 
-            //alert(poly);
-            //startDecode(poly,ID,i);      
+  
 
             function startDecode(poly, ID, parentID) {
                 clearInterval(timer2);
                 console.log("decode " + poly)
                 decodepoly(poly, ID, parentID, "notkml");
-                //copyWeather(fromID, toID)
-
 
             }
         });
@@ -3733,30 +3440,22 @@ function parse(type, ID) {
 
     } else if (type == "seg") {
 
-        var seg_data = localStorage.getItem('segdata');  //not here
-        //alert(seg_data);
+        var seg_data = localStorage.getItem('segdata'); 
         var j2 = eval('(' + seg_data + ')');
 
         var index = 0;
         $.each(j2.segs, function (i, seg) {
-            var seg_eff = localStorage.getItem(seg.ID + '_seg_efforts'); //has ID +parent ID
+            var seg_eff = localStorage.getItem(seg.ID + '_seg_efforts'); 
             var j2eff = eval('(' + seg_eff + ')');
-            //alert("eff" + seg_eff + seg.ID);  //vf is top onlist
             var name = i;
             var segjson = localStorage.getItem(ID + "_poly");
             var poly = segjson.segs.poly;
             var ID = segjson.segs.ID;
-            //   alert("start decode" + poly + " " + ID);
             var timers = setInterval(function () { startDecode(poly, ID, i, index) }, 5000);
-            //var speed = 1000;
-            //var timer = setInterval(startDecode(poly,ID,i), speed);
-            index++;
-            //startDecode(poly,ID,i);      
+            index++;  
             function startDecode(poly, ID, i, index) {
                 clearInterval(timers);
-                //index++;
-                // alert(i + " start ... " + ID + " idx=" + index);
-                $('#location').append("decode poly for segment: " + ID); //was actmsgs
+                $('#location').append("decode poly for segment: " + ID);
                 decodepoly(poly, ID, parentID, "notkml");
 
             }
@@ -3776,8 +3475,7 @@ function parse(type, ID) {
         $.each(j2.points, function (i, seg) {
 
             var name = i;
-            //
-            var poly = seg.points; //seg[i]['map']['summary_polyline'];
+            var poly = seg.points; 
             var ID = seg.PID;
             var chk = localStorage.getItem(ID + '_array');
             if (chk == null) {
@@ -3793,16 +3491,13 @@ function parse(type, ID) {
             }
 
         });
-        //getAct();
 
     }
 
 
 }
 
-//getSegpolysTimer();
 function ActsSegsRefresh() {
-    //stAct();
     stConn2();
 }
 
@@ -3817,22 +3512,13 @@ function stAct() {
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
 
     OAuth.popup('strava', { cache: true }).done(function (result) {
-        console.log(result)
         result.get('https://www.strava.com/api/v3/activities').done(function (data) {
 
             var jsontext = JSON.stringify(data);
-           // $('#status_msgs').append(jsontext);
             var ct = 0;
             $.each(data, function (i, seg) {
             var poly = data[i]['map']['summary_polyline'];
-            var ID = data[i]['id'];
-            //   $.each(parsed_json.hourly_forecast, function (i, zone) {
- 
- //           $.each(data.segment_efforts, function (i, seg_eff) {
-               //  alert(seg_eff.name);
-   //         });
-            
-                
+            var ID = data[i]['id'];               
                 strava_segs.segs.push({
                     "name": data[i]['name'],
                     "ID": data[i]['id'],
@@ -3840,12 +3526,9 @@ function stAct() {
                     "dist": data[i]['distance'],
                     "egain": data[i]['total_elevation_gain'],
                     "latlng": data[i]['end_latlng'],
-                    //"seg_efforts" : data[i]['segment_efforts']
                     
                 });
-                
-                //alert(seg.map);
-               
+                              
                 ct++;
                 seg_efforts(seg.id);
             });
@@ -3858,10 +3541,6 @@ function stAct() {
             var firstname = user.deets[0]['firstname'];
             var lastname = +user.deets[0]['lastname'];
             var stravaID = user.deets[0]['ID'];
-            //updateUser(firstname, lastname, stravaID, ct, 0);
-           // alert(jsontext);
-            //alert("Retrieved " + ct + " Activities.");
-            //drawTable();
             if (ct > 0) {
                 parse("stars");
                 var timer = setInterval(function () { startDecode() }, 5000);
@@ -3875,7 +3554,6 @@ function stAct() {
                 $('#UnAuthApp').hide();
                 noActsmsg("stars");
             }
-             //myFunction();
         });
 
     });
@@ -3897,7 +3575,6 @@ function stFriends() {
         result.get('https://www.strava.com/api/v3/athletes/' + ID + '/friends').done(function (data) {
 
             var jsontext = JSON.stringify(data);
-            // $('#status_msgs').append(jsontext);
             var ct = 0;
             $.each(data, function (i, peep) {
                 var frID = peep.id;
@@ -3940,11 +3617,9 @@ function stKOMs(ID) {
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
 
     OAuth.popup('strava', { cache: true }).done(function (result) {
-        console.log(result)
         result.get('https://www.strava.com/api/v3/athletes/' + ID + '/koms').done(function (data) {
 
             var jsontext = JSON.stringify(data);
-            // $('#status_msgs').append(jsontext);
             var ct = 0;
             $.each(data, function (i, seg) {
               
@@ -3962,7 +3637,7 @@ function stKOMs(ID) {
                     "kom_rank": seg.kom_rank,
                     "pr_rank": seg.pr_rank,
                     "time": seg.start_date
-                });//has it more than once
+                });
 
                 seg_details(seg.segment.id);
                 ct++;
@@ -3973,7 +3648,6 @@ function stKOMs(ID) {
             if (ct > 0) {
             var jsonsegs = JSON.stringify(strava_segs);
             localStorage.setItem('komdata_' + ID, jsonsegs);
-           // localStorage.setItem('komct', ct);
             $('#status_msgs').append('Found ' + ct + ' KOMs</br>');
             var userdata = localStorage.getItem('userdata');
             var user = eval('(' + userdata + ')');
@@ -3981,7 +3655,6 @@ function stKOMs(ID) {
             var stravaID = user.deets[0]['stravaID'];
          
             var timer = setInterval(function () { startDecode() }, 5000);
-            console.log("parse friends KOMs in 5 seconds")
             function startDecode() {
                 clearInterval(timer);
                 if (stravaID == ID) {
@@ -4009,11 +3682,9 @@ function stStars(ID) {
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
 
     OAuth.popup('strava', { cache: true }).done(function (result) {
-        console.log(result)
         result.get('https://www.strava.com/api/v3/athletes/' + ID + '/segments/starred').done(function (data) {
 
             var jsontext = JSON.stringify(data);
-            // $('#status_msgs').append(jsontext);
             var ct = 0;
             $.each(data, function (i, seg) {
                 var segID = data[i]['id'];
@@ -4025,28 +3696,21 @@ function stStars(ID) {
                     "latlng": data[i]['end_latlng'],
                     "elev_h": seg.elevation_high,
                    "elev_l": seg.elevation_low,
-                    //"seg_efforts" : data[i]['segment_efforts']
-
                 });
 
-                //alert(seg.map);
 
                 ct++;
-                //seg_efforts(seg.id);
                 seg_details(segID);
             });
             var jsonsegs = JSON.stringify(strava_segs);
             localStorage.setItem('starsdata', jsonsegs);
             localStorage.setItem('starsct', ct);
             $('#status_msgs').append('Found ' + ct + ' Starred Segments </br>');
-         
-            //drawTable();
             if (ct > 0) {
                 
                 var timer = setInterval(function () { startDecode() }, 5000);
                 console.log("parse stars")
                 function startDecode() {
-                    //  drawTable("stars");
                     $('#status_msgs').append('Processing Starred Segments </br>')
                     parse("stars");
                     clearInterval(timer);
@@ -4054,17 +3718,14 @@ function stStars(ID) {
                 }
             } else {
                 $('#status_msgs').append('Stand by ... </br>')
-             //   $('#UnAuthApp').hide();
-              //  noActsmsg("stars");
+
             }
-            //myFunction();
         });
 
     });
 }
 
 function stLeader(ID,type) {
-    //alert(ID);
     $('#lbBtn').hide();
     console.log("his" + type)
     var strava_segs = {
@@ -4080,8 +3741,6 @@ function stLeader(ID,type) {
 
              result.get('https://www.strava.com/api/v3/segments/' + ID + '/leaderboard').done(function (data) {
                  var jsontext = JSON.stringify(data);
-                 //$('#status_msgs').append(jsontext);
-                 //alert(jsontext);
                  var ct = 0;
                  var entries = data['entry_count'];
                  $.each(data.entries, function (i, seg) {
@@ -4092,7 +3751,6 @@ function stLeader(ID,type) {
                          "time": seg.start_date_local,
                          "profile": seg.athlete_profile,
                          "mov_time": seg.moving_time
-                         //alert(poly + "hij" + ID);
                      });
 
                      ct++;
@@ -4106,17 +3764,13 @@ function stLeader(ID,type) {
                  });
                  var jsonsegs = JSON.stringify(strava_segs);
                  localStorage.setItem('lb_data_' + ID, jsonsegs);
-                 //localStorage.setItem('actct',ct);
-
-                 // alert("Retrieved " + entries + jsonsegs);
-                 //drawTable();
-
+          
                  var timer = setInterval(function () { startDecode() }, 5000);
 
                  function startDecode() {
                      clearInterval(timer);
                      showHistweather(ID, type, true, 'one', null)
-                     // drawLeaderboard(ID, type);
+
                  }
 
 
@@ -4130,8 +3784,7 @@ function stLeader(ID,type) {
 
              result.get('https://www.strava.com/api/v3/segments/' + ID + '/leaderboard', { data: { gender: gender } }).done(function (data) {
                  var jsontext = JSON.stringify(data);
-                 //$('#status_msgs').append(jsontext);
-                 //alert(jsontext);
+
                  var ct = 0;
                  var entries = data['entry_count'];
                  $.each(data.entries, function (i, seg) {
@@ -4142,7 +3795,6 @@ function stLeader(ID,type) {
                          "time": seg.start_date_local,
                          "profile": seg.athlete_profile,
                          "mov_time": seg.moving_time
-                         //alert(poly + "hij" + ID);
                      });
 
                      ct++;
@@ -4156,17 +3808,12 @@ function stLeader(ID,type) {
                  });
                  var jsonsegs = JSON.stringify(strava_segs);
                  localStorage.setItem('lb_data_' + ID, jsonsegs);
-                 //localStorage.setItem('actct',ct);
-
-                 // alert("Retrieved " + entries + jsonsegs);
-                 //drawTable();
 
                  var timer = setInterval(function () { startDecode() }, 5000);
 
                  function startDecode() {
                      clearInterval(timer);
                      showHistweather(ID, type, true, 'one', null)
-                     // drawLeaderboard(ID, type);
                  }
 
 
@@ -4182,7 +3829,7 @@ var strava_all_segs = {
     
 //https://www.strava.com/api/v3/segments/:id
 
-function seg_efforts(ID) { //efforts for an activity ID
+function seg_efforts(ID) { 
     var strava_segs = {
         segs: [],
         count: []
@@ -4190,19 +3837,11 @@ function seg_efforts(ID) { //efforts for an activity ID
      OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
 
     OAuth.popup('strava', { cache: true }).done(function (result) {
-        //result.get('https://www.strava.com/api/v3/segments/starred/').done(function (data) {
         result.get('https://www.strava.com/api/v3/activities/' +ID).done(function (data) {
-        //https://www.strava.com/api/v3/activities/:id
-        
             var jsontext = JSON.stringify(data);
-            console.log(data);
-            //$('#status_msgs').append(jsontext);
             var ct = 0;
-            //var entries = data['entry_count'];
            $.each(data.segment_efforts, function (i, seg) {
-            //get poly here
-
-               strava_segs.segs.push({
+                strava_segs.segs.push({
                    "name": seg.name,
                    "dist": seg.segment.distance,
                    "latlng": seg.segment.start_latlng,
@@ -4222,7 +3861,7 @@ function seg_efforts(ID) { //efforts for an activity ID
                    "elev_h": seg.segment.elevation_high,
                    "elev_l": seg.segment.elevation_low,
                    "private": seg.segment.private
-                });//has it more than once
+                });
         
             seg_details(seg.segment.id);
                     ct++;
@@ -4233,51 +3872,28 @@ function seg_efforts(ID) { //efforts for an activity ID
            var jsonsegs = JSON.stringify(strava_segs);
             var jsonsegsall = JSON.stringify(strava_all_segs);
             $('#status_msgs').append('Found ' + ct + ' segment efforts for activity ' + ID + '</br>');
-           // alert(ID+"saving" + jsonsegsall);
             localStorage.setItem(ID+'_seg_efforts', jsonsegs);
             localStorage.setItem('all_seg_efforts', jsonsegsall);
-            //var segct = localStorage.getItem('segct');
-           // var actct = localStorage.getItem('actct');
-           // var cts = parseInt(ct+segct);
-           //  localStorage.setItem('segct',cts);
-           // alert("h2");
-           // localStorage.setItem('actct',7);
-           // var ct2 = parseInt(cts+actct);
-           
-            //get segment details by ID then call decodepoly with poly + ID
-            //var poly= "}vculjey0cF{jAjK'A";
-            //parse(ct,"seg");  
-           // analyseSegs();
             
             } 
-           // alert("Retrieved " + entries + jsonsegs);
-            //drawTable();
-            
-          //  drawLeaderboard(ID);
             
         });
 
     });
-   // alert("here");
-   // 
 }
 function seg_details(ID) {
-    //alert(ID);
      OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
     var poly = "";
-    //var json = localStorage.getItem('all_seg_efforts');
     OAuth.popup('strava', { cache: true }).done(function (result) {
          result.get('https://www.strava.com/api/v3/segments/' +ID).done(function (data) {
             poly = data.map.polyline;
             localStorage.setItem(ID+'_poly',poly);
-            console.log("got poly " + ID + "</br>");
         });
 
     });
 }
 
 function stEffort(ID,frID,type) {
-    //alert(ID);
     if (frID != null) {
         var athID = frID;
     } else {
@@ -4296,10 +3912,7 @@ function stEffort(ID,frID,type) {
     OAuth.popup('strava', { cache: true }).done(function (result) {
         result.get('https://www.strava.com/api/v3/segments/'+ID+'/all_efforts',{ data: { athlete_id: athID} }).done(function (data) {
             var jsontext = JSON.stringify(data);
-            //$('#status_msgs').append(jsontext);
-          //  alert(jsontext);
             var ct = 0;
-           // var entries = data['entry_count'];
             $.each(data, function (i, seg) {
                 strava_segs.segs.push({
                     "pr_rank": seg.pr_rank,
@@ -4307,7 +3920,6 @@ function stEffort(ID,frID,type) {
                      "kom_rank": seg.kom_rank,
                      "mov_time": seg.moving_time,
                      "latlng": seg.segment.end_latlng
-                    //alert(poly + "hij" + ID);
                 });
 
                 strava_segs.timestamp.push({
@@ -4351,11 +3963,9 @@ function refreshData(ID, datatype, type) {
     $('#komimg').hide();
     $('#komdata').hide();
     $('#lbBtn').hide();
-    //var ID = "735100";
     var time = 500;
     var timer1 = setTimeout(function () { startDecode() }, 5000);
     var i = 0;
-    console.log(type)
     if (type == 'lb') { //user later yyy
         clearCanvas(type);
         str = "lb_data_" + ID;
@@ -4379,19 +3989,13 @@ function refreshData(ID, datatype, type) {
 function clearCache() {
     $('#status_msgs').show();
     $('#status_msgs').append("<br/> clearing ...");
-    //  OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
-    //OAuth.clearCache();
     var str = "weather";
     for (var i = 0; i < localStorage.length; i++) {
-      //  if (localStorage.key(i) == 'weatherdata') {
      if (localStorage.key(i).indexOf(str) > -1) {
         $('#status_msgs').append("Removing " + localStorage.key(i) + "</br >");
-      // }
          localStorage.removeItem(localStorage.key(i));
       }
-        // do something with localStorage.getItem(localStorage.key(i));
     }
-    //localStorage.removeItem('weatherdata');
     localStorage.removeItem('weatherdata_ct');
     showLocal();
 }
@@ -4402,13 +4006,10 @@ function deleteOldweather(type) {
     localStorage.removeItem("weatherdata");
     localStorage.removeItem("weatherdata_ct");
     for (var i = 0; i < localStorage.length; i++) {
-        //  if (localStorage.key(i) == 'weatherdata') {
         if (localStorage.key(i).indexOf(str) > -1) {
             $('#status_msgs').append("Removing " + localStorage.key(i) + "</br >");
-            // }
             localStorage.removeItem(localStorage.key(i));
         }
-        // do something with localStorage.getItem(localStorage.key(i));
     }
 
 }
@@ -4422,36 +4023,24 @@ function showLocal() {
     var str = "efforts";
     var str2= "weather";
     for (var i = 0; i < localStorage.length; i++) {
-      //  if (localStorage.key(i) == 'weatherdata') {
      if (localStorage.key(i).indexOf(str) > -1) {
         $('#status_msgs').append("</br > " + localStorage.key(i) + " data: " + localStorage.getItem(localStorage.key(i)));
-      // }
       }
       
       if (localStorage.key(i).indexOf(str2) > -1) {
-        $('#status_msgs').append("</br > " + localStorage.key(i))// + " data: " + localStorage.getItem(localStorage.key(i)));
-      // }
+        $('#status_msgs').append("</br > " + localStorage.key(i));
       }
-        // do something with localStorage.getItem(localStorage.key(i));
     }
-    // var straval = localStorage.getItem('oauthio_provider_strava');
-    // var stravl2 = straval.replace('1448', '1555');
+
 
     $('#status_msgs').append("</br > st: " + localStorage.getItem('oauthio_provider_strava'));
-    //$('#status_msgs').html("</br > seg: " + localStorage.getItem('segdata'));
-
-    //    $('#status_msgs').append("</br > st2: " + stravl2);
-    //    localStorage.removeItem('oauthio_provider_strava');
-    //    localStorage.setItem('oauthio_provider_strava', stravl2);
-    //    $('#status_msgs').append("</br > st3: " + localStorage.getItem('oauthio_provider_strava'));
+    
 }
 
 function twitterConn() {
     $('#result').html("");
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
     OAuth.redirect('twitter','/home/index').done(function (r) {
-        // the access_token is available via r.access_token
-        // but the http functions automagically wrap the jquery calls
         r.get('/1.1/account/verify_credentials.json')
             .done(function (data) {
                 $('#location').html("twitter: Hello, " + data.name + " !");
@@ -4474,15 +4063,8 @@ function initBtns() {
 
 
     $('.polylinkx').on('click', function (e) {
-        // get clicked item
         $(e.target).find('p').removeClass('un_sel');
         $(e.target).find('p').addClass('sel');
-        // remove all active classes
-   //     alert(clickedItem);
-  //      $('.mail p').removeClass('sel')
-  //      $('.mail p').removeClass('un_sel')
-       
-        // find the ul inside the clicked item
        
     });
     var strava_segs = {
@@ -4496,10 +4078,8 @@ function initBtns() {
 
     OAuth.initialize("7ZbKkdtjRFA8NVkn00ka1ixaIe8");
 
-    $('#fb-connect').on('click', function () {  //used for get activities
-        // alert('Athlet');
+    $('#fb-connect').on('click', function () {  
         if (res == false) {
-           // $('#status_msgs').append("</br > Not connected to Strava");
             $('#strava_login').show();
             $('#status_area').show();
             $('#main_menu').hide();
@@ -4513,12 +4093,7 @@ function initBtns() {
             $('#status_msgs').show();
             $('#status_msgs').append(localStorage.getItem('segdata') + " Retrieving Activities ...");
 
-
-            //res.get('https://www.strava.com/api/v3/athlete').done(function (data) {
             res.get('https://www.strava.com/api/v3/activities').done(function (data) {
-                //https: //www.strava.com/api/v3/activities
-                //todo with data
-                //alert('Athlete ' + data.lastname);
                 var jsontext = JSON.stringify(data);
                 var midhtml = "";
                 var ct = 0;
@@ -4530,47 +4105,30 @@ function initBtns() {
                         "egain": data[i]['total_elevation_gain']
                     });
                     ct++;
-                    //     var name = data[i]['name'];
-                    // alert(name);
-                    //       midhtml = midhtml + "<li class=\"table-view-cell\" onclick=\"poly1()\">" + name + "<span class=\"badge\">4</span></li>";
                 });
                 var jsonsegs = JSON.stringify(strava_segs);
                 localStorage.setItem('segdata', jsonsegs);
                 $('#status_msgs').append("Retrieved " + ct + " Activities");
-                //drawTable();
-                //$('#result3').html(eval('(' + strava_segs + ')'));
 
             }).fail(function (err) {
-                //todo with err
                 alert("fail");
             });
-            //    r.get('').done(function (data2) {
         }
     });
 
-    $('#nearby').on('click', function () { //not used
+    $('#nearby').on('click', function () {
         var token = localStorage.getItem('st_token');
         res = OAuth.create('strava');
         if (res == false) {
             $('#status_msgs').append("Not connected");
         } else {
-     //       alert(token);
             $('#status_msgs').append("Connecting with: " + token);
-            //res.get('https://www.strava.com/api/v3/athlete').done(function (data) {
-            //alert("nb click" + res);
             res.get('https://www.strava.com/api/v3/segments/explore', { data: { access_token: token, bounds: '37.821362,-122.505373,37.842038,-122.465977'} }).done(function (data) {
                 var jsondeets = JSON.stringify(data);
-                //  localStorage.setItem('segdata', jsondeets);
-                //alert(jsondeets);
-                //drawTable();
-                //$('#result3').html(eval('(' + strava_segs + ')'));
                 $('#main_menu').hide();
                 $('#seg_nearby').show();
-                // getSegsbyBounds();
                 showmap();
             }).fail(function (err) {
-                //todo with err
-                // alert("fail");
 
             });
         }
@@ -4580,10 +4138,7 @@ function initBtns() {
     
     $('#st-connect').on('click', function () {
         $('#result').html("status_msgs ...");
-        //OAuth.popup('twitter', {cache: true}).done(function(twitter) {
         OAuth.popup('strava', { cache: true }).done(function (r) {
-            // the access_token is available via r.access_token
-            // but the http functions automagically wrap the jquery calls
             r.get('/oauth/authorize')
                 .done(function (data) {
                     $('#result').html("strava: Hello");
