@@ -647,7 +647,6 @@ function poly_map(ID, i) {
     $('table tbody tr').each(function (index, el) {
         $(this).siblings().removeClass('sel');
     });
-
     jQuery('#trow_' + ID).addClass('sel').removeClass('un_sel').removeClass('sel_p');
     $('#seg_data').show();
     $('#seg_weather').show();
@@ -1268,7 +1267,7 @@ function drawMap(poly) {
     }
     ];
     var src = get_static_style(bwstyle);
-   var map = "<img src=\"https://maps.googleapis.com/maps/api/staticmap?size=150x150&path=weight:3%7Ccolor:red%7Cenc:" + poly + "&key=AIzaSyBVDErdMAzGhcjVpaqCP4rDpCe7r6WcDog\" alt=\"<br> Offline\" />";
+    var map = "<img src=\"https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyBVDErdMAzGhcjVpaqCP4rDpCe7r6WcDog&size=150x150&path=weight:3%7Ccolor:red%7Cenc:" + poly + "&key=AIzaSyBVDErdMAzGhcjVpaqCP4rDpCe7r6WcDog\" alt=\"<br> Offline\" />";
     $('#static_map').html(map);
 
 }

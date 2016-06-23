@@ -303,7 +303,6 @@ function checkLoc() {
 
         $('#winfomap').html("Location not available");
         var lat = localStorage.getItem("latmap");
-        alert(lat);
         if (lat == null) {
             showmap(11, 48.14, 17.11);
         } else {
@@ -845,18 +844,9 @@ function calcStorage() {
     midhtml = midhtml + "<tr class=\"un_sel\" style=\"height:1px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\"></div>" +
               "</td></tr>";
 
-
-
-    var ttable = "<table><tr><td>Unused map data</td><td>" + unused.toFixed(2) + " Kb</td><td>Remove</td></tr>" +
-                  "<tr><td>Starred and Favorites</td><td>" + star_fav.toFixed(2) + " Kb</td><td></td></tr>" +
-                  "<tr><td>Current weather</td><td>" + lweather.toFixed(2) + " Kb</td><td></td></tr>" +
-                  "<tr><td>Friend data</td><td>" + friend.toFixed(2) + " Kb</td><td></td></tr>" +
-                  "<tr><td>Historical wind data</td><td>" + LB_hist.toFixed(2) + " Kb</td><td>Remove</td></tr>" +
-                  "<tr><td>Total All</td><td>" + total_all.toFixed(2) + " Mb</td><td></td></tr>" +
-                  "<tr><td>Total</td><td>" + total.toFixed(2) + " Mb</td><td></td></tr></table>";
     $('#stmsg').html(top + midhtml + "</table></div>");
-
-    if (total_all > 4.5) {
+    alert(total_all.toFixed(2))
+    if (total_all.toFixed(2) > 4.5) {
         var spare = 5 - total_all;
         $('#Storagereport').show();
         $('#stgmsg').html("You have " + spare.toFixed(2) + "Mb remaining. You may need to wait up to 24 hours for some weather data to clear.");
@@ -1027,7 +1017,7 @@ function checkData(purch) {
             $('#splashDiv').fadeOut();
             if (acts.length > 40) {
                 getAct("stars");
-                $('#pmsg').append("<br/>Sub:" + sub);
+           //     $('#pmsg').append("<br/>Sub:" + sub);
 
             } else {
                 noActsmsg("stars");
@@ -1051,7 +1041,7 @@ function checkData(purch) {
         } else {
             $('#splashDiv').fadeOut();
             var sub = localStorage.getItem("sub");
-                alert(sub)
+       
             var credits = localStorage.getItem("credits");
             var pass = false;
             if (sub == null) { //not auth
@@ -1142,7 +1132,7 @@ function checkData(purch) {
                 $('#splashDiv').fadeOut();
                 if (acts.length > 40) {
                     getAct("stars");
-                    $('#pmsg').append("<br/>" + sub);
+              //      $('#pmsg').append("<br/>" + sub);
 
                 } else {
                     noActsmsg("stars");
@@ -4111,7 +4101,7 @@ function initBtns() {
                 $('#status_msgs').append("Retrieved " + ct + " Activities");
 
             }).fail(function (err) {
-                alert("fail");
+       
             });
         }
     });
