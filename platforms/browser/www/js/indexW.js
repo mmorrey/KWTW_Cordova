@@ -845,7 +845,7 @@ function calcStorage() {
               "</td></tr>";
 
     $('#stmsg').html(top + midhtml + "</table></div>");
-    alert(total_all.toFixed(2))
+
     if (total_all.toFixed(2) > 4.5) {
         var spare = 5 - total_all;
         $('#Storagereport').show();
@@ -3550,7 +3550,7 @@ function stAct() {
 }
 
 function stFriends() {
-  
+    $('#frRefBtn').html("Refreshing Friend data...");
     var userdata = localStorage.getItem('userdata');
     var user = eval('(' + userdata + ')');
     var ID = user.deets[0]['stravaID'];
@@ -3590,6 +3590,7 @@ function stFriends() {
      
         function startDecode() {
             clearInterval(timer);
+            $('#frRefBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\" id=\"stFrRefresh\" onclick=\"stFriends()\">Refresh Friend data from Strava</button>");
             drawFriends();
         }
       
