@@ -308,7 +308,7 @@ function GoogleMap(ID, lat, lng, zoom1) {
                     var zoom2 = map.getZoom();
                     var latn = map.getCenter().lat();
                     var lngn = map.getCenter().lng();
-                    console.log(zoom2)
+
                     localStorage.setItem("zoommap", zoom2);
                     localStorage.setItem("latmap", latn);
                     localStorage.setItem("lngmap", lngn);
@@ -337,7 +337,7 @@ function GoogleMap(ID, lat, lng, zoom1) {
         infowindow = new google.maps.InfoWindow({
             content: "holding..."
         });
-        console.log("Loading markers ... ");
+
 
         return map;
     }
@@ -416,7 +416,7 @@ function setMarkers(map, bounds_map, PID) {
 
 
                 ct++;
-                console.log("m PID" + seg.id);
+
             });
             seg_loc_data.count.push({
                 "num": ct
@@ -481,7 +481,7 @@ function setMarkers2(map, bounds_map, PID, ct) {
         } else if (markers.PID == 1) {
         } else {
             var image = 'img/map_marker_start_' + stars + '.png';
-            console.log(image);
+
         }
         var siteLatLng = new google.maps.LatLng(markers.lat, markers.longval);
         var markerp = new google.maps.Marker({ 'position': siteLatLng, 'map': map, 'icon': image });
@@ -998,7 +998,7 @@ function setFav(ID, fstate, name, latlng, type, dist, gain) {
         var strava_segs = {
             segs: []
         };
-        console.log(name + " " + latlng);
+
         strava_segs.segs.push({
             "name": name,
             "latlng": latlng,
@@ -1307,7 +1307,6 @@ function decodeKML() {
     var kml = localStorage.getItem("kml1");
     var kmlarr = kml.split(" ");
 
-    console.log("kmlarr:" + kmlarr);
     for (var i = 0; i < kmlarr.length; i++) {
         if (kmlarr[i + 1] != undefined) {
             var cords = kmlarr[i].split(",");
@@ -1695,7 +1694,7 @@ function getTimediff(ID, type) {
             return 50000001;
         } else {
             var firsthour = parsed_json.hourly_forecast[0].FCTTIME.epoch;
-            console.log(firsthour)
+
              return parseInt(timenow - firsthour);
         }
     } else {
@@ -1703,7 +1702,7 @@ function getTimediff(ID, type) {
         var wdatap = eval('(' + wdata + ')');
        
         var wdatac = localStorage.getItem(ID + "_weather_act");
-        console.log(wdatac);
+
         if ((wdatap == null) || (wdatac == null)) {
             return 50000002;
         } else {
@@ -1724,7 +1723,7 @@ function getFriendFirstname(frID) {
     var j2 = eval('(' + json + ')');
     var firstname;
     $.each(j2.people, function (i, wd) {
-        console.log(frID + " " + wd.ID);
+
         if (wd.ID == frID) { //or parentID
            firstname = wd.firstname;
         }
@@ -1740,7 +1739,7 @@ function getLatlng(ID, type) {
         var lng;
         var latlng;
         $.each(j2.points, function (i, wd) {
-            console.log(ID + " " + wd.PID);
+
             if (wd.PID == ID) { //or parentID
                 latlng = wd.endlatlong;
             }
@@ -1755,7 +1754,7 @@ function getLatlng(ID, type) {
        
         $.each(j2.segs, function (i, wd) {
             if (wd.ID == ID) { //or parentID
-                console.log(wd.latlng)
+
                 latlng = wd.latlng;
             }
         });
@@ -1771,7 +1770,7 @@ function getLatlng(ID, type) {
 
         $.each(j2.segs, function (i, wd) {
             if (wd.ID == ID) { //or parentID
-                console.log(wd.latlng)
+
                 latlng = wd.latlng;
             }
         });
@@ -1787,14 +1786,14 @@ function getLatlng(ID, type) {
         var latlng;
         $.each(j2.segs, function (i, wd) {
             if (wd.ID == ID) { //or parentID
-                console.log(wd.latlng)
+
                 latlng = wd.latlng;
             }
         });
         return latlng;
     }
     else if (type == 'favs') {
-        console.log("ty" + type)
+
         var json = localStorage.getItem(ID + "_fav");
         var j2 = eval('(' + json + ')');
         
@@ -2424,7 +2423,7 @@ function getW(latlng, ID, type) {
     $('#refreshBtnW').hide();
     var timenow = Math.round(new Date().getTime() / 1000);
     var diff = getTimediff(ID, type);
-    console.log(diff + "t" + type);
+
     function revertText() {
         clearInterval(timer1); 
         drawWeather(ID, type);
@@ -2440,7 +2439,7 @@ function getW(latlng, ID, type) {
     } else {
 
         var loc = latlng;
-        console.log("Checking weather for " + ID + "</br>");
+ 
         var lat = latlng[0];
         var lng = latlng[1];
         var wdata = localStorage.getItem('weatherdata');
@@ -2476,10 +2475,10 @@ function checkWeather(latlng1, ct, ID, type) {
             var fromJsonAct = localStorage.getItem(fromID + "_weather_act");
             var fromJsonMap = localStorage.getItem(fromID + "_weather_map");
             if (epoch - wd.timestamp > 10800) {
-                console.log("in bounds but old weather")
+
                 callW = true;
             } else {
-                console.log(epoch - wd.timestamp + "in bounds, not calling")
+ 
                 callW = false;
             }
 
@@ -2489,12 +2488,11 @@ function checkWeather(latlng1, ct, ID, type) {
 
 
             if ((callW == true) || ((fromJsonAct == null) && (fromJsonMap == null))) { //no match
-                console.log("null check, callW=" + callW)
-                console.log("Getting weather for " + ID + "</br>");
+
                 callWeather(latlng, ID, type);
   
             } else {
-                console.log("Not getting weather for " + ID + "</br>");
+
                 var wchk;
 
                 if (type == "map") {
@@ -2536,7 +2534,7 @@ function checkLocalW() {
 
         if (wdata != null) {
             ID = seg.PID;
-            console.log("return found" + ID);
+
             return false;
 
         } else {
@@ -2573,7 +2571,7 @@ function checkLocalW() {
 
         if (wdata != null) {
             ID = seg.PID;
-            console.log("return found" + ID);
+
             return false;
 
         } else {
@@ -2595,7 +2593,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
         if (jsondata == null) {
             jsondata = localStorage.getItem(fromID + "_weather_act");
             localStorage.setItem(toID + '_weather_map', jsondata);
-            console.log("json null, used act")
+
             calcStarsInline(toID, 24, type); 
             if (zoom >= 12) {
                 copyMapWeather(fromID);
@@ -2604,7 +2602,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
         } else {
             jsondata = localStorage.getItem(fromID + "_weather_map");
             localStorage.setItem(toID + '_weather_map', jsondata);
-            console.log("json not null, used map")
+
             if (zoom >= 12) {
                 copyMapWeather(fromID);
             }
@@ -2623,7 +2621,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
 
     }
 
-    console.log("Copied weather from " + fromID + " to " + toID + "</br>");
+
     var epoch = Math.round(new Date().getTime() / 1000);
     var weather_deets = {
         wdata: []
@@ -2735,7 +2733,7 @@ function callWeather(latlng,ID,type)  {
     var lat = latlng[0];
     var lng = latlng[1];
     var epoch = Math.round(new Date().getTime() / 1000);
-    console.log(ID + " " + type);
+
     var weather_deets = {
         wdata: []
     };
@@ -2836,7 +2834,7 @@ function RealCallWeather(latlng, ID, type) {
             });
             var jsontext = JSON.stringify(json);
             var location = json['location']['city'];
-            console.log(jsontext);
+
             if (type == "map") {
                 localStorage.setItem(ID + '_weather_map', jsontext);
                 var zoom = localStorage.getItem("zoommap");
@@ -2859,7 +2857,7 @@ function RealCallWeather(latlng, ID, type) {
 
         },
         error: function (xhr, error) {
-            console.debug(xhr); console.debug(error);
+
             $("#winfomap").html("Weather data unavailable. Please try later");
             $("#winfo").html("Weather data unavailable. Please try later");
         },
