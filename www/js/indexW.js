@@ -1223,6 +1223,7 @@ function hideAll() {
     $('#friend_info').hide();
     $('#seg_weather').hide();
     $('#profile_tile').show();
+    $('#')
 }
 
 function showActsTile() {
