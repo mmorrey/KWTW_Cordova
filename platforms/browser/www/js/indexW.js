@@ -72,7 +72,7 @@ function listSub() {
 
         }
     }, function (error) {
-        alert("error: " + error);
+        $('#pmsg').html("Error. Please try again");
     });
 }
 
@@ -97,7 +97,7 @@ function purchaseProduct(productId) {
 
     },
     function (error) {
-        alert("error: " + error);
+        $('#pmsg').html("Error. Please try again");
     });
 }
 
@@ -121,7 +121,7 @@ function restorePurchases() {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
 
-                $('#pmsg').append("One year subscription purchased. " + p['productId']);
+                $('#pmsg').append("One year subscription purchased.");
             } else {
              
             }
