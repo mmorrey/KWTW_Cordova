@@ -46,6 +46,7 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
+    <icon src="icon.png" />
     <icon gap:platform="ios" height="57" src="icon.png" width="57" />
     <icon gap:platform="ios" height="60" src="icon-60.png" width="60" />
     <icon gap:platform="ios" height="120" src="icon-60@2x.png" width="120" />
