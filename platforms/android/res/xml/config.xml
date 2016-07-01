@@ -36,8 +36,8 @@
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="BackupWebStorage" value="none" />
-    <icon src="icon.png" />
-    <splash src="splash.png" />
+  <icon src="icon.png"/>
+  <splash src="splash.png" />
     <allow-intent href="market:*" />
     <allow-navigation href="http://*/*" />
     <access origin="*" />
