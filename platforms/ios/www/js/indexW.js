@@ -41,7 +41,7 @@ var app = {
     onDeviceReady: function () {
 
     appPurchChk();
-   // checkData("0");
+  // checkData("1");
         
       
     },
@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         valueFontColor: "#8bc7eb",
         titleFontColor: "#8bc7eb",
         titleFontSize: "30px",
-        title: "KOMability Rating",
+        title: "KOM-ability Rating",
         startAnimationTime: 5000,
         startAnimationType: ">",
         refreshAnimationTime: 1000,
@@ -2526,11 +2526,21 @@ function CallHistWeather(latlng, date, SegID, i, type, lb, frID) {
         url: "https://api.forecast.io/forecast/1373a09f8179192ac902765c8b56bae5/" + latlng + "," + date,
         dataType: "jsonp",
         success: function (json) {
+            var wspd = json.currently.windSpeed;
+            var brg = json.currently.windBearing;
+
+            if (wspd == undefined) {
+                wspd = "0"
+            }
+            if (brg == undefined) {
+                brg = "0"
+            }
+
             var jsontext = JSON.stringify(json);
             hist_deets.hdata.push({
-                "wspeed": json.currently.windSpeed,
+                "wspeed": wspd,
                 "i": i,
-                "wbrg": json.currently.windBearing,
+                "wbrg": brg,
                 "timestamp": Math.round(new Date().getTime() / 1000),
                 "timestamp_pretty": moment().format("MMM Do YYYY, h:mm:ss a")
 

@@ -908,7 +908,7 @@ function setFav(ID, fstate, name, latlng, type, dist, gain, i) {
       
         localStorage.removeItem(ID + "_fav")
         var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + ",1,'" + name + "','" + latlng + "','" + type + "','" + dist + "','" + gain + "')\"><i class=\"fa fa-heart-o\"></li></button>";
-     
+        getAct('favs');
     } else {
         var strava_segs = {
             segs: []
@@ -984,36 +984,6 @@ function showFriend(ID, name, i) {
     $('#friend_tile').height(ht);
   
     $('#friend_tile_list').html(top + midhtml + "</table>");
-
-}
-
-function setFav(ID, fstate, name, latlng, type, dist, gain) {
-        
-    if (fstate == 0) {
-   
-        localStorage.removeItem(ID + "_fav")
-        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + ",1,'" + name + "','" + latlng + "','" + type + "','" + dist + "','" + gain + "')\"><i class=\"fa fa-heart-o\"></li></button>";
-  
-    } else {
-        var strava_segs = {
-            segs: []
-        };
-
-        strava_segs.segs.push({
-            "name": name,
-            "latlng": latlng,
-            "type": type,
-            "dist": dist,
-            "gain": gain
-       
-        });
-        var jsonsegs = JSON.stringify(strava_segs);
-        localStorage.setItem(ID + "_fav", jsonsegs);
-        var favbtn = "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"setFav(" + ID + ",0,'" + name + "','" + latlng + "','" + type + "','" + dist + "','" + gain + "')\"><i class=\"fa fa-heart\"></li></button>";
-    }
-
-    $('#favBtn').html(favbtn);
-   
 
 }
 
@@ -1786,7 +1756,7 @@ function getLatlng(ID, type) {
         var latlng;
         $.each(j2.segs, function (i, wd) {
             if (wd.ID == ID) { //or parentID
-
+               
                 latlng = wd.latlng;
             }
         });
