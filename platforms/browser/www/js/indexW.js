@@ -82,23 +82,47 @@ var existing_purchases = [];
 var product_info = {};
 
 function purchaseProduct(productId) {
+    var chk = $("input[name='TCsBox']:checked").val();
+    if (chk != "yes") {
+        alert("Please accept the Terms and Conditions");
+    } else {
+        var userdata = localStorage.getItem('userdata');
+        var user = eval('(' + userdata + ')');
+        var stravaID = user.deets[0]['stravaID'];
 
-    var userdata = localStorage.getItem('userdata');
-    var user = eval('(' + userdata + ')');
-    var stravaID = user.deets[0]['stravaID'];
+        window.iap.purchaseProduct(productId, function (result) {
 
-    window.iap.purchaseProduct(productId, function (result) {
 
-        
-        savePmt(stravaID, result.orderId);
-        localStorage.setItem("OneYrSub", "1")
-        localStorage.setItem("credits", "4000000");
-        $('#pmsg').html("Thank you for your subscription");
+            savePmt(stravaID, result.orderId);
+            localStorage.setItem("OneYrSub", "1")
+            localStorage.setItem("credits", "4000000");
+            $('#pmsg').html("Thank you for your subscription");
+            var timerp1 = setInterval(function () { restartApp() }, 2000);
+            function restartApp() {
+                clearInterval(timerp1);
+                appPurchChk();
+            }
 
-    },
-    function (error) {
-        $('#pmsg').html("Error. Please try again");
-    });
+        },
+        function (error) {
+            $('#pmsg').html("Error. Please try again");
+        });
+    }
+}
+
+function viewTCs() {
+    $('#purch_tile').height(1000) //220
+    $('#TCsBtnV').hide();
+    $('#TCsBtnH').show();
+    $('#TCs').show();
+}
+
+
+function hideTCs() {
+    $('#purch_tile').height(240) //220
+    $('#TCsBtnV').show();
+    $('#TCsBtnH').hide();
+    $('#TCs').hide();
 }
 
 function consumeProduct(productId) {
@@ -744,7 +768,59 @@ function calcStarStorage() {
         return total;
     }
 }
+
+
+function checkExp() {
+    var sub = localStorage.getItem("sub");
+
+    if (sub == null) { //not auth
+
+
+    } else {
+        var ExpDate = parseInt(604800) + parseInt(sub)
+        var today2 = Math.floor(moment() / 1000);
+        var diff = parseInt(ExpDate - today2);
+        var edays = Math.floor(diff / 86400);
+        var estr;
+        if (edays == 0) {
+            estr = "tomorrow.";
+        } else {
+            estr = "in " + edays + " days."
+        }
+        var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
+
+        if (diff > 0) {
+            //not expired
+
+            $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
+            $('#credits_no').html(credits);
+
+        } else {
+            //expired
+            listSub();
+            $('#pills_row').hide();
+            $('#seg_nearby').hide();
+            $('#seg_efforts').hide();
+            $('#seg_weather').hide();
+            $('#seg_leaderboard').hide();
+            $('#deets_tile').hide();
+            $('#locIcon').hide();
+            $('#my_friends').hide();
+            $('#friend_info').hide();
+            $('#my_activities').hide();
+            $('#menu_buttons').hide();
+            $('#profile_settings').hide();
+            $('#profile_tile').show();
+            $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
+
+
+        }
+
+    }
+}
+
 function calcStorage() {
+   
     var LB_hist = 0;
     var star_fav = 0;
     var favc = 0;
@@ -852,7 +928,7 @@ function calcStorage() {
     } else {
         $('#Storagereport').hide();
     }
-
+    checkExp();
 }
 
 function delOldst(type) {
@@ -1003,7 +1079,7 @@ function checkData(purch) {
             $('#pic_header').show();
             $('#userimg').html(pic);
             $('#pic_header').html(pic_header);
-
+            $('pBtns').hide();
             $('#menu_buttons').show();
             $('#status_msgs').hide();
             $('#status_area').hide();
@@ -1081,6 +1157,7 @@ function checkData(purch) {
                     $('#menu_buttons').hide();
                     $('#profile_settings').hide();
                     $('#profile_tile').show();
+                    $('pBtns').show();
                     $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
                     pass = false;
 
@@ -1223,11 +1300,10 @@ function hideAll() {
     $('#friend_info').hide();
     $('#seg_weather').hide();
     $('#profile_tile').show();
-    $('#')
 }
 
 function showActsTile() {
-    calcStorage();
+    calcStorage();  //do check data in case of expirary
     $('#seg_nearby').hide();
     $('#locIcon').hide();
     $('#deets_tile').hide();
@@ -1511,9 +1587,9 @@ function drawTable(type) {
                 var j2 = eval('(' + json + ')');
                 var name = j2.segs[0].name;
                 var ftype = j2.segs[0].type;
-                if (ftype == "map") {
-                    ftype = "favs";
-                }
+                //if (ftype == "map") {
+                //    ftype = "favs";
+                //}
                 act_ct++;
 
                 midhtml = midhtml + "<tr id=\"trow_" + ID + "\" class=\"un_sel\" onclick=\"polyF(" + ID + ",'" + ftype + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + name + "</div>" +
@@ -2430,7 +2506,7 @@ function showHistweather(SegID, type, lb, num, frID) {
                                         localStorage.setItem("credits", credits);
                                         $('#credits_no').html(credits);
                                     } else {
-                                        $('#lbdata').html(type + " lb Incomplete Historical data, please try again.");
+                                        $('#lbdata').html("Incomplete Historical data, please try again.");
                                         //  if (type == 'lb') { //user later yyy
                                         clearCanvas(type);
 
@@ -2460,7 +2536,7 @@ function showHistweather(SegID, type, lb, num, frID) {
                                         localStorage.setItem("credits", credits);
                                         $('#credits_no').html(credits);
                                     } else {
-                                        $('#lbdata').html(type + "Incomplete Historical data, please try again.");
+                                        $('#lbdata').html("Incomplete Historical data, please try again.");
                                         if (frID == null) {
                                             while (j < 20) {
                                  

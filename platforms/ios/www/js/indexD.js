@@ -916,8 +916,8 @@ function setFav(ID, fstate, name, latlng, type, dist, gain, i) {
         if (i > -1) {
             if (type == "map") {
                 var json = localStorage.getItem('seg_loc_data');
-            } else if (type == "kom") {
-                var json = localStorage.getItem('seg_loc_data');
+            //} else if (type == "kom") {
+            //    var json = localStorage.getItem('seg_loc_data');
             }
 
             var j2 = eval('(' + json + ')');

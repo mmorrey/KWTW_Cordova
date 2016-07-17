@@ -229,7 +229,18 @@
                                   <div class="msg_sml" id="pmsg"></div>
                                   <div style="height:20px">&nbsp;</div>
                                   <div id="pBtns">
-                                      <button type="button" class="btn btn-primary btn-sm" id="purchBtn" onclick="purchaseProduct('sub1yearl3')">Purchase Yearly Subscription</button>
+                                      <button type="button" class="btn btn-primary btn-sm" id="purchBtn" onclick="purchaseProduct()">Purchase Yearly Subscription</button>
+                                      <div style="height:10px">&nbsp;</div>
+                                      <label class="checkbox-inline" style="color:#8bc7eb">
+                                          <input type="checkbox" name="TCsBox" value="yes">I agree to the Terms and Conditions
+                                      </label>
+                                      <div style="height:10px">&nbsp;</div>
+                                      <button type="button" class="btn btn-primary btn-sm" onclick="viewTCs()" id="TCsBtnV">View Terms and Conditions</button>
+                                      <div id="TCs" style="display:none;font-size:10px">Full Ts and Cs here</div>
+                                      <button type="button" class="btn btn-primary btn-sm" onclick="hideTCs()" id="TCsBtnH" style="display:none">Hide Terms and Conditions</button>
+                                  </div>
+                                  <div>
+
                                   </div>
                                   <div style="height:20px">&nbsp;</div>
                                   <button type="button" class="btn btn-primary btn-sm" onclick="restorePurchases()">Restore Purchases</button>
