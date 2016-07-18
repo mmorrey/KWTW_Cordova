@@ -41,7 +41,7 @@ var app = {
     onDeviceReady: function () {
 
     appPurchChk();
-  // checkData("1");
+   //checkData("1");
         
       
     },
@@ -777,6 +777,7 @@ function checkExp() {
 
 
     } else {
+        var credits = localStorage.getItem("credits");
         var ExpDate = parseInt(604800) + parseInt(sub)
         var today2 = Math.floor(moment() / 1000);
         var diff = parseInt(ExpDate - today2);
@@ -785,6 +786,7 @@ function checkExp() {
         if (edays == 0) {
             estr = "tomorrow.";
         } else {
+            edays = edays + 1;
             estr = "in " + edays + " days."
         }
         var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
@@ -1128,6 +1130,7 @@ function checkData(purch) {
                 if (edays == 0) {
                     estr = "tomorrow.";
                 } else {
+                    edays = edays + 1;
                     estr = "in " + edays + " days."
                 }
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
@@ -3324,6 +3327,7 @@ function checkServerStatus(stravaID) {
                 if (edays == 0) {
                     estr = "tomorrow.";
                 } else {
+                    edays = edays + 1;
                     estr = "in " + edays + " days."
                 }
                
