@@ -97,11 +97,11 @@ function purchaseProduct(productId) {
             localStorage.setItem("OneYrSub", "1")
             localStorage.setItem("credits", "4000000");
             $('#pmsg').html("Thank you for your subscription");
-            //var timerp1 = setInterval(function () { restartApp() }, 2000);
-            //function restartApp() {
-            //    clearInterval(timerp1);
-            //    appPurchChk();
-            //}
+            var timerp1 = setInterval(function () { restartApp() }, 2000);
+            function restartApp() {
+                clearInterval(timerp1);
+                appPurchChk();
+            }
 
         },
         function (error) {
