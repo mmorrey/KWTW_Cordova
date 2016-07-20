@@ -1145,19 +1145,7 @@ function checkData(purch) {
                     $('#status_msgs').append("Trial expired");
 
                    listSub();
-                    $('#pills_row').hide();
-                    $('#seg_nearby').hide();
-                    $('#seg_efforts').hide();
-                    $('#seg_weather').hide();
-                    $('#seg_leaderboard').hide();
-                    $('#deets_tile').hide();
-                    $('#locIcon').hide();
-                    $('#my_friends').hide();
-                    $('#friend_info').hide();
-                    $('#my_activities').hide();
-                    $('#menu_buttons').hide();
-                    $('#profile_settings').hide();
-                    $('#profile_tile').show();
+                   hideAll();
                     $('#pBtns').show();
                     $('#purch_tile').height(260);
                     $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
@@ -1302,6 +1290,7 @@ function hideAll() {
     $('#friend_info').hide();
     $('#seg_weather').hide();
     $('#profile_tile').show();
+    $('#storage_tile').hide();
 }
 
 function showActsTile() {
@@ -3341,6 +3330,7 @@ function checkServerStatus(stravaID) {
            
                     $('#menu_buttons').hide();
                     $('#profile_settings').hide();
+                    
                     hideAll();
                     $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase Yearly Subscription to get full access including unlimited Historical data queries.");
                 }
