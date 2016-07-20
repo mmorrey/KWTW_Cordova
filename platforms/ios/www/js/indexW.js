@@ -119,7 +119,7 @@ function viewTCs() {
 
 
 function hideTCs() {
-    $('#purch_tile').height(240) //220
+    $('#purch_tile').height(260) //220
     $('#TCsBtnV').show();
     $('#TCsBtnH').hide();
     $('#TCs').hide();
@@ -1079,7 +1079,8 @@ function checkData(purch) {
             $('#pic_header').show();
             $('#userimg').html(pic);
             $('#pic_header').html(pic_header);
-            $('pBtns').hide();
+            $('#pBtns').hide();
+            $('#purch_tile').height(180);
             $('#menu_buttons').show();
             $('#status_msgs').hide();
             $('#status_area').hide();
@@ -1157,7 +1158,8 @@ function checkData(purch) {
                     $('#menu_buttons').hide();
                     $('#profile_settings').hide();
                     $('#profile_tile').show();
-                    $('pBtns').show();
+                    $('#pBtns').show();
+                    $('#purch_tile').height(260);
                     $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
                     pass = false;
 
@@ -3279,7 +3281,7 @@ function stConn2() {
             function closeStatus() {
                 clearInterval(timerst);
                 $('#status_msgs').append("</br>Done .... stand by");
-                checkServerStatus(ID);
+               // checkServerStatus(ID);
                 var timerst2 = setInterval(function () { dispstarst() }, 2000);
                 function dispstarst() {
                     clearInterval(timerst2);
