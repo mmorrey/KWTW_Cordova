@@ -111,7 +111,7 @@ function purchaseProduct(productId) {
 }
 
 function viewTCs() {
-    $('#purch_tile').height(1000) //220
+    $('#purch_tile').height(4700) //220
     $('#TCsBtnV').hide();
     $('#TCsBtnH').show();
     $('#TCs').show();
@@ -777,7 +777,7 @@ function checkExp() {
 
 
     } else {
-        var ExpDate = parseInt(604800) + parseInt(sub)
+        var ExpDate = parseInt(1209600) + parseInt(sub)
         var today2 = Math.floor(moment() / 1000);
         var diff = parseInt(ExpDate - today2);
         var edays = Math.floor(diff / 86400);
@@ -1121,7 +1121,7 @@ function checkData(purch) {
                 pass = true;
 
             } else { //has logged in before 
-                var ExpDate = parseInt(604800) + parseInt(sub) //Math.floor(moment(sub).add(7, 'days') / 1000);   
+                var ExpDate = parseInt(1209600) + parseInt(sub) //Math.floor(moment(sub).add(7, 'days') / 1000);   
                 var today2 = Math.floor(moment() / 1000);
                 var diff = parseInt(ExpDate - today2);
                 var edays = Math.floor(diff / 86400);
@@ -3305,7 +3305,7 @@ function checkServerStatus(stravaID) {
                 var LoginDate = parsed_json.ustatus[0]['FirstLogin'];
                 localStorage.setItem('credits', credits);
 
-                var ExpDate = Math.floor(moment(LoginDate, "DD-MM-YYYYY").add(7, 'days') / 1000);
+                var ExpDate = Math.floor(moment(LoginDate, "DD-MM-YYYYY").add(14, 'days') / 1000);
 
                 var today2 = Math.floor(moment() / 1000);
                 var diff = parseInt(ExpDate - today2);
