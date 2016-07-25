@@ -77,7 +77,7 @@ function listSub() {
 }
 
 var androidApplicationLicenseKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB";
-var productIds = "sub1yearl3";
+var productIds = "sub1yearl3,sub1monthl1";
 var existing_purchases = [];
 var product_info = {};
 
@@ -91,16 +91,16 @@ function purchaseProduct(productId) {
         var stravaID = user.deets[0]['stravaID'];
 
         window.iap.purchaseProduct(productId, function (result) {
+            var orderStr = result.orderId + "t=" + result.purchaseToken;
 
-
-            savePmt(stravaID, result.orderId);
+            savePmt(stravaID, result);
             localStorage.setItem("OneYrSub", "1")
             localStorage.setItem("credits", "4000000");
-            $('#pmsg').html("Thank you for your subscription");
+            $('#pmsg').html("Thank you for your subscription. Reloading ..." + result);
             var timerp1 = setInterval(function () { restartApp() }, 2000);
             function restartApp() {
                 clearInterval(timerp1);
-                appPurchChk();
+              //  appPurchChk();
             }
 
         },
@@ -119,7 +119,7 @@ function viewTCs() {
 
 
 function hideTCs() {
-    $('#purch_tile').height(260) //220
+    $('#purch_tile').height(280) //220
     $('#TCsBtnV').show();
     $('#TCsBtnH').hide();
     $('#TCs').hide();
@@ -145,7 +145,7 @@ function restorePurchases() {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
 
-                $('#pmsg').append("One year subscription purchased.");
+                $('#pmsg').append("Subscription purchased. [" + p['productId'] +"]");
             } else {
              
             }
