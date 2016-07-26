@@ -167,7 +167,7 @@ function isOnLine() {
 var devOnline = true;
 
 function reportOnlineStatus() {
-    var userdshoata = localStorage.getItem('userdata');
+    var userdata = localStorage.getItem('userdata');
     $('#onlineStatus').show();
     if (userdata != null) {
         var user = eval('(' + userdata + ')');
@@ -208,14 +208,12 @@ function reportOnlineStatus() {
             $('#frRefBtn').hide();
         }
     } else {
-        alert("online");
         if (isOnLine()) {
             document.getElementById('stConnimg').style.pointerEvents = 'auto';
             $('#Statusreport').hide();
             $('#stConnimg').show();
         }
         else {
-            alert("offline");
             document.getElementById('stConnimg').style.pointerEvents = 'none';
             $('#Statusreport').show();
             $('#stConnimg').hide();
