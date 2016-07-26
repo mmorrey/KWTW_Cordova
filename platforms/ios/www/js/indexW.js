@@ -1136,7 +1136,7 @@ function checkData(purch) {
                 if (diff > 0) {
                     //not expired
                     $('#status_msgs').append("Trial period expires on " + ExpDate);
-                    $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
+                    $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
                     $('#credits_no').html(credits);
    
                     pass = true;
@@ -3292,7 +3292,7 @@ function stConn2() {
 }
 
 function checkServerStatus(stravaID) {
-
+  
     $.ajax({
         type: "POST",
         url: "http://komwiththewind.apphb.com/Home/Ustatus",
@@ -3306,7 +3306,7 @@ function checkServerStatus(stravaID) {
                 localStorage.setItem('credits', credits);
 
                 var ExpDate = Math.floor(moment(LoginDate, "DD-MM-YYYYY").add(14, 'days') / 1000);
-                alert(ExpDate);
+
                 var today2 = Math.floor(moment() / 1000);
                 var diff = parseInt(ExpDate - today2);
                 var edays = Math.floor(diff / 86400);
@@ -3317,7 +3317,7 @@ function checkServerStatus(stravaID) {
                 } else {
                     estr = "in " + edays + " days."
                 }
-               alert(diff)
+           
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
                      $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
@@ -3337,11 +3337,11 @@ function checkServerStatus(stravaID) {
            
         },
         error: function (xhr, error) {
-            $('#menu_buttons').hide();
-            $('#profile_settings').hide();
-            hideAll();
-            alert(error + xhr);
-            $('#pmsg').html("User status unknown.<br/>Please restart the app.");
+            //$('#menu_buttons').hide();
+            //$('#profile_settings').hide();
+            //hideAll();
+            //alert(error + xhr);
+            //$('#pmsg').html("User status unknown.<br/>Please restart the app.");
 
 
         }
