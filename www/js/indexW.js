@@ -93,7 +93,7 @@ function purchaseProduct(productId) {
         window.iap.purchaseProduct(productId, function (result) {
             var orderStr = result.orderId + "t=" + result.purchaseToken;
 
-            savePmt(stravaID, result);
+            savePmt(stravaID, JSON.stringify(result));
             localStorage.setItem("OneYrSub", "1")
             localStorage.setItem("credits", "4000000");
             $('#pmsg').html("Thank you for your subscription. Reloading ..." + result);
@@ -208,12 +208,14 @@ function reportOnlineStatus() {
             $('#frRefBtn').hide();
         }
     } else {
+        alert("online");
         if (isOnLine()) {
             document.getElementById('stConnimg').style.pointerEvents = 'auto';
             $('#Statusreport').hide();
             $('#stConnimg').show();
         }
         else {
+            alert("offline");
             document.getElementById('stConnimg').style.pointerEvents = 'none';
             $('#Statusreport').show();
             $('#stConnimg').hide();
@@ -1031,14 +1033,14 @@ function appPurchChk() {
 
 function checkData(purch) {
     $('#splashDiv').fadeOut();
-
+    reportOnlineStatus();
     removeOldweather();
 
     $('#info').hide();
     $('#locIcon').hide();
     $('#status_area').hide();
 
-    if (purch == "1") {
+    if (purch == "1") { //sub
 
         var udata = localStorage.getItem("userdata");
 
@@ -1097,7 +1099,7 @@ function checkData(purch) {
             }
             updateUser(firstname, lastname, stravaID);
         }
-    } else {
+    } else { //no sub
         $('#splashDiv').fadeOut();
         var udata = localStorage.getItem("userdata");
      
@@ -3306,7 +3308,7 @@ function checkServerStatus(stravaID) {
                 localStorage.setItem('credits', credits);
 
                 var ExpDate = Math.floor(moment(LoginDate, "DD-MM-YYYYY").add(14, 'days') / 1000);
-
+                alert(ExpDate);
                 var today2 = Math.floor(moment() / 1000);
                 var diff = parseInt(ExpDate - today2);
                 var edays = Math.floor(diff / 86400);
@@ -3317,7 +3319,7 @@ function checkServerStatus(stravaID) {
                 } else {
                     estr = "in " + edays + " days."
                 }
-               
+               alert(diff)
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
                      $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
@@ -3340,6 +3342,7 @@ function checkServerStatus(stravaID) {
             $('#menu_buttons').hide();
             $('#profile_settings').hide();
             hideAll();
+            alert(error + xhr);
             $('#pmsg').html("User status unknown.<br/>Please restart the app.");
 
 
