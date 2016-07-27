@@ -140,7 +140,7 @@ function restorePurchases() {
     window.iap.restorePurchases(function (result) {
         for (var i = 0 ; i < result.length; ++i) {
             var p = result[i];
-
+            $('#pmsg').append(JSON.stringify(result))
             if (self.existing_purchases.indexOf(p['productId']) === -1) {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
@@ -1164,7 +1164,7 @@ function checkData(purch) {
                 var firstname = user.deets[0]['firstname'];
                 var lastname = user.deets[0]['lastname'];
                 var stravaID = user.deets[0]['stravaID'];
-                checkServerStatus(stravaID);
+            
                 var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
                 var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
 
@@ -1199,6 +1199,7 @@ function checkData(purch) {
                 } else {
                     noActsmsg("stars");
                 }
+                checkServerStatus(stravaID);
             }
 
         }
