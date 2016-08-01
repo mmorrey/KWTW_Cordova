@@ -1650,16 +1650,17 @@ function getSegs() {
   
 }
 
-function convertTime(secs) {
-    
-    var date = new Date(null);
-    date.setSeconds(secs); 
-    date.toISOString().substr(11, 8);
+function convertTime(seconds) {
+    var duration = moment().startOf('day').add("s", seconds),
+       format = "";
 
-    var timestr = moment(date).format('H:mm:ss'); 
+    if (duration.hour() > 0) { format += "H"; }
 
-    return timestr;
+    if (duration.minute() > 0) { format += "m"; }
 
+    format += " s [s";
+
+    return duration.format("HH:mm:ss");
 
 }
 
