@@ -1652,7 +1652,11 @@ function getSegs() {
 
 function convertTime(secs) {
     
-   var timestr = moment(secs).seconds(secs).format('H:mm:ss');
+    var date = new Date(null);
+    date.setSeconds(secs); 
+    date.toISOString().substr(11, 8);
+
+    var timestr = moment(date).format('H:mm:ss'); 
 
     return timestr;
 
