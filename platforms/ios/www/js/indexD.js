@@ -562,7 +562,7 @@ function backAct() {
 }
 
 
-function showLeader(ID, type) {
+function showLeader(ID, type,dist) {
     $('#seg_weather').hide();
     $('#seg_efforts').hide();
     $('#refreshBtnLB').hide();
@@ -587,7 +587,7 @@ function showLeader(ID, type) {
         }, 2000);
         if (devOnline == true) {
             $('#lbdata').html("Retrieving Leaderboard ...");
-            stLeader(ID, type);
+            stLeader(ID, type,dist);
         } else {
             $('#lbdata').html("Device is offline.");
         }
@@ -688,14 +688,14 @@ function poly_map(ID, i) {
     if (effs == null) {
         $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'map')\">Weather</button>" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "','" + dist + "')\">Leaderboard</button>" +
 "</div></div>");
     } else {
 
         $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'map')\">Weather</button>" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ")\">Efforts</button>" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "','" + dist + "')\">Leaderboard</button>" +
 "</div></div>");
     }
 
@@ -780,7 +780,7 @@ function polyF(ID, ftype) {
     $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'" + ftype + "')\">Weather</button>" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ",'" + type + "')\">Efforts</button>" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "','" + dist + "')\">Leaderboard</button>" +
 "</div></div>");
     drawWeather(ID, ftype);
 
@@ -870,7 +870,7 @@ function poly2(ID, i, scroll, type, frID) {
         $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'" + type + "')\">Weather</button>" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ",'" + type + "')\">Efforts</button>" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "','" + dist + "')\">Leaderboard</button>" +
 "</div></div>");
         drawWeather(ID, type);
     } else {
@@ -878,7 +878,7 @@ function poly2(ID, i, scroll, type, frID) {
         $('#data_pills').html("<div class=\"btn-group btn-group-s\" role=\"group\">" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ")\">My Efforts</button>" +
 "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ",'" + type + "', " + frID + ")\">" + frStr + "</button>" +
-"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
+"<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "','" + dist + "')\">Leaderboard</button>" +
 "</div></div>");
 
     }
@@ -1029,7 +1029,7 @@ function polySegs(ID, i, name) {
       "<div class=\"btn-group btn-group-s\" role=\"group\">" +
       "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"wpill\" autofocus=\"true\" onclick=\"drawWeather(" + ID + ",'act')\">Weather</button>" +
       "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"ewpill\" onclick=\"showEfforts(" + ID + ")\">Efforts</button>" +
-      "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "')\">Leaderboard</button>" +
+      "<button type=\"button\" class=\"btn btn-success btn-sm\" id=\"lpill\" onclick=\"showLeader(" + ID + ",'" + type + "','" + dist + "')\">Leaderboard</button>" +
       "</div>");
 
     } else {

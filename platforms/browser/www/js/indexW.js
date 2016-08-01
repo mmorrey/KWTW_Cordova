@@ -91,21 +91,19 @@ function purchaseProduct(productId) {
         var stravaID = user.deets[0]['stravaID'];
 
         window.iap.purchaseProduct(productId, function (result) {
-            var orderStr = result.orderId + "t=" + result.purchaseToken;
-
             savePmt(stravaID, JSON.stringify(result));
             localStorage.setItem("OneYrSub", "1")
             localStorage.setItem("credits", "4000000");
-            $('#pmsg').html("Thank you for your subscription. Reloading ..." + result);
+            $('#pmsg').html("Thank you for your subscription. Reloading ...");
             var timerp1 = setInterval(function () { restartApp() }, 2000);
             function restartApp() {
                 clearInterval(timerp1);
-              //  appPurchChk();
+                appPurchChk();
             }
 
         },
         function (error) {
-            $('#pmsg').html("Error. Please try again");
+            $('#pmsg').html("User canceled. To purchase Subsciption, please try again.");
         });
     }
 }
@@ -140,7 +138,7 @@ function restorePurchases() {
     window.iap.restorePurchases(function (result) {
         for (var i = 0 ; i < result.length; ++i) {
             var p = result[i];
-            $('#pmsg').append(JSON.stringify(result))
+       //     $('#pmsg').append(JSON.stringify(result)) save to db??
             if (self.existing_purchases.indexOf(p['productId']) === -1) {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
@@ -792,7 +790,7 @@ function checkExp() {
         if (diff > 0) {
             //not expired
 
-            $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
+            $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly or Yearly Subscription to get unlimited Historical data queries.");
             $('#credits_no').html(credits);
 
         } else {
@@ -1136,7 +1134,7 @@ function checkData(purch) {
                 if (diff > 0) {
                     //not expired
                     $('#status_msgs').append("Trial period expires on " + ExpDate);
-                    $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
+                    $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly or Yearly Subscription to get unlimited Historical data queries.");
                     $('#credits_no').html(credits);
    
                     pass = true;
@@ -1167,7 +1165,7 @@ function checkData(purch) {
             
                 var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
                 var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
-
+                updateUser(firstname, lastname, stravaID);
                 var pic
                 var pic_header
 
@@ -1696,9 +1694,7 @@ function drawLeaderboard(ID, type) {
     $('html, body').animate({
         scrollTop: $("#leaderback").offset().top
     }, 2000);
-    var refreshbtnlb = "<button style=\"position:absolute;right:10px;top:29px\" type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"refreshData(" + ID + ",'" + type + "','lb')\">Refresh</button>";
-    $('#refreshBtnLB').html(refreshbtnlb);
-    var lbhistchk0 = localStorage.getItem(ID + '_0_hist');
+   var lbhistchk0 = localStorage.getItem(ID + '_0_hist');
     var lbhistchk1 = localStorage.getItem(ID + '_1_hist');
 
     if ((lbhistchk0 != null) && (lbhistchk1 == null)) {
@@ -1759,7 +1755,11 @@ function drawLeaderboard(ID, type) {
     var json = localStorage.getItem('lb_data_' + ID);
     var j2 = eval('(' + json + ')');
     var timestr = j2.timestamp[0].now;
+    var dist = j2.dist[0].dist;
     var refstr = "Data as of " + timestr;
+    var refreshbtnlb = "<button style=\"position:absolute;right:10px;top:29px\" type=\"button\" class=\"btn btn-primary btn-sm\" onclick=\"refreshData(" + ID + ",'" + type + "','lb','" + dist + "')\">Refresh</button>";
+    $('#refreshBtnLB').html(refreshbtnlb);
+
     var kompic = j2.segs[0].profile;
     if (kompic == "avatar/athlete/large.png") {
         kompic = "/Content/blank_avatar.jpg";
@@ -1797,6 +1797,7 @@ function drawLeaderboard(ID, type) {
     $.each(j2.segs, function (i, seg) {
         ct++;
         var mov_time = convertTime(seg.mov_time);
+        var dist = j2.dist[0].dist / 1000;
         var date = seg.time;
         var timef = formatTime(date);
         //convert seconds
@@ -1806,7 +1807,9 @@ function drawLeaderboard(ID, type) {
         var temp_bg = "FFB336";
         var wind_txt = "2f3e46";
         var temp_txt = "FFF";
-
+        var time_mins = seg.mov_time / 60;
+        var time_hrs = time_mins / 60;
+        var mov_spd = (dist / time_hrs).toFixed(2);
         ctx2d.font = '12px Arial';
         ctx2d.fillStyle = '#8bc7eb';
         ctx2d.fillText(timef, 5, posyt);
@@ -1814,6 +1817,9 @@ function drawLeaderboard(ID, type) {
         ctx2d.fillText(seg.name, 5, posyt + 16);
         ctx2d.font = '14px Arial';
         ctx2d.fillText(mov_time, 5, posyt + 32);
+        ctx2d.fillStyle = '#f93';
+        ctx2d.fillText(mov_spd, 70, posyt + 32);
+        ctx2d.fillText("kph", 106, posyt + 32);
 
 
         var wspd = 0;
@@ -1823,19 +1829,21 @@ function drawLeaderboard(ID, type) {
             var brg2 = j3.hdata[0].wbrg;
             var wspd2 = j3.hdata[0].wspeed;
             var brg = brg2;
-
             ctx2d.fillStyle = "#2fb4c8";
-            ctx2d.fillRect(160, posy + 22, wspd2 + 25, 22);
-
-            ctx2d.font = '14px Arial';
+            ctx2d.fillRect(225, posy + 22, wspd2 + 25, 22);
             ctx2d.fillStyle = "#fff";
-            ctx2d.font = '12px Arial';
-            ctx2d.fillText("mph", 174, posyt + 26);
-            ctx2d.fillText(Math.round(wspd2), 161, posyt + 26);
+            ctx2d.font = '14px Arial';
+
+            ctx2d.fillText(Math.round(wspd2), 227, posyt + 26);
+            if (Math.round(wspd2) < 10) {
+                ctx2d.fillText("kph", 236, posyt + 26);
+            } else {
+                ctx2d.fillText("kph", 244, posyt + 26);
+            }
 
             ctx2d.save();
             ctx2d.strokeStyle = "#2fb4c8";
-            ctx2d.translate(145, posy + 34);
+            ctx2d.translate(205, posy + 32);
             ctx2d.rotate(90 * Math.PI / 180);
 
 
@@ -1917,17 +1925,21 @@ function drawLeaderboard(ID, type) {
                 var brg = brg2;
 
                 ctx2d.fillStyle = "#2fb4c8";
-                ctx2d.fillRect(160, posy + 22, wspd2 + 25, 22);
-
-                ctx2d.font = '14px Arial';
+                ctx2d.fillRect(225, posy + 22, wspd2 + 25, 22);
                 ctx2d.fillStyle = "#fff";
-                ctx2d.font = '12px Arial';
-                ctx2d.fillText("mph", 174, posyt + 26);
-                ctx2d.fillText(Math.round(wspd2), 161, posyt + 26);
+                ctx2d.font = '14px Arial';
+
+                ctx2d.fillText(Math.round(wspd2), 227, posyt + 26);
+                if (Math.round(wspd2) < 10) {
+                    ctx2d.fillText("kph", 236, posyt + 26);
+                } else {
+                    ctx2d.fillText("kph", 244, posyt + 26);
+                }
 
                 ctx2d.save();
                 ctx2d.strokeStyle = "#2fb4c8";
-                ctx2d.translate(145, posy + 34);
+                ctx2d.translate(205, posy + 32);
+           
                 ctx2d.rotate(90 * Math.PI / 180);
              
 
@@ -3321,7 +3333,7 @@ function checkServerStatus(stravaID) {
            
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
-                     $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase Yearly Subscription to get unlimited Historical data queries.");
+                     $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly or Yearly Subscription to get unlimited Historical data queries.");
                     if (cint < 0) {
                         credits = "0";
                     }
@@ -3333,7 +3345,7 @@ function checkServerStatus(stravaID) {
                     $('#profile_settings').hide();
                     
                     hideAll();
-                    $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase Yearly Subscription to get full access including unlimited Historical data queries.");
+                    $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase a Monthly or Yearly Subscription to get full access including unlimited Historical data queries.");
                 }
            
         },
@@ -3765,12 +3777,13 @@ function stStars(ID) {
     });
 }
 
-function stLeader(ID,type) {
+function stLeader(ID,type,metres) {
     $('#lbBtn').hide();
     var strava_segs = {
         segs: [],
         timestamp: [],
-        count: []
+        count: [],
+        dist: []
     };
     var timenow = Math.round(new Date().getTime() / 1000);
     var gender = localStorage.getItem("gender");
@@ -3800,6 +3813,9 @@ function stLeader(ID,type) {
                  });
                  strava_segs.count.push({
                      "num": ct
+                 });
+                 strava_segs.dist.push({
+                     "dist": metres
                  });
                  var jsonsegs = JSON.stringify(strava_segs);
                  localStorage.setItem('lb_data_' + ID, jsonsegs);
@@ -3844,6 +3860,9 @@ function stLeader(ID,type) {
                  });
                  strava_segs.count.push({
                      "num": ct
+                 });
+                 strava_segs.dist.push({
+                     "dist": metres
                  });
                  var jsonsegs = JSON.stringify(strava_segs);
                  localStorage.setItem('lb_data_' + ID, jsonsegs);
@@ -3997,7 +4016,7 @@ function stEffort(ID,frID,type) {
     });
 }
 
-function refreshData(ID, datatype, type) {
+function refreshData(ID, datatype, type, dist) {
     var str;
     $('#komimg').hide();
     $('#komdata').hide();
@@ -4016,7 +4035,7 @@ function refreshData(ID, datatype, type) {
         localStorage.removeItem(str);
         function startDecode() {
             clearTimeout(timer1);
-            stLeader(ID, datatype)
+            stLeader(ID, datatype, dist)
 
         }
 
