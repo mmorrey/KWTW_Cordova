@@ -2,7 +2,7 @@
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
+ * distributed with this work for additional informationave
  * regarding copyright ownership.  The ASF licenses this file
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
@@ -40,8 +40,8 @@ var app = {
    
     onDeviceReady: function () {
 
-    appPurchChk();
-  //checkData("1");
+  //  appPurchChk();
+  checkData("1");
         
       
     },
@@ -339,6 +339,28 @@ function checkLoc() {
     );
 }
 
+
+
+function saveTW(segID, wspd, loc, stars, epoch, timestamp) {
+    var userdata = localStorage.getItem('userdata');
+    var user = eval('(' + userdata + ')');
+    var UserID = user.deets[0]['stravaID'];
+
+    $.ajax({
+        type: "POST",
+        url: "http://komwiththewind.apphb.com/Home/SaveTopWeather",
+        data: "UserID=" + UserID + "&segID=" + segID + "&wspd=" + wspd + "&loc=" + loc + "&stars=" + stars + "&epoch=" + epoch + "&timestamp=" + timestamp,
+        //tring segname, int segID, string array, string polyline, string latlng
+        dataType: "html",
+        success: function (data) {
+
+        },
+        error: function (xhr, error) {
+            console.debug(xhr); console.debug(error);
+        }
+    });
+    return false;
+}
 
 function saveFriend(firstname, lastname, frID, ID) {
 
@@ -795,7 +817,7 @@ function checkExp() {
 
         } else {
             //expired
-            listSub();
+       //     listSub();
             $('#pills_row').hide();
             $('#seg_nearby').hide();
             $('#seg_efforts').hide();
@@ -1142,7 +1164,7 @@ function checkData(purch) {
                     //expired
                     $('#status_msgs').append("Trial expired");
 
-                   listSub();
+                  // listSub();
                    hideAll();
                     $('#pBtns').show();
                     $('#purch_tile').height(260);
@@ -1343,7 +1365,7 @@ function showKOMsTile() {
 }
 
 function showSettingsTile() {
-    listSub();
+   // listSub();
     calcStorage();
     $('#btnLeft').hide();
     $('#btnRight').hide();
@@ -3344,7 +3366,7 @@ function checkServerStatus(stravaID) {
                     }
                     $('#credits_no').html(credits);
                 } else {
-                   listSub();
+                //   listSub();
            
                     $('#menu_buttons').hide();
                     $('#profile_settings').hide();

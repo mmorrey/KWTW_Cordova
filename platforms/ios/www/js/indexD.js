@@ -2114,6 +2114,12 @@ function drawWeather(ID, type) {
             var priv = false;
         }
         var segName = getSegName(ID, type);
+        if (type == 'act' && priv == false) { //or is an act segment not a private activity
+            saveTW(maxPpg.SegID, maxPpg.wspd, loc, maxPpg.stars, maxPpg.epoch, maxPpg.timestamp);
+        }
+        if (type == 'map' || type == 'stars' || type == 'kom') { //or is an act segment not a private activity
+            saveTW(maxPpg.SegID, maxPpg.wspd, loc, maxPpg.stars, maxPpg.epoch, maxPpg.timestamp);
+        }
 
     } else {
         var canvas = document.getElementById('weather');
