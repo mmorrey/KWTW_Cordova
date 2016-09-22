@@ -39,7 +39,7 @@ var app = {
     },
    
     onDeviceReady: function () {
-        alert("ready");
+
     appPurchChk();
   //checkData("1");
         
@@ -1026,7 +1026,6 @@ function getFriends() {
 
 
 function appPurchChk() {
-    alert("hihi");
     listSub();
     var purch = "0";
     var userdata = localStorage.getItem('userdata');
@@ -1050,12 +1049,13 @@ function appPurchChk() {
                     checkData("0");
                 } else {
                     checkData(purch);
-                } 
+                }
             } else {
                 checkData(purch);
             }
+        }
+
     }
-    
 }
 
 
