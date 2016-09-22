@@ -192,6 +192,10 @@ function reportOnlineStatus() {
             $('#pic_header').html(pic_header_on);
             $('#stRefBtn').show();
             $('#frRefBtn').show();
+            var purch = localStorage.getItem("OneYrSub");
+            if (purch == "0") {
+                checkServerStatus(stravaID, "555")
+            }
         }
         else {
             devOnline = false;
@@ -1046,6 +1050,8 @@ function appPurchChk() {
                 if (stravaID == "10375624") {
                     var purch = localStorage.getItem("OneYrSub");
                     alert("purch=" + purch);
+                    localStorage.setItem("sub", "1474378127");
+                    
                     checkData("0");
                 } else {
                     checkData(purch);
@@ -3390,6 +3396,8 @@ function checkServerStatus(stravaID,sub) {
                     $('#profile_settings').hide();
                     updateUser("first", "last", stravaID, "-2",sub);
                     hideAll();
+                    var sub = Math.floor(moment().add(-2, 'days') / 1000);
+                    localStorage.setItem("sub", sub);
                     $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase a Yearly Subscription to get full access including unlimited Historical data queries.");
                 }
            
