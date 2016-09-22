@@ -3391,12 +3391,12 @@ function checkServerStatus(stravaID,sub) {
                     updateUser("first", "last", stravaID, "2",sub);
                 } else {
                    listSub();
-
+					$('#UnAuthApp').hide();
                     $('#menu_buttons').hide();
                     $('#profile_settings').hide();
                     updateUser("first", "last", stravaID, "-2",sub);
                     hideAll();
-                    var sub = Math.floor(moment().add(-20, 'days') / 1000);
+                    var sub = Math.floor(moment().add(-21, 'days') / 1000);
                     localStorage.setItem("sub", sub);
                     $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase a Yearly Subscription to get full access including unlimited Historical data queries.");
                 }

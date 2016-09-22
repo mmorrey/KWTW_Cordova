@@ -52,6 +52,10 @@
   <splash platform="ios" height="2008" src="Default-Portrait@2x-no-bar.png" width="1536" />
   <splash platform="ios" height="1004" src="Default-Portrait-no-bar.png" width="768" />
   <splash platform="ios" height="1242" src="Default-Landscape-736h.png" width="2208" />
+  <icon src="ldpi.png" platform="android" qualifier="ldpi" />
+  <icon src="mdpi.png" platform="android" qualifier="mdpi" />
+  <icon src="hdpi.png" platform="android" qualifier="hdpi" />
+<icon src="xhdpi.png" platform="android" qualifier="xhdpi" />
     <icon src="icon.png"/>
   <splash src="splash.png" />
   <allow-intent href="market:*" />
