@@ -1029,13 +1029,12 @@ function appPurchChk() {
     listSub();
     var purch = "0";
     var userdata = localStorage.getItem('userdata');
-   
+    alert(userdata);
     var timer1 = setInterval(function () { startPchk1() }, 2000);
     function startPchk1() {
         clearInterval(timer1);
 
         restorePurchases();
-
 
         var timer2 = setInterval(function () { startPchk2() }, 2000);
         function startPchk2() {
