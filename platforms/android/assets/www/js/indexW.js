@@ -1029,15 +1029,7 @@ function appPurchChk() {
     listSub();
     var purch = "0";
     var userdata = localStorage.getItem('userdata');
-    if (userdata != null) {
-        var user = eval('(' + userdata + ')');
-        var stravaID = user.deets[0]['stravaID'];
-        if (stravaID = "10375624") {
-            var purch = localStorage.getItem("OneYrSub");
-            alert("purch=" + purch);
-            checkData("0");
-        }
-    }
+   
     var timer1 = setInterval(function () { startPchk1() }, 2000);
     function startPchk1() {
         clearInterval(timer1);
@@ -1049,8 +1041,17 @@ function appPurchChk() {
         function startPchk2() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
-
-            checkData(purch);
+            if (userdata != null) {
+                var user = eval('(' + userdata + ')');
+                var stravaID = user.deets[0]['stravaID'];
+                if (stravaID == "10375624") {
+                    var purch = localStorage.getItem("OneYrSub");
+                    alert("purch=" + purch);
+                    checkData("0");
+                }
+            } else {
+                checkData(purch);
+            }
         }
 
     }
@@ -1143,7 +1144,7 @@ function checkData(purch) {
         } else {
             $('#splashDiv').fadeOut();
             var sub = localStorage.getItem("sub");
-       
+            alert(sub);
             var credits = localStorage.getItem("credits");
             var pass = false;
             if (sub == null) { //not auth
@@ -3368,7 +3369,7 @@ function checkServerStatus(stravaID) {
                 } else {
                     estr = "in " + edays + " days."
                 }
-           
+                alert(diff);
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
                      $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly or Yearly Subscription to get unlimited Historical data queries.");
