@@ -1060,6 +1060,7 @@ function appPurchChk() {
 
 
 function checkData(purch) {
+    alert("purch=" + purch);
     $('#splashDiv').fadeOut();
     reportOnlineStatus();
     removeOldweather();
@@ -1146,7 +1147,7 @@ function checkData(purch) {
         } else {
             $('#splashDiv').fadeOut();
             var sub = localStorage.getItem("sub");
-            alert(sub);
+            alert("sub=" + sub);
             var credits = localStorage.getItem("credits");
             var pass = false;
             if (sub == null) { //not auth
@@ -3294,7 +3295,7 @@ function stConn2() {
             localStorage.setItem('fulluserdata', JSON.stringify(result));
             localStorage.setItem('Hrs', "3");
             saveUser(data.firstname, data.lastname, data.id, 0, 0);
-            localStorage.setItem('credits', "20");
+            localStorage.setItem('credits', "15");
             ID = data.id;
             
             if (data.profile == "avatar/athlete/large.png") {
@@ -3319,7 +3320,7 @@ function stConn2() {
             var timex = 30000;
 
             var sub = Math.floor(moment().add(0, 'days') / 1000);
-           
+            alert("set sub=" + sub);
             localStorage.setItem("sub", sub);
 
             var timerst = setInterval(function () { closeStatus() }, timex); //rem bkk2
@@ -3373,7 +3374,7 @@ function checkServerStatus(stravaID,sub) {
                 } else {
                     estr = "in " + edays + " days."
                 }
-                alert("cs diff=" & diff);
+                alert("cs diff=" + diff);
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
                      $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly or Yearly Subscription to get unlimited Historical data queries.");
@@ -3389,7 +3390,7 @@ function checkServerStatus(stravaID,sub) {
                     $('#profile_settings').hide();
                     updateUser("first", "last", stravaID, "-2",sub);
                     hideAll();
-                    $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase a Monthly or Yearly Subscription to get full access including unlimited Historical data queries.");
+                    $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase a Yearly Subscription to get full access including unlimited Historical data queries.");
                 }
            
         },
