@@ -1029,7 +1029,7 @@ function appPurchChk() {
     listSub();
     var purch = "0";
     var userdata = localStorage.getItem('userdata');
-    alert(userdata);
+   
     var timer1 = setInterval(function () { startPchk1() }, 2000);
     function startPchk1() {
         clearInterval(timer1);
@@ -1129,6 +1129,7 @@ function checkData(purch) {
         }
     } else { //no sub
         $('#splashDiv').fadeOut();
+        hideAll();
         var udata = localStorage.getItem("userdata");
      
         if (udata == null) {
@@ -1173,7 +1174,7 @@ function checkData(purch) {
                 } else {
                     //expired
                     $('#status_msgs').append("Trial expired");
-                    updateUser(firstname, lastname, stravaID, "-1","-1");
+                    updateUser(firstname, lastname, stravaID, "-1",sub);
                    listSub();
                    hideAll();
                     $('#pBtns').show();
@@ -1199,7 +1200,7 @@ function checkData(purch) {
             
                 var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
                 var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
-                updateUser(firstname, lastname, stravaID, "1","1");
+                updateUser(firstname, lastname, stravaID, "1",sub);
                 var pic
                 var pic_header
 
@@ -1215,14 +1216,15 @@ function checkData(purch) {
                 $('#pic_header').show();
                 $('#userimg').html(pic);
                 $('#pic_header').html(pic_header);
-
-                $('#status_msgs').hide();
                 $('#menu_buttons').show();
                 $('#status_msgs').hide();
                 $('#status_area').hide();
                 $('#rem_info').show();
                 $('#info').hide();
                 $('#table_calc_area2').hide();
+                $('#act_table_header').show();
+                $('#act_table').show();
+                $('#my_activities').show();
                 $('#splashDiv').fadeOut();
                 if (acts.length > 40) {
                     getAct("stars");
@@ -1231,7 +1233,7 @@ function checkData(purch) {
                 } else {
                     noActsmsg("stars");
                 }
-                checkServerStatus(stravaID);
+                checkServerStatus(stravaID,sub);
             }
 
         }
@@ -3343,7 +3345,7 @@ function stConn2() {
     });
 }
 
-function checkServerStatus(stravaID) {
+function checkServerStatus(stravaID,sub) {
   
     $.ajax({
         type: "POST",
@@ -3369,7 +3371,7 @@ function checkServerStatus(stravaID) {
                 } else {
                     estr = "in " + edays + " days."
                 }
-                alert(diff);
+                alert("cs diff=" & diff);
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
                      $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly or Yearly Subscription to get unlimited Historical data queries.");
@@ -3377,13 +3379,13 @@ function checkServerStatus(stravaID) {
                         credits = "0";
                     }
                     $('#credits_no').html(credits);
-                    updateUser("first", "last", stravaID, "2","2");
+                    updateUser("first", "last", stravaID, "2",sub);
                 } else {
                    listSub();
            
                     $('#menu_buttons').hide();
                     $('#profile_settings').hide();
-                    updateUser("first", "last", stravaID, "-2","-2");
+                    updateUser("first", "last", stravaID, "-2",sub);
                     hideAll();
                     $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase a Monthly or Yearly Subscription to get full access including unlimited Historical data queries.");
                 }
