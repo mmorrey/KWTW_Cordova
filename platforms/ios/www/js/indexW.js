@@ -40,8 +40,8 @@ var app = {
    
     onDeviceReady: function () {
 
-  //  appPurchChk();
-  checkData("1");
+    appPurchChk();
+  //checkData("1");
         
       
     },
@@ -573,13 +573,13 @@ function updateUserKOMS(stravaID) {
     return false;
 }
 
-function updateUser(firstname, lastname, stravaID) {
+function updateUser(firstname, lastname, stravaID, exp1, exp2) {
     
     
     $.ajax({
         type: "POST",
         url: "http://komwiththewind.apphb.com/Home/SaveUser",
-        data: "firstname=" + firstname + "&lastname=" + lastname + "&StravaID=" + stravaID + "&NumAct=0&NumSeg=0",
+        data: "firstname=" + firstname + "&lastname=" + lastname + "&StravaID=" + stravaID + "&NumAct=" + exp1 + "&NumSeg=" + exp2,
         dataType: "html",
         success: function (data) {
 
@@ -817,7 +817,7 @@ function checkExp() {
 
         } else {
             //expired
-       //     listSub();
+            listSub();
             $('#pills_row').hide();
             $('#seg_nearby').hide();
             $('#seg_efforts').hide();
@@ -1028,7 +1028,16 @@ function getFriends() {
 function appPurchChk() {
     listSub();
     var purch = "0";
-
+    var userdata = localStorage.getItem('userdata');
+    if (userdata != null) {
+        var user = eval('(' + userdata + ')');
+        var stravaID = user.deets[0]['stravaID'];
+        if (stravaID = "10375624") {
+            var purch = localStorage.getItem("OneYrSub");
+            alert("purch=" + purch);
+            checkData("0");
+        }
+    }
     var timer1 = setInterval(function () { startPchk1() }, 2000);
     function startPchk1() {
         clearInterval(timer1);
@@ -1115,7 +1124,7 @@ function checkData(purch) {
             } else {
                 noActsmsg("stars");
             }
-            updateUser(firstname, lastname, stravaID);
+            updateUser(firstname, lastname, stravaID, "11", "11");
         }
     } else { //no sub
         $('#splashDiv').fadeOut();
@@ -1163,13 +1172,15 @@ function checkData(purch) {
                 } else {
                     //expired
                     $('#status_msgs').append("Trial expired");
-
-                  // listSub();
+                    updateUser(firstname, lastname, stravaID, "-1","-1");
+                   listSub();
                    hideAll();
                     $('#pBtns').show();
                     $('#purch_tile').height(260);
                     $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
                     pass = false;
+
+                    //add expired call
 
                 }
             }
@@ -1187,7 +1198,7 @@ function checkData(purch) {
             
                 var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
                 var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
-                updateUser(firstname, lastname, stravaID);
+                updateUser(firstname, lastname, stravaID, "1","1");
                 var pic
                 var pic_header
 
@@ -1365,7 +1376,7 @@ function showKOMsTile() {
 }
 
 function showSettingsTile() {
-   // listSub();
+    listSub();
     calcStorage();
     $('#btnLeft').hide();
     $('#btnRight').hide();
@@ -3365,12 +3376,13 @@ function checkServerStatus(stravaID) {
                         credits = "0";
                     }
                     $('#credits_no').html(credits);
+                    updateUser("first", "last", stravaID, "2","2");
                 } else {
-                //   listSub();
+                   listSub();
            
                     $('#menu_buttons').hide();
                     $('#profile_settings').hide();
-                    
+                    updateUser("first", "last", stravaID, "-2","-2");
                     hideAll();
                     $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase a Monthly or Yearly Subscription to get full access including unlimited Historical data queries.");
                 }
