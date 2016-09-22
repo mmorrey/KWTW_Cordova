@@ -1048,12 +1048,12 @@ function appPurchChk() {
                     var purch = localStorage.getItem("OneYrSub");
                     alert("purch=" + purch);
                     checkData("0");
-                }
+                } else {
+                    checkData(purch);
+                } 
             } else {
                 checkData(purch);
             }
-        }
-
     }
     
 }
