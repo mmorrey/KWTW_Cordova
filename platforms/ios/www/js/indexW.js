@@ -1130,6 +1130,7 @@ function checkData(purch) {
     } else { //no sub
         $('#splashDiv').fadeOut();
         hideAll();
+        $('#profile_tile').hide();
         var udata = localStorage.getItem("userdata");
      
         if (udata == null) {
@@ -1163,7 +1164,7 @@ function checkData(purch) {
                     estr = "in " + edays + " days."
                 }
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
-
+                alert("cd diff=" + diff);
                 if (diff > 0) {
                     //not expired
                     $('#status_msgs').append("Trial period expires on " + ExpDate);
@@ -1177,6 +1178,7 @@ function checkData(purch) {
                     updateUser(firstname, lastname, stravaID, "-1",sub);
                    listSub();
                    hideAll();
+                //   
                     $('#pBtns').show();
                     $('#purch_tile').height(260);
                     $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
@@ -1186,7 +1188,7 @@ function checkData(purch) {
 
                 }
             }
-
+            alert("pass=" + pass);
             if (pass == true) {
 
                 var data = localStorage.getItem("userdata");
