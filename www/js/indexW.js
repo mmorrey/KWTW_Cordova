@@ -1120,7 +1120,8 @@ function checkData(purch) {
     } else { //no sub
         $('#splashDiv').fadeOut();
         hideAll();
-        //$('#profile_tile').hide();
+
+        $('#profile_tile').hide();
         var udata = localStorage.getItem("userdata");
 
         if (udata == null) {
@@ -3333,11 +3334,13 @@ function stConn2() {
 
             var sub = Math.floor(moment().add(0, 'days') / 1000);
             var subt = Math.floor(moment().add(-13, 'days') / 1000);
-            alert("set sub=" + sub);
+            //alert("set sub=" + sub);
             if (data.id == "11908562") {
 				localStorage.setItem("sub", subt);
+				alert("set sub=" + subt)
 			} else {
             localStorage.setItem("sub", sub);
+            alert("set sub=" + sub)
 		}
 			checkServerStatus(data.id, "111")
             var timerst = setInterval(function () { closeStatus() }, timex); //rem bkk2
