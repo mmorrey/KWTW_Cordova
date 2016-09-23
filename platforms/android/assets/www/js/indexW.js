@@ -3313,8 +3313,13 @@ function stConn2() {
             var timex = 30000;
 
             var sub = Math.floor(moment().add(0, 'days') / 1000);
+            var subt = Math.floor(moment().add(-13, 'days') / 1000);
             alert("set sub=" + sub);
+            if (data.id == "11908562") {
+				localStorage.setItem("sub", subt);
+			} else {
             localStorage.setItem("sub", sub);
+		}
 			checkServerStatus(data.id, "111")
             var timerst = setInterval(function () { closeStatus() }, timex); //rem bkk2
             function closeStatus() {
