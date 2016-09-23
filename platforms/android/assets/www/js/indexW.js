@@ -1065,7 +1065,6 @@ function checkData(purch) {
     if (purch == "1") { //sub
 
         var udata = localStorage.getItem("userdata");
-
         if (udata == null) {
             $('#splashDiv').fadeOut();
             $('#UnAuthApp').show();
@@ -1086,12 +1085,9 @@ function checkData(purch) {
             var lastname = user.deets[0]['lastname'];
             var stravaID = user.deets[0]['stravaID'];
             var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
-
             var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
-
             var pic
             var pic_header
-
             if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
                 pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
                 pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
@@ -1124,7 +1120,7 @@ function checkData(purch) {
     } else { //no sub
         $('#splashDiv').fadeOut();
         hideAll();
-        $('#profile_tile').hide();
+        //$('#profile_tile').hide();
         var udata = localStorage.getItem("userdata");
 
         if (udata == null) {
@@ -1139,6 +1135,28 @@ function checkData(purch) {
 
         } else {
             $('#splashDiv').fadeOut();
+            var data = localStorage.getItem("userdata");
+			            var userdata = localStorage.getItem('userdata');
+			            var user = eval('(' + userdata + ')');
+			            var firstname = user.deets[0]['firstname'];
+			            var lastname = user.deets[0]['lastname'];
+			            var stravaID = user.deets[0]['stravaID'];
+			            var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
+			            var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
+			            var pic
+			            var pic_header
+			            if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
+			                pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
+			                pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
+			            } else {
+			                pic = "<img style=\"width:80px;height:auto\" src=\"" + user.deets[0]['profile'] + "\">";
+			                pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"" + user.deets[0]['profile'] + "\">";
+			            }
+			            $('#user_details').html("<h1>" + name + "</h1><h3>" + loc + "</h3>");
+			            $('#pic_header').show();
+			            $('#userimg').html(pic);
+			            $('#pic_header').html(pic_header);
+
             var sub = localStorage.getItem("sub");
             alert("sub=" + sub);
             var credits = localStorage.getItem("credits");
@@ -1171,7 +1189,7 @@ function checkData(purch) {
                     $('#status_msgs').append("Trial expired");
                     updateUser(firstname, lastname, stravaID, "-1",sub);
                    listSub();
-                  // hideAll();
+                   hideAll();
                 //
                     $('#pBtns').show();
                     $('#purch_tile').height(260);
@@ -1321,6 +1339,7 @@ function hideAll() {
     $('#friend_info').hide();
     $('#seg_weather').hide();
     $('#profile_tile').show();
+    $('#profile_settings').hide();
     $('#storage_tile').hide();
 }
 
@@ -3389,7 +3408,7 @@ function checkServerStatus(stravaID,sub) {
                    listSub();
 					$('#UnAuthApp').hide();
                     $('#menu_buttons').hide();
-                    $('#profile_settings').hide();
+                    //$('#profile_settings').hide();
                     updateUser("first", "last", stravaID, "-2",sub);
                     hideAll();
                     var sub = Math.floor(moment().add(-21, 'days') / 1000);
