@@ -1031,8 +1031,7 @@ function getFriends() {
 
 function appPurchChk() {
     listSub();
-    var purch = "0";
-    var userdata = localStorage.getItem('userdata');
+    //var purch = "0";
 
     var timer1 = setInterval(function () { startPchk1() }, 2000);
     function startPchk1() {
@@ -1044,21 +1043,9 @@ function appPurchChk() {
         function startPchk2() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
-            if (userdata != null) {
-                var user = eval('(' + userdata + ')');
-                var stravaID = user.deets[0]['stravaID'];
-                if (stravaID == "10375624") {
-                    var purch = localStorage.getItem("OneYrSub");
-                    alert("purch=" + purch);
-                    localStorage.setItem("sub", "1474378127");
 
-                    checkData("0");
-                } else {
-                    checkData(purch);
-                }
-            } else {
                 checkData(purch);
-            }
+
         }
 
     }
@@ -1184,7 +1171,7 @@ function checkData(purch) {
                     $('#status_msgs').append("Trial expired");
                     updateUser(firstname, lastname, stravaID, "-1",sub);
                    listSub();
-                   hideAll();
+                  // hideAll();
                 //
                     $('#pBtns').show();
                     $('#purch_tile').height(260);
@@ -3390,6 +3377,10 @@ function checkServerStatus(stravaID,sub) {
                     $('#credits_no').html(credits);
                     updateUser("first", "last", stravaID, "2",sub);
                 } else {
+					var purch = localStorage.getItem("OneYrSub");
+            		if (purch == "1") {
+						updateUser("first", "last", stravaID, "3",sub);
+					} else {
                    listSub();
 					$('#UnAuthApp').hide();
                     $('#menu_buttons').hide();
@@ -3399,6 +3390,7 @@ function checkServerStatus(stravaID,sub) {
                     var sub = Math.floor(moment().add(-21, 'days') / 1000);
                     localStorage.setItem("sub", sub);
                     $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase a Yearly Subscription to get full access including unlimited Historical data queries.");
+			}
                 }
 
         },
