@@ -1402,6 +1402,7 @@ function showSettingsTile() {
     $('#mapWind').hide();
     $('#my_activities').hide();
     $('#profile_tile').show();
+    $('#profile_settings').show();
     $('#pills_row').hide();
     $('#seg_nearby').hide();
     $('#seg_efforts').hide();
