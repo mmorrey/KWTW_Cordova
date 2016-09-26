@@ -1053,7 +1053,7 @@ function appPurchChk() {
 
 
 function checkData(purch) {
-    alert("purch=" + purch);
+
     $('#splashDiv').fadeOut();
     reportOnlineStatus();
     removeOldweather();
@@ -1159,7 +1159,7 @@ function checkData(purch) {
 			            $('#pic_header').html(pic_header);
 
             var sub = localStorage.getItem("sub");
-            alert("sub=" + sub);
+
             var credits = localStorage.getItem("credits");
             var pass = false;
             if (sub == null) { //not auth
@@ -1177,7 +1177,7 @@ function checkData(purch) {
                     estr = "in " + edays + " days."
                 }
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
-                alert("cd diff=" + diff);
+
                 if (diff > 0) {
                     //not expired
                     $('#status_msgs').append("Trial period expires on " + ExpDate);
@@ -1201,7 +1201,7 @@ function checkData(purch) {
 
                 }
             }
-            alert("pass=" + pass);
+
             if (pass == true) {
 
                 var data = localStorage.getItem("userdata");
@@ -3335,13 +3335,13 @@ function stConn2() {
 
             var sub = Math.floor(moment().add(0, 'days') / 1000);
             var subt = Math.floor(moment().add(-13, 'days') / 1000);
-            //alert("set sub=" + sub);
+
             if (data.id == "11908562") {
 				localStorage.setItem("sub", subt);
-				alert("set sub=" + subt)
+
 			} else {
             localStorage.setItem("sub", sub);
-            alert("set sub=" + sub)
+
 		}
 			checkServerStatus(data.id, "111")
             var timerst = setInterval(function () { closeStatus() }, timex); //rem bkk2
@@ -3395,7 +3395,7 @@ function checkServerStatus(stravaID,sub) {
                 } else {
                     estr = "in " + edays + " days."
                 }
-                alert("cs diff=" + diff);
+
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
                      $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly or Yearly Subscription to get unlimited Historical data queries.");
