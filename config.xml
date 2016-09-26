@@ -7,7 +7,6 @@
         Orchid Global Limited
     </author>
     <content src="index.html" />
-    <preference name="phonegap-version" value="cli-6.1.1" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
   <plugin name="cordova-plugin-inappbrowser" source="npm"/>
    <plugin name="cordova-plugin-network-information" source="npm"/>
