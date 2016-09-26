@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.kwtw.kw1" version="1.4.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.kwtw.kw1" version="1.4.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>KOM With The Wind</name>
     <description>KOM With The Wind
     </description>
@@ -7,6 +7,7 @@
         Orchid Global Limited
     </author>
     <content src="index.html" />
+    <preference name="phonegap-version" value="cli-6.1.1" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
   <plugin name="cordova-plugin-inappbrowser" source="npm"/>
    <plugin name="cordova-plugin-network-information" source="npm"/>
