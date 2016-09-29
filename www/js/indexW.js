@@ -143,7 +143,7 @@ function restorePurchases() {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
 
-                $('#pmsg').append("Yearly subscription purchased. [" + p['productId'] +"]");
+                $('#pmsg').html("Yearly subscription purchased.");
             } else {
 
             }
