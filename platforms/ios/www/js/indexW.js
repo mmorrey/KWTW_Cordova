@@ -92,7 +92,7 @@ function purchaseProduct(productId) {
 
         window.iap.purchaseProduct(productId, function (result) {
             savePmt(stravaID, JSON.stringify(result));
-            localStorage.setItem("OneYrSub", "1")
+            localStorage.setItem("OneYrSub", "1");
             localStorage.setItem("credits", "4000000");
             $('#pmsg').html("Thank you for your subscription. Reloading ...");
             var timerp1 = setInterval(function () { restartApp() }, 2000);
@@ -1619,6 +1619,9 @@ function drawTable(type) {
             act_ct++;
 
         });
+        //jan
+        page = parseInt(act_ct / 30) + 1; //if > 30 page 2
+        midhtml = midhtml + "<tr class=\"un_sel\" onclick=\"stStars_paging('" + page + "','" + act_ct + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:200px\">More Segments</div></td></tr>";
 
     } else {
         for (var i = 0; i < localStorage.length; i++) {
@@ -3845,6 +3848,101 @@ function stStars(ID) {
                 $('#status_msgs').append('Stand by ... </br>')
 
             }
+        });
+
+    });
+}
+
+function stStars_paging(page, count) {
+    //show refresh view: Retrieving more segments ...
+    //redirect to settings purch if not paid
+    var userdata = localStorage.getItem('userdata');
+    var user = eval('(' + userdata + ')');
+
+    var ID = user.deets[0]['stravaID'];
+
+    $('#act_table2').html("<div>Retirving more starred segments</div>");
+
+    // var json = eval('(' + localStorage.getItem('starsdata') + ')');
+    var strava_segs = {
+        segs: []
+    };
+
+    var strava_segs_f = {
+        segs: []
+    };
+
+    OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
+
+    OAuth.popup('strava', { cache: true }).done(function (result) {
+        console.log(result)
+        result.get('https://www.strava.com/api/v3/athletes/' + ID + '/segments/starred', { data: { page: page } }).done(function (data) {
+            //page=
+            var jsontext = JSON.stringify(data);
+            // $('#status_msgs').append(jsontext);
+            var ct = 0;
+            $.each(data, function (i, seg) {
+                var segID = data[i]['id'];
+                //  alert(data[i]['name']);
+                strava_segs.segs.push({
+                    "name": data[i]['name'],
+                    "ID": data[i]['id'],
+                    "dist": data[i]['distance'],
+                    "pr_effort": data[i]['athlete_pr_effort'],
+                    "latlng": data[i]['end_latlng'],
+                    "elev_h": seg.elevation_high,
+                    "elev_l": seg.elevation_low,
+                    //"seg_efforts" : data[i]['segment_efforts']
+
+                });
+
+                //alert(seg.map);
+
+                ct++;
+                //seg_efforts(seg.id);
+                seg_details(segID);
+            });
+
+            var sdata = localStorage.getItem('starsdata');
+            var sdata2 = eval('(' + sdata + ')');
+
+
+            var segs2 = strava_segs['segs'];
+            var segs3 = sdata2['segs'];
+            var finalObj = $.merge(segs2, segs3);
+            //  
+            strava_segs_f.segs.push(finalObj);
+            var allsegs1 = JSON.stringify(strava_segs_f);
+            var allsegs2 = allsegs1.replace('[{', '{');
+            var allsegs2a = allsegs2.replace('}]', '}');
+            //   var allsegs3 = eval('(' + allsegs2a + ')');
+
+            //    var jsonsegs = JSON.stringify(strava_segs_f);
+            localStorage.setItem('starsdata', allsegs2a);
+            //localStorage.setItem('starsct', ct + count);
+            $('#status_msgs').append('Found ' + ct + ' more Starred Segments </br>');
+
+            //drawTable();
+            if (ct > 0) {
+
+                var timer = setInterval(function () { startDecode() }, 5000);
+                console.log("parse stars")
+                function startDecode() {
+                    //  drawTable("stars");
+                    $('#status_msgs').append('Processing Starred Segments </br>')
+                    parse("stars");
+                    clearInterval(timer);
+
+                    console.log("draw table for stars in 5 seconds")
+
+                    //kick off another timer for end of this batch
+
+                }
+            } else {
+                $('#UnAuthApp').hide();
+                //   noActsmsg("stars");
+            }
+            //myFunction();
         });
 
     });
