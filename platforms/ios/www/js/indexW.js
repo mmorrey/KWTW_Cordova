@@ -3860,7 +3860,7 @@ function stStars_paging(page, count) {
     var user = eval('(' + userdata + ')');
 
     var ID = user.deets[0]['stravaID'];
-
+    //scroll to top
     $('#act_table2').html("<div>Retirving more starred segments</div>");
 
     // var json = eval('(' + localStorage.getItem('starsdata') + ')');

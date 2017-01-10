@@ -1606,6 +1606,12 @@ function drawTable(type) {
     var n;
     var name;
     var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
+    var purch = localStorage.getItem("OneYrSub");
+    var st_ct = localStorage.getItem("starsct");
+    if (purch == "0") {
+        midhtml = "<tr style=\"height:50px\"><td>" + st_ct + " Starred Segments Retrieved<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.<br/>Trial period expired in x days, you have x credits left.<br/>Historical KOM Weather Data = 1 credit<br/>Historical Leaderboard Weather Data = 3 credits</td></tr>";
+    }
+    
     var w = window.innerWidth;
     var nameW = w - 80;
     if (fav == false) {
@@ -3834,7 +3840,12 @@ function stStars(ID) {
             var jsonsegs = JSON.stringify(strava_segs);
             localStorage.setItem('starsdata', jsonsegs);
             localStorage.setItem('starsct', ct);
-            $('#status_msgs').append('Found ' + ct + ' Starred Segments </br>');
+            if (ct == 30) {
+                $('#status_msgs').append('Retrieved first 30 Starred Segments </br>');
+            } else {
+                $('#status_msgs').append('Retrieved ' + ct + ' Starred Segments </br>');
+            }
+         
             if (ct > 0) {
 
                 var timer = setInterval(function () { startDecode() }, 5000);
@@ -3860,14 +3871,18 @@ function stStars_paging(page, count) {
     var user = eval('(' + userdata + ')');
 
     var ID = user.deets[0]['stravaID'];
-
-    $('#act_table2').html("<div>Retirving more starred segments</div>");
-
+    //scroll to top
+    var top = "<table class=\"table table-striped\">";
+    var midhtml = "<tr style=\"height:50px\"><td>Retrieving more starred segments ...</td></tr>";
+    $('#act_table2').html(top + midhtml + "</table>");
+    $('html, body').animate({
+        scrollTop: $("#act_table2").offset().top
+    }, 2000);
     // var json = eval('(' + localStorage.getItem('starsdata') + ')');
     var strava_segs = {
         segs: []
     };
-
+    var ct_o = localStorage.getItem('starsct');
     var strava_segs_f = {
         segs: []
     };
@@ -3902,7 +3917,8 @@ function stStars_paging(page, count) {
                 //seg_efforts(seg.id);
                 seg_details(segID);
             });
-
+            var ct_n = ct + ct_o;
+            localStorage.setItem('starsct', ct_n);
             var sdata = localStorage.getItem('starsdata');
             var sdata2 = eval('(' + sdata + ')');
 
