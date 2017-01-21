@@ -40,8 +40,8 @@ var app = {
 
     onDeviceReady: function () {
 
-    appPurchChk();
-  //checkData("1");
+   // appPurchChk();
+  checkData("1");
 
 
     },
@@ -115,6 +115,13 @@ function viewTCs() {
     $('#TCs').show();
 }
 
+function showMoreinfo() {
+    $('#moreInfo').show();
+}
+
+function closeMoreinfo() {
+    $('#moreInfo').hide();
+}
 
 function hideTCs() {
     $('#purch_tile').height(280) //220
@@ -138,7 +145,7 @@ function restorePurchases() {
     window.iap.restorePurchases(function (result) {
         for (var i = 0 ; i < result.length; ++i) {
             var p = result[i];
-       //     $('#pmsg').append(JSON.stringify(result)) save to db??
+            $('#pmsg').append(self.existing_purchases + "result: " + JSON.stringify(result)) //save to db??
             if (self.existing_purchases.indexOf(p['productId']) === -1) {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
@@ -816,7 +823,7 @@ function checkExp() {
         if (diff > 0) {
             //not expired
 
-            $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly or Yearly Subscription to get unlimited Historical data queries.");
+            $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Yearly Subscription to get unlimited Historical data queries.");
             $('#credits_no').html(credits);
 
         } else {
@@ -1181,7 +1188,7 @@ function checkData(purch) {
                 if (diff > 0) {
                     //not expired
                     $('#status_msgs').append("Trial period expires on " + ExpDate);
-                    $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly or Yearly Subscription to get unlimited Historical data queries.");
+                    $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Yearly Subscription to get unlimited Historical data queries.");
                     $('#credits_no').html(credits);
 
                     pass = true;
@@ -3407,7 +3414,7 @@ function checkServerStatus(stravaID,sub) {
 
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
-                     $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly or Yearly Subscription to get unlimited Historical data queries.");
+                     $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Yearly Subscription to get unlimited Historical data queries.");
                     if (cint < 0) {
                         credits = "0";
                     }
@@ -3917,7 +3924,7 @@ function stStars_paging(page, count) {
                 //seg_efforts(seg.id);
                 seg_details(segID);
             });
-            var ct_n = ct + ct_o;
+            var ct_n = Number(ct) + Number(ct_o);
             localStorage.setItem('starsct', ct_n);
             var sdata = localStorage.getItem('starsdata');
             var sdata2 = eval('(' + sdata + ')');
@@ -3975,7 +3982,7 @@ function stLeader(ID,type,metres) {
     var timenow = Math.round(new Date().getTime() / 1000);
     var gender = localStorage.getItem("gender");
      OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
-     if (gender == "B") {
+     if (gender == "B" || gender == null) {
          OAuth.popup('strava', { cache: true }).done(function (result) {
 
              result.get('https://www.strava.com/api/v3/segments/' + ID + '/leaderboard').done(function (data) {
