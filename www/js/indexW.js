@@ -3882,7 +3882,7 @@ function stStars_paging(page, count) {
     var midhtml = "<tr style=\"height:50px\"><td><div style=\"height:53px;width:60px;text-align:center;color:#00AF96\" class=\"fa fa-4x fa-cog fa-spin\"></div><div style=\"text-align:center;color:#00AF96\">Retrieving more starred segments ...</div></td></tr>";
     $('#act_table2').html(top + midhtml + "</table>");
     $('html, body').animate({
-        scrollTop: $("#act_table2").offset().top
+        scrollTop: $("#onlineStatus").offset().top
     }, 2000);
     // var json = eval('(' + localStorage.getItem('starsdata') + ')');
     var strava_segs = {

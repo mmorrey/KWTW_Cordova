@@ -40,8 +40,8 @@ var app = {
 
     onDeviceReady: function () {
 
-   // appPurchChk();
-  checkData("1");
+  appPurchChk();
+ // checkData("1");
 
 
     },
@@ -58,7 +58,6 @@ app.initialize();
 
 
 function listSub() {
-
 
     window.iap.setUp(androidApplicationLicenseKey);
 
@@ -3880,7 +3879,7 @@ function stStars_paging(page, count) {
     var ID = user.deets[0]['stravaID'];
     //scroll to top
     var top = "<table class=\"table table-striped\">";
-    var midhtml = "<tr style=\"height:50px\"><td>Retrieving more starred segments ...</td></tr>";
+    var midhtml = "<tr style=\"height:50px\"><td><div style=\"height:53px;width:60px;text-align:center;color:#00AF96\" class=\"fa fa-4x fa-cog fa-spin\"></div><div style=\"text-align:center;color:#00AF96\">Retrieving more starred segments ...</div></td></tr>";
     $('#act_table2').html(top + midhtml + "</table>");
     $('html, body').animate({
         scrollTop: $("#act_table2").offset().top
