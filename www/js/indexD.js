@@ -2178,6 +2178,18 @@ function calcStarsInline(ID, hrs, type) {
     } else {
         jsondata = localStorage.getItem(ID + "_weather_act");
     }
+    var purch = localStorage.getItem("OneYrSub");
+    var st_ct = localStorage.getItem("starsct");
+
+    if (purch == "0") {
+        $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.");
+        $('#stinfo').fadeIn();
+    } else {
+     
+        $('#stinfo').html(st_ct + " Starred Segments Retrieved.");
+        $('#stinfo').fadeIn();
+    }
+    
     if (jsondata != null) {
         $('#winfo').html("Showing the best star ratings for the next 24 hours of retrieved weather");
         $('#winfo').fadeIn();
