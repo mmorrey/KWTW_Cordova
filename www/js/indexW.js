@@ -116,12 +116,12 @@ function viewTCs() {
 
 function showMoreinfo() {
     $('#moreInfo').show();
-    $('#splashDiv').show();
+    //$('#splashDiv').show();
 }
 
 function closeMoreinfo() {
     $('#moreInfo').hide();
-    $('#splashDiv').hide();
+    //$('#splashDiv').hide();
 }
 
 function openSettings() {
@@ -1641,9 +1641,9 @@ function drawTable(type) {
     var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
     var purch = localStorage.getItem("OneYrSub");
     var st_ct = localStorage.getItem("starsct");
-    if (purch == "0") {
-        midhtml = "<tr style=\"height:50px\"><td>" + st_ct + " Starred Segments Retrieved<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.<br/>Trial period expired in x days, you have x credits left.<br/>Historical KOM Weather Data = 1 credit<br/>Historical Leaderboard Weather Data = 3 credits</td></tr>";
-    }
+  //  if (purch == "0") {
+    midhtml = "<tr style=\"height:50px\"><td><div class=\"msg_sml\" style=\"padding-left:3px\">" + st_ct + " Starred Segments Retrieved<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.</div></td></tr>";
+  //  }
     
     var w = window.innerWidth;
     var nameW = w - 80;
@@ -1659,9 +1659,15 @@ function drawTable(type) {
 
         });
         //jan
-        page = parseInt(act_ct / 30) + 1; //if > 30 page 2
-        midhtml = midhtml + "<tr class=\"un_sel\" onclick=\"stStars_paging('" + page + "','" + act_ct + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:200px\">More Segments</div></td></tr>";
-
+        var pageht = 0;
+        page = math.floor(act_ct / 30) + 1 //if > 30 page 2
+        if (page > 1) {
+            pageht = 50;
+        }
+        if (act_ct > 0) { //and purch == 1
+                midhtml = midhtml + "<tr class=\"un_sel\" onclick=\"stStars_paging('" + page + "','" + act_ct + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:200px\">Retrieve More Segments</div></td></tr>";
+            }
+        
     } else {
         for (var i = 0; i < localStorage.length; i++) {
 
@@ -1685,8 +1691,8 @@ function drawTable(type) {
 
 
     }
-
-    var ht = parseInt(((act_ct) * 50) + 56); //56
+    //add more segs space if 
+    var ht = parseInt(((act_ct) * 50) + 56) + pageht; //56
 
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
