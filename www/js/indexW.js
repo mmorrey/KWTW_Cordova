@@ -116,10 +116,37 @@ function viewTCs() {
 
 function showMoreinfo() {
     $('#moreInfo').show();
+    $('#splashDiv').show();
 }
 
 function closeMoreinfo() {
     $('#moreInfo').hide();
+    $('#splashDiv').hide();
+}
+
+function openSettings() {
+    $('#moreInfo').hide();
+    $('#splashDiv').hide();
+    listSub();
+    calcStorage();
+    $('#btnLeft').hide();
+    $('#btnRight').hide();
+    $('#mapWind').hide();
+    $('#my_activities').hide();
+    $('#profile_tile').show();
+    $('#profile_settings').show();
+    $('#pills_row').hide();
+    $('#seg_nearby').hide();
+    $('#seg_efforts').hide();
+    $('#seg_weather').hide();
+    $('#seg_leaderboard').hide();
+    $('#deets_tile').hide();
+    $('#locIcon').hide();
+    $('#my_friends').hide();
+    $('#friend_info').hide();
+    $('html, body').animate({
+        scrollTop: $("#pmsg").offset().top
+    }, 2000);
 }
 
 function hideTCs() {
@@ -3879,7 +3906,7 @@ function stStars_paging(page, count) {
     var ID = user.deets[0]['stravaID'];
     //scroll to top
     var top = "<table class=\"table table-striped\">";
-    var midhtml = "<tr style=\"height:50px\"><td><div style=\"height:53px;width:60px;text-align:center;color:#00AF96\" class=\"fa fa-4x fa-cog fa-spin\"></div><div style=\"text-align:center;color:#00AF96\">Retrieving more starred segments ...</div></td></tr>";
+    midhtml = "<tr style=\"height:15px\"><td><div style=\"height:13px;width:13px;text-align:center;color:#00AF96\" class=\"fa fa-cog fa-spin\"></div><div class=\"msg_sml\" style=\"padding-left:3px;display:inline-block;color:#00AF96\">Retrieving more starred segments ...</div></td></tr>";
     $('#act_table2').html(top + midhtml + "</table>");
     $('html, body').animate({
         scrollTop: $("#onlineStatus").offset().top
