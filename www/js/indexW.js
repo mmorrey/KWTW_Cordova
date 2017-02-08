@@ -1661,6 +1661,7 @@ function drawTable(type) {
         //jan
         var pageht = 0;
         page = math.floor(act_ct / 30) + 1 //if > 30 page 2
+        alert(page);
         if (page > 1) {
             pageht = 50;
         }
@@ -1692,8 +1693,8 @@ function drawTable(type) {
 
     }
     //add more segs space if 
-    var ht = parseInt(((act_ct) * 50) + 56) + pageht; //56
-
+    var ht = parseInt(((act_ct) * 50) + 56 + pageht); //56
+    alert(ht);
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
 
