@@ -1642,9 +1642,9 @@ function drawTable(type) {
     var purch = localStorage.getItem("OneYrSub");
     var st_ct = localStorage.getItem("starsct");
   //  if (purch == "0") {
-   // midhtml = "<tr style=\"height:50px\"><td><div class=\"msg_sml\" style=\"padding-left:3px\">" + st_ct + " Starred Segments Retrieved<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.</div></td></tr>";
+  midhtml = "<tr style=\"height:50px\"><td><div class=\"msg_sml\" style=\"padding-left:3px\">" + st_ct + " Starred Segments Retrieved<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.</div></td></tr>";
   //  }
-    alert(type);
+   // alert(type);
     var w = window.innerWidth;
     var nameW = w - 80;
     if (fav == false) {
@@ -1660,7 +1660,8 @@ function drawTable(type) {
         });
         //jan
         var pageht = 0;
-        page = math.floor(act_ct / 30) + 1 //if > 30 page 2
+        var act_ct_n = parseInt(act_ct);
+        var page = Math.floor(act_ct_n / 30) + 1; //if > 30 page 2
         alert(page);
         if (page > 1) {
             pageht = 50;
