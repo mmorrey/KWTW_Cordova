@@ -1642,7 +1642,7 @@ function drawTable(type) {
     var purch = localStorage.getItem("OneYrSub");
     var st_ct = localStorage.getItem("starsct");
   //  if (purch == "0") {
-  midhtml = "<tr style=\"height:50px\"><td><div class=\"msg_sml\" style=\"padding-left:3px\">" + st_ct + " Starred Segments Retrieved<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.</div></td></tr>";
+//  midhtml = "<tr style=\"height:50px\"><td><div class=\"msg_sml\" style=\"padding-left:3px\">" + st_ct + " Starred Segments Retrieved<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.</div></td></tr>";
   //  }
    // alert(type);
     var w = window.innerWidth;
@@ -3306,7 +3306,12 @@ function displayStars(hrs, type) {
             var hrstxt = fh + " - " + lh + " Hrs";
         }
         if (hrs == 24) {
-            $('#winfo').html("Showing the best star ratings for the next 24 hours of retrieved weather");
+            var purch = localStorage.getItem("OneYrSub");
+            var st_ct = localStorage.getItem("starsct");
+            //  if (purch == "0") {
+            //midhtml = "<tr style=\"height:50px\"><td><div class=\"msg_sml\" style=\"padding-left:3px\">" + st_ct + " Starred Segments Retrieved<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.</div></td></tr>";
+
+            $('#winfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.<br/>Showing the best star ratings for the next 24 hours of retrieved weather");
             $('#winfo').fadeIn();
         } else {
 
