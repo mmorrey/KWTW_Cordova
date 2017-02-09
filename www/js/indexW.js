@@ -1096,7 +1096,7 @@ function checkData(purch) {
     $('#status_area').hide();
 
     if (purch == "1") { //sub
-
+        $('creditsBtn').hide();
         var udata = localStorage.getItem("userdata");
         if (udata == null) {
             $('#splashDiv').fadeOut();
@@ -1216,7 +1216,7 @@ function checkData(purch) {
                     $('#status_msgs').append("Trial period expires on " + ExpDate);
                     $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Yearly Subscription to get unlimited Historical data queries.");
                     $('#credits_no').html(credits);
-
+                    $('creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
                     pass = true;
                 } else {
                     //expired
@@ -1641,10 +1641,15 @@ function drawTable(type) {
     var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
     var purch = localStorage.getItem("OneYrSub");
     var st_ct = localStorage.getItem("starsct");
-  //  if (purch == "0") {
-//  midhtml = "<tr style=\"height:50px\"><td><div class=\"msg_sml\" style=\"padding-left:3px\">" + st_ct + " Starred Segments Retrieved<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.</div></td></tr>";
-  //  }
-   // alert(type);
+    if (purch == "0") {
+        $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.");
+        $('#stinfo').fadeIn();
+    } else {
+
+        $('#stinfo').html(st_ct + " Starred Segments Retrieved.");
+        $('#stinfo').fadeIn();
+    }
+
     var w = window.innerWidth;
     var nameW = w - 80;
     if (fav == false) {
@@ -1662,11 +1667,14 @@ function drawTable(type) {
         var pageht = 0;
         var act_ct_n = parseInt(act_ct);
         var page = Math.floor(act_ct_n / 30) + 1; //if > 30 page 2
-        alert(page);
+       // alert(page);
         if (page > 1) {
             pageht = 50;
         }
-        if (act_ct > 0) { //and purch == 1
+        var pchk = ((parseInt(page) * 30) - parseInt(st_ct));
+        //get starcount. if page num x 20 - star ct = 0 then show
+        alert(pchk);
+        if (act_ct > 0 && pchk == 0) { //and purch == 1
                 midhtml = midhtml + "<tr class=\"un_sel\" onclick=\"stStars_paging('" + page + "','" + act_ct + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:200px\">Retrieve More Segments</div></td></tr>";
             }
         
@@ -1694,9 +1702,9 @@ function drawTable(type) {
 
     }
     //add more segs space if 
-    var ht = parseInt(((act_ct) * 50) + 56 + pageht); //56
+    var ht = parseInt(((act_ct) * 50) + 110 + pageht); //56
     
-    $('#tableback').height(ht);
+   // $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
 
 
@@ -3917,6 +3925,8 @@ function stStars(ID) {
 function stStars_paging(page, count) {
     //show refresh view: Retrieving more segments ...
     //redirect to settings purch if not paid
+    $('#stinfo').html();
+    $('#winfo').html();
     var userdata = localStorage.getItem('userdata');
     var user = eval('(' + userdata + ')');
 
