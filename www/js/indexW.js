@@ -1670,14 +1670,14 @@ function drawTable(type) {
         var act_ct_n = parseInt(act_ct);
         var page = Math.floor(act_ct_n / 30); //if > 30 page 2
         alert(page);
-        if (page > 1) {
+        if (page > 0) {
             pageht = 100;
         }
         var pchk = ((parseInt(page) * 30) - parseInt(st_ct));
         //get starcount. if page num x 20 - star ct = 0 then show
         alert(pchk);
         if (act_ct > 0 && pchk == 0) { //and purch == 1
-                midhtml = midhtml + "<tr class=\"un_sel\" onclick=\"stStars_paging('" + page + "','" + act_ct + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:200px\">Retrieve More Segments</div></td></tr>";
+            midhtml = midhtml + "<tr class=\"un_sel\" onclick=\"stStars_paging('" + page + "','" + act_ct + "')\" style=\"height:50px;color:#ffca4a;font-size:14px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:200px\">Retrieve More Segments</div></td></tr>";
             }
         
     } else {
