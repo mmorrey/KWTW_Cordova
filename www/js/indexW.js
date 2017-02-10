@@ -1216,7 +1216,7 @@ function checkData(purch) {
                     $('#status_msgs').append("Trial period expires on " + ExpDate);
                     $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Yearly Subscription to get unlimited Historical data queries.");
                     $('#credits_no').html(credits);
-                    $('creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
+                    $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
                     pass = true;
                 } else {
                     //expired
@@ -1666,8 +1666,8 @@ function drawTable(type) {
         //jan
         var pageht = 0;
         var act_ct_n = parseInt(act_ct);
-        var page = Math.floor(act_ct_n / 30) + 1; //if > 30 page 2
-       // alert(page);
+        var page = Math.floor(act_ct_n / 30); //if > 30 page 2
+        alert(page);
         if (page > 1) {
             pageht = 50;
         }
@@ -1704,7 +1704,7 @@ function drawTable(type) {
     //add more segs space if 
     var ht = parseInt(((act_ct) * 50) + 110 + pageht); //56
     
-   // $('#tableback').height(ht);
+    $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
 
 
