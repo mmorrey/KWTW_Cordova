@@ -3876,7 +3876,7 @@ function stKOMs(ID) {
 }
 
 function stStars(ID) {
-
+    var page = '1';
     var strava_segs = {
         segs: []
     };
@@ -3884,7 +3884,7 @@ function stStars(ID) {
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
 
     OAuth.popup('strava', { cache: true }).done(function (result) {
-        result.get('https://www.strava.com/api/v3/athletes/' + ID + '/segments/starred').done(function (data) {
+        result.get('https://www.strava.com/api/v3/athletes/' + ID + '/segments/starred', { data: { page: page } }).done(function (data) {
 
             var jsontext = JSON.stringify(data);
             var ct = 0;
@@ -3959,7 +3959,7 @@ function stStars_paging(page, count) {
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
 
     OAuth.popup('strava', { cache: true }).done(function (result) {
-        console.log(result)
+        //console.log(result)
         result.get('https://www.strava.com/api/v3/athletes/' + ID + '/segments/starred', { data: { page: page } }).done(function (data) {
             //page=
             var jsontext = JSON.stringify(data);
