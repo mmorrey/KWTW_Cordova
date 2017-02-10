@@ -1705,7 +1705,7 @@ function drawTable(type) {
     }
     //add more segs space if 
     var ht = parseInt(((act_ct) * 50) + 110 + pageht); //56
-    
+    alert(pageht + " " + ht);
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
 
@@ -2693,7 +2693,7 @@ function showHistweather(SegID, type, lb, num, frID) {
             var latlng = getLatlng(SegID, type);
             var date = j2.segs[0].time;
             var credits = localStorage.getItem("credits");
-            if (credits >= 0) {
+            if (credits > 0) {
                 $('#lbdata').html("Retrieving historical data ...");
                 $('#sgdata').html("Retrieving historical data ...");
                 CallHistWeather(latlng, date, SegID, 0, type, lb, frID);
