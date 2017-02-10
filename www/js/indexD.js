@@ -2023,8 +2023,8 @@ function drawWeather(ID, type) {
             ctx2d.fillText(cond, 59, posyt + 6);  //was cond
 
             ctx2d.font = '16px Arial';
-            ctx2d.fillText(zone.temp.metric, (start), posyt + 27);//33
-            ctx2d.fillText("°C", (start + 15), posyt + 27);//33
+            ctx2d.fillText(zone.temp.metric, 59, posyt + 27);//33
+            ctx2d.fillText("°C", 74, posyt + 27);//33
 
 
             dt_ct = dt_ct + 1;
