@@ -851,6 +851,7 @@ function checkExp() {
 
             $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Yearly Subscription to get unlimited Historical data queries.");
             $('#credits_no').html(credits);
+            $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
 
         } else {
             //expired
@@ -1340,6 +1341,7 @@ function getAct(type) {
     } else if (type == "favs") {
         var segdata = "1234567890123456789012345678901234567890"
         $('#act_tile_title').html("<dtitle>KOM With The Wind Favorites</dtitle>");
+        $('stinfo').html();
     }
 
     if ((segdata.length < 30) || (favsct == 0)) {
@@ -1669,7 +1671,7 @@ function drawTable(type) {
         var page = Math.floor(act_ct_n / 30); //if > 30 page 2
         alert(page);
         if (page > 1) {
-            pageht = 50;
+            pageht = 100;
         }
         var pchk = ((parseInt(page) * 30) - parseInt(st_ct));
         //get starcount. if page num x 20 - star ct = 0 then show
@@ -2625,6 +2627,8 @@ function showHistweather(SegID, type, lb, num, frID) {
                                         saveCredit(stravaID, "3")
                                         localStorage.setItem("credits", credits);
                                         $('#credits_no').html(credits);
+                                        $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
+
                                     } else {
                                         $('#lbdata').html("Incomplete Historical data, please try again.");
                                         //  if (type == 'lb') { //user later yyy
@@ -2655,6 +2659,8 @@ function showHistweather(SegID, type, lb, num, frID) {
                                         saveCredit(stravaID, "3");
                                         localStorage.setItem("credits", credits);
                                         $('#credits_no').html(credits);
+                                        $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
+
                                     } else {
                                         $('#lbdata').html("Incomplete Historical data, please try again.");
                                         if (frID == null) {
@@ -2771,6 +2777,8 @@ function CallHistWeather(latlng, date, SegID, i, type, lb, frID) {
                 saveCredit(stravaID, "1")
                 localStorage.setItem("credits", credits);
                 $('#credits_no').html(credits);
+                $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
+
             }
 
 
@@ -3470,6 +3478,7 @@ function checkServerStatus(stravaID,sub) {
                         credits = "0";
                     }
                     $('#credits_no').html(credits);
+                    $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
                     updateUser("first", "last", stravaID, "2",sub);
                 } else {
 					var purch = localStorage.getItem("OneYrSub");
