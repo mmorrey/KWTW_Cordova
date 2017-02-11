@@ -1341,7 +1341,7 @@ function getAct(type) {
     } else if (type == "favs") {
         var segdata = "1234567890123456789012345678901234567890"
         $('#act_tile_title').html("<dtitle>KOM With The Wind Favorites</dtitle>");
-        $('stinfo').html();
+        $('#stinfo').html();
     }
 
     if ((segdata.length < 30) || (favsct == 0)) {
@@ -1670,14 +1670,14 @@ function drawTable(type) {
         var act_ct_n = parseInt(act_ct);
         var page = Math.floor(act_ct_n / 30); //if > 30 page 2
         var page_next = page + 1;
-        alert(page + " " + page_next);
+       // alert(page + " " + page_next);
         if (page > 0) {
-            pageht = 100;
+            pageht = 55;
         }
         var pchk = ((parseInt(page) * 30) - parseInt(st_ct));
         //get starcount. if page num x 20 - star ct = 0 then show
-        alert(pchk);
-        if (act_ct > 0 && pchk == 0) { //and purch == 1
+      //  alert(pchk);
+        if (act_ct > 0 && pchk == 0 && purch == "1") { //and purch == 1
             midhtml = midhtml + "<tr class=\"un_sel\" onclick=\"stStars_paging('" + page_next + "','" + act_ct + "')\" style=\"height:50px;color:#ffca4a;font-size:14px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:200px\">Retrieve More Segments</div></td></tr>";
             }
         
@@ -1705,7 +1705,7 @@ function drawTable(type) {
 
     }
     //add more segs space if 
-    var ht = parseInt(((act_ct) * 50) + 110 + pageht); //56
+    var ht = parseInt(((act_ct) * 50) + pageht); //56
     alert(pageht + " " + ht);
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
@@ -2982,7 +2982,7 @@ function weatherAct() {
     function closeStatus() {
         clearInterval(timerst);
         $('#status_msgs').append("</br>Done .... stand by");
-        drawTable("stars");
+        drawTable_x
 
 
         var timerst2 = setInterval(function () { dispstarst() }, 2000);
@@ -4018,10 +4018,13 @@ function stStars_paging(page, count) {
                     $('#status_msgs').append('Processing Starred Segments </br>')
                     parse("stars");
                     clearInterval(timer);
-
-                    console.log("draw table for stars in 5 seconds")
-
-                    //kick off another timer for end of this batch
+                    var timer2 = setInterval(function () { drawTable_x() }, 25000);
+                    function drawTable_x() {
+                       
+                        clearInterval(timer2);
+                        drawTable("stars");
+                    }
+                 
 
                 }
             } else {
