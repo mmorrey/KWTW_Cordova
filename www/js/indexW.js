@@ -1097,7 +1097,7 @@ function checkData(purch) {
     $('#status_area').hide();
 
     if (purch == "1") { //sub
-        $('creditsBtn').hide();
+        $('#creditsBtn').hide();
         var udata = localStorage.getItem("userdata");
         if (udata == null) {
             $('#splashDiv').fadeOut();
@@ -1341,7 +1341,8 @@ function getAct(type) {
     } else if (type == "favs") {
         var segdata = "1234567890123456789012345678901234567890"
         $('#act_tile_title').html("<dtitle>KOM With The Wind Favorites</dtitle>");
-        $('#stinfo').html();
+        $('#stinfo').html("");
+        $('#winfo').html("");
     }
 
     if ((segdata.length < 30) || (favsct == 0)) {
@@ -1621,12 +1622,23 @@ function drawTable(type) {
     $('#Hrsdd').show();
     $('#refreshBtn').show();
     var fav = false;
-
+    var purch = localStorage.getItem("OneYrSub");
+    var st_ct = localStorage.getItem("starsct");
+  
     if (type == "favs") {
         fav = true;
     } else if (type == "kom") {
         var json = localStorage.getItem('komdata');
     } else if (type == "stars") {
+        if (purch == "0") {
+            $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.");
+            $('#stinfo').fadeIn();
+        } else {
+
+            $('#stinfo').html(st_ct + " Starred Segments Retrieved.");
+            $('#stinfo').fadeIn();
+        }
+
         var json = localStorage.getItem('starsdata');
         var segct = 1;
     } else {
@@ -1641,17 +1653,7 @@ function drawTable(type) {
     var n;
     var name;
     var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
-    var purch = localStorage.getItem("OneYrSub");
-    var st_ct = localStorage.getItem("starsct");
-    if (purch == "0") {
-        $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.");
-        $('#stinfo').fadeIn();
-    } else {
-
-        $('#stinfo').html(st_ct + " Starred Segments Retrieved.");
-        $('#stinfo').fadeIn();
-    }
-
+    
     var w = window.innerWidth;
     var nameW = w - 80;
     if (fav == false) {
@@ -1705,8 +1707,8 @@ function drawTable(type) {
 
     }
     //add more segs space if 
-    var ht = parseInt(((act_ct) * 50) + pageht); //56
-    alert(pageht + " " + ht);
+    var ht = parseInt(((act_ct) * 70) + pageht); //56
+ //   alert(pageht + " " + ht);
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
 
