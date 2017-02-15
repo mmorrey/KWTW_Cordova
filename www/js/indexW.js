@@ -1627,6 +1627,7 @@ function drawTable(type) {
   
     if (type == "favs") {
         fav = true;
+        $('#stinfo').html("");
     } else if (type == "kom") {
         var json = localStorage.getItem('komdata');
     } else if (type == "stars") {
@@ -1653,7 +1654,7 @@ function drawTable(type) {
     var n;
     var name;
     var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
-    
+    var pageht = 0;
     var w = window.innerWidth;
     var nameW = w - 80;
     if (fav == false) {
@@ -1668,13 +1669,13 @@ function drawTable(type) {
 
         });
         //jan
-        var pageht = 0;
+        pageht = 77;
         var act_ct_n = parseInt(act_ct);
         var page = Math.floor(act_ct_n / 30); //if > 30 page 2
         var page_next = page + 1;
        // alert(page + " " + page_next);
         if (page > 0) {
-            pageht = 55;
+            pageht = pageht + 55;
         }
         var pchk = ((parseInt(page) * 30) - parseInt(st_ct));
         //get starcount. if page num x 20 - star ct = 0 then show
@@ -1707,7 +1708,8 @@ function drawTable(type) {
 
     }
     //add more segs space if 
-    var ht = parseInt(((act_ct) * 70) + pageht); //56
+    alert(type + " " + act_ct + " " + pageht)
+    var ht = parseInt(((act_ct) * 55) + pageht); //56
  //   alert(pageht + " " + ht);
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
