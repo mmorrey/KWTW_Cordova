@@ -1654,7 +1654,7 @@ function drawTable(type) {
     var n;
     var name;
     var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
-    var pageht = 77;
+    var pageht = 20;
     var w = window.innerWidth;
     var nameW = w - 80;
     if (fav == false) {
@@ -1674,13 +1674,14 @@ function drawTable(type) {
         var page = Math.floor(act_ct_n / 30); //if > 30 page 2
         var page_next = page + 1;
        // alert(page + " " + page_next);
-        if (page > 0) {
-            pageht = pageht + 55;
-        }
+      //  if (page > 0) {
+            
+      //  }
         var pchk = ((parseInt(page) * 30) - parseInt(st_ct));
         //get starcount. if page num x 20 - star ct = 0 then show
       //  alert(pchk);
         if (act_ct > 0 && pchk == 0 && purch == "1") { //and purch == 1
+            pageht = pageht + 25;
             midhtml = midhtml + "<tr class=\"un_sel\" onclick=\"stStars_paging('" + page_next + "','" + act_ct + "')\" style=\"height:50px;color:#ffca4a;font-size:14px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:200px\">Retrieve More Segments</div></td></tr>";
             }
         
@@ -1708,8 +1709,9 @@ function drawTable(type) {
 
     }
     //add more segs space if 
-    alert(type + " " + act_ct + " " + pageht)
+    
     var ht = parseInt(((act_ct) * 55) + pageht); //56
+    alert(type + " " + act_ct + " " + pageht + " " + ht);
  //   alert(pageht + " " + ht);
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
@@ -3326,7 +3328,8 @@ function displayStars(type) {
             var hrstxt = "Best (24 hrs)";
      //   } else {
        //     var hrstxt = fh + " - " + lh + " Hrs";
-      //  }
+        //  }
+            alert(type);
         if (type != "favs") {
             var purch = localStorage.getItem("OneYrSub");
             var st_ct = localStorage.getItem("starsct");
@@ -3335,7 +3338,7 @@ function displayStars(type) {
                 $('#stinfo').fadeIn();
             } else {
 
-                $('#stinfo').html(st_ct + " Starred Segments Retrieved.");
+                $('#stinfo').html(st_ct + " Starred Segments Retrieved...");
                 $('#stinfo').fadeIn();
             }
 
