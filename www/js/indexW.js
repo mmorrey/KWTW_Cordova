@@ -1306,10 +1306,10 @@ var json = localStorage.getItem('all_seg_efforts');
 
 }
 
-function dispStarsChk() {
+function dispStarsChk(type) {
 
     hrs = 24;
-    displayStars(hrs); //v0.1
+    displayStars(type); //v0.1
     var fh = hrs - 2;
     var lh = hrs;
     fh = fh.toString();
@@ -1357,7 +1357,7 @@ function getAct(type) {
         var timer = setInterval(function () { startDecode() }, 500);
         function startDecode() {
             clearInterval(timer);
-            dispStarsChk();
+            dispStarsChk(type);
 
         }
     }
@@ -1654,7 +1654,7 @@ function drawTable(type) {
     var n;
     var name;
     var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
-    var pageht = 0;
+    var pageht = 77;
     var w = window.innerWidth;
     var nameW = w - 80;
     if (fav == false) {
@@ -1669,7 +1669,7 @@ function drawTable(type) {
 
         });
         //jan
-        pageht = 77;
+       // pageht = 77;
         var act_ct_n = parseInt(act_ct);
         var page = Math.floor(act_ct_n / 30); //if > 30 page 2
         var page_next = page + 1;
@@ -2828,7 +2828,7 @@ function refreshWeather(type, ct) {
             function revertText() {
                 clearInterval(timer1);
                 $('#winfo').fadeOut();
-                dispStarsChk();
+                dispStarsChk(type);
                 $('#refreshBtn').fadeIn();
 
             }
@@ -2863,7 +2863,7 @@ function refreshWeather(type, ct) {
                     var timer3 = setInterval(function () { finishedW() }, 500);
                     function finishedW() {
                         clearInterval(timer3);
-                        dispStarsChk();
+                        dispStarsChk(type);
                         countWdata();
                         $('#refreshBtn').fadeIn('slow');
                     }
@@ -2893,7 +2893,7 @@ function refreshWeather(type, ct) {
                 var timer3 = setInterval(function () { finishedW() }, 2000);
                 function finishedW() {
                     clearInterval(timer3);
-                    dispStarsChk();
+                    dispStarsChk(type);
                     countWdata();
                     $('#refreshBtn').fadeIn('slow');
                 }
@@ -3309,7 +3309,8 @@ function tryMapWeatherStars(SegID) {
     }
 }
 
-function displayStars(hrs, type) {
+function displayStars(type) {
+    var hrs = 24;
     var wdata = localStorage.getItem("weatherdata");
     if (wdata == null) {
     } else {
@@ -3321,12 +3322,12 @@ function displayStars(hrs, type) {
         var lh = hrs;
         fh = fh.toString();
         lh = lh.toString();
-        if (hrs == 24) {
+     ///   if (hrs == 24) {
             var hrstxt = "Best (24 hrs)";
-        } else {
-            var hrstxt = fh + " - " + lh + " Hrs";
-        }
-        if (hrs == 24) {
+     //   } else {
+       //     var hrstxt = fh + " - " + lh + " Hrs";
+      //  }
+        if (type != "favs") {
             var purch = localStorage.getItem("OneYrSub");
             var st_ct = localStorage.getItem("starsct");
             if (purch == "0") {
