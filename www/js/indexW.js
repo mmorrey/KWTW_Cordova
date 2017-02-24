@@ -1654,7 +1654,7 @@ function drawTable(type) {
     var n;
     var name;
     var top = "<div id=\"ttop\"><table class=\"table table-striped\">"
-    var pageht = 20;
+    var pageht = 50;
     var w = window.innerWidth;
     var nameW = w - 80;
     if (fav == false) {
@@ -1710,7 +1710,7 @@ function drawTable(type) {
     }
     //add more segs space if 
     
-    var ht = parseInt(((act_ct) * 55) + pageht); //56
+    var ht = parseInt(((act_ct) * 50) + pageht); //56
     alert(type + " " + act_ct + " " + pageht + " " + ht);
  //   alert(pageht + " " + ht);
     $('#tableback').height(ht);
@@ -3330,7 +3330,7 @@ function displayStars(type) {
        //     var hrstxt = fh + " - " + lh + " Hrs";
         //  }
             alert(type);
-        if (type != "favs") {
+        if (type == "stars") {
             var purch = localStorage.getItem("OneYrSub");
             var st_ct = localStorage.getItem("starsct");
             if (purch == "0") {
@@ -3338,12 +3338,12 @@ function displayStars(type) {
                 $('#stinfo').fadeIn();
             } else {
 
-                $('#stinfo').html(st_ct + " Starred Segments Retrieved...");
+                $('#stinfo').html(st_ct + " Starred Segments Retrieved.");
                 $('#stinfo').fadeIn();
             }
 
         } else {
-
+            $('#stinfo').html("");
         }
 
         $.each(j2a.segs, function (i, seg) {

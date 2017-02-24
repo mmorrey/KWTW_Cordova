@@ -506,6 +506,13 @@ function setMarkers2(map, bounds_map, PID, ct) {
 
     });
 
+    var latn = localStorage.getItem("latmap");
+    var lngn = localStorage.getItem("lngmap");
+    var hereLatLng = new google.maps.LatLng(latn, lngn);
+    var image2 = 'img/map_marker_here.png';
+    var markerh = new google.maps.Marker({ 'position': hereLatLng, 'map': map, 'icon': image2 });
+    markers_array.push(markerh);
+
     var top = "<div id=\"ttop_map\"><table class=\"table table-striped\">"
     if (ct > 0) {
         $('#mapWind').show();  //aaa
@@ -2180,14 +2187,17 @@ function calcStarsInline(ID, hrs, type) {
     }
     var purch = localStorage.getItem("OneYrSub");
     var st_ct = localStorage.getItem("starsct");
+    if (type == "stars") {
+        if (purch == "0") {
+            $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.");
+            $('#stinfo').fadeIn();
+        } else {
 
-    if (purch == "0") {
-        $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.");
-        $('#stinfo').fadeIn();
+            $('#stinfo').html(st_ct + " Starred Segments Retrieved.");
+            $('#stinfo').fadeIn();
+        }
     } else {
-     
-        $('#stinfo').html(st_ct + " Starred Segments Retrieved.");
-        $('#stinfo').fadeIn();
+        $('#stinfo').html("");
     }
     
     if (jsondata != null) {
