@@ -1712,7 +1712,7 @@ function drawTable(type) {
     }
     //add more segs space if 
     
-    var ht = parseInt(((act_ct) * 50) + pageht + 30); //56
+    var ht = parseInt(((act_ct) * 50) + pageht + 40); //56
  //   alert(type + " " + act_ct + " " + pageht + " " + ht);
  //   alert(pageht + " " + ht);
     $('#tableback').height(ht);
