@@ -357,6 +357,8 @@ function checkLoc() {
 
         $('#winfomap').html("Retrieving Location ...");
         showmap(11, position.coords.latitude, position.coords.longitude);
+        localStorage.setItem("latgps", position.coords.latitude);
+        localStorage.setItem("lnggps", position.coords.longitude);
     },
     function (error) {
 

@@ -506,12 +506,15 @@ function setMarkers2(map, bounds_map, PID, ct) {
 
     });
 
-    var latn = localStorage.getItem("latmap");
-    var lngn = localStorage.getItem("lngmap");
+    var latn = localStorage.getItem("latgps");
+    var lngn = localStorage.getItem("lnggps");
+    if (latn != null) {
     var hereLatLng = new google.maps.LatLng(latn, lngn);
     var image2 = 'img/map_marker_here.png';
     var markerh = new google.maps.Marker({ 'position': hereLatLng, 'map': map, 'icon': image2 });
     markers_array.push(markerh);
+    }
+
 
     var top = "<div id=\"ttop_map\"><table class=\"table table-striped\">"
     if (ct > 0) {
