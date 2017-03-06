@@ -1712,8 +1712,8 @@ function drawTable(type) {
     }
     //add more segs space if 
     
-    var ht = parseInt(((act_ct) * 50) + pageht); //56
-    alert(type + " " + act_ct + " " + pageht + " " + ht);
+    var ht = parseInt(((act_ct) * 50) + pageht + 30); //56
+ //   alert(type + " " + act_ct + " " + pageht + " " + ht);
  //   alert(pageht + " " + ht);
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
