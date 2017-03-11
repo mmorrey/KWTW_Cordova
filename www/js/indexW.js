@@ -115,6 +115,9 @@ function viewTCs() {
 }
 
 function showMoreinfo() {
+    var w = window.innerWidth;
+    var w2 = w - 4;
+    $('#moreInfo').width(w2);
     $('#moreInfo').show();
     //$('#splashDiv').show();
 }
