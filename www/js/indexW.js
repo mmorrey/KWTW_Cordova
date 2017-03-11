@@ -116,7 +116,7 @@ function viewTCs() {
 
 function showMoreinfo() {
     var w = window.innerWidth;
-    var w2 = w - 6;
+    var w2 = w - 10;
     $('#moreInfo').width(w2);
     $('#moreInfo').show();
     //$('#splashDiv').show();
