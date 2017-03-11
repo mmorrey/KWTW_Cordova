@@ -2190,6 +2190,7 @@ function calcStarsInline(ID, hrs, type) {
     }
     var purch = localStorage.getItem("OneYrSub");
     var st_ct = localStorage.getItem("starsct");
+    alert("c " + type);
     if (type == "stars") {
         if (purch == "0") {
             $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.");
