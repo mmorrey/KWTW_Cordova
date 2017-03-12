@@ -1450,6 +1450,7 @@ function showSettingsTile() {
     $('#seg_weather').hide();
     $('#seg_leaderboard').hide();
     $('#deets_tile').hide();
+    $('#storage_tile').show();
     $('#locIcon').hide();
     $('#my_friends').hide();
     $('#friend_info').hide();
