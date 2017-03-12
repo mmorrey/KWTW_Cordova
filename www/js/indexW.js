@@ -1653,7 +1653,7 @@ function drawTable(type) {
     }
     var midhtml = "";
     var act_ct = 0;
-    //get count from storage, update with seg efforts
+
     var LB = false;
     var firstID;
     var n;
@@ -1673,19 +1673,14 @@ function drawTable(type) {
             act_ct++;
 
         });
-        //jan
-       // pageht = 77;
+
         var act_ct_n = parseInt(act_ct);
-        var page = Math.floor(act_ct_n / 30); //if > 30 page 2
+        var page = Math.floor(act_ct_n / 30); 
         var page_next = page + 1;
-       // alert(page + " " + page_next);
-      //  if (page > 0) {
-            
-      //  }
+      
         var pchk = ((parseInt(page) * 30) - parseInt(st_ct));
-        //get starcount. if page num x 20 - star ct = 0 then show
-      //  alert(pchk);
-        if (act_ct > 0 && pchk == 0 && purch == "1") { //and purch == 1
+ 
+        if (act_ct > 0 && pchk == 0 && purch == "1") { 
             pageht = pageht + 25;
             midhtml = midhtml + "<tr class=\"un_sel\" onclick=\"stStars_paging('" + page_next + "','" + act_ct + "')\" style=\"height:50px;color:#ffca4a;font-size:14px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:200px\">Retrieve More Segments</div></td></tr>";
             }
@@ -1700,9 +1695,7 @@ function drawTable(type) {
                 var j2 = eval('(' + json + ')');
                 var name = j2.segs[0].name;
                 var ftype = j2.segs[0].type;
-                //if (ftype == "map") {
-                //    ftype = "favs";
-                //}
+   
                 act_ct++;
 
                 midhtml = midhtml + "<tr id=\"trow_" + ID + "\" class=\"un_sel\" onclick=\"polyF(" + ID + ",'" + ftype + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + name + "</div>" +
@@ -1713,11 +1706,9 @@ function drawTable(type) {
 
 
     }
-    //add more segs space if 
     
-    var ht = parseInt(((act_ct) * 50) + pageht + 40); //56
- //   alert(type + " " + act_ct + " " + pageht + " " + ht);
- //   alert(pageht + " " + ht);
+    var ht = parseInt(((act_ct) * 50) + pageht + 50); //56
+
     $('#tableback').height(ht);
     $('#act_table2').html(top + midhtml + "</table></div>");
 
@@ -3329,12 +3320,9 @@ function displayStars(type) {
         var lh = hrs;
         fh = fh.toString();
         lh = lh.toString();
-     ///   if (hrs == 24) {
+
             var hrstxt = "Best (24 hrs)";
-     //   } else {
-       //     var hrstxt = fh + " - " + lh + " Hrs";
-        //  }
-            alert(type);
+
         if (type == "stars") {
             var purch = localStorage.getItem("OneYrSub");
             var st_ct = localStorage.getItem("starsct");
