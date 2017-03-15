@@ -174,7 +174,7 @@ function restorePurchases() {
     window.iap.restorePurchases(function (result) {
         for (var i = 0 ; i < result.length; ++i) {
             var p = result[i];
-            $('#pmsg').append(self.existing_purchases + "result: " + JSON.stringify(result)) //save to db??
+           // $('#pmsg').append(self.existing_purchases + "result: " + JSON.stringify(result)) //save to db??
             if (self.existing_purchases.indexOf(p['productId']) === -1) {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
