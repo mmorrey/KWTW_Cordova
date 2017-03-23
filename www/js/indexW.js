@@ -681,10 +681,12 @@ function getWloc(ID, type) {
 }
 
 function removeOldweather() {
-    $('#logmsg').html("");
+  //  $('#logmsg').html("");
     var remw = 0;
     var wdata = localStorage.getItem("weatherdata");
+    $('#logmsg').append("<br/>wdata" + wdata);
     if (wdata == null) {
+        $('#logmsg').append("<br/>wdata_ct " + localStorage.getItem("weatherdata_ct"));
         localStorage.removeItem('weatherdata_ct');
     } else {
         var wdatap = eval('(' + wdata + ')');
@@ -699,11 +701,12 @@ function removeOldweather() {
 
         $.each(wdatap.wdata, function (i, wd) {
             diff = timenow - wd.timestamp;
-
-            if (diff > 90000) { //+000
+            $('#logmsg').append("<br/>diff=" + diff + " " + wd.ID);
+            if (diff > 60) { //86400
                 var str = wd.ID + "_weather_act";
 
                 localStorage.removeItem(str);
+                $('#logmsg').append("<br/>rem: " + diff + " " + str);
                 remw++;
 
             } else {
@@ -729,7 +732,7 @@ function removeOldweather() {
 
             if (jsondeets.length > 50) {
                 localStorage.setItem('weatherdata', jsondeets);
-
+                $('#logmsg').append("<br/>wdeets" + jsondeets);
                 countWdata();
             } else {
                 remMapw = true;
@@ -748,7 +751,7 @@ function removeOldweather() {
             var jsondata = localStorage.getItem(localStorage.key(i));
             var parsed_json = eval('(' + jsondata + ')');
             var wepoch = parsed_json.hourly_forecast[0].FCTTIME.epoch;
-            if ((timenow - wepoch) > 90000) {
+            if ((timenow - wepoch) > 60) {  //86400
 
                 remw++;
 
@@ -756,6 +759,7 @@ function removeOldweather() {
                 var location = parsed_json['location']['city'];
                 var loc = location + ", " + country;
                 localStorage.removeItem(localStorage.key(i));
+                $('#logmsg').append("<br/>rem w: " + localStorage.key(i));
             }
         }
 
