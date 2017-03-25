@@ -2449,7 +2449,7 @@ function getW(latlng, ID, type) {
         var lat = latlng[0];
         var lng = latlng[1];
         var wdata = localStorage.getItem('weatherdata');
-        $('#logmsg').append("<br/>getW2" + wdata);
+        $('#logmsg').append("<br/>getW2" + wdata + " " + latlng + " " + lat + " " + lng);
         if (wdata != null) {
             var wdata_json = eval('(' + wdata + ')');
             var ct = localStorage.getItem('weatherdata_ct');
@@ -2741,6 +2741,8 @@ function countWdata() {
 function callWeather(latlng,ID,type)  {
     var lat = latlng[0];
     var lng = latlng[1];
+    $('#logmsg').append("</br>CallW1 " + latlng + " " + lat + " " + lng);
+
     var epoch = Math.round(new Date().getTime() / 1000);
 
     var weather_deets = {
