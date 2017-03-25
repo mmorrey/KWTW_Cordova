@@ -2445,9 +2445,9 @@ function getW(latlng, ID, type) {
     } else {
 
         var loc = latlng;
- 
-        var lat = latlng[0];
-        var lng = latlng[1];
+        var latlng2 = latlng.toString().split(',');
+        var lat = latlng2[0];
+        var lng = latlng2[1];
         var wdata = localStorage.getItem('weatherdata');
         $('#logmsg').append("<br/>getW2" + wdata + " " + latlng + " " + lat + " " + lng);
         if (wdata != null) {
@@ -2738,9 +2738,10 @@ function countWdata() {
 
 }
 
-function callWeather(latlng,ID,type)  {
-    var lat = latlng[0];
-    var lng = latlng[1];
+function callWeather(latlng, ID, type) {
+    var latlng1 = latlng.toString().split(',');
+    var lat = latlng1[0];
+    var lng = latlng1[1];
     $('#logmsg').append("</br>CallW1 " + latlng + " " + lat + " " + lng);
 
     var epoch = Math.round(new Date().getTime() / 1000);
