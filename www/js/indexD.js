@@ -1901,11 +1901,18 @@ function drawWeather(ID, type) {
     $('#eff_table').hide();
     var jsondata;
     var latlng = getLatlng(ID, type);
+    var isFav = false;
+    var isFavchk = localStorage.getItem(ID + "_fav");
+    //     console.log("isfav" + isFav)
+    if (isFavchk != null) {
+        isFav = true
+    }
+    //favs hav type = map, but weather_act
     if (type == 'map') {
-        var jsondata = localStorage.getItem(ID + "_weather_map");
-        var isFav = localStorage.getItem(ID + "_fav");
-        if (isFav != null) {
-            type = "favs"
+        if (isFav == true) {
+            var jsondata = localStorage.getItem(ID + "_weather_act");
+        } else {
+            var jsondata = localStorage.getItem(ID + "_weather_map");
         }
     } else {
         var jsondata = localStorage.getItem(ID + "_weather_act");
