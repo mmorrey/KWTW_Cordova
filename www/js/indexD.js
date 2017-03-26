@@ -1918,7 +1918,7 @@ function drawWeather(ID, type) {
         var jsondata = localStorage.getItem(ID + "_weather_act");
     }
     if (jsondata != null) {
-        $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Refresh Weather</a>");
+        $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Refresh Weather" + latlng + "," + ID + ", " + type + "</a>");
         var bdata = localStorage.getItem(bearing_store);
         var parsed_json = eval('(' + jsondata + ')');
          var cutoff = parseInt("16");
