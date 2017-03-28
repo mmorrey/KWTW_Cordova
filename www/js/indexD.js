@@ -1785,7 +1785,7 @@ function getLatlng(ID, type) {
         var j2 = eval('(' + json + ')');
         
         var latlng = j2.segs[0].latlng;
-        alert(type);
+       // alert(type);
         return latlng;
     }
 }
@@ -1914,13 +1914,14 @@ function drawWeather(ID, type) {
     if (isFavchk != null) {
         isFav = true
     }
-    //favs hav type = map, but weather_act
+    $('#logmsg').append("<br/>drawW " + latlng + " " + ID + " " + type);
+    //favs hav type = fav, but weather_act
     if (type == 'map') {
-        if (isFav == true) {
-            var jsondata = localStorage.getItem(ID + "_weather_act");
-        } else {
+     //   if (isFav == true) {
+     //       var jsondata = localStorage.getItem(ID + "_weather_act");
+      //  } else {
             var jsondata = localStorage.getItem(ID + "_weather_map");
-        }
+      //  }
     } else {
         var jsondata = localStorage.getItem(ID + "_weather_act");
     }
@@ -2165,6 +2166,14 @@ function drawWeather(ID, type) {
             $('#refreshBtnW').show();
             $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Weather not yet retrieved</div>");
             var latlng = getLatlng(ID, type);
+            var isFav = false;
+            var isFavchk = localStorage.getItem(ID + "_fav");
+            //     console.log("isfav" + isFav)
+            if (isFavchk != null) {
+                isFav = true;
+                type = "favs";
+            }
+
             if (type != 'map') {
                 $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Retrieve Weather" + latlng + "," + ID + ", " + type + "</a>");
             } else {
