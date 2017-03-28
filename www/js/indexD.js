@@ -1711,7 +1711,14 @@ function getFriendFirstname(frID) {
     return firstname;
 }
 function getLatlng(ID, type) {
-    
+    var isFav = false;
+    var isFavchk = localStorage.getItem(ID + "_fav");
+    //     console.log("isfav" + isFav)
+    if (isFavchk != null) {
+        isFav = true
+        type = "favs";
+    }
+
     if (type == 'map') {
         var json = localStorage.getItem('seg_loc_data');
         var j2 = eval('(' + json + ')');
@@ -1778,7 +1785,7 @@ function getLatlng(ID, type) {
         var j2 = eval('(' + json + ')');
         
         var latlng = j2.segs[0].latlng;
-      
+        alert(type);
         return latlng;
     }
 }
