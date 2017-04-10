@@ -1914,7 +1914,7 @@ function drawWeather(ID, type) {
     if (isFavchk != null) {
         isFav = true
     }
-    $('#logmsg').append("<br/>drawW " + latlng + " " + ID + " " + type);
+   // $('#logmsg').append("<br/>drawW " + latlng + " " + ID + " " + type);
     //favs hav type = fav, but weather_act
     if (type == 'map') {
      //   if (isFav == true) {
@@ -2452,7 +2452,7 @@ function getW(latlng, ID, type) {
     $('#refreshBtnW').hide();
     var timenow = Math.round(new Date().getTime() / 1000);
     var diff = getTimediff(ID, type);
-    $('#logmsg').append("<br/>getW1 " + latlng + " " + ID + " " + type);
+ //   $('#logmsg').append("<br/>getW1 " + latlng + " " + ID + " " + type);
     function revertText() {
         clearInterval(timer1); 
         drawWeather(ID, type);
@@ -2472,7 +2472,7 @@ function getW(latlng, ID, type) {
         var lat = latlng2[0];
         var lng = latlng2[1];
         var wdata = localStorage.getItem('weatherdata');
-        $('#logmsg').append("<br/>getW2" + wdata + " " + latlng + " " + lat + " " + lng);
+    //    $('#logmsg').append("<br/>getW2" + wdata + " " + latlng + " " + lat + " " + lng);
         if (wdata != null) {
             var wdata_json = eval('(' + wdata + ')');
             var ct = localStorage.getItem('weatherdata_ct');
@@ -2486,7 +2486,7 @@ function getW(latlng, ID, type) {
 function checkWeather(latlng1, ct, ID, type) {
     var wdata = localStorage.getItem('weatherdata');
     var wdata_json = eval('(' + wdata + ')');
-    $('#logmsg').append("<br/>chkW1" + latlng1 + " " + ct + " " + ID + " " + type);
+  //  $('#logmsg').append("<br/>chkW1" + latlng1 + " " + ct + " " + ID + " " + type);
     var callW = true;
     var latlng = latlng1.toString().split(',');
 
@@ -2504,7 +2504,7 @@ function checkWeather(latlng1, ct, ID, type) {
             var fromID = wd.ID;
             var fromJsonAct = localStorage.getItem(fromID + "_weather_act");
             var fromJsonMap = localStorage.getItem(fromID + "_weather_map");
-            $('#logmsg').append("<br/>chkW2 act:" + fromJsonAct + "map: " + fromJsonMap + " " + ID + " " + type);
+       //     $('#logmsg').append("<br/>chkW2 act:" + fromJsonAct + "map: " + fromJsonMap + " " + ID + " " + type);
             if (epoch - wd.timestamp > 10800) {
 
                 callW = true;
@@ -2519,7 +2519,7 @@ function checkWeather(latlng1, ct, ID, type) {
 
 
             if ((callW == true) || ((fromJsonAct == null) && (fromJsonMap == null))) { //no match
-                $('#logmsg').append("<br/>chkW3 callW " + ID);
+            //    $('#logmsg').append("<br/>chkW3 callW " + ID);
                 callWeather(latlng, ID, type);
   
             } else {
@@ -2531,15 +2531,15 @@ function checkWeather(latlng1, ct, ID, type) {
                 } else {
                     wchk = localStorage.getItem(toID + "_weather_act");
                 }
-                $('#logmsg').append("<br/>chkW4 wchk= " + wchk);
+            //    $('#logmsg').append("<br/>chkW4 wchk= " + wchk);
                 if (wchk == null) {
-                    $('#logmsg').append("<br/>chkW4 copy " + fromID + " " + toID + " " + lat + " " + lng + " " + type);
+            //        $('#logmsg').append("<br/>chkW4 copy " + fromID + " " + toID + " " + lat + " " + lng + " " + type);
                     copyWeather(fromID, toID, lat, lng, type);
                     calcStarsInline(toID, 24, type);
                     drawWeather(toID, type);
                     $('#refreshBtnW').show();
                 } else {
-                    $('#logmsg').append("Not copied weather from " + fromID + " to " + toID + ", alredy have it</br>");
+       //             $('#logmsg').append("Not copied weather from " + fromID + " to " + toID + ", alredy have it</br>");
                 }
 
 
@@ -2753,7 +2753,7 @@ function countWdata() {
 
         });
         localStorage.setItem('weatherdata_ct', ct);
-        $('#logmsg').append("</br>Weather data count = " + ct);
+   //     $('#logmsg').append("</br>Weather data count = " + ct);
         
     } else {
 
@@ -2765,7 +2765,7 @@ function callWeather(latlng, ID, type) {
     var latlng1 = latlng.toString().split(',');
     var lat = latlng1[0];
     var lng = latlng1[1];
-    $('#logmsg').append("</br>CallW1 " + latlng + " " + lat + " " + lng);
+ //   $('#logmsg').append("</br>CallW1 " + latlng + " " + lat + " " + lng);
 
     var epoch = Math.round(new Date().getTime() / 1000);
 

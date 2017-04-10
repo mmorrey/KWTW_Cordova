@@ -599,7 +599,7 @@ function updateUserKOMS(stravaID) {
     } else {
         var koms_ct = 0;
     }
-
+    $('#logmsg').append("<br/>KOMs CT: " + koms_ct);
     $.ajax({
         type: "POST",
         url: "http://komwiththewind.apphb.com/Home/SaveUser",
@@ -684,9 +684,9 @@ function removeOldweather() {
   //  $('#logmsg').html("");
     var remw = 0;
     var wdata = localStorage.getItem("weatherdata");
-    $('#logmsg').append("<br/>wdata" + wdata);
+   // $('#logmsg').append("<br/>wdata" + wdata);
     if (wdata == null) {
-        $('#logmsg').append("<br/>wdata_ct " + localStorage.getItem("weatherdata_ct"));
+     //   $('#logmsg').append("<br/>wdata_ct " + localStorage.getItem("weatherdata_ct"));
         localStorage.removeItem('weatherdata_ct');
     } else {
         var wdatap = eval('(' + wdata + ')');
@@ -701,12 +701,12 @@ function removeOldweather() {
 
         $.each(wdatap.wdata, function (i, wd) {
             diff = timenow - wd.timestamp;
-            $('#logmsg').append("<br/>diff=" + diff + " " + wd.ID);
+       //     $('#logmsg').append("<br/>diff=" + diff + " " + wd.ID);
             if (diff > 60) { //86400
                 var str = wd.ID + "_weather_act";
 
                 localStorage.removeItem(str);
-                $('#logmsg').append("<br/>rem: " + diff + " " + str);
+       //         $('#logmsg').append("<br/>rem: " + diff + " " + str);
                 remw++;
 
             } else {
@@ -732,7 +732,7 @@ function removeOldweather() {
 
             if (jsondeets.length > 50) {
                 localStorage.setItem('weatherdata', jsondeets);
-                $('#logmsg').append("<br/>wdeets" + jsondeets);
+      //          $('#logmsg').append("<br/>wdeets" + jsondeets);
                 countWdata();
             } else {
                 remMapw = true;
@@ -759,16 +759,16 @@ function removeOldweather() {
                 var location = parsed_json['location']['city'];
                 var loc = location + ", " + country;
                 localStorage.removeItem(localStorage.key(i));
-                $('#logmsg').append("<br/>rem w: " + localStorage.key(i));
+            //    $('#logmsg').append("<br/>rem w: " + localStorage.key(i));
             }
         }
 
     }
     var now = moment().format('LTS');
     if (remw == 0) {
-        $('#logmsg').append(now + ":  No expired weather data found.</br>")
+  //      $('#logmsg').append(now + ":  No expired weather data found.</br>")
     } else {
-        $('#logmsg').append(now + ":  Removed expired weather data for " + remw + " Segments.</br>")
+  //      $('#logmsg').append(now + ":  Removed expired weather data for " + remw + " Segments.</br>")
     }
     calcStorage();
 }
@@ -3826,7 +3826,8 @@ function stKOMs(ID) {
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
 
     OAuth.popup('strava', { cache: true }).done(function (result) {
-        result.get('https://www.strava.com/api/v3/athletes/' + ID + '/koms').done(function (data) {
+    //    result.get('https://www.strava.com/api/v3/athletes/' + ID + '/koms').done(function (data) {
+        result.get('https://www.strava.com/api/v3/segments/4273689/all_efforts', { data: { athlete_id: ID } }).done(function (data) {
 
             var jsontext = JSON.stringify(data);
             var ct = 0;
@@ -3847,7 +3848,7 @@ function stKOMs(ID) {
                     "pr_rank": seg.pr_rank,
                     "time": seg.start_date
                 });
-
+                $('#logmsg').append("<br/>" + seg, name);
                 seg_details(seg.segment.id);
                 ct++;
             });
@@ -3857,12 +3858,13 @@ function stKOMs(ID) {
             if (ct > 0) {
             var jsonsegs = JSON.stringify(strava_segs);
             localStorage.setItem('komdata_' + ID, jsonsegs);
+            $('#logmsg').append("<br/>" + jsonsegs);
             $('#status_msgs').append('Found ' + ct + ' KOMs</br>');
             var userdata = localStorage.getItem('userdata');
             var user = eval('(' + userdata + ')');
 
             var stravaID = user.deets[0]['stravaID'];
-
+            $('#logmsg').append("<br/>" + stravaID + "  " + ID);
             var timer = setInterval(function () { startDecode() }, 5000);
             function startDecode() {
                 clearInterval(timer);
