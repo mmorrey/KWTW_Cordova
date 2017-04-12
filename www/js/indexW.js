@@ -1443,6 +1443,7 @@ function showKOMsTile() {
 function showSettingsTile() {
     listSub();
     calcStorage();
+    showLocal();
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();
@@ -1704,7 +1705,7 @@ function drawTable(type) {
    
                 act_ct++;
 
-                midhtml = midhtml + "<tr id=\"trow_" + ID + "\" class=\"un_sel\" onclick=\"polyF(" + ID + ",'" + ftype + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + name + "</div>" +
+                midhtml = midhtml + "<tr id=\"trow_" + ID + "\" class=\"un_sel\" onclick=\"polyF(" + ID + ",'" + ftype + "')\" style=\"height:50px\"><td><div style=\"text-overflow:ellipsis;white-space:nowrap;overflow:hidden;padding-left:3px;width:" + nameW + "px\">" + name + " " + ID</div>" +
                     "<div style=\"display:inline-block;padding-left:3px\" id=\"stars_" + ID + "\"></div><div style=\"display:inline-block\" id=\"stars_best_" + ID + "\"></div></td></tr>";
 
             }
@@ -4361,11 +4362,11 @@ function showLocal() {
     var str2= "weather";
     for (var i = 0; i < localStorage.length; i++) {
      if (localStorage.key(i).indexOf(str) > -1) {
-        $('#status_msgs').append("</br > " + localStorage.key(i) + " data: " + localStorage.getItem(localStorage.key(i)));
+         $('#logmsg').append("</br > " + localStorage.key(i)); //+ " data: " + localStorage.getItem(localStorage.key(i)));
       }
 
       if (localStorage.key(i).indexOf(str2) > -1) {
-        $('#status_msgs').append("</br > " + localStorage.key(i));
+        $('#logmsg').append("</br > " + localStorage.key(i));
       }
     }
 
