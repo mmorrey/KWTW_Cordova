@@ -2458,7 +2458,7 @@ function getW(latlng, ID, type) {
         drawWeather(ID, type);
         $('#refreshBtnW').fadeIn();
     }
-    if (diff < 60) { //10800
+    if (diff < 10800) { //10800
         var timer1 = setInterval(function () { revertText() }, 5000);
         $('#refreshBtnW').fadeOut();
         $('#wtitle').fadeOut('slow', function () {
