@@ -2848,7 +2848,8 @@ function callWeather(latlng, ID, type) {
 
 
 function RealCallWeather(latlng, ID, type) {
-
+    localStorage.removeItem(ID + "_weather_map");
+    localStorage.removeItem(ID + "_weather_act");
     $.ajax({
         type: "GET",
         url: "http://api.wunderground.com/api/bf45926a1b878028/hourly/geolookup/q/" + latlng + ".json",
