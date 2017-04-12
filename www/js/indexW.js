@@ -1127,6 +1127,7 @@ function checkData(purch) {
             var firstname = user.deets[0]['firstname'];
             var lastname = user.deets[0]['lastname'];
             var stravaID = user.deets[0]['stravaID'];
+            $('#logmsg').append("<br/>Strava ID " + stravaID);
             var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
             var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
             var pic
@@ -3859,7 +3860,7 @@ function stKOMs(ID) {
                     "pr_rank": seg.pr_rank,
                     "time": seg.start_date
                 });
-                $('#logmsg').append("<br/>" + seg, name);
+                $('#logmsg').append("<br/>" + seg.name);
                 seg_details(seg.segment.id);
                 ct++;
             });
