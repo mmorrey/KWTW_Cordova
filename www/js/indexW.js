@@ -1572,7 +1572,7 @@ function drawFriends() {
     var json = localStorage.getItem('frdata');
     var j2 = eval('(' + json + ')');
 
-
+    $('#logmsg').append("<br/>fr: " + json);
     var fr_ct = 1;
 
     var n;
@@ -1580,7 +1580,7 @@ function drawFriends() {
     var top = "<table class=\"table table-striped\">"
     $.each(j2.people, function (i, peeps) {
         var koms_ct = countKOMs(peeps.ID);
-       $('#logmsg').append("<br/>KOMS ct p: " + peeps.ID);
+       $('#logmsg').append("<br/>KOMS ct p: " + peeps.ID + " " + koms_ct);
         if (koms_ct > 0) {
             midhtml = midhtml + "<tr id=\"trow_" + peeps.ID + "\" onclick=\"showFriend(" + peeps.ID + ",'" + peeps.firstname + " " + peeps.lastname + "'," + i + ")\"><td style=\"padding-left:5px;width:50px\"><div class=\"circular_sml\"><img style=\"width:40px;height:40px\" src=\"" + peeps.profile + "\"></div></td><td><div class=\"h3\">" + peeps.firstname + " " + peeps.lastname + "</div><div class=\"msg_sml\">" + koms_ct +
             " KOMs</div></td></tr>";
