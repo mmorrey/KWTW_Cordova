@@ -1918,7 +1918,7 @@ function drawWeather(ID, type) {
 
     var jw1 = localStorage.getItem(ID + "_weather_map");
     var jw2 = localStorage.getItem(ID + "_weather_act");
-    $('#logmsg').append("<br/>drawW " + latlng + " " + ID + " " + type + "jw1= " + jw1 + " jw2=" + jw2);
+    $('#logmsg').append("<br/>drawW " + latlng + " " + ID + " " + type);
 
     if (jw2 != null) {
         jsondata = jw2;
@@ -2703,7 +2703,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
             });
              var jsondeets = JSON.stringify(weather_deets);
 
-            $('#location').append("Copied weather data " + toID + "</br>");
+            $('#logmsg').append("Copied weather data " + toID + "</br>");
              countWdata();
 
         }
@@ -2764,7 +2764,7 @@ function countWdata() {
 
         });
         localStorage.setItem('weatherdata_ct', ct);
-   //     $('#logmsg').append("</br>Weather data count = " + ct);
+        $('#logmsg').append("</br>Weather data count = " + ct);
         
     } else {
 
@@ -2776,7 +2776,7 @@ function callWeather(latlng, ID, type) {
     var latlng1 = latlng.toString().split(',');
     var lat = latlng1[0];
     var lng = latlng1[1];
- //   $('#logmsg').append("</br>CallW1 " + latlng + " " + lat + " " + lng);
+    $('#logmsg').append("</br>CallW1 " + latlng + " " + lat + " " + lng);
 
     var epoch = Math.round(new Date().getTime() / 1000);
 
@@ -2818,7 +2818,7 @@ function callWeather(latlng, ID, type) {
        
                 var jsondeets = JSON.stringify(weather_deets);
                 RealCallWeather(latlng,ID,type);
-                $('#location').append("Writing Weather data 2 = " + ID + "</br>");
+                $('#logmsg').append("Writing Weather data 2 = " + ID + "</br>");
                 localStorage.setItem('weatherdata', jsondeets);
                 countWdata();
              } else {
@@ -2838,7 +2838,7 @@ function callWeather(latlng, ID, type) {
     
         var jsondeets = JSON.stringify(weather_deets);
         RealCallWeather(latlng,ID,type);
-        $('#location').append("Writing Weather data = " + ID + "</br>");
+        $('#logmsg').append("Writing Weather data = " + ID + "</br>");
         localStorage.setItem('weatherdata', jsondeets);
         countWdata();
     }
