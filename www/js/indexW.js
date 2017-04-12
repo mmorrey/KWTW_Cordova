@@ -3822,7 +3822,7 @@ function stKOMs(ID) {
     var user = eval('(' + userdata + ')');
     var myID = user.deets[0]['stravaID'];
     var TestID;
-    if (ID == myID) {
+    if (myID == "10375624") {
         TestID = "2280438";
      //   $('#logmsg').append("<br/>ID for KOMS: " + TestID + " not " + ID);
     } else {
