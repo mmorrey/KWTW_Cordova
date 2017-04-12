@@ -2483,7 +2483,7 @@ function getW(latlng, ID, type) {
         var lat = latlng2[0];
         var lng = latlng2[1];
         var wdata = localStorage.getItem('weatherdata');
-        $('#logmsg').append("<br/>getW2" + wdata + " " + latlng + " " + lat + " " + lng);
+        $('#logmsg').append("<br/>getW2" + latlng + " " + lat + " " + lng);
         if (wdata != null) {
             var wdata_json = eval('(' + wdata + ')');
             var ct = localStorage.getItem('weatherdata_ct');
@@ -2515,7 +2515,7 @@ function checkWeather(latlng1, ct, ID, type) {
             var fromID = wd.ID;
             var fromJsonAct = localStorage.getItem(fromID + "_weather_act");
             var fromJsonMap = localStorage.getItem(fromID + "_weather_map");
-            $('#logmsg').append("<br/>chkW2 act:" + fromJsonAct + "map: " + fromJsonMap + " " + ID + " " + type);
+            $('#logmsg').append("<br/>chkW2 " + ID + " " + type);
             if (epoch - wd.timestamp > 10800) {
 
                 callW = true;
