@@ -1674,7 +1674,7 @@ function getTimediff(ID, type) {
             return 50000001;
         } else {
             var firsthour = parsed_json.hourly_forecast[0].FCTTIME.epoch;
-            $('#logmsg').apped("<br/>fh m: " + firsthour + " now " + timenow)
+            $('#logmsg').append("<br/>fh m: " + firsthour + " now " + timenow)
              return parseInt(timenow - firsthour);
         }
     } else {
@@ -1693,7 +1693,7 @@ function getTimediff(ID, type) {
                     epoch = wd.timestamp;
                 }
             });
-            $('#logmsg').apped("<br/>fh a: " + epoch + " now " + timenow)
+            $('#logmsg').append("<br/>fh a: " + epoch + " now " + timenow)
              return parseInt(timenow - epoch);
         }
     }
