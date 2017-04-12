@@ -2463,13 +2463,13 @@ function getW(latlng, ID, type) {
     $('#refreshBtnW').hide();
     var timenow = Math.round(new Date().getTime() / 1000);
     var diff = getTimediff(ID, type);
-    $('#logmsg').append("<br/>getW1 " + latlng + " " + ID + " " + type);
+    $('#logmsg').append("<br/>getW1 " + latlng + " " + ID + " " + diff);
     function revertText() {
         clearInterval(timer1); 
         drawWeather(ID, type);
         $('#refreshBtnW').fadeIn();
     }
-    if (diff < 10800) { //10800
+    if (diff < 60) { //10800
         var timer1 = setInterval(function () { revertText() }, 5000);
         $('#refreshBtnW').fadeOut();
         $('#wtitle').fadeOut('slow', function () {
@@ -2515,8 +2515,9 @@ function checkWeather(latlng1, ct, ID, type) {
             var fromID = wd.ID;
             var fromJsonAct = localStorage.getItem(fromID + "_weather_act");
             var fromJsonMap = localStorage.getItem(fromID + "_weather_map");
-            $('#logmsg').append("<br/>chkW2 " + ID + " " + type);
-            if (epoch - wd.timestamp > 10800) {
+            var diff = epoch - wd.timestamp;
+            $('#logmsg').append("<br/>chkW2 " + ID + " " + type + " " + diff);
+            if (diff > 60) { //10800
 
                 callW = true;
             } else {
