@@ -1914,7 +1914,7 @@ function drawWeather(ID, type) {
     if (isFavchk != null) {
         isFav = true
     }
-   // $('#logmsg').append("<br/>drawW " + latlng + " " + ID + " " + type);
+    $('#logmsg').append("<br/>drawW " + latlng + " " + ID + " " + type + " " + isFav);
     //favs hav type = fav, but weather_act
     if (type == 'map') {
      //   if (isFav == true) {
