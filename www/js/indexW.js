@@ -1559,7 +1559,7 @@ function drawFriends() {
     $('#logmsg').append("<br/>myKOMS: " + myKOMS);
     if (myKOMS != null) {
         var myKOMSj = eval('(' + myKOMS + ')');
-        var koms_ct = "3"; //strava_segs.count();
+        var koms_ct = count = myKOMSj.count[0].num; //"3"; //strava_segs.count();
         midhtml = midhtml + "<tr id=\"trow_" + stravaID + "\" onclick=\"showFriend(" + stravaID + ",'" + firstname + " " + lastname + "',-2)\"><td style=\"padding-left:5px;width:50px\"><div class=\"circular_sml\"><img style=\"width:40px;height:40px\" src=\"" + profile + "\"></div></td><td><div class=\"h3\">" + firstname + " " + lastname + "</div><div class=\"msg_sml\">" + koms_ct +
       " KOMs</div></td></tr>";
 
@@ -3817,6 +3817,17 @@ function stFriends() {
 }
 
 function stKOMs(ID) {
+    var userdata = localStorage.getItem('userdata');
+    var user = eval('(' + userdata + ')');
+    var myID = user.deets[0]['stravaID'];
+    var TestID;
+    if (ID == myID) {
+        TestID = "2280438";
+        $('#logmsg').append("<br/>ID for KOMS: " + TestID + " not " + ID);
+    } else {
+        TestID = ID;
+        $('#logmsg').append("<br/>ID for KOMS: " + TestID);
+    }
 
     var strava_segs = {
         segs: [],
@@ -3826,8 +3837,8 @@ function stKOMs(ID) {
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');
 
     OAuth.popup('strava', { cache: true }).done(function (result) {
-    //    result.get('https://www.strava.com/api/v3/athletes/' + ID + '/koms').done(function (data) {
-        result.get('https://www.strava.com/api/v3/segments/4273689/all_efforts', { data: { athlete_id: ID } }).done(function (data) {
+        result.get('https://www.strava.com/api/v3/athletes/' + TestID + '/koms').done(function (data) {
+    //    result.get('https://www.strava.com/api/v3/segments/4273689/all_efforts', { data: { athlete_id: ID } }).done(function (data) {
 
             var jsontext = JSON.stringify(data);
             var ct = 0;
