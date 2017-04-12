@@ -599,7 +599,7 @@ function updateUserKOMS(stravaID) {
     } else {
         var koms_ct = 0;
     }
-    $('#logmsg').append("<br/>KOMs CT: " + koms_ct);
+ //   $('#logmsg').append("<br/>KOMs CT: " + koms_ct);
     $.ajax({
         type: "POST",
         url: "http://komwiththewind.apphb.com/Home/SaveUser",
@@ -702,7 +702,7 @@ function removeOldweather() {
         $.each(wdatap.wdata, function (i, wd) {
             diff = timenow - wd.timestamp;
        //     $('#logmsg').append("<br/>diff=" + diff + " " + wd.ID);
-            if (diff > 60) { //86400
+            if (diff > 86400) { //86400
                 var str = wd.ID + "_weather_act";
 
                 localStorage.removeItem(str);
@@ -751,7 +751,7 @@ function removeOldweather() {
             var jsondata = localStorage.getItem(localStorage.key(i));
             var parsed_json = eval('(' + jsondata + ')');
             var wepoch = parsed_json.hourly_forecast[0].FCTTIME.epoch;
-            if ((timenow - wepoch) > 60) {  //86400
+            if ((timenow - wepoch) > 86400) {  //86400
 
                 remw++;
 
@@ -1127,7 +1127,7 @@ function checkData(purch) {
             var firstname = user.deets[0]['firstname'];
             var lastname = user.deets[0]['lastname'];
             var stravaID = user.deets[0]['stravaID'];
-            $('#logmsg').append("<br/>Strava ID " + stravaID);
+          //  $('#logmsg').append("<br/>Strava ID " + stravaID);
             var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
             var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
             var pic
@@ -1557,7 +1557,7 @@ function drawFriends() {
     }
     var myKOMS = localStorage.getItem('komdata_' + stravaID);
     var midhtml = "";
-    $('#logmsg').append("<br/>myKOMS: " + myKOMS);
+  //  $('#logmsg').append("<br/>myKOMS: " + myKOMS);
     if (myKOMS != null) {
         var myKOMSj = eval('(' + myKOMS + ')');
         var koms_ct = count = myKOMSj.count[0].num; //"3"; //strava_segs.count();
@@ -1573,7 +1573,7 @@ function drawFriends() {
     var json = localStorage.getItem('frdata');
     var j2 = eval('(' + json + ')');
 
-    $('#logmsg').append("<br/>fr: " + json);
+  //  $('#logmsg').append("<br/>fr: " + json);
     var fr_ct = 1;
 
     var n;
@@ -1581,7 +1581,7 @@ function drawFriends() {
     var top = "<table class=\"table table-striped\">"
     $.each(j2.people, function (i, peeps) {
         var koms_ct = countKOMs(peeps.ID);
-       $('#logmsg').append("<br/>KOMS ct p: " + peeps.ID + " " + koms_ct);
+ //      $('#logmsg').append("<br/>KOMS ct p: " + peeps.ID + " " + koms_ct);
         if (koms_ct > 0) {
             midhtml = midhtml + "<tr id=\"trow_" + peeps.ID + "\" onclick=\"showFriend(" + peeps.ID + ",'" + peeps.firstname + " " + peeps.lastname + "'," + i + ")\"><td style=\"padding-left:5px;width:50px\"><div class=\"circular_sml\"><img style=\"width:40px;height:40px\" src=\"" + peeps.profile + "\"></div></td><td><div class=\"h3\">" + peeps.firstname + " " + peeps.lastname + "</div><div class=\"msg_sml\">" + koms_ct +
             " KOMs</div></td></tr>";
@@ -3824,10 +3824,10 @@ function stKOMs(ID) {
     var TestID;
     if (ID == myID) {
         TestID = "2280438";
-        $('#logmsg').append("<br/>ID for KOMS: " + TestID + " not " + ID);
+     //   $('#logmsg').append("<br/>ID for KOMS: " + TestID + " not " + ID);
     } else {
         TestID = ID;
-        $('#logmsg').append("<br/>ID for KOMS: " + TestID);
+     //   $('#logmsg').append("<br/>ID for KOMS: " + TestID);
     }
 
     var strava_segs = {
@@ -3860,7 +3860,7 @@ function stKOMs(ID) {
                     "pr_rank": seg.pr_rank,
                     "time": seg.start_date
                 });
-                $('#logmsg').append("<br/>" + seg.name);
+          //      $('#logmsg').append("<br/>" + seg.name);
                 seg_details(seg.segment.id);
                 ct++;
             });
@@ -3870,13 +3870,13 @@ function stKOMs(ID) {
             if (ct > 0) {
             var jsonsegs = JSON.stringify(strava_segs);
             localStorage.setItem('komdata_' + ID, jsonsegs);
-            $('#logmsg').append("<br/>" + jsonsegs);
+        //    $('#logmsg').append("<br/>" + jsonsegs);
             $('#status_msgs').append('Found ' + ct + ' KOMs</br>');
             var userdata = localStorage.getItem('userdata');
             var user = eval('(' + userdata + ')');
 
             var stravaID = user.deets[0]['stravaID'];
-            $('#logmsg').append("<br/>" + stravaID + "  " + ID);
+       //     $('#logmsg').append("<br/>" + stravaID + "  " + ID);
             var timer = setInterval(function () { startDecode() }, 5000);
             function startDecode() {
                 clearInterval(timer);
