@@ -766,9 +766,9 @@ function removeOldweather() {
     }
     var now = moment().format('LTS');
     if (remw == 0) {
-  //      $('#logmsg').append(now + ":  No expired weather data found.</br>")
+        $('#logmsg').append(now + ":  No expired weather data found.</br>")
     } else {
-  //      $('#logmsg').append(now + ":  Removed expired weather data for " + remw + " Segments.</br>")
+        $('#logmsg').append(now + ":  Removed expired weather data for " + remw + " Segments.</br>")
     }
     calcStorage();
 }
@@ -1443,7 +1443,7 @@ function showKOMsTile() {
 function showSettingsTile() {
     listSub();
     calcStorage();
-    showLocal();
+//    showLocal();
     $('#btnLeft').hide();
     $('#btnRight').hide();
     $('#mapWind').hide();
@@ -4362,11 +4362,11 @@ function showLocal() {
     var str2= "weather";
     for (var i = 0; i < localStorage.length; i++) {
      if (localStorage.key(i).indexOf(str) > -1) {
-         $('#logmsg').append("</br > " + localStorage.key(i)); //+ " data: " + localStorage.getItem(localStorage.key(i)));
+    //     $('#logmsg').append("</br > " + localStorage.key(i)); //+ " data: " + localStorage.getItem(localStorage.key(i)));
       }
 
       if (localStorage.key(i).indexOf(str2) > -1) {
-        $('#logmsg').append("</br > " + localStorage.key(i));
+    //    $('#logmsg').append("</br > " + localStorage.key(i));
       }
     }
 
