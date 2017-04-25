@@ -766,9 +766,9 @@ function removeOldweather() {
     }
     var now = moment().format('LTS');
     if (remw == 0) {
-        $('#logmsg').append(now + ":  No expired weather data found.</br>")
+        $('#logmsg').html(now + ":  No expired weather data found.</br>")
     } else {
-        $('#logmsg').append(now + ":  Removed expired weather data for " + remw + " Segments.</br>")
+        $('#logmsg').html(now + ":  Removed expired weather data for " + remw + " Segments.</br>")
     }
     calcStorage();
 }
@@ -3823,7 +3823,7 @@ function stKOMs(ID) {
     var user = eval('(' + userdata + ')');
     var myID = user.deets[0]['stravaID'];
     var TestID;
-    if (myID == "10375624") {
+    if ((myID == "10375624") && (ID == myID)) {
         TestID = "2280438";
      //   $('#logmsg').append("<br/>ID for KOMS: " + TestID + " not " + ID);
     } else {
