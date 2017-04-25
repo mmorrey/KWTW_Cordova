@@ -2470,7 +2470,7 @@ function getW(latlng, ID, type) {
         drawWeather(ID, type);
         $('#refreshBtnW').fadeIn();
     }
-    if (diff < 60) { //10800
+    if (diff < 10800) { //10800
         var timer1 = setInterval(function () { revertText() }, 5000);
         $('#refreshBtnW').fadeOut();
         $('#wtitle').fadeOut('slow', function () {
@@ -2518,7 +2518,7 @@ function checkWeather(latlng1, ct, ID, type) {
             var fromJsonMap = localStorage.getItem(fromID + "_weather_map");
             var diff = epoch - wd.timestamp;
             $('#logmsg').append("<br/>chkW2 " + ID + " " + type + " " + diff);
-            if (diff > 60) { //10800
+            if (diff > 10800) { //10800
 
                 callW = true;
             } else {
