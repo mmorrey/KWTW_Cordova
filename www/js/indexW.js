@@ -1086,7 +1086,7 @@ function appPurchChk() {
         function startPchk2() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
-
+            alert(purch);
                 checkData(purch);
 
         }
