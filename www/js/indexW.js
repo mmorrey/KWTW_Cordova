@@ -76,7 +76,7 @@ function listSub() {
 }
 
 var androidApplicationLicenseKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB";
-var productIds = "sub1yearl7";
+var productIds = "sub1yearl7,sub1monthlev2";
 var existing_purchases = [];
 var product_info = {};
 
@@ -179,7 +179,7 @@ function restorePurchases() {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
 
-                $('#pmsg').html("Yearly subscription purchased.");
+                $('#pmsg').html("Monthly subscription purchased.");
             } else {
 
             }
@@ -858,7 +858,7 @@ function checkExp() {
         if (diff > 0) {
             //not expired
 
-            $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Yearly Subscription to get unlimited Historical data queries.");
+            $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly Subscription to get unlimited Historical data queries.");
             $('#credits_no').html(credits);
             $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
 
@@ -1225,7 +1225,7 @@ function checkData(purch) {
                 if (diff > 0) {
                     //not expired
                     $('#status_msgs').append("Trial period expires on " + ExpDate);
-                    $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Yearly Subscription to get unlimited Historical data queries.");
+                    $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly Subscription to get unlimited Historical data queries.");
                     $('#credits_no').html(credits);
                     $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
                     pass = true;
@@ -1644,7 +1644,7 @@ function drawTable(type) {
         var json = localStorage.getItem('komdata');
     } else if (type == "stars") {
         if (purch == "0") {
-            $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.");
+            $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Monthly Subscription to retrieve all your Starred Segments.");
             $('#stinfo').fadeIn();
         } else {
 
@@ -3334,7 +3334,7 @@ function displayStars(type) {
             var purch = localStorage.getItem("OneYrSub");
             var st_ct = localStorage.getItem("starsct");
             if (purch == "0") {
-                $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.");
+                $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Monthly Subscription to retrieve all your Starred Segments.");
                 $('#stinfo').fadeIn();
             } else {
 
@@ -3482,7 +3482,7 @@ function checkServerStatus(stravaID,sub) {
 
                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
                 if (diff > 0) {
-                     $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Yearly Subscription to get unlimited Historical data queries.");
+                     $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly Subscription to get unlimited Historical data queries.");
                     if (cint < 0) {
                         credits = "0";
                     }
@@ -3502,7 +3502,7 @@ function checkServerStatus(stravaID,sub) {
                     hideAll();
                     var sub = Math.floor(moment().add(-21, 'days') / 1000);
                     localStorage.setItem("sub", sub);
-                    $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase a Yearly Subscription to get full access including unlimited Historical data queries.");
+                    $('#pmsg').html("Thank you for using KOM With The Wind. Your trial period has now expired.<br/>Purchase a Monthly Subscription to get full access including unlimited Historical data queries.");
 			}
                 }
 
