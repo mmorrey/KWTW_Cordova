@@ -1086,7 +1086,7 @@ function appPurchChk() {
         function startPchk2() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
-            alert(purch);
+          //  alert(purch);
                 checkData(purch);
 
         }
@@ -1159,7 +1159,7 @@ function checkData(purch) {
             } else {
                 noActsmsg("stars");
             }
-            updateUser(firstname, lastname, stravaID, "11", "11");
+            updateUser(firstname, lastname, stravaID, "156", "156");
         }
     } else { //no sub
         $('#splashDiv').fadeOut();
