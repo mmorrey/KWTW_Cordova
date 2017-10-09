@@ -425,6 +425,7 @@ function getMsg(firstname, lastname, stravaID) {
                                var wspd = seg.Name;
                               })
    						var midhtml = wspd;
+   						alert(midhtml);
                        $('#status_msgs').html(midhtml);
                        updateUser(firstname, lastname, stravaID, "165", "156");
                    },
@@ -1117,7 +1118,7 @@ function appPurchChk() {
         function startPchk2() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
-           alert(purch);
+
                 checkData(purch);
 
         }
@@ -1136,7 +1137,7 @@ alert("hihi");
     $('#locIcon').hide();
     $('#status_area').show();
 
-    if (purch == "1") { //sub
+     //sub
         $('#creditsBtn').hide();
         $('#status_msgs').show();
         var udata = localStorage.getItem("userdata");
@@ -1151,7 +1152,7 @@ alert("hihi");
             var user = eval('(' + userdata + ')');
             var firstname = user.deets[0]['firstname'];
             var lastname = user.deets[0]['lastname'];
-            var lastname = user.deets[0]['stravaID'];
+            var StravaID = user.deets[0]['stravaID'];
           //  $('#logmsg').append("<br/>Strava ID " + stravaID);
             var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
             var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
@@ -1168,18 +1169,16 @@ alert("hihi");
             $('#pic_header').show();
             $('#userimg').html(pic);
             $('#pic_header').html(pic_header);
-            hideAll();
-            $('#status_msgs').show();
-            getMsg(firstname,lastname,lastname);
+            if (purch == "1") {
 
-}
-    		} else { //no sub
+           		 $('#status_msgs').show();
+            getMsg(firstname,lastname,StravaID);
+    			} else { //no sub
 
-        		hideAll();
-
-
-                checkServerStatus(stravaID,sub);
-            }
+				$('#status_msgs').show();
+				getMsg(firstname,lastname,StravaID);
+                //checkServerStatus(stravaID,sub);
+           		 }
 
 }
 
