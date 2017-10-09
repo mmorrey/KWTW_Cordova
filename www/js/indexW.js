@@ -1180,6 +1180,8 @@ alert("hihi");
                 //checkServerStatus(stravaID,sub);
            		 }
 
+			 }
+
 }
 
 
