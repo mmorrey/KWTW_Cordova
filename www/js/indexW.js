@@ -1117,7 +1117,7 @@ function appPurchChk() {
         function startPchk2() {
             clearInterval(timer2);
             var purch = localStorage.getItem("OneYrSub");
-          //  alert(purch);
+           alert(purch);
                 checkData(purch);
 
         }
@@ -1127,14 +1127,14 @@ function appPurchChk() {
 
 
 function checkData(purch) {
-
+alert("hihi");
     $('#splashDiv').fadeOut();
     reportOnlineStatus();
     removeOldweather();
     hideAll();
     $('#info').hide();
     $('#locIcon').hide();
-    $('#status_area').hide();
+    $('#status_area').show();
 
     if (purch == "1") { //sub
         $('#creditsBtn').hide();
@@ -1172,7 +1172,7 @@ function checkData(purch) {
             $('#status_msgs').show();
             getMsg(firstname,lastname,lastname);
 
-
+}
     		} else { //no sub
 
         		hideAll();
