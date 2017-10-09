@@ -437,7 +437,7 @@ function getMsg(firstname, lastname, stravaID) {
                    }
                });
                return false;
-        }
+
 }
 
 function saveUser(firstname, lastname, stravaID, NumAct, NumSeg) {
