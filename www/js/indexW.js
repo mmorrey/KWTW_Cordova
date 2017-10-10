@@ -411,7 +411,7 @@ function saveFriend(firstname, lastname, frID, ID) {
 
 
 function getMsg(firstname, lastname, stravaID) {
-$('#pmsg').append("get 1 " & firstname);
+$('#pmsg').append("get 1 " + firstname);
      $.ajax({
                    type: "GET",
                    url: "/Home/AllW",
