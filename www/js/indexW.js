@@ -417,17 +417,17 @@ $('#pmsg').append("get 3 " + firstname);
                    url: "http://komwiththewind.apphb.com/Home/AllW",
                    data: "stars=6",
                    dataType: "json",
-                   timeout: 6000,
+                   timeout: 25000,
                    success: function (parsed_json) {
 
-
+			alert(JSON.stringify(parsed_json));
                        $.each(parsed_json.topw, function (i, seg) {
                                var wspd = seg.Name;
                               })
    						var midhtml = wspd;
    						alert(midhtml);
                        $('#pmsg').append(midhtml);
-                       updateUser(firstname, lastname, stravaID, "157", "158");
+                       //updateUser(firstname, lastname, stravaID, "157", "158");
                    },
                    error: function (xhr, error) {
                        console.debug(xhr); console.debug(error);
