@@ -427,7 +427,7 @@ $('#pmsg').append("get 5 " + firstname);
 			
                        $.each(parsed_json.topw, function (i, seg) {
                                var wspd = seg.Name;
-				alert(wasp);
+				alert(wspd);
                               })
    						//var midhtml = wspd;
    						
