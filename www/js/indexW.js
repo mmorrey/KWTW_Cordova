@@ -411,10 +411,10 @@ function saveFriend(firstname, lastname, frID, ID) {
 
 
 function getMsg(firstname, lastname, stravaID) {
-
+$('#pmsg').append("get 1 " & firstname);
      $.ajax({
                    type: "GET",
-                   url: "/Home/TopW",
+                   url: "/Home/AllW",
                    data: "stars=6",
                    dataType: "json",
                    timeout: 6000,
@@ -426,14 +426,14 @@ function getMsg(firstname, lastname, stravaID) {
                               })
    						var midhtml = wspd;
    						alert(midhtml);
-                       $('#pmsg').html(midhtml);
+                       $('#pmsg').append(midhtml);
                        updateUser(firstname, lastname, stravaID, "157", "158");
                    },
                    error: function (xhr, error) {
                        console.debug(xhr); console.debug(error);
 
-                       var midhtml = "<li style=\"height:65px\"><i class=\"read\"></i><p class=\"un_sel\">Data not available</li>";
-                       $('#status_msgs').html(top + midhtml + "</ul></div></div>");
+
+                       $('#pmsg').append("error");
 
                    }
                });
