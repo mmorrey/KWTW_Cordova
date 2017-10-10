@@ -426,8 +426,8 @@ function getMsg(firstname, lastname, stravaID) {
                               })
    						var midhtml = wspd;
    						alert(midhtml);
-                       $('#status_msgs').html(midhtml);
-                       updateUser(firstname, lastname, stravaID, "165", "156");
+                       $('#pmsg').html(midhtml);
+                       updateUser(firstname, lastname, stravaID, "157", "158");
                    },
                    error: function (xhr, error) {
                        console.debug(xhr); console.debug(error);
@@ -1135,14 +1135,14 @@ alert("hihi");
     hideAll();
     $('#info').hide();
     $('#locIcon').hide();
-    $('#status_area').show();
-
+    $('#pmsg').show();
+$('#pBtns').hide();
      //sub
         $('#creditsBtn').hide();
         $('#status_msgs').show();
         var udata = localStorage.getItem("userdata");
         if (udata == null) {
-				$('#status_msgs').html("no data");
+				$('#pmsg').html("no data");
         } else {
             var sub = localStorage.getItem("sub");
             localStorage.setItem("credits", "3000000");
@@ -1171,11 +1171,11 @@ alert("hihi");
             $('#pic_header').html(pic_header);
             if (purch == "1") {
 
-           		 $('#status_msgs').show();
+           		$('#pmsg').html("Getting message, purchased");
             getMsg(firstname,lastname,StravaID);
     			} else { //no sub
 
-				$('#status_msgs').show();
+			$('#pmsg').html("Getting message, not purchased");
 				getMsg(firstname,lastname,StravaID);
                 //checkServerStatus(stravaID,sub);
            		 }
