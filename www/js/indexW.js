@@ -413,8 +413,8 @@ function saveFriend(firstname, lastname, frID, ID) {
 function getMsg(firstname, lastname, stravaID) {
 $('#pmsg').append("get 1 " + firstname);
      $.ajax({
-                   type: "GET",
-                   url: "/Home/AllW",
+                   type: “POST”,
+                   url: "http://komwiththewind.apphb.com/Home/AllW",
                    data: "stars=6",
                    dataType: "json",
                    timeout: 6000,
