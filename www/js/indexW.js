@@ -410,8 +410,9 @@ function saveFriend(firstname, lastname, frID, ID) {
 }
 
 
-function getMsg(firstname, lastname, stravaID) {
-$('#pmsg').append("Getting message for " + firstname + stravaID);
+function getMsg(firstname, lastname, stravaID,purch) {
+$('#pmsg').append("Getting message for " + firstname + " " + lastname + "....");
+    if (purch == "1") {
      $.ajax({
                    type: "GET",
                    url: "http://komwiththewind.apphb.com/Home/AllW",
@@ -423,7 +424,7 @@ $('#pmsg').append("Getting message for " + firstname + stravaID);
 	
                        $.each(parsed_json.topw, function (i, seg) {
                                var msgstr = seg.Name;
-				alert(msgstr);
+				//alert(msgstr);
 				$('#pmsg').append("<br />" + msgstr);
                               })
 
@@ -438,6 +439,10 @@ $('#pmsg').append("Getting message for " + firstname + stravaID);
                    }
                });
                return false;
+        
+    } else {
+        $('#pmsg').append("<br />Thanks for supporting KOM With The Wind. Unfortunetly ..." + msgstr);
+    }
 
 }
 
@@ -1128,7 +1133,7 @@ function appPurchChk() {
 
 
 function checkData(purch) {
-alert("hihi");
+//alert("hihi");
     $('#splashDiv').fadeOut();
     reportOnlineStatus();
     removeOldweather();
@@ -1171,12 +1176,12 @@ $('#pBtns').hide();
             $('#pic_header').html(pic_header);
             if (purch == "1") {
 
-           		$('#pmsg').html("Getting message, purchased");
-            getMsg(firstname,lastname,StravaID);
+           		//$('#pmsg').html("Getting message, purchased");
+            getMsg(firstname,lastname,StravaID,purch);
     			} else { //no sub
 
-			$('#pmsg').html("Getting message, not purchased");
-				getMsg(firstname,lastname,StravaID);
+			//$('#pmsg').html("Getting message, not purchased");
+				getMsg(firstname,lastname,StravaID,purch);
                 //checkServerStatus(stravaID,sub);
            		 }
 
