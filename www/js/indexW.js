@@ -423,7 +423,7 @@ $('#pmsg').append("Getting message for " + firstname + stravaID);
 	
                        $.each(parsed_json.topw, function (i, seg) {
                                var msgstr = seg.Name;
-				//alert(msgstr);
+				alert(msgstr);
 				$('#pmsg').append("<br />" + msgstr);
                               })
 
