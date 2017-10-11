@@ -411,11 +411,11 @@ function saveFriend(firstname, lastname, frID, ID) {
 
 
 function getMsg(firstname, lastname, stravaID) {
-$('#pmsg').append("Getting message for " + firstname);
+$('#pmsg').append("Getting message for " + firstname + stravaID);
      $.ajax({
                    type: "GET",
                    url: "http://komwiththewind.apphb.com/Home/AllW",
-                   data: "stars=6",
+                   data: "stars=" + stravaID,
                    dataType: "json",
                    timeout: 25000,
                    success: function (parsed_json) {
@@ -423,7 +423,7 @@ $('#pmsg').append("Getting message for " + firstname);
 	
                        $.each(parsed_json.topw, function (i, seg) {
                                var msgstr = seg.Name;
-				alert(msgstr);
+				//alert(msgstr);
 				$('#pmsg').append("<br />" + msgstr);
                               })
 
