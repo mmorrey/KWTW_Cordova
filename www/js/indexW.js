@@ -179,7 +179,7 @@ function restorePurchases() {
                 self.existing_purchases.push(p['productId']);
                 localStorage.setItem("OneYrSub", "1");
 
-                $('#pmsg').html("Subscription purchased.");
+                $('#pmsg').html("Subscription purchased.<br />");
             } else {
 
             }
@@ -187,7 +187,7 @@ function restorePurchases() {
     },
     function (error) {
 
-        $('#pmsg').append("Subscription not purchased.");
+        $('#pmsg').append("Subscription not purchased.<br />");
         localStorage.setItem("OneYrSub", "0");
 
     });
