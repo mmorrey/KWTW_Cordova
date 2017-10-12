@@ -410,9 +410,8 @@ function saveFriend(firstname, lastname, frID, ID) {
 }
 
 
-function getMsg(firstname, lastname, stravaID,purch) {
+function getMsg(firstname, lastname, stravaID) {
 $('#pmsg').append("Getting message for " + firstname + " " + lastname + "....");
-    if (purch == "1") {
      $.ajax({
                    type: "GET",
                    url: "http://komwiththewind.apphb.com/Home/AllW",
@@ -440,10 +439,39 @@ $('#pmsg').append("Getting message for " + firstname + " " + lastname + "....");
                });
                return false;
         
-    } else {
-        $('#pmsg').append("<br />Thanks for supporting KOM With The Wind. Unfortunetly ..." + msgstr);
-    }
 
+}
+
+
+function getMsg2() {
+    $('#pmsg').append("Getting message ....");
+        $.ajax({
+               type: "GET",
+               url: "http://komwiththewind.apphb.com/Home/AllW",
+               data: "stars=101",
+               dataType: "json",
+               timeout: 25000,
+               success: function (parsed_json) {
+               
+               
+               $.each(parsed_json.topw, function (i, seg) {
+                      var msgstr = seg.Name;
+                      //alert(msgstr);
+                      $('#pmsg').append("<br />" + msgstr);
+                      })
+               
+               //updateUser(firstname, lastname, stravaID, "157", "158");
+               },
+               error: function (xhr, error) {
+               console.debug(xhr); console.debug(error);
+               
+               
+               $('#pmsg').append("error");
+               
+               }
+               });
+        return false;
+    
 }
 
 function saveUser(firstname, lastname, stravaID, NumAct, NumSeg) {
@@ -1181,7 +1209,7 @@ $('#pBtns').hide();
     			} else { //no sub
 
 			//$('#pmsg').html("Getting message, not purchased");
-				getMsg(firstname,lastname,StravaID,purch);
+				getMsg2();
                 //checkServerStatus(stravaID,sub);
            		 }
 
