@@ -1426,8 +1426,9 @@ function checkData(purch) {
 			         }
 
     }
-
 }
+}
+
 }
 
 
