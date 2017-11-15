@@ -1239,7 +1239,8 @@ function checkData(purch) {
 			} else {
 				noActsmsg("stars");
 			}
-            updateUser(firstname, lastname, stravaID, "11", "11");
+			alert("K3=" + kws + firstname + lastname + StravaID);
+            updateUser(firstname, lastname, StravaID, "11", "11");
 
             if (kws == "1") {
 				alert("fire msg");
