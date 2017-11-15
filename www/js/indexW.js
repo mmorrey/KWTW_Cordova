@@ -1198,10 +1198,8 @@ function checkData(purch) {
 				$('#logo_header').hide();
 				$('#menu_buttons').hide();
             	$('#deets_tile').hide();
-        } else if (purch == "1") { //sub{
+        } else  { //sub{
 
-            var sub = localStorage.getItem("sub");
-            localStorage.setItem("credits", "3000000");
             var wdata = localStorage.getItem("weatherdata");
 			var acts = localStorage.getItem("starsdata");
 
@@ -1237,7 +1235,7 @@ function checkData(purch) {
 			$('#splashDiv').fadeOut();
 		    updateUser(firstname, lastname, StravaID, "113", "113");
 
-            if (kws == "1") {
+            if (kws == "1") {   //have udata, no check on purch?
 				alert("fire msg");
 				  $('#splashDiv').fadeOut();
 				    reportOnlineStatus();
@@ -1258,15 +1256,22 @@ function checkData(purch) {
 			//checkServerStatus(stravaID,sub);
 					}
 			} else { //kws == 0
-					if (acts.length > 40) {
-						getAct("stars");
-					} else {
-						noActsmsg("stars");
-			}
+
 			}
 
-		} else { //purch == 0
-
+		} else { //	have udata
+			if (purch == "1")  {
+				 $('#creditsBtn').hide();
+				var sub = localStorage.getItem("sub");
+            localStorage.setItem("credits", "3000000");
+				if (acts.length > 40) {
+					getAct("stars");
+				} else {
+					noActsmsg("stars");
+				}
+			} else {  //purch = 0
+				alert("no purch");
+			}
 		}
 
 
