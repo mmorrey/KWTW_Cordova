@@ -1188,7 +1188,7 @@ function appPurchChk() {
 
 function checkData(purch) {
 	var kws = localStorage.getItem("KWS");
-	alert(kws);
+	alert("p1=" + purch);
         var udata = localStorage.getItem("userdata");
         if (udata == null) {
 				$('#splashDiv').fadeOut();
@@ -1199,7 +1199,7 @@ function checkData(purch) {
 				$('#menu_buttons').hide();
             	$('#deets_tile').hide();
         } else if (purch == "1") { //sub{
-
+			alert("p=2" + purch);
             var sub = localStorage.getItem("sub");
             localStorage.setItem("credits", "3000000");
             var data = localStorage.getItem("userdata");
@@ -1242,6 +1242,7 @@ function checkData(purch) {
             updateUser(firstname, lastname, stravaID, "11", "11");
 
             if (kws == "1") {
+				alert("fire msg");
 				  $('#splashDiv').fadeOut();
 				    reportOnlineStatus();
 				    removeOldweather();
