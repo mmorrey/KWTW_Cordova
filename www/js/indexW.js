@@ -1235,6 +1235,7 @@ function checkData(purch) {
 			$('#info').hide();
 			$('#table_calc_area2').hide();
 			$('#splashDiv').fadeOut();
+		    updateUser(firstname, lastname, StravaID, "113", "113");
 
             if (kws == "1") {
 				alert("fire msg");
