@@ -1256,23 +1256,23 @@ function checkData(purch) {
 			//checkServerStatus(stravaID,sub);
 					}
 			} else { //kws == 0
-
+					if (purch == "1")  {
+					alert("pp"+purch);
+					 $('#creditsBtn').hide();
+					var sub = localStorage.getItem("sub");
+				localStorage.setItem("credits", "3000000");
+					if (acts.length > 40) {
+						getAct("stars");
+					} else {
+						noActsmsg("stars");
+					}
+				} else {  //purch = 0
+					alert("no purch");
+			}
 			}
 
 		}
-			if (purch == "1")  {
-				alert("pp"+purch);
-				 $('#creditsBtn').hide();
-				var sub = localStorage.getItem("sub");
-            localStorage.setItem("credits", "3000000");
-				if (acts.length > 40) {
-					getAct("stars");
-				} else {
-					noActsmsg("stars");
-				}
-			} else {  //purch = 0
-				alert("no purch");
-			}
+
 
 
 
