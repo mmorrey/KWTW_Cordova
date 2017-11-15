@@ -1202,7 +1202,7 @@ function checkData(purch) {
 
             var sub = localStorage.getItem("sub");
             localStorage.setItem("credits", "3000000");
-            var wdata = ocalStorage.getItem("weatherdata");
+            var wdata = localStorage.getItem("weatherdata");
 			var acts = localStorage.getItem("starsdata");
 
             var userdata = localStorage.getItem('userdata');
