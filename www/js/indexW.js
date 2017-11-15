@@ -1234,11 +1234,11 @@ function checkData(purch) {
 			$('#info').hide();
 			$('#table_calc_area2').hide();
 			$('#splashDiv').fadeOut();
-			if (acts.length > 40) {
-				getAct("stars");
-			} else {
-				noActsmsg("stars");
-			}
+		//	if (acts.length > 40) {
+		//		getAct("stars");
+		//	} else {
+		//		noActsmsg("stars");
+		//	}
 			alert("K3=" + kws + firstname + lastname + StravaID);
             updateUser(firstname, lastname, StravaID, "11", "11");
 
