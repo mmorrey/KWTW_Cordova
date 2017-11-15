@@ -421,7 +421,7 @@ function getKWS() {
 			   $.each(parsed_json.topw, function (i, seg) {
 					   var kws = seg.Wspd;
 					    localStorage.setItem("KWS", kws);
-					    alert("K1"+kws);
+
 					  })
 
 
@@ -1188,7 +1188,7 @@ function appPurchChk() {
 
 function checkData(purch) {
 	var kws = localStorage.getItem("KWS");
-	alert("p1=" + purch);
+
         var udata = localStorage.getItem("userdata");
         if (udata == null) {
 				$('#splashDiv').fadeOut();
@@ -1199,10 +1199,11 @@ function checkData(purch) {
 				$('#menu_buttons').hide();
             	$('#deets_tile').hide();
         } else if (purch == "1") { //sub{
-			alert("p=2" + purch);
+
             var sub = localStorage.getItem("sub");
             localStorage.setItem("credits", "3000000");
-            var data = localStorage.getItem("userdata");
+            var wdata = ocalStorage.getItem("weatherdata");
+			var acts = localStorage.getItem("starsdata");
 
             var userdata = localStorage.getItem('userdata');
             var user = eval('(' + userdata + ')');
@@ -1234,13 +1235,6 @@ function checkData(purch) {
 			$('#info').hide();
 			$('#table_calc_area2').hide();
 			$('#splashDiv').fadeOut();
-		//	if (acts.length > 40) {
-		//		getAct("stars");
-		//	} else {
-		//		noActsmsg("stars");
-		//	}
-			alert("K3=" + kws + firstname + lastname + StravaID);
-            updateUser(firstname, lastname, StravaID, "11", "11");
 
             if (kws == "1") {
 				alert("fire msg");
@@ -1248,6 +1242,7 @@ function checkData(purch) {
 				    reportOnlineStatus();
 				    removeOldweather();
 				    hideAll();
+				    $('#menu_buttons').hide();
 				    $('#info').hide();
 				    $('#locIcon').hide();
 				    $('#pmsg').show();
@@ -1262,7 +1257,11 @@ function checkData(purch) {
 			//checkServerStatus(stravaID,sub);
 					}
 			} else { //kws == 0
-
+					if (acts.length > 40) {
+						getAct("stars");
+					} else {
+						noActsmsg("stars");
+			}
 			}
 
 		} else { //purch == 0
