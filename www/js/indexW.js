@@ -1268,6 +1268,98 @@ function checkData(purch) {
 					}
 				} else {  //purch = 0
 					alert("no purch");
+					var sub = localStorage.getItem("sub");
+					 var credits = localStorage.getItem("credits");
+					 var pass = false;
+					 if (sub == null) { //not auth
+						 pass = true;
+
+					 } else { //has logged in before
+						 var ExpDate = parseInt(1209600) + parseInt(sub) //Math.floor(moment(sub).add(7, 'days') / 1000);
+						 var today2 = Math.floor(moment() / 1000);
+						 var diff = parseInt(ExpDate - today2);
+						 var edays = Math.floor(diff / 86400);
+						 var estr;
+						 if (edays == 0) {
+							 estr = "tomorrow.";
+						 } else {
+							 estr = "in " + edays + " days."
+						 }
+						 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
+
+						 if (diff > 0) {
+							 //not expired
+							 $('#status_msgs').append("Trial period expires on " + ExpDate);
+							 $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly Subscription to get unlimited Historical data queries.");
+							 $('#credits_no').html(credits);
+							 $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
+							 pass = true;
+						 } else {
+							 //expired
+							 $('#status_msgs').append("Trial expired");
+							 updateUser(firstname, lastname, stravaID, "-1",sub);
+							listSub();
+							hideAll();
+						 //
+							 $('#pBtns').show();
+							 $('#purch_tile').height(260);
+							 $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
+							 pass = false;
+
+							 //add expired call
+
+						 }
+					 }
+
+					 if (pass == true) {
+
+						 var data = localStorage.getItem("userdata");
+						 var wdata = localStorage.getItem("weatherdata");
+						 var acts = localStorage.getItem("starsdata");
+						 var userdata = localStorage.getItem('userdata');
+						 var user = eval('(' + userdata + ')');
+						 var firstname = user.deets[0]['firstname'];
+						 var lastname = user.deets[0]['lastname'];
+						 var stravaID = user.deets[0]['stravaID'];
+
+						 var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
+						 var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
+						 updateUser(firstname, lastname, stravaID, "1",sub);
+						 var pic
+						 var pic_header
+
+						 if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
+							 pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
+							 pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
+						 } else {
+							 pic = "<img style=\"width:80px;height:auto\" src=\"" + user.deets[0]['profile'] + "\">";
+							 pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"" + user.deets[0]['profile'] + "\">";
+						 }
+
+						 $('#user_details').html("<h1>" + name + "</h1><h3>" + loc + "</h3>");
+						 $('#pic_header').show();
+						 $('#userimg').html(pic);
+						 $('#pic_header').html(pic_header);
+						 $('#menu_buttons').show();
+						 $('#status_msgs').hide();
+						 $('#status_area').hide();
+						 $('#rem_info').show();
+						 $('#info').hide();
+						 $('#table_calc_area2').hide();
+						 $('#act_table_header').show();
+						 $('#act_table').show();
+						 $('#my_activities').show();
+						 $('#splashDiv').fadeOut();
+						 if (acts.length > 40) {
+							 getAct("stars");
+					   //      $('#pmsg').append("<br/>" + sub);
+
+						 } else {
+							 noActsmsg("stars");
+						 }
+						 checkServerStatus(stravaID,sub);
+					 }
+
 			}
 			}
 
