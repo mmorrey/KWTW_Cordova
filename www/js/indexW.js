@@ -421,6 +421,7 @@ function getKWS() {
 			   $.each(parsed_json.topw, function (i, seg) {
 					   var kws = seg.Wspd;
 					    localStorage.setItem("KWS", kws);
+					    alert("K1"+kws);
 					  })
 
 
@@ -1187,10 +1188,22 @@ function appPurchChk() {
 
 function checkData(purch) {
 	var kws = localStorage.getItem("KWS");
+	alert(kws);
         var udata = localStorage.getItem("userdata");
         if (udata == null) {
-				$('#pmsg').html("no data");
-        } else {
+				$('#splashDiv').fadeOut();
+				$('#UnAuthApp').show();
+				$('#onlineStatus').hide();
+				$('#pic_header').hide();
+				$('#logo_header').hide();
+				$('#menu_buttons').hide();
+            	$('#deets_tile').hide();
+        } else if (purch == "1") { //sub{
+
+            var sub = localStorage.getItem("sub");
+            localStorage.setItem("credits", "3000000");
+            var data = localStorage.getItem("userdata");
+
             var userdata = localStorage.getItem('userdata');
             var user = eval('(' + userdata + ')');
             var firstname = user.deets[0]['firstname'];
@@ -1212,6 +1225,22 @@ function checkData(purch) {
             $('#pic_header').show();
             $('#userimg').html(pic);
             $('#pic_header').html(pic_header);
+            $('#pBtns').hide();
+			$('#purch_tile').height(180);
+			$('#menu_buttons').show();
+			$('#status_msgs').hide();
+			$('#status_area').hide();
+			$('#rem_info').show();
+			$('#info').hide();
+			$('#table_calc_area2').hide();
+			$('#splashDiv').fadeOut();
+			if (acts.length > 40) {
+				getAct("stars");
+			} else {
+				noActsmsg("stars");
+			}
+            updateUser(firstname, lastname, stravaID, "11", "11");
+
             if (kws == "1") {
 				  $('#splashDiv').fadeOut();
 				    reportOnlineStatus();
@@ -1222,212 +1251,22 @@ function checkData(purch) {
 				    $('#pmsg').show();
 					$('#pBtns').hide();
 				     //sub
-			        $('#creditsBtn').hide();
-       			    $('#status_msgs').show();
-            if (purch == "1") {
-            	getMsg(firstname,lastname,StravaID,purch);
-    			} else { //no sub
-				getMsg2();
-                //checkServerStatus(stravaID,sub);
-           		 }
+				    $('#creditsBtn').hide();
+       			 	$('#status_msgs').show();
+					if (purch == "1") {
+						getMsg(firstname,lastname,StravaID,purch);
+					} else { //no sub
+						getMsg2();
+			//checkServerStatus(stravaID,sub);
+					}
+			} else { //kws == 0
 
-			 } else { //kws = 0
+			}
 
-			  if (purch == "1") { //sub
-			         $('#creditsBtn').hide();
-			         var udata = localStorage.getItem("userdata");
-			         if (udata == null) {
-			             $('#splashDiv').fadeOut();
-			             $('#UnAuthApp').show();
-			             $('#onlineStatus').hide();
-			             $('#pic_header').hide();
-			             $('#logo_header').hide();
-			             $('#menu_buttons').hide();
-			             $('#deets_tile').hide();
-			         } else {
-			             var sub = localStorage.getItem("sub");
-			             localStorage.setItem("credits", "3000000");
-			             var data = localStorage.getItem("userdata");
-			             var wdata = localStorage.getItem("weatherdata");
-			             var acts = localStorage.getItem("starsdata");
-			             var userdata = localStorage.getItem('userdata');
-			             var user = eval('(' + userdata + ')');
-			             var firstname = user.deets[0]['firstname'];
-			             var lastname = user.deets[0]['lastname'];
-			             var stravaID = user.deets[0]['stravaID'];
-			           //  $('#logmsg').append("<br/>Strava ID " + stravaID);
-			             var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
-			             var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
-			             var pic
-			             var pic_header
-			             if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
-			                 pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
-			                 pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
-			             } else {
-			                 pic = "<img style=\"width:80px;height:auto\" src=\"" + user.deets[0]['profile'] + "\">";
-			                 pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"" + user.deets[0]['profile'] + "\">";
-			             }
-			             $('#user_details').html("<h1>" + name + "</h1><h3>" + loc + "</h3>");
-			             $('#pic_header').show();
-			             $('#userimg').html(pic);
-			             $('#pic_header').html(pic_header);
-			             $('#pBtns').hide();
-			             $('#purch_tile').height(180);
-			             $('#menu_buttons').show();
-			             $('#status_msgs').hide();
-			             $('#status_area').hide();
-			             $('#rem_info').show();
-			             $('#info').hide();
-			             $('#table_calc_area2').hide();
-			             $('#splashDiv').fadeOut();
-			             if (acts.length > 40) {
-			                 getAct("stars");
-			            //     $('#pmsg').append("<br/>Sub:" + sub);
+		} else { //purch == 0
 
-			             } else {
-			                 noActsmsg("stars");
-			             }
-			             updateUser(firstname, lastname, stravaID, "11", "11");
-			         }
-			     } else { //no sub
-			         $('#splashDiv').fadeOut();
-			         hideAll();
+		}
 
-			         $('#profile_tile').hide();
-			         var udata = localStorage.getItem("userdata");
-
-			         if (udata == null) {
-
-			             $('#UnAuthApp').show();
-			             $('#onlineStatus').hide();
-
-			             $('#pic_header').hide();
-			             $('#logo_header').hide();
-			             $('#menu_buttons').hide();
-			             $('#deets_tile').hide();
-
-			         } else {
-			             $('#splashDiv').fadeOut();
-			             var data = localStorage.getItem("userdata");
-			 			            var userdata = localStorage.getItem('userdata');
-			 			            var user = eval('(' + userdata + ')');
-			 			            var firstname = user.deets[0]['firstname'];
-			 			            var lastname = user.deets[0]['lastname'];
-			 			            var stravaID = user.deets[0]['stravaID'];
-			 			            var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
-			 			            var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
-			 			            var pic
-			 			            var pic_header
-			 			            if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
-			 			                pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
-			 			                pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
-			 			            } else {
-			 			                pic = "<img style=\"width:80px;height:auto\" src=\"" + user.deets[0]['profile'] + "\">";
-			 			                pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"" + user.deets[0]['profile'] + "\">";
-			 			            }
-			 			            $('#user_details').html("<h1>" + name + "</h1><h3>" + loc + "</h3>");
-			 			            $('#pic_header').show();
-			 			            $('#userimg').html(pic);
-			 			            $('#pic_header').html(pic_header);
-
-			             var sub = localStorage.getItem("sub");
-
-			             var credits = localStorage.getItem("credits");
-			             var pass = false;
-			             if (sub == null) { //not auth
-			                 pass = true;
-
-			             } else { //has logged in before
-			                 var ExpDate = parseInt(1209600) + parseInt(sub) //Math.floor(moment(sub).add(7, 'days') / 1000);
-			                 var today2 = Math.floor(moment() / 1000);
-			                 var diff = parseInt(ExpDate - today2);
-			                 var edays = Math.floor(diff / 86400);
-			                 var estr;
-			                 if (edays == 0) {
-			                     estr = "tomorrow.";
-			                 } else {
-			                     estr = "in " + edays + " days."
-			                 }
-			                 var cstr = "<div id=\"credits_no\" style=\"display:inline-block\"></div>";
-
-			                 if (diff > 0) {
-			                     //not expired
-			                     $('#status_msgs').append("Trial period expires on " + ExpDate);
-			                     $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly Subscription to get unlimited Historical data queries.");
-			                     $('#credits_no').html(credits);
-			                     $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
-			                     pass = true;
-			                 } else {
-			                     //expired
-			                     $('#status_msgs').append("Trial expired");
-			                     updateUser(firstname, lastname, stravaID, "-1",sub);
-			                    listSub();
-			                    hideAll();
-			                 //
-			                     $('#pBtns').show();
-			                     $('#purch_tile').height(260);
-			                     $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
-			                     pass = false;
-
-			                     //add expired call
-
-			                 }
-			             }
-
-			             if (pass == true) {
-
-			                 var data = localStorage.getItem("userdata");
-			                 var wdata = localStorage.getItem("weatherdata");
-			                 var acts = localStorage.getItem("starsdata");
-			                 var userdata = localStorage.getItem('userdata');
-			                 var user = eval('(' + userdata + ')');
-			                 var firstname = user.deets[0]['firstname'];
-			                 var lastname = user.deets[0]['lastname'];
-			                 var stravaID = user.deets[0]['stravaID'];
-
-			                 var name = user.deets[0]['firstname'] + " " + user.deets[0]['lastname']
-			                 var loc = user.deets[0].city + ", " + user.deets[0].country; //data.city + ", " + data.country;
-			                 updateUser(firstname, lastname, stravaID, "1",sub);
-			                 var pic
-			                 var pic_header
-
-			                 if (user.deets[0]['profile'] == "avatar/athlete/large.png") {
-			                     pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
-			                     pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"img/blank_avatar.jpg\">";
-			                 } else {
-			                     pic = "<img style=\"width:80px;height:auto\" src=\"" + user.deets[0]['profile'] + "\">";
-			                     pic_header = "<img id=\"headpfl\" class=\"circular_pfl_on\" src=\"" + user.deets[0]['profile'] + "\">";
-			                 }
-
-			                 $('#user_details').html("<h1>" + name + "</h1><h3>" + loc + "</h3>");
-			                 $('#pic_header').show();
-			                 $('#userimg').html(pic);
-			                 $('#pic_header').html(pic_header);
-			                 $('#menu_buttons').show();
-			                 $('#status_msgs').hide();
-			                 $('#status_area').hide();
-			                 $('#rem_info').show();
-			                 $('#info').hide();
-			                 $('#table_calc_area2').hide();
-			                 $('#act_table_header').show();
-			                 $('#act_table').show();
-			                 $('#my_activities').show();
-			                 $('#splashDiv').fadeOut();
-			                 if (acts.length > 40) {
-			                     getAct("stars");
-			               //      $('#pmsg').append("<br/>" + sub);
-
-			                 } else {
-			                     noActsmsg("stars");
-			                 }
-			                 checkServerStatus(stravaID,sub);
-			             }
-
-			         }
-
-    }
-}
-}
 
 }
 
