@@ -1198,7 +1198,7 @@ function checkData(purch) {
 				$('#logo_header').hide();
 				$('#menu_buttons').hide();
             	$('#deets_tile').hide();
-        } else  { //sub{
+        } else  { //have udata
 
             var wdata = localStorage.getItem("weatherdata");
 			var acts = localStorage.getItem("starsdata");
@@ -1259,8 +1259,9 @@ function checkData(purch) {
 
 			}
 
-		} else { //	have udata
+		}
 			if (purch == "1")  {
+				alert("pp"+purch);
 				 $('#creditsBtn').hide();
 				var sub = localStorage.getItem("sub");
             localStorage.setItem("credits", "3000000");
@@ -1272,7 +1273,7 @@ function checkData(purch) {
 			} else {  //purch = 0
 				alert("no purch");
 			}
-		}
+
 
 
 }
