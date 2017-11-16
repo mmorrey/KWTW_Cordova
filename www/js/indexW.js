@@ -1224,7 +1224,7 @@ function checkData(purch) {
             $('#pic_header').show();
             $('#userimg').html(pic);
             $('#pic_header').html(pic_header);
-            $('#pBtns').hide();
+           // $('#pBtns').hide();
 			$('#purch_tile').height(180);
 			$('#menu_buttons').show();
 			$('#status_msgs').hide();
@@ -1289,6 +1289,7 @@ function checkData(purch) {
 
 						 if (diff > 0) {
 							 //not expired
+							 $('#pBtns').show();
 							 $('#status_msgs').append("Trial period expires on " + ExpDate);
 							 $('#pmsg').html("Trial period expires " + estr + " .<br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly Subscription to get unlimited Historical data queries.");
 							 $('#credits_no').html(credits);
@@ -1297,10 +1298,11 @@ function checkData(purch) {
 						 } else {
 							 //expired
 							 $('#status_msgs').append("Trial expired");
-							 updateUser(firstname, lastname, stravaID, "-1",sub);
+							 updateUser(firstname, lastname, StravaID, "-1",sub);
 							listSub();
 							hideAll();
 						 //
+						 $('#menu_buttons').hide();
 							 $('#pBtns').show();
 							 $('#purch_tile').height(260);
 							 $('#pmsg').html("Thank you for using KOM With The Wind. Trial period expired.");
