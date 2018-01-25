@@ -4,9 +4,9 @@
   "displayName": "KOM With The Wind",
   "cordova": {
     "platforms": [
-      "ios",
       "browser",
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-whitelist": {},

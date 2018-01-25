@@ -1236,7 +1236,7 @@ function checkData(purch) {
 		    updateUser(firstname, lastname, StravaID, "113", "113");
 
             if (kws == "1") {   //have udata, no check on purch?
-				alert("fire msg");
+				
 				  $('#splashDiv').fadeOut();
 				    reportOnlineStatus();
 				    removeOldweather();
@@ -1257,7 +1257,7 @@ function checkData(purch) {
 					}
 			} else { //kws == 0
 					if (purch == "1")  {
-					alert("pp"+purch);
+					
 					 $('#creditsBtn').hide();
 					var sub = localStorage.getItem("sub");
 				localStorage.setItem("credits", "3000000");
@@ -1267,7 +1267,7 @@ function checkData(purch) {
 						noActsmsg("stars");
 					}
 				} else {  //purch = 0
-					alert("no purch");
+					
 					var sub = localStorage.getItem("sub");
 					 var credits = localStorage.getItem("credits");
 					 var pass = false;

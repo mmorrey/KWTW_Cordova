@@ -53,9 +53,11 @@ Temporary Items
 
 
 # =========================
-# Cordova Plaform Files - see https://gist.github.com/elliot-labs/c92b3e52053906816074170ada511962
+# Cordova Plaform Files
+# see https://gist.github.com/elliot-labs/c92b3e52053906816074170ada511962 and https://forum.ionicframework.com/t/whats-a-good-gitignore-for-an-ionic-project/4115/10
 # =========================
 
+node_modules/
 
 # iOS Platform
 platforms/ios/build/
