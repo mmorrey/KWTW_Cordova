@@ -1,0 +1,44 @@
+{
+  "name": "com.kwtw.kw1",
+  "version": "1.5.9",
+  "displayName": "KOM With The Wind",
+  "cordova": {
+    "platforms": [
+      "ios",
+      "browser",
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-payment-iap": {},
+      "cordova-plugin-geolocation": {},
+      "cordova-plugin-statusbar": {},
+      "com.oauthio.plugins.oauthio": {},
+      "cc.fovea.cordova.purchase": {
+        "BILLING_KEY": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB"
+      },
+      "cordova-plugin-inapppurchase": {},
+      "cordova-plugin-compat": {}
+    }
+  },
+  "dependencies": {
+    "cc.fovea.cordova.purchase": "~4.0.0",
+    "com.oauthio.plugins.oauthio": "https://github.com/oauth-io/oauth-phonegap",
+    "cordova-android": "^6.4.0",
+    "cordova-browser": "^5.0.3",
+    "cordova-ios": "^4.5.4",
+    "cordova-plugin-compat": "^1.2.0",
+    "cordova-plugin-geolocation": "git+https://github.com/apache/cordova-plugin-geolocation.git",
+    "cordova-plugin-inappbrowser": "~1.3.0",
+    "cordova-plugin-inapppurchase": "~1.0.0",
+    "cordova-plugin-network-information": "~1.2.1",
+    "cordova-plugin-payment-iap": "~2.0.48",
+    "cordova-plugin-statusbar": "^2.1.3",
+    "cordova-plugin-whitelist": "1",
+    "express": "^4.16.2",
+    "grant-express": "^3.8.1",
+    "latest": "^0.2.0"
+  }
+}

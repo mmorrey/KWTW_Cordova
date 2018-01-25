@@ -19,7 +19,7 @@
 
 //
 //  AppDelegate.h
-//  KWapp
+//  KOM With The Wind
 //
 //  Created by ___FULLUSERNAME___ on ___DATE___.
 //  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.

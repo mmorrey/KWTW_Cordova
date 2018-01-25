@@ -1,28 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.kwtw.kw1" version="1.4.8" versionCode="1148" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <preference name="loglevel" value="DEBUG" />
+<widget id="com.kwtw.kw1" version="1.5.9" versionCode="1159" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="InAppBrowser">
-        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
-    </feature>
-    <access origin="https://oauth.io" />
-    <feature name="NetworkStatus">
-        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
-    </feature>
-    <feature name="Geolocation">
-        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
-    </feature>
-    <feature name="InAppBillingPlugin">
-        <param name="android-package" value="com.smartmobilesoftware.inappbilling.InAppBillingPlugin" />
-    </feature>
-    <feature name="InAppBillingV3">
-        <param name="android-package" value="com.alexdisler.inapppurchases.InAppBillingV3" />
-    </feature>
-    <feature name="StatusBar">
-        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
         <param name="onload" value="true" />
     </feature>
     <name>KOM With The Wind</name>
@@ -32,10 +11,6 @@
         Orchid Global Limited
     </author>
     <content src="index.html" />
-    <preference name="StatusBarOverlaysWebView" value="false" />
-    <preference name="StatusBarBackgroundColor" value="#000000" />
-    <preference name="StatusBarStyle" value="lightcontent" />
-    <preference name="BackupWebStorage" value="none" />
     <icon height="57" platform="ios" src="icon-57.png" width="57" />
     <icon height="60" platform="ios" src="icon-60.png" width="60" />
     <icon height="120" platform="ios" src="icon-60@2x.png" width="120" />
@@ -68,7 +43,6 @@
     <icon platform="android" qualifier="xhdpi" src="xhdpi.png" />
     <icon src="icon.png" />
     <splash src="splash.png" />
-    <allow-intent href="market:*" />
     <allow-navigation href="http://*/*" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -77,4 +51,10 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-intent href="market:*" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
+    <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="BackupWebStorage" value="none" />
 </widget>

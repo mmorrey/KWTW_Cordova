@@ -506,6 +506,16 @@ function setMarkers2(map, bounds_map, PID, ct) {
 
     });
 
+    var latn = localStorage.getItem("latgps");
+    var lngn = localStorage.getItem("lnggps");
+    if (latn != null) {
+    var hereLatLng = new google.maps.LatLng(latn, lngn);
+    var image2 = 'img/map_marker_here.png';
+    var markerh = new google.maps.Marker({ 'position': hereLatLng, 'map': map, 'icon': image2 });
+    markers_array.push(markerh);
+    }
+
+
     var top = "<div id=\"ttop_map\"><table class=\"table table-striped\">"
     if (ct > 0) {
         $('#mapWind').show();  //aaa
@@ -1664,7 +1674,7 @@ function getTimediff(ID, type) {
             return 50000001;
         } else {
             var firsthour = parsed_json.hourly_forecast[0].FCTTIME.epoch;
-
+         //   $('#logmsg').append("<br/>fh m: " + firsthour + " now " + timenow)
              return parseInt(timenow - firsthour);
         }
     } else {
@@ -1683,6 +1693,7 @@ function getTimediff(ID, type) {
                     epoch = wd.timestamp;
                 }
             });
+   //         $('#logmsg').append("<br/>fh a: " + epoch + " now " + timenow)
              return parseInt(timenow - epoch);
         }
     }
@@ -1701,7 +1712,14 @@ function getFriendFirstname(frID) {
     return firstname;
 }
 function getLatlng(ID, type) {
-    
+    var isFav = false;
+    var isFavchk = localStorage.getItem(ID + "_fav");
+    //     console.log("isfav" + isFav)
+    if (isFavchk != null) {
+        isFav = true
+        type = "favs";
+    }
+
     if (type == 'map') {
         var json = localStorage.getItem('seg_loc_data');
         var j2 = eval('(' + json + ')');
@@ -1768,7 +1786,7 @@ function getLatlng(ID, type) {
         var j2 = eval('(' + json + ')');
         
         var latlng = j2.segs[0].latlng;
-      
+       // alert(type);
         return latlng;
     }
 }
@@ -1891,11 +1909,34 @@ function drawWeather(ID, type) {
     $('#eff_table').hide();
     var jsondata;
     var latlng = getLatlng(ID, type);
-    if (type == 'map') {
-        var jsondata = localStorage.getItem(ID + "_weather_map");
-    } else {
-        var jsondata = localStorage.getItem(ID + "_weather_act");
+    var isFav = false;
+    var isFavchk = localStorage.getItem(ID + "_fav");
+    //     console.log("isfav" + isFav)
+    if (isFavchk != null) {
+        isFav = true
     }
+    //favs hav type = fav, but weather_act
+
+    var jw1 = localStorage.getItem(ID + "_weather_map");
+    var jw2 = localStorage.getItem(ID + "_weather_act");
+//    $('#logmsg').append("<br/>drawW " + latlng + " " + ID + " " + type);
+
+    if (jw2 != null) {
+        jsondata = jw2;
+    } else {
+        jsondata = jw1;
+    }
+
+
+ //   if (type == 'map') {
+     //   if (isFav == true) {
+     //       var jsondata = localStorage.getItem(ID + "_weather_act");
+      //  } else {
+  //          var jsondata = localStorage.getItem(ID + "_weather_map");
+      //  }
+  //  } else {
+   //     var jsondata = localStorage.getItem(ID + "_weather_act");
+ //   }
     if (jsondata != null) {
         $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Refresh Weather</a>");
         var bdata = localStorage.getItem(bearing_store);
@@ -2023,8 +2064,8 @@ function drawWeather(ID, type) {
             ctx2d.fillText(cond, 59, posyt + 6);  //was cond
 
             ctx2d.font = '16px Arial';
-            ctx2d.fillText(zone.temp.metric, (start), posyt + 27);//33
-            ctx2d.fillText("°C", (start + 15), posyt + 27);//33
+            ctx2d.fillText(zone.temp.metric, 59, posyt + 27);//33
+            ctx2d.fillText("c", 74, posyt + 27);//33
 
 
             dt_ct = dt_ct + 1;
@@ -2137,6 +2178,14 @@ function drawWeather(ID, type) {
             $('#refreshBtnW').show();
             $('#wtitle').html("<div style=\"padding-left:8px\" class=\"msg_sml\">Weather not yet retrieved</div>");
             var latlng = getLatlng(ID, type);
+            var isFav = false;
+            var isFavchk = localStorage.getItem(ID + "_fav");
+            //     console.log("isfav" + isFav)
+            if (isFavchk != null) {
+                isFav = true;
+                type = "favs";
+            }
+
             if (type != 'map') {
                 $('#refreshBtnW').html("<a class=\"btn btn-primary btn-sm\" href=\"#seg_weather\" onclick=\"getW('" + latlng + "'," + ID + ", '" + type + "')\">Retrieve Weather</a>");
             } else {
@@ -2178,6 +2227,22 @@ function calcStarsInline(ID, hrs, type) {
     } else {
         jsondata = localStorage.getItem(ID + "_weather_act");
     }
+    var purch = localStorage.getItem("OneYrSub");
+    var st_ct = localStorage.getItem("starsct");
+    //alert("c " + type);
+    //if (type == "stars") {
+    //    if (purch == "0") {
+    //        $('#stinfo').html(st_ct + " Starred Segments Retrieved.<br/>Purchase a Yearly Subscription to retrieve all your Starred Segments.");
+    //        $('#stinfo').fadeIn();
+    //    } else {
+
+    //        $('#stinfo').html(st_ct + " Starred Segments Retrieved.");
+    //        $('#stinfo').fadeIn();
+    //    }
+    //} else {
+    //    $('#stinfo').hide();
+    //}
+    
     if (jsondata != null) {
         $('#winfo').html("Showing the best star ratings for the next 24 hours of retrieved weather");
         $('#winfo').fadeIn();
@@ -2399,7 +2464,7 @@ function getW(latlng, ID, type) {
     $('#refreshBtnW').hide();
     var timenow = Math.round(new Date().getTime() / 1000);
     var diff = getTimediff(ID, type);
-
+//    $('#logmsg').append("<br/>getW1 " + latlng + " " + ID + " " + diff);
     function revertText() {
         clearInterval(timer1); 
         drawWeather(ID, type);
@@ -2415,10 +2480,11 @@ function getW(latlng, ID, type) {
     } else {
 
         var loc = latlng;
- 
-        var lat = latlng[0];
-        var lng = latlng[1];
+        var latlng2 = latlng.toString().split(',');
+        var lat = latlng2[0];
+        var lng = latlng2[1];
         var wdata = localStorage.getItem('weatherdata');
+   //     $('#logmsg').append("<br/>getW2" + latlng + " " + lat + " " + lng);
         if (wdata != null) {
             var wdata_json = eval('(' + wdata + ')');
             var ct = localStorage.getItem('weatherdata_ct');
@@ -2432,7 +2498,7 @@ function getW(latlng, ID, type) {
 function checkWeather(latlng1, ct, ID, type) {
     var wdata = localStorage.getItem('weatherdata');
     var wdata_json = eval('(' + wdata + ')');
-
+  //  $('#logmsg').append("<br/>chkW1" + latlng1 + " " + ct + " " + ID + " " + type);
     var callW = true;
     var latlng = latlng1.toString().split(',');
 
@@ -2450,7 +2516,9 @@ function checkWeather(latlng1, ct, ID, type) {
             var fromID = wd.ID;
             var fromJsonAct = localStorage.getItem(fromID + "_weather_act");
             var fromJsonMap = localStorage.getItem(fromID + "_weather_map");
-            if (epoch - wd.timestamp > 10800) {
+            var diff = epoch - wd.timestamp;
+         //   $('#logmsg').append("<br/>chkW2 " + ID + " " + type + " " + diff);
+            if (diff > 10800) { //10800
 
                 callW = true;
             } else {
@@ -2464,7 +2532,7 @@ function checkWeather(latlng1, ct, ID, type) {
 
 
             if ((callW == true) || ((fromJsonAct == null) && (fromJsonMap == null))) { //no match
-
+           //     $('#logmsg').append("<br/>chkW3 callW " + ID);
                 callWeather(latlng, ID, type);
   
             } else {
@@ -2476,14 +2544,15 @@ function checkWeather(latlng1, ct, ID, type) {
                 } else {
                     wchk = localStorage.getItem(toID + "_weather_act");
                 }
-
+              //  $('#logmsg').append("<br/>chkW4 wchk= " + wchk);
                 if (wchk == null) {
+             //       $('#logmsg').append("<br/>chkW4 copy " + fromID + " " + toID + " " + lat + " " + lng + " " + type);
                     copyWeather(fromID, toID, lat, lng, type);
                     calcStarsInline(toID, 24, type);
                     drawWeather(toID, type);
                     $('#refreshBtnW').show();
                 } else {
-                    $('#location').append("Not copied weather from " + fromID + " to " + toID + ", alredy have it</br>");
+               //     $('#logmsg').append("Not copied weather from " + fromID + " to " + toID + ", alredy have it</br>");
                 }
 
 
@@ -2636,7 +2705,7 @@ function copyWeather(fromID, toID, lat, lng, type) {
             });
              var jsondeets = JSON.stringify(weather_deets);
 
-            $('#location').append("Copied weather data " + toID + "</br>");
+          //  $('#logmsg').append("Copied weather data " + toID + "</br>");
              countWdata();
 
         }
@@ -2697,17 +2766,20 @@ function countWdata() {
 
         });
         localStorage.setItem('weatherdata_ct', ct);
-        $('#location').append("Weather data count = " + ct + "</br>");
-
+   //     $('#logmsg').append("</br>Weather data count = " + ct);
+        
     } else {
 
     }
 
 }
 
-function callWeather(latlng,ID,type)  {
-    var lat = latlng[0];
-    var lng = latlng[1];
+function callWeather(latlng, ID, type) {
+    var latlng1 = latlng.toString().split(',');
+    var lat = latlng1[0];
+    var lng = latlng1[1];
+  //  $('#logmsg').append("</br>CallW1 " + latlng + " " + lat + " " + lng);
+
     var epoch = Math.round(new Date().getTime() / 1000);
 
     var weather_deets = {
@@ -2748,7 +2820,7 @@ function callWeather(latlng,ID,type)  {
        
                 var jsondeets = JSON.stringify(weather_deets);
                 RealCallWeather(latlng,ID,type);
-                $('#location').append("Writing Weather data 2 = " + ID + "</br>");
+             //   $('#logmsg').append("Writing Weather data 2 = " + ID + "</br>");
                 localStorage.setItem('weatherdata', jsondeets);
                 countWdata();
              } else {
@@ -2768,7 +2840,7 @@ function callWeather(latlng,ID,type)  {
     
         var jsondeets = JSON.stringify(weather_deets);
         RealCallWeather(latlng,ID,type);
-        $('#location').append("Writing Weather data = " + ID + "</br>");
+  //      $('#logmsg').append("Writing Weather data = " + ID + "</br>");
         localStorage.setItem('weatherdata', jsondeets);
         countWdata();
     }
@@ -2777,7 +2849,8 @@ function callWeather(latlng,ID,type)  {
 
 
 function RealCallWeather(latlng, ID, type) {
-
+    localStorage.removeItem(ID + "_weather_map");
+    localStorage.removeItem(ID + "_weather_act");
     $.ajax({
         type: "GET",
         url: "http://api.wunderground.com/api/bf45926a1b878028/hourly/geolookup/q/" + latlng + ".json",

@@ -951,7 +951,7 @@ function checkExp() {
 
             $('#pmsg').html("Trial period expires " + estr + " <br/>You have " + cstr + " Historical data queries left.<br/>Purchase a Monthly Subscription to get unlimited Historical data queries.");
             $('#credits_no').html(credits);
-            $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">Credits: " + credits + "</button>");
+            $('#creditsBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\">My Credits: " + credits + "</button>");
 
         } else {
             //expired

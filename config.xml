@@ -7,74 +7,78 @@
         Orchid Global Limited
     </author>
     <content src="index.html" />
-    <plugin name="cordova-plugin-whitelist" spec="1" />
-  <plugin name="cordova-plugin-inappbrowser" source="npm"/>
-   <plugin name="cordova-plugin-network-information" source="npm"/>
-  <plugin name="cordova-plugin-network-information" source="npm"/>
-  <plugin name="cordova-plugin-payment-iap" source="npm" />
-  <plugin name="cordova-plugin-geolocation" source="npm" />
-  <plugin name="cordova-plugin-statusbar" source="npm" />
-
-  <preference name="StatusBarOverlaysWebView" value="false" />
-  <preference name="StatusBarBackgroundColor" value="#000000" />
-  <preference name="StatusBarStyle" value="lightcontent" />
-  <preference name="BackupWebStorage" value="none"/>
-
-<feature name="http://api.phonegap.com/1.0/geolocation" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
+    <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="BackupWebStorage" value="none" />
+    <feature name="http://api.phonegap.com/1.0/geolocation" />
     <feature name="http://api.phonegap.com/1.0/network" />
     <feature name="http://api.phonegap.com/1.0/device" />
-  <feature name="Geolocation">
-    <param name="android-package" value="org.apache.cordova.GeoBroker" />
-</feature>
-  <icon platform="ios" height="57" src="icon-57.png" width="57" />
-  <icon platform="ios" height="60" src="icon-60.png" width="60" />
-  <icon platform="ios" height="120" src="icon-60@2x.png" width="120" />
-  <icon platform="ios" height="114" src="icon@2x.png" width="114" />
-  <icon platform="ios" height="72" src="icon-72.png" width="72" />
-  <icon platform="ios" height="144" src="icon-72@2x.png" width="144" />
-  <icon platform="ios" height="76" src="icon-76.png" width="76" />
-  <icon platform="ios" height="152" src="icon-76@2x.png" width="152" />
-  <icon platform="ios" height="29" src="icon-small.png" width="29" />
-  <icon platform="ios" height="58" src="icon-small@2x.png" width="58" />
-  <icon platform="ios" height="50" src="icon-50.png" width="50" />
-  <icon platform="ios" height="100" src="icon-50@2x.png" width="100" />
-  <icon platform="ios" height="40" src="icon-40.png" width="40" />
-  <icon platform="ios" height="80" src="icon-40@2x.png" width="80" />
-  <splash platform="ios" height="480" src="Default.png" width="320" />
-  <splash platform="ios" height="960" src="Default@2x.png" width="640" />
-  <splash platform="ios" height="1136" src="Default-568h@2x.png" width="640" />
-  <splash platform="ios" height="1024" src="Default-Portrait.png" width="768" />
-  <splash platform="ios" height="768" src="Default-Landscape.png" width="1024" />
-  <splash platform="ios" height="2048" src="Default-Portrait@2x.png" width="1536" />
-  <splash platform="ios" height="1536" src="Default-Landscape@2x.png" width="2048" />
-  <splash platform="ios" height="748" src="Default-Landscape-1024-748-no-bar.png" width="1024" />
-  <splash platform="ios" height="1496" src="Default-Landscape-2048-1496-no-bar.png" width="2048" />
-  <splash platform="ios" height="2008" src="Default-Portrait@2x-no-bar.png" width="1536" />
-  <splash platform="ios" height="1004" src="Default-Portrait-no-bar.png" width="768" />
-  <splash platform="ios" height="1242" src="Default-Landscape-736h.png" width="2208" />
-  <icon src="ldpi.png" platform="android" qualifier="ldpi" />
-  <icon src="mdpi.png" platform="android" qualifier="mdpi" />
-  <icon src="hdpi.png" platform="android" qualifier="hdpi" />
-<icon src="xhdpi.png" platform="android" qualifier="xhdpi" />
-    <icon src="icon.png"/>
-  <splash src="splash.png" />
-  <allow-intent href="market:*" />
-  <allow-navigation href="http://*/*" />
-  <access origin="*" />
-  <allow-intent href="http://*/*" />
-  <allow-intent href="https://*/*" />
-  <allow-intent href="tel:*" />
-  <allow-intent href="sms:*" />
-  <allow-intent href="mailto:*" />
-  <allow-intent href="geo:*" />
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.GeoBroker" />
+    </feature>
+    <icon height="57" platform="ios" src="icon-57.png" width="57" />
+    <icon height="60" platform="ios" src="icon-60.png" width="60" />
+    <icon height="120" platform="ios" src="icon-60@2x.png" width="120" />
+    <icon height="114" platform="ios" src="icon@2x.png" width="114" />
+    <icon height="72" platform="ios" src="icon-72.png" width="72" />
+    <icon height="144" platform="ios" src="icon-72@2x.png" width="144" />
+    <icon height="76" platform="ios" src="icon-76.png" width="76" />
+    <icon height="152" platform="ios" src="icon-76@2x.png" width="152" />
+    <icon height="29" platform="ios" src="icon-small.png" width="29" />
+    <icon height="58" platform="ios" src="icon-small@2x.png" width="58" />
+    <icon height="50" platform="ios" src="icon-50.png" width="50" />
+    <icon height="100" platform="ios" src="icon-50@2x.png" width="100" />
+    <icon height="40" platform="ios" src="icon-40.png" width="40" />
+    <icon height="80" platform="ios" src="icon-40@2x.png" width="80" />
+    <splash height="480" platform="ios" src="Default.png" width="320" />
+    <splash height="960" platform="ios" src="Default@2x.png" width="640" />
+    <splash height="1136" platform="ios" src="Default-568h@2x.png" width="640" />
+    <splash height="1024" platform="ios" src="Default-Portrait.png" width="768" />
+    <splash height="768" platform="ios" src="Default-Landscape.png" width="1024" />
+    <splash height="2048" platform="ios" src="Default-Portrait@2x.png" width="1536" />
+    <splash height="1536" platform="ios" src="Default-Landscape@2x.png" width="2048" />
+    <splash height="748" platform="ios" src="Default-Landscape-1024-748-no-bar.png" width="1024" />
+    <splash height="1496" platform="ios" src="Default-Landscape-2048-1496-no-bar.png" width="2048" />
+    <splash height="2008" platform="ios" src="Default-Portrait@2x-no-bar.png" width="1536" />
+    <splash height="1004" platform="ios" src="Default-Portrait-no-bar.png" width="768" />
+    <splash height="1242" platform="ios" src="Default-Landscape-736h.png" width="2208" />
+    <icon platform="android" qualifier="ldpi" src="ldpi.png" />
+    <icon platform="android" qualifier="mdpi" src="mdpi.png" />
+    <icon platform="android" qualifier="hdpi" src="hdpi.png" />
+    <icon platform="android" qualifier="xhdpi" src="xhdpi.png" />
+    <icon src="icon.png" />
+    <splash src="splash.png" />
+    <allow-intent href="market:*" />
+    <allow-navigation href="http://*/*" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
     <platform name="android">
-    <plugin name="cordova-custom-config" version="*"/>
+        <plugin name="cordova-custom-config" version="*" />
         <allow-intent href="market:*" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <engine name="ios" spec="~4.1.1" />
-    <engine name="android" spec="~5.1.1" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <plugin name="cordova-plugin-inappbrowser" spec="~1.3.0" />
+    <plugin name="cordova-plugin-network-information" spec="~1.2.1" />
+    <plugin name="cordova-plugin-payment-iap" spec="~2.0.48" />
+    <plugin name="cordova-plugin-geolocation" spec="git+https://github.com/apache/cordova-plugin-geolocation.git" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.1.3" />
+    <plugin name="com.oauthio.plugins.oauthio" spec="https://github.com/oauth-io/oauth-phonegap" />
+    <plugin name="cc.fovea.cordova.purchase" spec="~4.0.0">
+        <variable name="BILLING_KEY" value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB" />
+    </plugin>
+    <plugin name="cordova-plugin-inapppurchase" spec="~1.0.0" />
+    <plugin name="cordova-plugin-compat" spec="^1.2.0" />
+    <engine name="ios" spec="^4.5.4" />
+    <engine name="browser" spec="^5.0.3" />
+    <engine name="android" spec="^6.4.0" />
 </widget>
