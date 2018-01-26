@@ -14,5 +14,13 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "cordova-plugin-payment-iap": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-payment-iap@~2.0.48"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

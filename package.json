@@ -34,7 +34,7 @@
     "cordova-plugin-inappbrowser": "~1.3.0",
     "cordova-plugin-inapppurchase": "~1.0.0",
     "cordova-plugin-network-information": "~1.2.1",
-    "cordova-plugin-payment-iap": "~2.0.48",
+    "cordova-plugin-payment-iap": "^2.0.52",
     "cordova-plugin-statusbar": "^2.1.3",
     "cordova-plugin-whitelist": "1",
     "express": "^4.16.2",

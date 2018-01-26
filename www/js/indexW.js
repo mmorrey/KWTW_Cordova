@@ -40,13 +40,13 @@ var app = {
 
     onDeviceReady: function () {
 
-  appPurchChk();
- // checkData("1");
+    console.log('Device Ready - now check purchase'); // MM
+    appPurchChk(); // also sets everything else in motion... MM
+
+    // checkData("1");  // NB already commented out MM
 
 
     },
-
-
 
     receivedEvent: function (id) {
 
@@ -54,11 +54,12 @@ var app = {
     }
 };
 
-app.initialize();
+console.log('Intialising App'); //MM 
+app.initialize(); // calls "initialize" function above MM 
 
 
 function listSub() {
-
+    console.log('listSub start'); //MM
     window.iap.setUp(androidApplicationLicenseKey);
 
     window.iap.requestStoreListing(productIds, function (result) {
@@ -73,6 +74,8 @@ function listSub() {
     }, function (error) {
         $('#pmsg').html("Error. Please try again");
     });
+    console.log('listSub complete'); //MM 
+
 }
 
 var androidApplicationLicenseKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB";
@@ -1236,7 +1239,7 @@ function checkData(purch) {
 		    updateUser(firstname, lastname, StravaID, "113", "113");
 
             if (kws == "1") {   //have udata, no check on purch?
-				
+				alert("fire msg");
 				  $('#splashDiv').fadeOut();
 				    reportOnlineStatus();
 				    removeOldweather();
@@ -1257,7 +1260,7 @@ function checkData(purch) {
 					}
 			} else { //kws == 0
 					if (purch == "1")  {
-					
+					alert("pp"+purch);
 					 $('#creditsBtn').hide();
 					var sub = localStorage.getItem("sub");
 				localStorage.setItem("credits", "3000000");
@@ -1267,7 +1270,7 @@ function checkData(purch) {
 						noActsmsg("stars");
 					}
 				} else {  //purch = 0
-					
+					alert("no purch");
 					var sub = localStorage.getItem("sub");
 					 var credits = localStorage.getItem("credits");
 					 var pass = false;

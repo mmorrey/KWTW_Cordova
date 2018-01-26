@@ -15,6 +15,20 @@
             {
               "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"IAP\"><param name=\"android-package\" value=\"jp.wizcorp.phonegap.plugin.wizPurchase.IAP\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "AndroidManifest.xml": {
+        "parents": {
+          "/manifest": [
+            {
+              "xml": "<uses-permission android:name=\"com.android.vending.BILLING\" />",
+              "count": 1
             }
           ]
         }
@@ -26,6 +40,9 @@
       "PACKAGE_NAME": "com.kwtw.kw1"
     },
     "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.kwtw.kw1"
+    },
+    "cordova-plugin-payment-iap": {
       "PACKAGE_NAME": "com.kwtw.kw1"
     }
   },
@@ -39,10 +56,19 @@
         "cordova.InAppBrowser.open",
         "window.open"
       ]
+    },
+    {
+      "id": "cordova-plugin-payment-iap.iap",
+      "file": "plugins/cordova-plugin-payment-iap/www/iap.js",
+      "pluginId": "cordova-plugin-payment-iap",
+      "clobbers": [
+        "window.iap"
+      ]
     }
   ],
   "plugin_metadata": {
     "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-inappbrowser": "1.3.0"
+    "cordova-plugin-inappbrowser": "1.3.0",
+    "cordova-plugin-payment-iap": "2.0.52"
   }
 }

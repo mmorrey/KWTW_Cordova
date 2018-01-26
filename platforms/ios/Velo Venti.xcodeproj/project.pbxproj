@@ -17,6 +17,8 @@
 		3047A5141AB8059700498E2A /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A5111AB8059700498E2A /* build.xcconfig */; };
 		6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */; };
 		8D6BC209B3A149DC83CCA92C /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCE07A3E38041638A249915 /* CDVInAppBrowser.m */; };
+		A9FDFEC00D0546C8B783A14F /* IAP.m in Sources */ = {isa = PBXBuildFile; fileRef = A6488A3DA413479B8AAAEEAB /* IAP.m */; };
+		209E607023614B1CB512CA55 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CBC6262AA0456A9680EEC8 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,10 @@
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		3BCE07A3E38041638A249915 /* CDVInAppBrowser.m */ = {isa = PBXFileReference; name = "CDVInAppBrowser.m"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		F93B15D4D46E4F18B97A7450 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; name = "CDVInAppBrowser.h"; path = "cordova-plugin-inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		A6488A3DA413479B8AAAEEAB /* IAP.m */ = {isa = PBXFileReference; name = "IAP.m"; path = "cordova-plugin-payment-iap/IAP.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		20AFF425E4474CBF87913951 /* IAP.h */ = {isa = PBXFileReference; name = "IAP.h"; path = "cordova-plugin-payment-iap/IAP.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		5556BB87A6294547AD6CB69D /* IAPDebugLog.h */ = {isa = PBXFileReference; name = "IAPDebugLog.h"; path = "cordova-plugin-payment-iap/IAPDebugLog.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		B7CBC6262AA0456A9680EEC8 /* StoreKit.framework */ = {isa = PBXFileReference; name = "StoreKit.framework"; path = "System/Library/Frameworks/StoreKit.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
+				209E607023614B1CB512CA55 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +144,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7CBC6262AA0456A9680EEC8 /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -164,6 +172,9 @@
 			children = (
 				3BCE07A3E38041638A249915 /* CDVInAppBrowser.m */,
 				F93B15D4D46E4F18B97A7450 /* CDVInAppBrowser.h */,
+				A6488A3DA413479B8AAAEEAB /* IAP.m */,
+				20AFF425E4474CBF87913951 /* IAP.h */,
+				5556BB87A6294547AD6CB69D /* IAPDebugLog.h */,
 			);
 			name = Plugins;
 			path = "Velo Venti/Plugins";
@@ -277,6 +288,7 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				8D6BC209B3A149DC83CCA92C /* CDVInAppBrowser.m in Sources */,
+				A9FDFEC00D0546C8B783A14F /* IAP.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
