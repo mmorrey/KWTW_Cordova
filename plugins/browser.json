@@ -9,6 +9,9 @@
   "installed_plugins": {
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.kwtw.kw1"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.kwtw.kw1"
     }
   },
   "dependent_plugins": {}
