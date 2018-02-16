@@ -20,7 +20,14 @@
         "BILLING_KEY": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtF/EqNFQN8imgbmFZQgMRAhKl0q6Q/Ubn5pKGKaSvCPFUzrjzCxaQYUCRCVw56pwwe7YLpxb4e2L+ay6gO94gOD4iIGoO54Rq1TzXoJv72nRFSQjLKDKNmtpO0lEb8SujDRcVhJ1NND20iTQbSqdT970U81biwK8jC1QxUJOhRIDu2cJsIKMNaxa7Eui8P7IBKhdgsivIPOw4O0k2AARaxm5jKk9a/p7ozoyWlkFKd6fNaHGopDe7rKPMeetzNLVP+oRB84ZXCT30n71KrmRQ1tO8ULaRb+kvlTvKISxkhBxTkySOex1zkpY6OPWeI9QZgFPVOZnsILQF8vbb1G5OwIDAQAB"
       },
       "cordova-plugin-inapppurchase": {},
-      "cordova-plugin-compat": {}
+      "cordova-plugin-compat": {},
+      "cordova-plugin-customurlscheme": {
+        "URL_SCHEME": "komwiththewind",
+        "ANDROID_SCHEME": " ",
+        "ANDROID_HOST": " ",
+        "ANDROID_PATHPREFIX": "/"
+      },
+      "cordova-plugin-safariviewcontroller": {}
     }
   },
   "dependencies": {
@@ -30,11 +37,13 @@
     "cordova-browser": "^5.0.3",
     "cordova-ios": "^4.5.4",
     "cordova-plugin-compat": "^1.2.0",
+    "cordova-plugin-customurlscheme": "^4.3.0",
     "cordova-plugin-geolocation": "git+https://github.com/apache/cordova-plugin-geolocation.git",
     "cordova-plugin-inappbrowser": "~1.3.0",
     "cordova-plugin-inapppurchase": "~1.0.0",
     "cordova-plugin-network-information": "~1.2.1",
     "cordova-plugin-payment-iap": "^2.0.52",
+    "cordova-plugin-safariviewcontroller": "^1.5.2",
     "cordova-plugin-statusbar": "^2.1.3",
     "cordova-plugin-whitelist": "1",
     "express": "^4.16.2",

@@ -16,6 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+// index.js NOT USED, IGNORE
+
 var app = {
     // Application Constructor
     initialize: function () {

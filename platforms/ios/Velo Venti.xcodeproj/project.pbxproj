@@ -19,6 +19,8 @@
 		8D6BC209B3A149DC83CCA92C /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BCE07A3E38041638A249915 /* CDVInAppBrowser.m */; };
 		A9FDFEC00D0546C8B783A14F /* IAP.m in Sources */ = {isa = PBXBuildFile; fileRef = A6488A3DA413479B8AAAEEAB /* IAP.m */; };
 		209E607023614B1CB512CA55 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CBC6262AA0456A9680EEC8 /* StoreKit.framework */; };
+		D084E80B8ED640D6A1BF8B15 /* SafariViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F740BC027C4017860E6E22 /* SafariViewController.m */; };
+		7EE396D871BE4D40AFD176DD /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D648137BDC20488FBFE709FB /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,9 @@
 		20AFF425E4474CBF87913951 /* IAP.h */ = {isa = PBXFileReference; name = "IAP.h"; path = "cordova-plugin-payment-iap/IAP.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		5556BB87A6294547AD6CB69D /* IAPDebugLog.h */ = {isa = PBXFileReference; name = "IAPDebugLog.h"; path = "cordova-plugin-payment-iap/IAPDebugLog.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		B7CBC6262AA0456A9680EEC8 /* StoreKit.framework */ = {isa = PBXFileReference; name = "StoreKit.framework"; path = "System/Library/Frameworks/StoreKit.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		E2F740BC027C4017860E6E22 /* SafariViewController.m */ = {isa = PBXFileReference; name = "SafariViewController.m"; path = "cordova-plugin-safariviewcontroller/SafariViewController.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		D918E74499014229AB60750E /* SafariViewController.h */ = {isa = PBXFileReference; name = "SafariViewController.h"; path = "cordova-plugin-safariviewcontroller/SafariViewController.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		D648137BDC20488FBFE709FB /* SafariServices.framework */ = {isa = PBXFileReference; name = "SafariServices.framework"; path = "System/Library/Frameworks/SafariServices.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +79,7 @@
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				209E607023614B1CB512CA55 /* StoreKit.framework in Frameworks */,
+				7EE396D871BE4D40AFD176DD /* SafariServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				B7CBC6262AA0456A9680EEC8 /* StoreKit.framework */,
+				D648137BDC20488FBFE709FB /* SafariServices.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -175,6 +182,8 @@
 				A6488A3DA413479B8AAAEEAB /* IAP.m */,
 				20AFF425E4474CBF87913951 /* IAP.h */,
 				5556BB87A6294547AD6CB69D /* IAPDebugLog.h */,
+				E2F740BC027C4017860E6E22 /* SafariViewController.m */,
+				D918E74499014229AB60750E /* SafariViewController.h */,
 			);
 			name = Plugins;
 			path = "Velo Venti/Plugins";
@@ -289,6 +298,7 @@
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				8D6BC209B3A149DC83CCA92C /* CDVInAppBrowser.m in Sources */,
 				A9FDFEC00D0546C8B783A14F /* IAP.m in Sources */,
+				D084E80B8ED640D6A1BF8B15 /* SafariViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,6 +26,9 @@
         <param name="ios-package" value="IAP" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="SafariViewController">
+        <param name="ios-package" value="SafariViewController" />
+    </feature>
     <name>Velo Venti</name>
     <description>Velo Venti
     </description>

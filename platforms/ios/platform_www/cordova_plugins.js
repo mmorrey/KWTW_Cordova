@@ -16,6 +16,22 @@ module.exports = [
     "clobbers": [
       "window.iap"
     ]
+  },
+  {
+    "id": "cordova-plugin-customurlscheme.LaunchMyApp",
+    "file": "plugins/cordova-plugin-customurlscheme/www/ios/LaunchMyApp.js",
+    "pluginId": "cordova-plugin-customurlscheme",
+    "clobbers": [
+      "window.plugins.launchmyapp"
+    ]
+  },
+  {
+    "id": "cordova-plugin-safariviewcontroller.SafariViewController",
+    "file": "plugins/cordova-plugin-safariviewcontroller/www/SafariViewController.js",
+    "pluginId": "cordova-plugin-safariviewcontroller",
+    "clobbers": [
+      "SafariViewController"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -23,7 +39,9 @@ module.exports.metadata =
 {
   "cordova-plugin-whitelist": "1.3.3",
   "cordova-plugin-inappbrowser": "1.3.0",
-  "cordova-plugin-payment-iap": "2.0.52"
+  "cordova-plugin-payment-iap": "2.0.52",
+  "cordova-plugin-customurlscheme": "4.3.0",
+  "cordova-plugin-safariviewcontroller": "1.5.2"
 };
 // BOTTOM OF METADATA
 });

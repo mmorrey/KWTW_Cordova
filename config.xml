@@ -71,4 +71,11 @@
     <engine name="browser" spec="^5.0.3" />
     <engine name="ios" spec="^4.5.4" />
     <engine name="android" spec="^6.4.0" />
+    <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
+        <variable name="URL_SCHEME" value="komwiththewind" />
+        <variable name="ANDROID_SCHEME" value=" " />
+        <variable name="ANDROID_HOST" value=" " />
+        <variable name="ANDROID_PATHPREFIX" value="/" />
+    </plugin>
+    <plugin name="cordova-plugin-safariviewcontroller" spec="^1.5.2" />
 </widget>

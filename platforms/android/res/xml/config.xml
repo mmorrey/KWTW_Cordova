@@ -10,6 +10,13 @@
     <feature name="IAP">
         <param name="android-package" value="jp.wizcorp.phonegap.plugin.wizPurchase.IAP" />
     </feature>
+    <feature name="LaunchMyApp">
+        <param name="android-package" value="nl.xservices.plugins.LaunchMyApp" />
+    </feature>
+    <feature name="SafariViewController">
+        <param name="android-package" value="com.customtabplugin.ChromeCustomTabPlugin" />
+        <param name="onload" value="true" />
+    </feature>
     <name>Velo Venti</name>
     <description>Velo Venti
     </description>
