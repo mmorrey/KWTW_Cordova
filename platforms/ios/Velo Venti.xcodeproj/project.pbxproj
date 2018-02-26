@@ -21,6 +21,13 @@
 		209E607023614B1CB512CA55 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7CBC6262AA0456A9680EEC8 /* StoreKit.framework */; };
 		D084E80B8ED640D6A1BF8B15 /* SafariViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F740BC027C4017860E6E22 /* SafariViewController.m */; };
 		7EE396D871BE4D40AFD176DD /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D648137BDC20488FBFE709FB /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		65F50766071A4BC0AB989ADE /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 68B3CA979C7E4C5492CF1350 /* CDVConnection.m */; };
+		3EDDA24D13A24031B59AF946 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = F7FCA9F7E36A447FB123040D /* CDVReachability.m */; };
+		030B742177C84712A4D98DC0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 204FC55B93784059995A2A67 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		F356876F5AF24F58A2F7B223 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC5D187048D4C90B74C1761 /* CoreTelephony.framework */; };
+		A79470E960184A7B9787D8F1 /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9ACE91A961469C83436103 /* CDVLocation.m */; };
+		C1489A3E8A6945DBA6E59845 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACFEDBF630174F8EAFA63506 /* CoreLocation.framework */; };
+		CDFCE7EF7E15402387C7D7EB /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A88501130C4A939DEF822E /* CDVStatusBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +77,17 @@
 		E2F740BC027C4017860E6E22 /* SafariViewController.m */ = {isa = PBXFileReference; name = "SafariViewController.m"; path = "cordova-plugin-safariviewcontroller/SafariViewController.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		D918E74499014229AB60750E /* SafariViewController.h */ = {isa = PBXFileReference; name = "SafariViewController.h"; path = "cordova-plugin-safariviewcontroller/SafariViewController.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		D648137BDC20488FBFE709FB /* SafariServices.framework */ = {isa = PBXFileReference; name = "SafariServices.framework"; path = "System/Library/Frameworks/SafariServices.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		68B3CA979C7E4C5492CF1350 /* CDVConnection.m */ = {isa = PBXFileReference; name = "CDVConnection.m"; path = "cordova-plugin-network-information/CDVConnection.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		F7FCA9F7E36A447FB123040D /* CDVReachability.m */ = {isa = PBXFileReference; name = "CDVReachability.m"; path = "cordova-plugin-network-information/CDVReachability.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		979411219B27494DBB6BF550 /* CDVConnection.h */ = {isa = PBXFileReference; name = "CDVConnection.h"; path = "cordova-plugin-network-information/CDVConnection.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		D1696786529E450B8DAB63DB /* CDVReachability.h */ = {isa = PBXFileReference; name = "CDVReachability.h"; path = "cordova-plugin-network-information/CDVReachability.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		204FC55B93784059995A2A67 /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		5AC5D187048D4C90B74C1761 /* CoreTelephony.framework */ = {isa = PBXFileReference; name = "CoreTelephony.framework"; path = "System/Library/Frameworks/CoreTelephony.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		2D9ACE91A961469C83436103 /* CDVLocation.m */ = {isa = PBXFileReference; name = "CDVLocation.m"; path = "cordova-plugin-geolocation/CDVLocation.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		253847CA836C4A82A26C7A64 /* CDVLocation.h */ = {isa = PBXFileReference; name = "CDVLocation.h"; path = "cordova-plugin-geolocation/CDVLocation.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		ACFEDBF630174F8EAFA63506 /* CoreLocation.framework */ = {isa = PBXFileReference; name = "CoreLocation.framework"; path = "System/Library/Frameworks/CoreLocation.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		84A88501130C4A939DEF822E /* CDVStatusBar.m */ = {isa = PBXFileReference; name = "CDVStatusBar.m"; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		CA5D54AB939B4C5F8B3F4582 /* CDVStatusBar.h */ = {isa = PBXFileReference; name = "CDVStatusBar.h"; path = "cordova-plugin-statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +98,9 @@
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				209E607023614B1CB512CA55 /* StoreKit.framework in Frameworks */,
 				7EE396D871BE4D40AFD176DD /* SafariServices.framework in Frameworks */,
+				030B742177C84712A4D98DC0 /* SystemConfiguration.framework in Frameworks */,
+				F356876F5AF24F58A2F7B223 /* CoreTelephony.framework in Frameworks */,
+				C1489A3E8A6945DBA6E59845 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +173,9 @@
 			children = (
 				B7CBC6262AA0456A9680EEC8 /* StoreKit.framework */,
 				D648137BDC20488FBFE709FB /* SafariServices.framework */,
+				204FC55B93784059995A2A67 /* SystemConfiguration.framework */,
+				5AC5D187048D4C90B74C1761 /* CoreTelephony.framework */,
+				ACFEDBF630174F8EAFA63506 /* CoreLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -184,6 +208,14 @@
 				5556BB87A6294547AD6CB69D /* IAPDebugLog.h */,
 				E2F740BC027C4017860E6E22 /* SafariViewController.m */,
 				D918E74499014229AB60750E /* SafariViewController.h */,
+				68B3CA979C7E4C5492CF1350 /* CDVConnection.m */,
+				F7FCA9F7E36A447FB123040D /* CDVReachability.m */,
+				979411219B27494DBB6BF550 /* CDVConnection.h */,
+				D1696786529E450B8DAB63DB /* CDVReachability.h */,
+				2D9ACE91A961469C83436103 /* CDVLocation.m */,
+				253847CA836C4A82A26C7A64 /* CDVLocation.h */,
+				84A88501130C4A939DEF822E /* CDVStatusBar.m */,
+				CA5D54AB939B4C5F8B3F4582 /* CDVStatusBar.h */,
 			);
 			name = Plugins;
 			path = "Velo Venti/Plugins";
@@ -299,6 +331,10 @@
 				8D6BC209B3A149DC83CCA92C /* CDVInAppBrowser.m in Sources */,
 				A9FDFEC00D0546C8B783A14F /* IAP.m in Sources */,
 				D084E80B8ED640D6A1BF8B15 /* SafariViewController.m in Sources */,
+				65F50766071A4BC0AB989ADE /* CDVConnection.m in Sources */,
+				3EDDA24D13A24031B59AF946 /* CDVReachability.m in Sources */,
+				A79470E960184A7B9787D8F1 /* CDVLocation.m in Sources */,
+				CDFCE7EF7E15402387C7D7EB /* CDVStatusBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

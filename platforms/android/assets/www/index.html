@@ -40,6 +40,16 @@
         <link href="http://fonts.googleapis.com/css?family=Raleway:400,300" rel="stylesheet" type="text/css">
         <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
         <title>Velo Venti</title>
+        <script type="text/javascript">
+        // openURL event handler for SafariViewController, MUST go here, see https://medium.com/@jlchereau/stop-using-inappbrowser-for-your-cordova-phonegap-oauth-flow-a806b61a2dc5 and https://github.com/EddyVerbruggen/Custom-URL-scheme/issues/2 
+        var handleOpenURL = function (url) {
+            SafariViewController.hide();
+            if (url.startsWith('komwiththewind://token#')) {
+                var token = /access_token=([^&]+)/.exec(url);
+                console.log('SVC success, returned token: ' + token);
+            }
+        };      
+        </script>
     </head>
     <body>
         <div class="container">
@@ -55,7 +65,8 @@
                     </div>
                     <div style="height:50px"></div>
                     <div id="connect2StravaImage">
-                        <img src="img/btn_strava_connectwith_orange@2x.png" onclick="connect2Strava2()" onmouseover="" style="cursor: pointer;width:250px;height:auto" />
+                        <!-- <img src="img/btn_strava_connectwith_orange@2x.png" onclick="connect2Strava2()" onmouseover="" style="cursor: pointer;width:250px;height:auto" />-->
+                        <img src="img/btn_strava_connectwith_orange@2x.png" onclick="authenticateWithSVC()" onmouseover="" style="cursor: pointer;width:250px;height:auto" />
                     </div>
                     <div class="text-center" style="padding-top:20px;display:none" id="status_area">
                         &nbsp;

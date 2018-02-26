@@ -25,6 +25,15 @@
     },
     "cordova-plugin-safariviewcontroller": {
       "PACKAGE_NAME": "com.kwtw.kw1"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.kwtw.kw1"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "com.kwtw.kw1"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.kwtw.kw1"
     }
   },
   "dependent_plugins": {}

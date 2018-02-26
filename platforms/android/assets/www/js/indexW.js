@@ -3441,6 +3441,44 @@ function displayStars(type) {
 
 }
 
+// Request URL:https://www.strava.com/oauth/authorize?response_type=code&redirect_uri=https%3A%2F%2Fvv-api-cwtcmdmuvi.now.sh%2Fauth%2Fstrava%2Fcallback&client_id=22753
+// https://www.strava.com/oauth/authorize?response_type=code&redirect_uri=https%3A%2F%2Fvv-api-oynfjqbhhl.now.sh%2Fauth%2Fstrava%2Fcallback&client_id=22753
+
+// MM New Authentication Connector - see https://medium.com/@jlchereau/stop-using-inappbrowser-for-your-cordova-phonegap-oauth-flow-a806b61a2dc5
+function authenticateWithSVC() {
+    
+    var authorizeURL ='https://www.strava.com/oauth/authorize?response_type=code&'
+    + 'redirect_uri=https%3A%2F%2F' 
+    + 'vv-api-qlcpcbftsi.now.sh' // host
+    + '%2f'+'fw' //path to callback (/fw)
+    + '&client_id=22753';
+
+    SafariViewController.isAvailable(function (available) {
+        if (available) {
+          SafariViewController.show(
+            {
+              url: authorizeURL
+            },
+            function (result) {
+                console.log('SVC loading URL: '+ authorizeURL);
+            },
+            function (error) {
+                console.log('SVC failed to load URL: ' + authorizeURL);
+            }
+          );
+        }
+      });
+}
+
+var handleOpenURL = function (url) {
+    SafariViewController.hide();
+    if (url.startsWith('komwiththewind://token#')) {
+      var token = /access_token=([^&]+)/.exec(url);
+      console.log('SVC success, returned token: ' + token);
+    }
+  };
+
+
 function connect2Strava2() {
     var strava_deets = {
         deets: []
