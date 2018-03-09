@@ -69,6 +69,14 @@ module.exports = [
         "id": "cordova-plugin-statusbar.StatusBarProxy",
         "pluginId": "cordova-plugin-statusbar",
         "runs": true
+    },
+    {
+        "file": "plugins/com.oauthio.plugins.oauthio/dist/oauth.js",
+        "id": "com.oauthio.plugins.oauthio.OAuth",
+        "pluginId": "com.oauthio.plugins.oauthio",
+        "merges": [
+            "OAuth"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -81,7 +89,8 @@ module.exports.metadata =
     "cordova-plugin-safariviewcontroller": "1.5.2",
     "cordova-plugin-network-information": "1.2.1",
     "cordova-plugin-geolocation": "4.0.2-dev",
-    "cordova-plugin-statusbar": "2.4.1"
+    "cordova-plugin-statusbar": "2.4.1",
+    "com.oauthio.plugins.oauthio": "0.2.4"
 }
 // BOTTOM OF METADATA
 });

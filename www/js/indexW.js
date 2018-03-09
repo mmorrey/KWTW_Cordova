@@ -3441,52 +3441,6 @@ function displayStars(type) {
 
 }
 
-// Request URL:https://www.strava.com/oauth/authorize?response_type=code&redirect_uri=https%3A%2F%2Fvv-api-cwtcmdmuvi.now.sh%2Fauth%2Fstrava%2Fcallback&client_id=22753
-// https://www.strava.com/oauth/authorize?response_type=code&redirect_uri=https%3A%2F%2Fvv-api-oynfjqbhhl.now.sh%2Fauth%2Fstrava%2Fcallback&client_id=22753
-
-// MM New Authentication Connector - see https://medium.com/@jlchereau/stop-using-inappbrowser-for-your-cordova-phonegap-oauth-flow-a806b61a2dc5
-function authenticateWithSVC() {
-    
-    var authorizeURL ='https://www.strava.com/oauth/authorize?response_type=code&'
-    + 'redirect_uri=https%3A%2F%2F' 
-    + 'vv-api-mcexkvrskh.now.sh' // host
-    + '%2f'+'fw' //path to callback (/fw)
-    + '&client_id=22753';
-
-    SafariViewController.isAvailable(function (available) {
-        if (available) {
-          SafariViewController.show(
-            {
-              url: authorizeURL
-            },
-            function (result) {
-                console.log('SVC loading URL: '+ authorizeURL);
-            },
-            function (error) {
-                console.log('SVC failed to load URL: ' + authorizeURL);
-            }
-          );
-        }
-      });
-}
-
-var handleOpenURL = function (url) {
-    /*
-    setTimeout(function() {
-        alert("received url: " + url); // needs to be wrapped in a timeout in iOS see https://github.com/EddyVerbruggen/Custom-URL-scheme#3-usage
-      }, 0);
-      */
-    SafariViewController.hide();
-    if (url.startsWith('komwiththewind://token')) { // traling # removed to allow for search/query string option
-        var token = /code=([^&]+)/.exec(url); // "access_token" replaced with "code"
-        //console.log('SVC success, returned token: ' + token[0] + ',' + token[1]);
-        //ToDo validate token before storage
-        localStorage.setItem('stravaAuthToken',token[1]);
-    }
-};
-
-
-
 function connect2Strava2() {
     var strava_deets = {
         deets: []
@@ -3497,83 +3451,88 @@ function connect2Strava2() {
     OAuth.initialize('7ZbKkdtjRFA8NVkn00ka1ixaIe8');  // MM replace OAuth here
     OAuth.popup('strava', { cache: true }).done(function (result) {
         localStorage.removeItem('userdata');
-        result.get('https://www.strava.com/api/v3/athlete').done(function (data) { // MM need get this data from Strava without Auth.io
-            $('#connect2StravaImage').hide();
-            $('#bigLogoimg').hide();
-            strava_deets.deets.push({
-                "firstname": data.firstname,
-                "profile": data.profile,
-                "lastname": data.lastname,
-                "stravaID": data.id,
-                "city": data.city,
-                "state": data.state,
-                "country": data.country
-            });
-
-            var jsondeets = JSON.stringify(strava_deets);
-            localStorage.setItem('userdata', jsondeets);
-            localStorage.setItem('fulluserdata', JSON.stringify(result));
-            localStorage.setItem('Hrs', "3");
-            saveUser(data.firstname, data.lastname, data.id, 0, 0);
-            localStorage.setItem('credits', "15");
-            ID = data.id;
-
-            if (data.profile == "avatar/athlete/large.png") {
-                pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
-                pic_header = "<img class=\"circular_pfl\" src=\"img/blank_avatar.jpg\">";
-            } else {
-                pic = "<img style=\"width:80px;height:auto\" src=\"" + data.profile + "\">";
-                pic_header = "<img class=\"circular_pfl\" src=\"" + data.profile + "\">";
-            }
-
-            var name = data.firstname + " " + data.lastname;
-
-            var loc = data.city + ", " + data.country;
-
-
-            $('#pic_header').show();
-            $('#logo_header').show();
-            $('#user_details').html("<h1>" + name + "</h1><h3>" + loc + "</h3>");
-            $('#userimg').html(pic);
-            $('#pic_header').html(pic_header);
-
-            var timex = 30000;
-
-            var sub = Math.floor(moment().add(0, 'days') / 1000);
-            var subt = Math.floor(moment().add(-13, 'days') / 1000);
-
-            if (data.id == "11908562") {
-				localStorage.setItem("sub", subt);
-
-			} else {
-            localStorage.setItem("sub", sub);
-
-		}
-			checkServerStatus(data.id, "111")
-            var timerst = setInterval(function () { closeStatus() }, timex); //rem bkk2
-            function closeStatus() {
-                clearInterval(timerst);
-                $('#status_msgs').append("</br>Done .... stand by");
-               // checkServerStatus(ID);
-                var timerst2 = setInterval(function () { dispstarst() }, 2000);
-                function dispstarst() {
-                    clearInterval(timerst2);
-                    $('#UnAuthApp').hide();
-                    $('#status_msgs').hide();
-                    $('#status_area').hide();
-                    $('#stRefBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\" id=\"stRefresh\" onclick=\"connect2Strava2()\">Refresh data from Strava</button>");
-                    appPurchChk();
-                }
-            }
-            $('#status_msgs').append("</br >Retrieving Starred Segments for </br>" + data.firstname + " " + data.lastname + "</br >");
-            $('#stRefBtn').html("Retrieving Starred Segments for </br>" + data.firstname + " " + data.lastname);
-            stKOMs(ID);
-            stStars(ID);
-
+        result.get('https://www.strava.com/api/v3/athlete').done(function (data) {
+           setUpUser(data);
         });
-
     });
 }
+
+
+function setUpUser(data) { // MM need get this data from Strava without Auth.io
+    $('#connect2StravaImage').hide();
+    $('#bigLogoimg').hide();
+
+    strava_deets.deets.push({
+        "firstname": data.firstname,
+        "profile": data.profile,
+        "lastname": data.lastname,
+        "stravaID": data.id,
+        "city": data.city,
+        "state": data.state,
+        "country": data.country
+    });
+
+    var jsondeets = JSON.stringify(strava_deets);
+    localStorage.setItem('userdata', jsondeets);
+    localStorage.setItem('fulluserdata', JSON.stringify(result));
+    localStorage.setItem('Hrs', "3");
+    saveUser(data.firstname, data.lastname, data.id, 0, 0);
+    localStorage.setItem('credits', "15");
+    ID = data.id;
+
+    if (data.profile == "avatar/athlete/large.png") {
+        pic = "<img style=\"width:80px;height:auto\" src=\"img/blank_avatar.jpg\">";
+        pic_header = "<img class=\"circular_pfl\" src=\"img/blank_avatar.jpg\">";
+    } else {
+        pic = "<img style=\"width:80px;height:auto\" src=\"" + data.profile + "\">";
+        pic_header = "<img class=\"circular_pfl\" src=\"" + data.profile + "\">";
+    }
+
+    var name = data.firstname + " " + data.lastname;
+
+    var loc = data.city + ", " + data.country;
+
+
+    $('#pic_header').show();
+    $('#logo_header').show();
+    $('#user_details').html("<h1>" + name + "</h1><h3>" + loc + "</h3>");
+    $('#userimg').html(pic);
+    $('#pic_header').html(pic_header);
+
+    var timex = 30000;
+
+    var sub = Math.floor(moment().add(0, 'days') / 1000);
+    var subt = Math.floor(moment().add(-13, 'days') / 1000);
+
+    if (data.id == "11908562") {
+        localStorage.setItem("sub", subt);
+
+    } else {
+        localStorage.setItem("sub", sub);
+    }
+
+    checkServerStatus(data.id, "111");    
+    var timerst = setInterval(function () { closeStatus() }, timex); //rem bkk2
+    function closeStatus() {
+        clearInterval(timerst);
+        $('#status_msgs').append("</br>Done .... stand by");
+        // checkServerStatus(ID);
+        var timerst2 = setInterval(function () { dispstarst() }, 2000);
+        function dispstarst() {
+            clearInterval(timerst2);
+            $('#UnAuthApp').hide();
+            $('#status_msgs').hide();
+            $('#status_area').hide();
+            $('#stRefBtn').html("<button type=\"button\" class=\"btn btn-primary btn-sm\" id=\"stRefresh\" onclick=\"connect2Strava2()\">Refresh data from Strava</button>");
+            appPurchChk();
+        }
+    }
+    $('#status_msgs').append("</br >Retrieving Starred Segments for </br>" + data.firstname + " " + data.lastname + "</br >");
+    $('#stRefBtn').html("Retrieving Starred Segments for </br>" + data.firstname + " " + data.lastname);
+    stKOMs(ID);
+    stStars(ID);
+}
+
 
 function checkServerStatus(stravaID,sub) {
 

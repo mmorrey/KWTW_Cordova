@@ -18,8 +18,9 @@
     under the License.
 -->
 <html>
-    <head>
-        <!--
+
+<head>
+    <!--
         Customize this policy to fit your own app's needs. For more guidance, see:
             https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
         Some notes:
@@ -28,399 +29,565 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" type="text/css" href="css/bootstrap0.css" />
-        <link href="css/main.css" rel="stylesheet">
-        <link href="css/font-style.css" rel="stylesheet">
-        <link href="css/flexslider.css" rel="stylesheet">
-        <link rel="stylesheet" href="css/font-awesome.css">
-        <link href="http://fonts.googleapis.com/css?family=Raleway:400,300" rel="stylesheet" type="text/css">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
-        <title>Velo Venti</title>
-        <script type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap0.css" />
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/font-style.css" rel="stylesheet">
+    <link href="css/flexslider.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,300" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+    <title>Velo Venti</title>
+    <script type="text/javascript">
         // openURL event handler for SafariViewController, MUST go here, see https://medium.com/@jlchereau/stop-using-inappbrowser-for-your-cordova-phonegap-oauth-flow-a806b61a2dc5 and https://github.com/EddyVerbruggen/Custom-URL-scheme/issues/2 
+        /*
         var handleOpenURL = function (url) {
             SafariViewController.hide();
             if (url.startsWith('komwiththewind://token#')) {
                 var token = /access_token=([^&]+)/.exec(url);
                 console.log('SVC success, returned token: ' + token);
             }
-        };      
-        </script>
-    </head>
-    <body>
-        <div class="container">
-            <div id="splashDiv" style="position:absolute;left:0px;top:0px;width:100%;height:600px;z-index:2000;background-color:#1f1f1f">
-                <div class="cont">
-                    <img style="padding-top:150px;width:250px;height:auto;" src="img/logo_app_250.png" />
+        };
+        */
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div id="splashDiv" style="position:absolute;left:0px;top:0px;width:100%;height:600px;z-index:2000;background-color:#1f1f1f">
+            <div class="cont">
+                <img style="padding-top:150px;width:250px;height:auto;" src="img/logo_app_250.png" />
+            </div>
+        </div>
+        <div id="UnAuthApp" style="display:none">
+            <div class="cont">
+                <div id="bigLogoimg">
+                    <img style="width:auto;" src="img/logo_app_42.png" />
+                </div>
+                <div style="height:50px"></div>
+                <div id="connect2StravaImage">
+                    <!-- <img src="img/btn_strava_connectwith_orange@2x.png" onclick="connect2Strava2()" onmouseover="" style="cursor: pointer;width:250px;height:auto" />-->
+                    <img src="img/btn_strava_connectwith_orange@2x.png" onclick="authenticateWithSVC()" onmouseover="" style="cursor: pointer;width:250px;height:auto"
+                    />
+                </div>
+                <div class="text-center" style="padding-top:20px;display:none" id="status_area">
+                    &nbsp;
+                    <div style="height:53px;width:60px;text-align:center;color:#00AF96" class="fa fa-4x fa-cog fa-spin"></div>
+                    <div id="status_msgs" style="text-align:center;color:#00AF96">&nbsp;</div>
                 </div>
             </div>
-            <div id="UnAuthApp" style="display:none">
-                <div class="cont">
-                    <div id="bigLogoimg">
-                        <img style="width:auto;" src="img/logo_app_42.png"/>
-                    </div>
-                    <div style="height:50px"></div>
-                    <div id="connect2StravaImage">
-                        <!-- <img src="img/btn_strava_connectwith_orange@2x.png" onclick="connect2Strava2()" onmouseover="" style="cursor: pointer;width:250px;height:auto" />-->
-                        <img src="img/btn_strava_connectwith_orange@2x.png" onclick="authenticateWithSVC()" onmouseover="" style="cursor: pointer;width:250px;height:auto" />
-                    </div>
-                    <div class="text-center" style="padding-top:20px;display:none" id="status_area">
-                        &nbsp;
-                        <div style="height:53px;width:60px;text-align:center;color:#00AF96" class="fa fa-4x fa-cog fa-spin"></div>
-                        <div id="status_msgs" style="text-align:center;color:#00AF96">&nbsp;</div>
+        </div>
+
+        <div class="menubtns" id="menu_buttons" style="display:none">
+            <div class="btn-group">
+                <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    My Segments
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" onclick="getAct('stars')">My Segments</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="getFriends()">KOMs</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="getNearby()">Map</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="showSettingsTile()">Settings</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="locIcon" style="display:inline-block;color:#fff;padding-left:5px" onclick="checkLoc()">
+                <button type="button" class="btn btn-primary btn-sm">
+                    <i class="fa fa-dot-circle-o"></i>
+                </button>
+            </div>
+            <div id="creditsBtn" style="display:inline-block;padding-left:5px" onclick="showMoreinfo()">
+                <button type="button" class="btn btn-primary btn-sm">Credits: </button>
+            </div>
+            <div style="display:none;z-index:2100;height:auto;background-color:#1f1f1f" id="moreInfo">
+                <div class="msg_sml" style="padding-left:5px;padding-right:3px;padding-top:5px;padding-bottom:10px">
+                    During the Trial Period you have 15 credits for Historical data. Retrieving the historical data for a KOM by opening the
+                    Leaderboard is 1 credit. Retrieving the historical data for all the Segment attempts shown is 3 credits.
+                    <br
+                    /> If you purchase the Monthly Subscription you will have unlimited credits.
+                    <br />
+                    <br/>
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="msg_sml">
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="openSettings()">Purchase Subscription</button>
+                                </div>
+                            </td>
+                            <td>&nbsp;&nbsp;</td>
+                            <td>
+                                <div class="msg_sml">
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="closeMoreinfo()">Close</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div id="onlineStatus" class="status_on">Online</div>
+
+        <div id="pic_header" class="profile" style="display:none"></div>
+        <div id="logo_header" class="logoimg">
+            <img style="width:auto;height: 42px;" src="img/logo_app_42.png" />
+        </div>
+        <div style="height:50px"></div>
+        <div id="Statusreport" style="display:none">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-lg-12">
+                    <div class="dash-unit" style="height:30px">
+                        <h2>Device is Offline</h2>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="menubtns" id="menu_buttons" style="display:none">
-                <div class="btn-group">
-                    <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        My Segments<span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" onclick="getAct('stars')">My Segments</a></li>
-                        <li><a href="#" onclick="getFriends()">KOMs</a></li>
-                        <li><a href="#" onclick="getNearby()">Map</a></li>
-                        <li><a href="#" onclick="showSettingsTile()">Settings</a></li>
-                    </ul>
-                </div>
-                <div id="locIcon" style="display:inline-block;color:#fff;padding-left:5px" onclick="checkLoc()"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-dot-circle-o"></i></button></div>
-                <div id="creditsBtn" style="display:inline-block;padding-left:5px" onclick="showMoreinfo()"><button type="button" class="btn btn-primary btn-sm">Credits: </button></div>
-                <div style="display:none;z-index:2100;height:auto;background-color:#1f1f1f" id="moreInfo">
-                              <div class="msg_sml" style="padding-left:5px;padding-right:3px;padding-top:5px;padding-bottom:10px">
-                                During the Trial Period you have 15 credits for Historical data. Retrieving the historical data for a KOM by opening the Leaderboard is 1 credit. Retrieving the historical data for all the Segment attempts shown is 3 credits.<br />
-                                If you purchase the Monthly Subscription you will have unlimited credits.<br /><br/>
-                                <table><tr><td><div class="msg_sml"><button type="button" class="btn btn-primary btn-sm" onclick="openSettings()">Purchase Subscription</button></div></td><td>&nbsp;&nbsp;</td>
-                                    <td><div class="msg_sml"><button type="button" class="btn btn-primary btn-sm" onclick="closeMoreinfo()">Close</button></div></td></tr></table>
-
+        <div id="Storagereport" style="display:none">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-lg-12">
+                    <div class="dash-unit" style="height:75px">
+                        <h3>KOM With The Wind app storage is almost full.</h3>
+                        <div class="msg_sml" style="padding-left:5px" id="stgmsg"></div>
                     </div>
                 </div>
             </div>
-                        <div id="onlineStatus" class="status_on">Online</div>
+        </div>
+        <div class="row">
+            <div id="seg_nearby" style="display:none;padding:0px">
 
-                        <div id="pic_header" class="profile" style="display:none"></div>
-                        <div id="logo_header" class="logoimg"><img style="width:auto;height: 42px;" src="img/logo_app_42.png" /></div>
-                        <div style="height:50px"></div>
-                        <div id="Statusreport" style="display:none">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-lg-12">
-                                    <div class="dash-unit" style="height:30px">
-                                        <h2>Device is Offline</h2>
-                                    </div>
+                <div id="map_canvas_nearby" style="height:200px"></div>
+                <div id="map_activities" style="padding-top:10px">
+
+
+                    <div class="col-xs-12 col-sm-12 col-lg-12">
+                        <div class="dash-unit" id="tableback_map">
+
+                            <div style="position:absolute;left:5px;top:10px;z-index:400" id="btnLeft"></div>
+                            <div style="position:absolute;right:5px;top:10px;z-index:400" id="btnRight"></div>
+                            <div class="cont" id="mapWind" style="margin-top:2px">
+
+                                <canvas id="map_wind_canvas" width="240px" height="70px" />
+
+                            </div>
+                            <div style="padding-left:7px;padding-top:5px;z-index:400" id="refreshBtnmap">
+
+
+                            </div>
+
+
+                            <div style="padding-left:7px;padding-top:5px" class="msg_sml" id="winfomap">
+
+                            </div>
+
+
+                            <div id="map_table" style="padding-top:10px">
+                                <div class="text-center">
+                                    &nbsp;
+                                    <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
+
                                 </div>
                             </div>
                         </div>
+                        <!-- /dash-unit -->
 
-                        <div id="Storagereport" style="display:none">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-lg-12">
-                                    <div class="dash-unit" style="height:75px">
-                                        <h3>KOM With The Wind app storage is almost full.</h3>
-                                        <div class="msg_sml" style="padding-left:5px" id="stgmsg"></div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div id="seg_details" style="display:none">
+
+            </div>
+
+            <!-- FIRST ROW OF BLOCKS -->
+            <div id="profile_tile" style="display:none">
+
+
+                <!-- USER PROFILE BLOCK -->
+                <div id="profile_settings">
+                    <div class="col-xs-12 col-sm-12 col-lg-6">
+                        <div class="dash-unit" style="height:300px">
+                            <br>
+                            <div id="user_details"></div>
+
+                            <div id="userimg" class="circular_user"></div>
+                            <div class="cont">
+                                <div id="stRefBtn" class="msg_sml">
+                                    <button type="button" class="btn btn-primary btn-sm" id="stRefresh" onclick="connect2Strava2()">Refresh data from Strava</button>
+                                </div>
+                                <div style="height:20px">&nbsp;</div>
+                                <div id="frRefBtn" class="msg_sml">
+                                    <button type="button" class="btn btn-primary btn-sm" id="stFrRefresh" onclick="stFriends()">Refresh Friend data from Strava</button>
+                                </div>
+                                <div style="height:20px">&nbsp;</div>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="SignOut()">Sign Out</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-lg-6">
+                        <div class="dash-unit" style="height:auto" id="storage_tile">
+                            <dtitle>Storage</dtitle>
+                            <hr>
+                            <div class="cont">
+                                <div class="msg_sml">Weather data is automatically cleared after 24 hours</div>
+                                <div style="height:15px">&nbsp;</div>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="removeOldweather()">Check now</button>
+                            </div>
+                            <div style="height:15px">&nbsp;</div>
+                            <div id="stmsg"></div>
+
+                            <div id="logmsg" class="msg_sml" style="padding-left:5px"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-lg-6">
+                        <div class="dash-unit" style="height:100px">
+                            <dtitle>Settings</dtitle>
+                            <hr>
+                            <div class="text-center">
+                            </div>
+                            <div class="cont">
+                                <div style="display:inline-block">Leaderboard Gender</div>
+                                <div style="display:inline-block" id="genderDD">
+                                    <div class="btn-group">
+                                        <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Male and Female
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="#" onclick="changeGender('B')">Male and Female</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" onclick="changeGender('M')">Male</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" onclick="changeGender('F')">Female</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-12 col-sm-12 col-lg-6">
+                    <div class="dash-unit" style="height:auto">
+                        <dtitle>Messages</dtitle>
+                        <hr>
+                        <div class="text-center">
+                        </div>
+                        <div class="cont">
+                            <div class="msg_sml" id="pmsg"></div>
+                            <div style="height:20px">&nbsp;</div>
+                            <div id="pBtns">
+                                <button type="button" class="btn btn-primary btn-sm" id="purchBtn" onclick="purchaseProduct('sub1monthlev2')">Purchase Monthly Subscription</button>
+                                <div style="height:10px">&nbsp;</div>
+                                <label class="checkbox-inline" style="color:#8bc7eb">
+                                    <input type="checkbox" name="TCsBox" value="yes">I agree to the Terms and Conditions
+                                </label>
+                                <div style="height:10px">&nbsp;</div>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="viewTCs()" id="TCsBtnV">View Terms and Conditions</button>
+                                <div id="TCs" style="display:none;font-size:10px">
+                                    <h1>Terms and Conditions ("Terms")</h1>
+                                    <p>Last updated: July 21, 2016</p>
+                                    <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before
+                                        using the KOM With The Wind mobile application (the "Service") operated by Orchid
+                                        Global Limited ("us", "we", or "our").</p>
+                                    <p>Your access to and use of the Service is conditioned on your acceptance of and compliance
+                                        with these Terms. These Terms apply to all visitors, users and others who access
+                                        or use the Service.</p>
+                                    <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree
+                                        with any part of the terms then you may not access the Service.</p>
+                                    <p>
+                                        <strong>Purchases</strong>
+                                    </p>
+                                    <p>You are encouraged to familiarise yourself with your rights contained within the Sale
+                                        of Goods Act 1979, Unfair Contract Terms Act 1977 and the Unfair Terms in Consumer
+                                        Contracts Regulations 1999.</p>
+                                    <p>If you wish to purchase any product or service made available through the Service ("Purchase"),
+                                        you may be asked to supply certain information relevant to your Purchase including,
+                                        without limitation, your credit card number, the expiration date of your credit card,
+                                        your billing address, and your shipping information.</p>
+                                    <p>You represent and warrant that: (i) you have the legal right to use any credit card(s)
+                                        or other payment method(s) in connection with any Purchase; and that (ii) the information
+                                        you supply to us is true, correct and complete. You expressly agree that Orchid Global
+                                        Limited is not responsible for any loss or damage arising from the submission of
+                                        false or inaccurate information.</p>
+                                    <p>By submitting such information, you grant us the right to provide the information to
+                                        third parties for purposes of facilitating the completion of Purchases.</p>
+                                    <p>
+                                        <strong>Availability, Errors and Inaccuracies</strong>
+                                    </p>
+                                    <p>We are constantly updating our offerings of products and services on the Service. The
+                                        products or services available on our Service may be mispriced, described inaccurately,
+                                        or unavailable, and we may experience delays in updating information on the Service
+                                        and in our advertising on other web sites. You expressly agree that any such offer
+                                        of a product or service does not constitute a legal offer capable of attracting legal
+                                        consequences.</p>
+                                    <p>We cannot and do not guarantee the accuracy or completeness of any information, including
+                                        prices, product images, specifications, availability, and services. We reserve the
+                                        right to change or update information and to correct errors, inaccuracies, or omissions
+                                        at any time without prior notice. Section "Availability, Errors and Inaccuracies"
+                                        is without prejudice to existing statutory rights.</p>
+                                    <p>
+                                        <strong>Intellectual Property</strong>
+                                        The Service and its original content, features and functionality are and will remain the exclusive property of Orchid Global
+                                        Limited and its licensors. The Service is protected by copyright, trademark, and
+                                        other laws of both the United Kingdom and foreign countries. Our trademarks and trade
+                                        dress may not be used in connection with any product or service without the prior
+                                        written consent of Orchid Global Limited.
+                                    </p>
+                                    <p>
+                                        <strong>Links To Other Web Sites</strong>
+                                    </p>
+                                    <p>Our Service may contain links to third-party web sites or services that are not owned
+                                        or controlled by Orchid Global Limited.</p>
+                                    <p>Orchid Global Limited has no control over, and assumes no responsibility for, the content,
+                                        privacy policies, or practices of any third party web sites or services. You further
+                                        acknowledge and agree that Orchid Global Limited shall not be responsible or liable,
+                                        directly or indirectly, for any damage or loss caused or alleged to be caused by
+                                        or in connection with use of or reliance on any such content, goods or services available
+                                        on or through any such web sites or services.</p>
+                                    <p>We strongly advise you to read the terms and conditions and privacy policies of any third-party
+                                        web sites or services that you visit.</p>
+                                    <p>
+                                        <strong>Termination</strong>
+                                    </p>
+                                    <p>We may terminate or suspend your access immediately, without prior notice or liability,
+                                        for any reason whatsoever, including without limitation if you breach the Terms.</p>
+                                    <p>Upon termination, your right to use the Service will immediately cease.</p>
+                                    <p>All provisions of the Terms which by their nature should survive termination shall survive
+                                        termination, including, without limitation, ownership provisions, warranty disclaimers,
+                                        indemnity and limitations of liability.</p>
+                                    <p>
+                                        <strong>Indemnification</strong>
+                                    </p>
+                                    <p>You agree to defend, indemnify and hold harmless Orchid Global Limited and its licensee
+                                        and licensors, and their employees, contractors, agents, officers and directors,
+                                        from and against any and all claims, damages, obligations, losses, liabilities, costs
+                                        or debt, and expenses (including but not limited to attorney's fees), resulting from
+                                        or arising out of a) your use and access of the Service, or b) a breach of these
+                                        Terms.</p>
+                                    <p>
+                                        <strong>Limitation Of Liability</strong>
+                                    </p>
+                                    <p>In no event shall Orchid Global Limited, nor its directors, employees, partners, agents,
+                                        suppliers, or affiliates, be liable for any indirect, incidental, special, consequential
+                                        or punitive damages, including without limitation, loss of profits, data, use, goodwill,
+                                        or other intangible losses, resulting from (i) your access to or use of or inability
+                                        to access or use the Service; (ii) any conduct or content of any third party on the
+                                        Service; (iii) any content obtained from the Service; and (iv) unauthorized access,
+                                        use or alteration of your transmissions or content, whether based on warranty, contract,
+                                        tort (including negligence) or any other legal theory, whether or not we have been
+                                        informed of the possibility of such damage, and even if a remedy set forth herein
+                                        is found to have failed of its essential purpose.</p>
+                                    <p>
+                                        <strong>Disclaimer</strong>
+                                    </p>
+                                    <p>Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and
+                                        "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether
+                                        express or implied, including, but not limited to, implied warranties of merchantability,
+                                        fitness for a particular purpose, non-infringement or course of performance.</p>
+                                    <p>Orchid Global Limited its subsidiaries, affiliates, and its licensors do not warrant
+                                        that a) the Service will function uninterrupted, secure or available at any particular
+                                        time or location; b) any errors or defects will be corrected; c) the Service is free
+                                        of viruses or other harmful components; or d) the results of using the Service will
+                                        meet your requirements.</p>
+                                    <p>
+                                        <strong>Exclusions</strong>
+                                    </p>
+                                    <p>Without limiting the generality of the foregoing and notwithstanding any other provision
+                                        of these terms, under no circumstances will Orchid Global Limited ever be liable
+                                        to you or any other person for any indirect, incidental, consequential, special,
+                                        punitive or exemplary loss or damage arising from, connected with, or relating to
+                                        your use of the Service, these Terms, the subject matter of these Terms, the termination
+                                        of these Terms or otherwise, including but not limited to personal injury, loss of
+                                        data, business, markets, savings, income, profits, use, production, reputation or
+                                        goodwill, anticipated or otherwise, or economic loss, under any theory of liability
+                                        (whether in contract, tort, strict liability or any other theory or law or equity),
+                                        regardless of any negligence or other fault or wrongdoing (including without limitation
+                                        gross negligence and fundamental breach) by Orchid Global Limited or any person for
+                                        whom Orchid Global Limited is responsible, and even if Orchid Global Limited has
+                                        been advised of the possibility of such loss or damage being incurred.</p>
+                                    <p>
+                                        <strong>Governing Law</strong>
+                                    </p>
+                                    <p>These Terms shall be governed and construed in accordance with the laws of England and
+                                        Wales, without regard to its conflict of law provisions.</p>
+                                    <p>Our failure to enforce any right or provision of these Terms will not be considered a
+                                        waiver of those rights. If any provision of these Terms is held to be invalid or
+                                        unenforceable by a court, the remaining provisions of these Terms will remain in
+                                        effect. These Terms constitute the entire agreement between us regarding our Service,
+                                        and supersede and replace any prior agreements we might have between us regarding
+                                        the Service.</p>
+                                    <p>
+                                        <strong>Changes</strong>
+                                    </p>
+                                    <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any
+                                        time. If a revision is material we will try to provide at least 30 days notice prior
+                                        to any new terms taking effect. What constitutes a material change will be determined
+                                        at our sole discretion.</p>
+                                    <p>By continuing to access or use our Service after those revisions become effective, you
+                                        agree to be bound by the revised terms. If you do not agree to the new terms, you
+                                        must stop using the service.</p>
+                                    <p>
+                                        <strong>Privacy Policy and Cookie Policy</strong>
+                                    </p>
+                                    <p>Please refer to our Privacy Policy and Cookies Policy. You agree that they constitute
+                                        part of these terms. You must read our Privacy Policy and Cookies Policy before you
+                                        use the Service.</p>
+                                    <p>
+                                        <strong>Contact Us</strong>
+                                    </p>
+                                    <p>If you have any questions about these Terms, please contact us. v1.4.3</p>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="hideTCs()" id="TCsBtnH" style="display:none">Hide Terms and Conditions</button>
+                            </div>
+                            <div>
+
+                            </div>
+                            <div style="height:20px">&nbsp;</div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-6">
+                    <div class="dash-unit" style="height:80px">
+                        <div class="cont">
+
+                            <div style="height:15px">&nbsp;</div>
+                            <div class="msg_sml">Copyright � 2017 Orchid Global Limited. v1.6.0
+                                <a href="http://www.komwiththewind.com/privacy">
+                                Privacy Policy</a>
                             </div>
                         </div>
-                        <div class="row">
-                            <div id="seg_nearby" style="display:none;padding:0px">
+                        <div style="height:15px">&nbsp;</div>
 
-                                <div id="map_canvas_nearby" style="height:200px"></div>
-                                <div id="map_activities" style="padding-top:10px">
+                    </div>
+                </div>
+                <!-- DONUT CHART BLOCK -->
 
+            </div>
+            <!-- /row -->
+            <!-- SECOND ROW OF BLOCKS -->
+            <div class="col-xs-12 col-sm-12 col-lg-6">
+                <!-- Activities BLOCK -->
+                <div id="my_friends" style="display:none">
 
-                                    <div class="col-xs-12 col-sm-12 col-lg-12">
-                                        <div class="dash-unit" id="tableback_map">
-
-                                            <div style="position:absolute;left:5px;top:10px;z-index:400" id="btnLeft"></div>
-                                            <div style="position:absolute;right:5px;top:10px;z-index:400" id="btnRight"></div>
-                                            <div class="cont" id="mapWind" style="margin-top:2px">
-
-                                                <canvas id="map_wind_canvas" width="240px" height="70px" />
-
-                                            </div>
-                                            <div style="padding-left:7px;padding-top:5px;z-index:400" id="refreshBtnmap">
-
-
-                                            </div>
-
-
-                                            <div style="padding-left:7px;padding-top:5px" class="msg_sml" id="winfomap">
-
-                                            </div>
-
-
-                                            <div id="map_table" style="padding-top:10px">
-                                                <div class="text-center">
-                                                    &nbsp;
-                                                    <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
-
-                                                </div>
-                                            </div>
-                                        </div><!-- /dash-unit -->
-
-                                    </div>
-
-
-                                </div>
-                            </div>
-                            <div id="seg_details" style="display:none">
-
+                    <div class="dash-unit" id="frback">
+                        <dtitle>Friends</dtitle>
+                        <hr>
+                        <div id="friend_list">
+                            <div class="text-center">
+                                &nbsp;
+                                <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
+                                <div id="frdMsgs">Loading ...</div>
                             </div>
 
-                            <!-- FIRST ROW OF BLOCKS -->
-                            <div id="profile_tile" style="display:none">
+                        </div>
+                    </div>
+                </div>
+                <!-- /dash-unit -->
+            </div>
+            <!-- /span3 -->
 
+            <div id="my_activities" style="display:none">
+                <div class="col-xs-12 col-sm-12 col-lg-6">
+                    <div class="dash-unit" style="height:50px">
+                        <div class="cont">
 
-                                <!-- USER PROFILE BLOCK -->
-                                <div id="profile_settings">
-                                    <div class="col-xs-12 col-sm-12 col-lg-6">
-                                        <div class="dash-unit" style="height:300px">
-                                            <br>
-                                            <div id="user_details"></div>
-
-                                            <div id="userimg" class="circular_user"></div>
-                                            <div class="cont">
-                                                <div id="stRefBtn" class="msg_sml"><button type="button" class="btn btn-primary btn-sm" id="stRefresh" onclick="connect2Strava2()">Refresh data from Strava</button></div>
-                                                <div style="height:20px">&nbsp;</div>
-                                                <div id="frRefBtn" class="msg_sml"><button type="button" class="btn btn-primary btn-sm" id="stFrRefresh" onclick="stFriends()">Refresh Friend data from Strava</button></div>
-                                                <div style="height:20px">&nbsp;</div>
-                                                <button type="button" class="btn btn-primary btn-sm" onclick="SignOut()">Sign Out</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-lg-6">
-                                        <div class="dash-unit" style="height:auto" id="storage_tile">
-                                            <dtitle>Storage</dtitle>
-                                            <hr>
-                                            <div class="cont">
-                                                <div class="msg_sml">Weather data is automatically cleared after 24 hours</div>
-                                                <div style="height:15px">&nbsp;</div>
-                                                <button type="button" class="btn btn-primary btn-sm" onclick="removeOldweather()">Check now</button>
-                                            </div>
-                                            <div style="height:15px">&nbsp;</div>
-                                            <div id="stmsg"></div>
-
-                                            <div id="logmsg" class="msg_sml" style="padding-left:5px"></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xs-12 col-sm-12 col-lg-6">
-                                        <div class="dash-unit" style="height:100px">
-                                            <dtitle>Settings</dtitle>
-                                            <hr>
-                                            <div class="text-center">
-                                            </div>
-                                            <div class="cont">
-                                                <div style="display:inline-block">Leaderboard Gender</div>
-                                                <div style="display:inline-block" id="genderDD">
-                                                    <div class="btn-group">
-                                                        <button class="btn btn-success btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            Male and Female<span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a href="#" onclick="changeGender('B')">Male and Female</a></li>
-                                                            <li><a href="#" onclick="changeGender('M')">Male</a></li>
-                                                            <li><a href="#" onclick="changeGender('F')">Female</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-xs-12 col-sm-12 col-lg-6">
-                                    <div class="dash-unit" style="height:auto">
-                                        <dtitle>Messages</dtitle>
-                                        <hr>
-                                        <div class="text-center">
-                                        </div>
-                                        <div class="cont">
-                                            <div class="msg_sml" id="pmsg"></div>
-                                            <div style="height:20px">&nbsp;</div>
-                                            <div id="pBtns">
-                                                <button type="button" class="btn btn-primary btn-sm" id="purchBtn" onclick="purchaseProduct('sub1monthlev2')">Purchase Monthly Subscription</button>
-                                                <div style="height:10px">&nbsp;</div>
-                                                <label class="checkbox-inline" style="color:#8bc7eb">
-                                                    <input type="checkbox" name="TCsBox" value="yes">I agree to the Terms and Conditions
-                                                </label>
-                                                <div style="height:10px">&nbsp;</div>
-                                                <button type="button" class="btn btn-primary btn-sm" onclick="viewTCs()" id="TCsBtnV">View Terms and Conditions</button>
-                                                <div id="TCs" style="display:none;font-size:10px">
-                                                    <h1>Terms and Conditions ("Terms")</h1>
-                                                    <p>Last updated: July 21, 2016</p>
-                                                    <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the KOM With The Wind mobile application (the "Service") operated by Orchid Global Limited ("us", "we", or "our").</p>
-                                                    <p>Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.</p>
-                                                    <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.</p>
-                                                    <p><strong>Purchases</strong></p>
-                                                    <p>You are encouraged to familiarise yourself with your rights contained within the Sale of Goods Act 1979, Unfair Contract Terms Act 1977 and the Unfair Terms in Consumer Contracts Regulations 1999.</p>
-                                                    <p>If you wish to purchase any product or service made available through the Service ("Purchase"), you may be asked to supply certain information relevant to your Purchase including, without limitation, your credit card number, the expiration date of your credit card, your billing address, and your shipping information.</p>
-                                                    <p>You represent and warrant that: (i) you have the legal right to use any credit card(s) or other payment method(s) in connection with any Purchase; and that (ii) the information you supply to us is true, correct and complete. You expressly agree that Orchid Global Limited is not responsible for any loss or damage arising from the submission of false or inaccurate information.</p>
-                                                    <p>By submitting such information, you grant us the right to provide the information to third parties for purposes of facilitating the completion of Purchases.</p>
-                                                    <p><strong>Availability, Errors and Inaccuracies</strong></p>
-                                                    <p>We are constantly updating our offerings of products and services on the Service. The products or services available on our Service may be mispriced, described inaccurately, or unavailable, and we may experience delays in updating information on the Service and in our advertising on other web sites. You expressly agree that any such offer of a product or service does not constitute a legal offer capable of attracting legal consequences.</p>
-                                                    <p>We cannot and do not guarantee the accuracy or completeness of any information, including prices, product images, specifications, availability, and services. We reserve the right to change or update information and to correct errors, inaccuracies, or omissions at any time without prior notice. Section "Availability, Errors and Inaccuracies" is without prejudice to existing statutory rights.</p>
-                                                    <p>
-                                                        <strong>Intellectual Property</strong>
-                                                        The Service and its original content, features and functionality are and will remain the exclusive property of Orchid Global Limited and its licensors. The Service is protected by copyright, trademark, and other laws of both the United Kingdom and foreign countries. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of Orchid Global Limited.
-                                                    </p>
-                                                    <p><strong>Links To Other Web Sites</strong></p>
-                                                    <p>Our Service may contain links to third-party web sites or services that are not owned or controlled by Orchid Global Limited.</p>
-                                                    <p>Orchid Global Limited has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that Orchid Global Limited shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such web sites or services.</p>
-                                                    <p>We strongly advise you to read the terms and conditions and privacy policies of any third-party web sites or services that you visit.</p>
-                                                    <p><strong>Termination</strong></p>
-                                                    <p>We may terminate or suspend your access immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>
-                                                    <p>Upon termination, your right to use the Service will immediately cease.</p>
-                                                    <p>All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.</p>
-                                                    <p><strong>Indemnification</strong></p>
-                                                    <p>You agree to defend, indemnify and hold harmless Orchid Global Limited and its licensee and licensors, and their employees, contractors, agents, officers and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees), resulting from or arising out of a) your use and access of the Service, or b) a breach of these Terms.</p>
-                                                    <p><strong>Limitation Of Liability</strong></p>
-                                                    <p>In no event shall Orchid Global Limited, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service; (iii) any content obtained from the Service; and (iv) unauthorized access, use or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.</p>
-                                                    <p><strong>Disclaimer</strong></p>
-                                                    <p>Your use of the Service is at your sole risk. The Service is provided on an "AS IS" and "AS AVAILABLE" basis. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.</p>
-                                                    <p>Orchid Global Limited its subsidiaries, affiliates, and its licensors do not warrant that a) the Service will function uninterrupted, secure or available at any particular time or location; b) any errors or defects will be corrected; c) the Service is free of viruses or other harmful components; or d) the results of using the Service will meet your requirements.</p>
-                                                    <p><strong>Exclusions</strong></p>
-                                                    <p>Without limiting the generality of the foregoing and notwithstanding any other provision of these terms, under no circumstances will Orchid Global Limited ever be liable to you or any other person for any indirect, incidental, consequential, special, punitive or exemplary loss or damage arising from, connected with, or relating to your use of the Service, these Terms, the subject matter of these Terms, the termination of these Terms or otherwise, including but not limited to personal injury, loss of data, business, markets, savings, income, profits, use, production, reputation or goodwill, anticipated or otherwise, or economic loss, under any theory of liability (whether in contract, tort, strict liability or any other theory or law or equity), regardless of any negligence or other fault or wrongdoing (including without limitation gross negligence and fundamental breach) by Orchid Global Limited or any person for whom Orchid Global Limited is responsible, and even if Orchid Global Limited has been advised of the possibility of such loss or damage being incurred.</p>
-                                                    <p><strong>Governing Law</strong></p>
-                                                    <p>These Terms shall be governed and construed in accordance with the laws of England and Wales, without regard to its conflict of law provisions.</p>
-                                                    <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have between us regarding the Service.</p>
-                                                    <p><strong>Changes</strong></p>
-                                                    <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will try to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
-                                                    <p>By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you must stop using the service.</p>
-                                                    <p><strong>Privacy Policy and Cookie Policy</strong></p>
-                                                    <p>Please refer to our Privacy Policy and Cookies Policy. You agree that they constitute part of these terms. You must read our Privacy Policy and Cookies Policy before you use the Service.</p>
-                                                    <p><strong>Contact Us</strong></p>
-                                                    <p>If you have any questions about these Terms, please contact us. v1.4.3</p>
-                                                </div>
-                                                <button type="button" class="btn btn-primary btn-sm" onclick="hideTCs()" id="TCsBtnH" style="display:none">Hide Terms and Conditions</button>
-                                            </div>
-                                            <div>
-
-                                            </div>
-                                            <div style="height:20px">&nbsp;</div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-lg-6">
-                                    <div class="dash-unit" style="height:80px">
-                                        <div class="cont">
-
-                                            <div style="height:15px">&nbsp;</div>
-                                            <div class="msg_sml">Copyright � 2017 Orchid Global Limited.  v1.6.0<a href="http://www.komwiththewind.com/privacy"> Privacy Policy</a></div>
-                                        </div>
-                                        <div style="height:15px">&nbsp;</div>
-
-                                    </div>
-                                </div>
-                                <!-- DONUT CHART BLOCK -->
-
-                            </div><!-- /row -->
-                            <!-- SECOND ROW OF BLOCKS -->
-                            <div class="col-xs-12 col-sm-12 col-lg-6">
-                                <!-- Activities BLOCK -->
-                                <div id="my_friends" style="display:none">
-
-                                    <div class="dash-unit" id="frback">
-                                        <dtitle>Friends</dtitle>
-                                        <hr>
-                                        <div id="friend_list">
-                                            <div class="text-center">
-                                                &nbsp;
-                                                <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
-                                                <div id="frdMsgs">Loading ...</div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div><!-- /dash-unit -->
-                            </div><!-- /span3 -->
-
-                            <div id="my_activities" style="display:none">
-                                <div class="col-xs-12 col-sm-12 col-lg-6">
-                                    <div class="dash-unit" style="height:50px">
-                                        <div class="cont">
-
-                                            <div class="btn-group btn-group-s" role="group">
-                                                <button type="button" class="btn btn-success btn-sm" id="segmentsBtn" autofocus="true" onclick="getAct('stars')">Starred</button>
-                                                <button type="button" class="btn btn-success btn-sm" onclick="getAct('favs')">Favorites</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-lg-6">
-                                    <!-- Activities BLOCK -->
-
-
-                                    <div class="dash-unit" id="tableback">
-                                        <div id="act_tile_title"></div>
-                                        <hr>
-                                        <div style="height:auto;padding-left:5px" class="msg_sml" id="stinfo"></div>
-                                        <div style="height:auto;padding-left:5px" class="msg_sml" id="winfo"></div>
-
-                                        <div id="act_table2">
-                                            <div class="text-center">
-                                                &nbsp;
-                                                <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
-                                                <div id="actMsgs"></div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div><!-- /dash-unit -->
-                            </div><!-- /span3 -->
-
-                            <div id="friend_info" style="display:none">
-
-                                <div class="col-xs-12 col-sm-12 col-lg-6">
-                                    <!-- LOCAL TIME BLOCK -->
-                                    <div class="dash-unit" style="height:500px" id="friend_tile">
-                                        <div id="friend_tile_title"></div>
-                                        <hr>
-                                        <div id="friend_tile_list"></div>
-
-
-                                    </div>
-                                </div>
-
+                            <div class="btn-group btn-group-s" role="group">
+                                <button type="button" class="btn btn-success btn-sm" id="segmentsBtn" autofocus="true" onclick="getAct('stars')">Starred</button>
+                                <button type="button" class="btn btn-success btn-sm" onclick="getAct('favs')">Favorites</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-lg-6">
+                    <!-- Activities BLOCK -->
 
-                            <div class="col-xs-12 col-sm-12 col-lg-6" id="deets_tile" style="display:none">
-                                <div>
-                                    <!--hide this-->
-                                    <div class="half-unit">
 
-                                        <div style="position:absolute;left:10px;top:5px;width:240px" id="seg_title"></div>
-                                        <div style="position:absolute;right:10px;top:12px" id="favBtn"></div>
+                    <div class="dash-unit" id="tableback">
+                        <div id="act_tile_title"></div>
+                        <hr>
+                        <div style="height:auto;padding-left:5px" class="msg_sml" id="stinfo"></div>
+                        <div style="height:auto;padding-left:5px" class="msg_sml" id="winfo"></div>
 
-                                        <div style="position:absolute;left:32px;top:67px;text-align:center">
-                                            <div id="seg_dist"></div>
-                                            <div>Total Distance</div>
-                                        </div>
+                        <div id="act_table2">
+                            <div class="text-center">
+                                &nbsp;
+                                <div style="height:53px;width:60px;text-align:center" class="fa fa-4x fa-cog fa-spin"></div>
+                                <div id="actMsgs"></div>
+                            </div>
+                        </div>
 
-                                        <div style="position:absolute;right:30px;top:67px;text-align:center" ">
-                                            <div id="seg_egain"></div>
+                    </div>
+                </div>
+                <!-- /dash-unit -->
+            </div>
+            <!-- /span3 -->
+
+            <div id="friend_info" style="display:none">
+
+                <div class="col-xs-12 col-sm-12 col-lg-6">
+                    <!-- LOCAL TIME BLOCK -->
+                    <div class="dash-unit" style="height:500px" id="friend_tile">
+                        <div id="friend_tile_title"></div>
+                        <hr>
+                        <div id="friend_tile_list"></div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-lg-6" id="deets_tile" style="display:none">
+                <div>
+                    <!--hide this-->
+                    <div class="half-unit">
+
+                        <div style="position:absolute;left:10px;top:5px;width:240px" id="seg_title"></div>
+                        <div style="position:absolute;right:10px;top:12px" id="favBtn"></div>
+
+                        <div style="position:absolute;left:32px;top:67px;text-align:center">
+                            <div id="seg_dist"></div>
+                            <div>Total Distance</div>
+                        </div>
+
+                        <div style="position:absolute;right:30px;top:67px;text-align:center" ">
+                                            <div id="seg_egain "></div>
                                             <div>Elevation Gain</div>
                                         </div>
 
-                                        <div style="position:absolute;left:10px;top:156px;text-align:center" ">
-                                            <div class="circular" id="static_map">
-                                            </div>
-                                            <div style="padding-top:11px">Route map</div>
+                                        <div style="position:absolute;left:10px;top:156px;text-align:center " ">
+                            <div class="circular" id="static_map">
+                            </div>
+                            <div style="padding-top:11px">Route map</div>
 
-                                        </div>
-                                        <div style="position:absolute;right:4px;top:148px;text-align:center" ">
-                                            <div id="canvas-holder" style="text-align:center">
-                                                <canvas id="chart-area" width="150px" height="150px" />
+                        </div>
+                        <div style="position:absolute;right:4px;top:148px;text-align:center"><!-- spurious '"' character removed MM -->
+                                            <div id="canvas-holder " style="text-align:center ">
+                                                <canvas id="chart-area " width="150px " height="150px " />
                                             </div>
                                             <div>Route Headings</div>
                                         </div>
@@ -430,35 +597,36 @@
                             </div>
                             <!-- Buttons -->
 
-                            <div id="pills_row" style="display:none">
-                                <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <div id="pills_row " style="display:none ">
+                                <div class="col-xs-12 col-sm-12 col-lg-6 ">
 
-                                    <div class="dash-unit" style="height:50px">
-                                        <div class="cont">
-                                            <div id="data_pills" style="display:none"></div>
+                                    <div class="dash-unit " style="height:50px ">
+                                        <div class="cont ">
+                                            <div id="data_pills " style="display:none "></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div id="seg_weather" style="display:none">
+                            <div id="seg_weather " style="display:none ">
 
-                                <div class="col-xs-12 col-sm-12 col-lg-12">
+                                <div class="col-xs-12 col-sm-12 col-lg-12 ">
                                     <!-- LOCAL TIME BLOCK -->
-                                    <div class="dash-unit" style="height:1920px">
+                                    <div class="dash-unit " style="height:1920px ">
                                         <dtitle>Weather</dtitle>
                                         <hr>
-                                        <div style="position:absolute;left:5px;top:28px" id="wtitle"></div>
-                                        <div style="position:absolute;right:18px;top:55px;z-index:400" id="refreshBtnW">
+                                        <div style="position:absolute;left:5px;top:28px " id="wtitle "></div>
+                                        <div style="position:absolute;right:18px;top:55px;z-index:400 " id="refreshBtnW ">
 
 
                                         </div>
-                                        <div style="height:40px">&nbsp;</div>
-                                        <div style="text-align:left;display:inline-block" id="canvas-holder2">
-                                            <canvas id="weather" width='250px' height='1829px'><canvas>
+                                        <div style="height:40px ">&nbsp;</div>
+                                        <div style="text-align:left;display:inline-block " id="canvas-holder2 ">
+                                            <canvas id="weather " width='250px' height='1829px'><canvas>
                                         </div>
-                                        <div style="text-align:left;display:inline-block;position:absolute;right:5px" id="canvas-holder3">
-                                            <canvas id="weather_stars" width='110px' height='1829px'><canvas>
+                                        <div style="text-align:left;display:inline-block;position:absolute;right:5px
+                            " id="canvas-holder3 ">
+                                            <canvas id="weather_stars " width='110px' height='1829px'><canvas>
                                         </div>
 
 
@@ -467,30 +635,31 @@
                                 </div>
 
                             </div>
-                            <div id="seg_leaderboard" style="display:none">
+                            <div id="seg_leaderboard " style="display:none ">
 
-                                <div class="col-xs-12 col-sm-12 col-lg-6">
+                                <div class="col-xs-12 col-sm-12 col-lg-6 ">
                                     <!-- LOCAL TIME BLOCK -->
-                                    <div class="dash-unit" id="leaderback">
+                                    <div class="dash-unit " id="leaderback ">
                                         <dtitle>Leaderboard</dtitle>
                                         <hr>
-                                        <div id="refreshBtnLB"></div>
-                                        <div style="position:absolute;left:13px;top:30px" class="msg_sml" id="lbdata"></div>
-                                        <div id="lbPadding" style="padding-top:35px"></div>
+                                        <div id="refreshBtnLB "></div>
+                                        <div style="position:absolute;left:13px;top:30px " class="msg_sml " id="lbdata "></div>
+                                        <div id="lbPadding " style="padding-top:35px "></div>
 
-                                        <div style="position:absolute;left:5px;width:35px;height:auto" id="komimg" class="circular_pfl"></div>
-                                        <div style="position:absolute;left:60px;" id="komdata"></div>
-                                        <div style="position:absolute;right:9px;text-align:center;padding-top:35px">
-                                            <div style="width:90px;height:90px" id="g1" class="gauge"></div>
+                                        <div style="position:absolute;left:5px;width:35px;height:auto " id="komimg
+                            " class="circular_pfl "></div>
+                                        <div style="position:absolute;left:60px; " id="komdata "></div>
+                                        <div style="position:absolute;right:9px;text-align:center;padding-top:35px ">
+                                            <div style="width:90px;height:90px " id="g1 " class="gauge "></div>
                                         </div>
-                                        <div id="lbBtn" style="padding-left:3px;padding-top:50px"></div>
+                                        <div id="lbBtn " style="padding-left:3px;padding-top:50px "></div>
 
 
-                                        <div style="position:absolute;left:8px;top:180px" id="canvas-holder3" style="text-align:center">
-                                            <canvas id="leaderbd" width='400px' height='1500px' id="canvas"><canvas>
+                                        <div style="position:absolute;left:8px;top:180px " id="canvas-holder3 " style="text-align:center ">
+                                            <canvas id="leaderbd " width='400px' height='1500px' id="canvas "><canvas>
                                         </div>
 
-                                        <div id="lb_table" style="display:none"></div>
+                                        <div id="lb_table " style="display:none "></div>
 
 
                                     </div>
@@ -499,20 +668,20 @@
                             </div>
 
 
-                            <div id="seg_efforts" style="display:none">
+                            <div id="seg_efforts " style="display:none ">
 
-                                <div class="col-xs-12 col-sm-12 col-lg-6">
+                                <div class="col-xs-12 col-sm-12 col-lg-6 ">
                                     <!-- LOCAL TIME BLOCK -->
-                                    <div class="dash-unit" id="effortback">
+                                    <div class="dash-unit " id="effortback ">
                                         <dtitle>Segment Efforts</dtitle>
                                         <hr>
-                                        <div id="refreshBtneffs">
+                                        <div id="refreshBtneffs ">
                                         </div>
-                                        <div style="position:absolute;left:13px;top:30px" class="msg_sml" id="sgdata"></div>
-                                        <div id="effortPadding" style="padding-top:24px"></div>
-                                        <div id="sgBtn" style="height:30px"></div>
-                                        <div style="position:absolute;left:4px;padding-top:10px" id="canvas-holder5" style="text-align:center">
-                                            <canvas id="segeff" width='400px' height='1500px'><canvas>
+                                        <div style="position:absolute;left:13px;top:30px " class="msg_sml " id="sgdata"></div>
+                                        <div id="effortPadding " style="padding-top:24px "></div>
+                                        <div id="sgBtn " style="height:30px "></div>
+                                        <div style="position:absolute;left:4px;padding-top:10px " id="canvas-holder5" style="text-align:center ">
+                                            <canvas id="segeff " width='400px' height='1500px'><canvas>
                                         </div>
 
 
@@ -526,17 +695,25 @@
 
 
 
-                    <script type="text/javascript" src="cordova.js"></script>
-                    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-                    <script type="text/javascript" src="js/indexD.js"></script>
-                    <script type="text/javascript" src="js/indexW.js"></script>
-                    <script type="text/javascript" src="js/oauth.js"></script>
-                    <script type="text/javascript" src="js/bootstrap.js"></script>
-                    <script type="text/javascript" src="js/markerclusterer.js"></script>
-                    <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBVDErdMAzGhcjVpaqCP4rDpCe7r6WcDog&libraries=geometry"></script>
-                    <script type="text/javascript" src="js/raphael-2.1.4.min.js"></script>
-                    <script type="text/javascript" src="js/Chart.js"></script>
-                    <script type="text/javascript" src="js/justgage.js"></script>
-                    <script type="text/javascript" src="js/moment-with-locales.js"></script>
+                    <script type="text/javascript " src="cordova.js "></script>
+                    <script type="text/javascript " src="js/jquery-2.1.1.min.js "></script>
+                    <script type="text/javascript " src="js/indexD.js "></script>
+                    <script type="text/javascript " src="js/indexW.js "></script>
+
+                    <script type="text/javascript " src="js/authenticate.js "></script>
+
+                    <script type='text/javascript' src="js/swagger-client.min.js "></script>
+                    <script type="text/javascript " src="js/api-calls.js "></script>
+                    
+                    <!-- <script type="text/javascript " src="js/oauth.js "></script> -->
+                    
+                    <script type="text/javascript " src="js/bootstrap.js "></script>
+                    <script type="text/javascript " src="js/markerclusterer.js "></script>
+                    <script type="text/javascript " src="http://maps.google.com/maps/api/js?key=AIzaSyBVDErdMAzGhcjVpaqCP4rDpCe7r6WcDog&libraries=geometry "></script>
+                    <script type="text/javascript " src="js/raphael-2.1.4.min.js "></script>
+                    <script type="text/javascript " src="js/Chart.js "></script>
+                    <script type="text/javascript " src="js/justgage.js "></script>
+                    <script type="text/javascript " src="js/moment-with-locales.js "></script>
+
 </body>
 </html>

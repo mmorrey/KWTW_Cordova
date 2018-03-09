@@ -34,6 +34,9 @@
     },
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.kwtw.kw1"
+    },
+    "com.oauthio.plugins.oauthio": {
+      "PACKAGE_NAME": "com.kwtw.kw1"
     }
   },
   "dependent_plugins": {}

@@ -64,5 +64,13 @@
     },
     "is_top_level": true,
     "variables": {}
+  },
+  "com.oauthio.plugins.oauthio": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/oauth-io/oauth-phonegap"
+    },
+    "is_top_level": true,
+    "variables": {}
   }
 }

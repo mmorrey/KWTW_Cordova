@@ -39,6 +39,7 @@
         <param name="ios-package" value="CDVStatusBar" />
         <param name="onload" value="true" />
     </feature>
+    <access origin="https://oauth.io" />
     <name>Velo Venti</name>
     <description>Velo Venti
     </description>
